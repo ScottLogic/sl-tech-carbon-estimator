@@ -1,0 +1,6 @@
+@if (view === 'form') {
+  <app-carbon-estimator-form [formValue]="formValue" (formSubmit)="handleFormSubmit($event)"></app-carbon-estimator-form>
+} @else {
+  <app-carbon-estimation [carbonEstimation]="carbonEstimation"></app-carbon-estimation>
+  <button class="bg-gray-200 hover:bg-gray-400 font-bold py-2 px-4 rounded" (click)="handleBack()">Back</button>
+}
