@@ -10,20 +10,20 @@ import { CarbonEstimation } from '../carbon-estimator/carbon-estimator.component
 export class CarbonEstimationComponent {  
   public carbonEstimation = input.required<CarbonEstimation>();
 
-  public upstreamEmmisionsHeight: number = 0;
-  public cloudEmmisionsHeight: number = 0;
-  public directEmmisionsHeight: number = 0;
-  public downstreamEmmisionsHeight: number = 0;
+  public upstreamEmissionsHeight: number = 0;
+  public cloudEmissionsHeight: number = 0;
+  public directEmissionsHeight: number = 0;
+  public downstreamEmissionsHeight: number = 0;
 
   constructor() {}
 
   ngOnInit() {
     const carbonEstimation = this.carbonEstimation();
-    const total = (carbonEstimation.upstreamEmmisions ?? 0) + (carbonEstimation.cloudEmmisions ?? 0) + (carbonEstimation.directEmmisions ?? 0) + (carbonEstimation.downstreamEmmisions ?? 0);
-    this.upstreamEmmisionsHeight = carbonEstimation.upstreamEmmisions ? carbonEstimation.upstreamEmmisions / total * 400 : 0;
-    this.cloudEmmisionsHeight = carbonEstimation.cloudEmmisions ? carbonEstimation.cloudEmmisions / total * 400 : 0 ;
-    this.directEmmisionsHeight = carbonEstimation.directEmmisions ? carbonEstimation.directEmmisions / total * 400 : 0;
-    this.downstreamEmmisionsHeight = carbonEstimation.downstreamEmmisions ? carbonEstimation.downstreamEmmisions / total * 400 : 0;
+    const total = (carbonEstimation.upstreamEmissions ?? 0) + (carbonEstimation.cloudEmissions ?? 0) + (carbonEstimation.directEmissions ?? 0) + (carbonEstimation.downstreamEmissions ?? 0);
+    this.upstreamEmissionsHeight = carbonEstimation.upstreamEmissions ? carbonEstimation.upstreamEmissions / total * 400 : 0;
+    this.cloudEmissionsHeight = carbonEstimation.cloudEmissions ? carbonEstimation.cloudEmissions / total * 400 : 0 ;
+    this.directEmissionsHeight = carbonEstimation.directEmissions ? carbonEstimation.directEmissions / total * 400 : 0;
+    this.downstreamEmissionsHeight = carbonEstimation.downstreamEmissions ? carbonEstimation.downstreamEmissions / total * 400 : 0;
   }
 
 }

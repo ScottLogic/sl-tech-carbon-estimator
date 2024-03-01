@@ -3,10 +3,10 @@ import { CarbonEstimatorFormComponent, EstimatorValues } from '../carbon-estimat
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 
 export type CarbonEstimation = {
-  upstreamEmmisions?: number;
-  cloudEmmisions?: number;
-  directEmmisions?: number;
-  downstreamEmmisions?: number;
+  upstreamEmissions?: number;
+  cloudEmissions?: number;
+  directEmissions?: number;
+  downstreamEmissions?: number;
 }
 
 @Component({
@@ -35,10 +35,10 @@ export class CarbonEstimatorComponent {
 
   private calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     return {
-      upstreamEmmisions: formValue.upstream ? Math.random() : undefined,
-      cloudEmmisions: formValue.cloud ? Math.random() : undefined,
-      directEmmisions: formValue.onPrem ? Math.random() : undefined,
-      downstreamEmmisions: formValue.downstream ? Math.random() : undefined,
+      upstreamEmissions: formValue.upstream ? Math.random() : undefined,
+      cloudEmissions: formValue.cloud ? Math.random() : undefined,
+      directEmissions: formValue.onPrem ? Math.random() : undefined,
+      downstreamEmissions: formValue.downstream ? Math.random() : undefined,
     }
   }
 
