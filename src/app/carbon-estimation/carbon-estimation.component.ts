@@ -6,7 +6,6 @@ import { CarbonEstimation } from '../carbon-estimator/carbon-estimator.component
   standalone: true,
   imports: [],
   templateUrl: './carbon-estimation.component.html',
-  styleUrl: './carbon-estimation.component.css'
 })
 export class CarbonEstimationComponent {  
   public carbonEstimation = input.required<CarbonEstimation>();
