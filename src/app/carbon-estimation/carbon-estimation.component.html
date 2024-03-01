@@ -1,20 +1,32 @@
-<h1>Estimations</h1>
-@if (carbonEstimation().upstreamEmmisions) {
-    <h2>Upstream Emmisions: {{carbonEstimation().upstreamEmmisions}}</h2>
-}
-@if (carbonEstimation().cloudEmmisions) {
-    <h2>Upstream Emmisions: {{carbonEstimation().cloudEmmisions}}</h2>
-}
-@if (carbonEstimation().directEmmisions) {
-    <h2>Upstream Emmisions: {{carbonEstimation().directEmmisions}}</h2>
-}
-@if (carbonEstimation().downstreamEmmisions) {
-    <h2>Upstream Emmisions: {{carbonEstimation().downstreamEmmisions}}</h2>
-}
-
-<svg xmlns='http://www.w3.org/2000/svg' width="100" height="400" role='presentation'>
-    <rect x="0" y="0" width="100" [attr.height]="upstreamEmmisionsHeight" style="fill:rgb(0,0,255);" />
-    <rect x="0" [attr.y]="upstreamEmmisionsHeight" width="100" [attr.height]="cloudEmmisionsHeight" style="fill:rgb(0,255,0);" />
-    <rect x="0" [attr.y]="upstreamEmmisionsHeight + cloudEmmisionsHeight" width="100" [attr.height]="directEmmisionsHeight" style="fill:rgb(255,0,0);" />
-    <rect x="0" [attr.y]="upstreamEmmisionsHeight + cloudEmmisionsHeight + directEmmisionsHeight" width="100" [attr.height]="downstreamEmmisionsHeight" style="fill:rgb(0,255,255);" />
-</svg>
+<div class="flex justify-center">
+    <div>
+        <h1 class="text-center text-4xl font-bold">Estimations</h1>
+        <div class="flex my-4 gap-4">
+            <svg  xmlns='http://www.w3.org/2000/svg' width="100" height="400" role='presentation'>
+                <rect x="0" y="0" width="100" [attr.height]="upstreamEmmisionsHeight" style="fill:rgb(64 121 140);" />
+                <rect x="0" [attr.y]="upstreamEmmisionsHeight" width="100" [attr.height]="cloudEmmisionsHeight" style="fill:rgb(203 55 117);" />
+                <rect x="0" [attr.y]="upstreamEmmisionsHeight + cloudEmmisionsHeight" width="100" [attr.height]="directEmmisionsHeight" style="fill:rgb(145 35 76);" />
+                <rect x="0" [attr.y]="upstreamEmmisionsHeight + cloudEmmisionsHeight + directEmmisionsHeight" width="100" [attr.height]="downstreamEmmisionsHeight" style="fill:rgb(75 126 86);" />
+            </svg>
+            <div class="grid grid-cols-2 grid-flow-row gap-4">
+                @if (carbonEstimation().upstreamEmmisions) {
+                    <span class="text-2xl font-bold text-[#40798C]">Upstream Emmisions:</span> 
+                    <span class="text-2xl">{{carbonEstimation().upstreamEmmisions}}</span>
+                }
+                @if (carbonEstimation().cloudEmmisions) {
+                    <span class="text-2xl font-bold text-[#CB3775]">Cloud Emmisions:</span> 
+                    <span class="text-2xl">{{carbonEstimation().cloudEmmisions}}</span>
+                }
+                @if (carbonEstimation().directEmmisions) {
+                    <span class="text-2xl font-bold text-[#91234C]">Direct Emmisions:</span> 
+                    <span class="text-2xl">{{carbonEstimation().directEmmisions}}</span>
+                }
+                @if (carbonEstimation().downstreamEmmisions) {
+                    <span class="text-2xl font-bold text-[#4B7E56]">Downstream Emmisions:</span> 
+                    <span class="text-2xl">{{carbonEstimation().downstreamEmmisions}}</span>
+                }
+            </div>        
+        </div>
+        <ng-content></ng-content>
+    </div>
+</div>
