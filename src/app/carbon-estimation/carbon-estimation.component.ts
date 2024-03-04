@@ -1,5 +1,5 @@
 import { Component, OnInit, input } from '@angular/core';
-import { CarbonEstimation } from '../carbon-estimator/carbon-estimator.component';
+import { CarbonEstimation } from '../carbon-estimator';
 
 @Component({
   selector: 'sl-carbon-estimation',

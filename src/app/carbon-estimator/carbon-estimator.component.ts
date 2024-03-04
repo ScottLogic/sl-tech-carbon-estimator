@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import {
-  CarbonEstimatorFormComponent,
-  EstimatorValues,
-} from '../carbon-estimator-form/carbon-estimator-form.component';
+import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
-import { CarbonEstimation } from '../carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 
 @Component({
   selector: 'sl-carbon-estimator',
