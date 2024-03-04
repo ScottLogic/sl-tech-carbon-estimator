@@ -8,10 +8,9 @@ describe('CarbonEstimatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CarbonEstimatorComponent]
-    })
-    .compileComponents();
-    
+      imports: [CarbonEstimatorComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CarbonEstimatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

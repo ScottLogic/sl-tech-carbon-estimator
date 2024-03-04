@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { CarbonEstimatorFormComponent, EstimatorValues } from '../carbon-estimator-form/carbon-estimator-form.component';
+import {
+  CarbonEstimatorFormComponent,
+  EstimatorValues,
+} from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation } from '../carbon-estimator';
 
@@ -10,11 +13,9 @@ import { CarbonEstimation } from '../carbon-estimator';
   templateUrl: './carbon-estimator.component.html',
 })
 export class CarbonEstimatorComponent {
-
   public view: 'form' | 'calculation' = 'form';
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
-
 
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
@@ -26,14 +27,12 @@ export class CarbonEstimatorComponent {
     this.view = 'form';
   }
 
-
   private calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     return {
       upstreamEmissions: formValue.upstream ? Math.random() : undefined,
       cloudEmissions: formValue.cloud ? Math.random() : undefined,
       directEmissions: formValue.onPrem ? Math.random() : undefined,
       downstreamEmissions: formValue.downstream ? Math.random() : undefined,
-    }
+    };
   }
-
 }

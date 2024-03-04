@@ -8,6 +8,6 @@ import { CarbonEstimatorComponent } from './app/carbon-estimator/carbon-estimato
   const app: ApplicationRef = await createApplication(appConfig);
 
   // Define Web Components
-  const myLibraryComponent = createCustomElement(CarbonEstimatorComponent, {injector: app.injector});
+  const myLibraryComponent = createCustomElement(CarbonEstimatorComponent, { injector: app.injector });
   customElements.define('sl-carbon-estimator', myLibraryComponent);
 })();
