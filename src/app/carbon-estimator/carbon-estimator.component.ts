@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { CarbonEstimatorFormComponent, EstimatorValues } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
-
-export type CarbonEstimation = {
-  upstreamEmissions?: number;
-  cloudEmissions?: number;
-  directEmissions?: number;
-  downstreamEmissions?: number;
-}
+import { CarbonEstimation } from '../carbon-estimator';
 
 @Component({
   selector: 'sl-carbon-estimator',

@@ -1,44 +1,8 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Cloud, Downstream, EstimatorFormValues, EstimatorValues, OnPrem, Upstream } from '../carbon-estimator';
 
-export type EstimatorValues = {
-  upstream?: Upstream,
-  onPrem?: OnPrem,
-  cloud?: Cloud,
-  downstream?: Downstream
-}
-
-type EstimatorFormValues = {
-  upstream: Upstream & {enabled: boolean},
-  onPrem: OnPrem & {enabled: boolean},
-  cloud: Cloud & {enabled: boolean},
-  downstream: Downstream & {enabled: boolean}
-}
-
-type OnPrem = {
-  location: Location,
-  numberOfServers: number,
-};
-type Upstream = {
-  headCount: number,
-  desktopToLaptopPercentage: number,
-}
-type Cloud = {
-  location: Location,
-  cloudPercentage: number ,
-  monthlyCloudBill: MonthlyCloudBill,
-}
-type Downstream = {
-  customerLocation: Location,
-  monthlyActiveUsers: number,
-  mobilePercentage: number,
-  purposeOfSite: PurposeOfSite,
-}
-
-type Location = 'global' | 'uk' | 'eu' | 'us';
-type MonthlyCloudBill = '0-200' | '200-500' | '500-1000' | '1000-5000' | '5000-10000' | '10000-50000';
-type PurposeOfSite = 'streaming' | 'information' | 'eCommerce' | 'socialMedia' | 'average';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
@@ -83,9 +47,11 @@ export class CarbonEstimatorFormComponent {
     }
   }
 
+  
   constructor(private formBuilder: FormBuilder, private changeDetector: ChangeDetectorRef) {}
-
+  
   public ngOnInit() {
+    
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
         enabled: [true],
@@ -156,6 +122,8 @@ export class CarbonEstimatorFormComponent {
       cloud: this.setSection<Cloud>(formValue.cloud),
       downstream: this.setSection<Downstream>(formValue.downstream)
     });
+
+    this.formValue
   }
 
   public resetForm() {
