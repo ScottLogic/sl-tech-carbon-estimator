@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Output, input } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Cloud, Downstream, EstimatorFormValues, EstimatorValues, OnPrem, Upstream } from '../carbon-estimator';
 
@@ -10,7 +10,7 @@ import { Cloud, Downstream, EstimatorFormValues, EstimatorValues, OnPrem, Upstre
   imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule],
   templateUrl: './carbon-estimator-form.component.html',
 })
-export class CarbonEstimatorFormComponent {
+export class CarbonEstimatorFormComponent implements OnInit {
   public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();

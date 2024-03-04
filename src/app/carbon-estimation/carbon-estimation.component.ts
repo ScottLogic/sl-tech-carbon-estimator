@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { CarbonEstimation } from '../carbon-estimator/carbon-estimator.component';
 
 @Component({
@@ -7,7 +7,7 @@ import { CarbonEstimation } from '../carbon-estimator/carbon-estimator.component
   imports: [],
   templateUrl: './carbon-estimation.component.html',
 })
-export class CarbonEstimationComponent {  
+export class CarbonEstimationComponent implements OnInit {  
   public carbonEstimation = input.required<CarbonEstimation>();
 
   public upstreamEmissionsHeight: number = 0;
