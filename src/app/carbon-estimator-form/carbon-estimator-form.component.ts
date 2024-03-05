@@ -1,7 +1,15 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Cloud, Downstream, EstimatorValues, OnPrem, Upstream } from '../carbon-estimator';
+import {
+  Cloud,
+  Downstream,
+  EstimatorFormValues,
+  EstimatorValues,
+  FormSection,
+  OnPrem,
+  Upstream,
+} from '../carbon-estimator';
 import { defaultValues } from './constants';
 
 @Component({
@@ -15,7 +23,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
 
-  public estimatorForm!: FormGroup;
+  public estimatorForm!: FormGroup<EstimatorFormValues>;
   public upstreamSwitch: boolean = true;
   public onPremSwitch: boolean = true;
   public cloudSwitch: boolean = true;
@@ -52,6 +60,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
     });
+
     if (this.formValue() !== undefined) {
       const formValue = this.formValue();
       this.estimatorForm.setValue({
@@ -105,11 +114,11 @@ export class CarbonEstimatorFormComponent implements OnInit {
     this.estimatorForm.reset();
   }
 
-  private setSection<T>({ enabled, ...section }: { enabled: boolean } & T): T | undefined {
+  private setSection<T>({ enabled, ...section }: FormSection<T>): T | undefined {
     return enabled ? (section as T) : undefined;
   }
 
-  private setFormSection<T>(defaultValue: T, section?: T): T & { enabled: boolean } {
+  private setFormSection<T>(defaultValue: T, section?: T): FormSection<T> {
     return {
       ...(section ?? defaultValue),
       enabled: true,
