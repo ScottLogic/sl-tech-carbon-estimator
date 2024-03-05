@@ -29,7 +29,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
     onPrem: {
       enabled: true,
       location: 'global',
-      numberOfServers: NaN,
+      numberOfServers: 0,
     },
     cloud: {
       enabled: true,
@@ -61,7 +61,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       onPrem: this.formBuilder.nonNullable.group({
         enabled: [true],
         location: ['global'],
-        numberOfServers: [''],
+        numberOfServers: [0],
       }),
       cloud: this.formBuilder.nonNullable.group({
         enabled: [true],
@@ -74,7 +74,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
         customerLocation: ['global'],
         monthlyActiveUsers: [100],
         mobilePercentage: [50],
-        purposeOfSite: ['streaming'],
+        purposeOfSite: ['average'],
       }),
     });
     if (this.formValue() !== undefined) {
