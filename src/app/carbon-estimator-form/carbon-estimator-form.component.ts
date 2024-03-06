@@ -1,7 +1,16 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Cloud, Downstream, EstimatorFormValues, EstimatorValues, OnPrem, Upstream } from '../carbon-estimator';
+import {
+  Cloud,
+  Downstream,
+  EstimatorFormValues,
+  EstimatorValues,
+  FormSection,
+  OnPrem,
+  Upstream,
+} from '../carbon-estimator';
+import { defaultValues } from './constants';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
@@ -14,37 +23,11 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
 
-  public estimatorForm!: FormGroup;
+  public estimatorForm!: FormGroup<EstimatorFormValues>;
   public upstreamSwitch: boolean = true;
   public onPremSwitch: boolean = true;
   public cloudSwitch: boolean = true;
   public downstreamSwitch: boolean = true;
-
-  private defaultValues: EstimatorFormValues = {
-    upstream: {
-      enabled: true,
-      headCount: 100,
-      desktopToLaptopPercentage: 50,
-    },
-    onPrem: {
-      enabled: true,
-      location: 'global',
-      numberOfServers: NaN,
-    },
-    cloud: {
-      enabled: true,
-      location: 'global',
-      cloudPercentage: 0,
-      monthlyCloudBill: '0-200',
-    },
-    downstream: {
-      enabled: true,
-      customerLocation: 'global',
-      monthlyActiveUsers: 100,
-      mobilePercentage: 50,
-      purposeOfSite: 'average',
-    },
-  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,35 +38,36 @@ export class CarbonEstimatorFormComponent implements OnInit {
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
         enabled: [true],
-        headCount: [100, Validators.required],
-        desktopToLaptopPercentage: [50],
+        headCount: [defaultValues.upstream.headCount, Validators.required],
+        desktopToLaptopPercentage: [defaultValues.upstream.desktopToLaptopPercentage],
       }),
       onPrem: this.formBuilder.nonNullable.group({
         enabled: [true],
-        location: ['global'],
-        numberOfServers: [''],
+        location: [defaultValues.onPrem.location],
+        numberOfServers: [defaultValues.onPrem.numberOfServers],
       }),
       cloud: this.formBuilder.nonNullable.group({
         enabled: [true],
-        location: ['global'],
-        cloudPercentage: [50],
-        monthlyCloudBill: ['0-200'],
+        location: [defaultValues.cloud.location],
+        cloudPercentage: [defaultValues.cloud.cloudPercentage],
+        monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
       }),
       downstream: this.formBuilder.nonNullable.group({
         enabled: [true],
-        customerLocation: ['global'],
-        monthlyActiveUsers: [100],
-        mobilePercentage: [50],
-        purposeOfSite: ['streaming'],
+        customerLocation: [defaultValues.downstream.customerLocation],
+        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers],
+        mobilePercentage: [defaultValues.downstream.mobilePercentage],
+        purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
     });
+
     if (this.formValue() !== undefined) {
       const formValue = this.formValue();
       this.estimatorForm.setValue({
-        upstream: this.setFormSection(this.defaultValues.upstream, formValue?.upstream),
-        onPrem: this.setFormSection(this.defaultValues.onPrem, formValue?.onPrem),
-        cloud: this.setFormSection(this.defaultValues.cloud, formValue?.cloud),
-        downstream: this.setFormSection(this.defaultValues.downstream, formValue?.downstream),
+        upstream: this.setFormSection(defaultValues.upstream, formValue?.upstream),
+        onPrem: this.setFormSection(defaultValues.onPrem, formValue?.onPrem),
+        cloud: this.setFormSection(defaultValues.cloud, formValue?.cloud),
+        downstream: this.setFormSection(defaultValues.downstream, formValue?.downstream),
       });
     }
 
@@ -127,14 +111,17 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   public resetForm() {
-    this.estimatorForm.reset(this.defaultValues);
+    this.estimatorForm.reset();
   }
 
-  private setSection<T>({ enabled, ...section }: { enabled: boolean } & T): T | undefined {
+  private setSection<T>({ enabled, ...section }: FormSection<T>): T | undefined {
     return enabled ? (section as T) : undefined;
   }
 
-  private setFormSection<T>(defaultValue: T & { enabled: boolean }, section?: T): T & { enabled: boolean } {
-    return section ? { enabled: true, ...section } : (defaultValue as T & { enabled: boolean });
+  private setFormSection<T>(defaultValue: T, section?: T): FormSection<T> {
+    return {
+      ...(section ?? defaultValue),
+      enabled: true,
+    };
   }
 }

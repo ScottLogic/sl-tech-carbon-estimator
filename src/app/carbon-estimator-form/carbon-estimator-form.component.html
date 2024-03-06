@@ -1,4 +1,4 @@
-<form (ngSubmit)="handleSubmit()" (reset)="resetForm()" [formGroup]="estimatorForm" class="max-w-md mx-auto">
+<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="max-w-md mx-auto">
   <div formGroupName="upstream">
     <label class="flex items-center pt-2 pb-1 cursor-pointer">
       <h2 class="basis-40 text-2xl font-bold">Upstream</h2>
@@ -28,8 +28,7 @@
             type="range"
             min="0"
             max="100"
-            step="1"
-            value="50" />
+            step="1" />
         </label>
       </div>
     }
@@ -37,7 +36,7 @@
   <div formGroupName="onPrem">
     <label class="flex items-center pt-2 pb-1 cursor-pointer">
       <h2 class="basis-40 text-2xl font-bold">On-Prem</h2>
-      <input type="checkbox" checked class="sr-only peer" formControlName="enabled" />
+      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
       <div
         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
     </label>
@@ -68,7 +67,7 @@
   <div formGroupName="cloud">
     <label class="flex items-center pt-2 pb-1 cursor-pointer">
       <h2 class="basis-40 text-2xl font-bold">Cloud</h2>
-      <input type="checkbox" checked class="sr-only peer" formControlName="enabled" />
+      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
       <div
         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
     </label>
@@ -77,7 +76,7 @@
         <label>
           <span>Cloud Location:</span>
           <select class="form-select block w-full mt-1 rounded" formControlName="location" name="location">
-            <option value="global">Global</option>
+            <option value="global" selected>Global</option>
             <option value="uk">UK</option>
             <option value="eu">EU</option>
             <option value="us">US</option>
@@ -93,8 +92,7 @@
             type="range"
             min="0"
             max="100"
-            step="1"
-            value="0" />
+            step="1" />
         </label>
 
         <label>
@@ -104,7 +102,7 @@
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
             required>
-            <option value="0-200">$0-$200</option>
+            <option value="0-200" selected>$0-$200</option>
             <option value="200-500">$200-$500</option>
             <option value="500-1000">$500-$1000</option>
             <option value="1000-5000">$1000-$5000</option>
@@ -118,7 +116,7 @@
   <div formGroupName="downstream">
     <label class="flex items-center pt-2 pb-1 cursor-pointer">
       <h2 class="basis-40 text-2xl font-bold">Downstream</h2>
-      <input type="checkbox" checked class="sr-only peer" formControlName="enabled" />
+      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
       <div
         class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
     </label>
@@ -130,7 +128,7 @@
             class="form-select block w-full mt-1 rounded"
             formControlName="customerLocation"
             name="customerLocation">
-            <option value="global">Global</option>
+            <option value="global" selected>Global</option>
             <option value="uk">UK</option>
             <option value="eu">EU</option>
             <option value="us">US</option>
@@ -156,17 +154,16 @@
             type="range"
             min="0"
             max="100"
-            step="1"
-            value="50" />
+            step="1" />
         </label>
         <label>
           <span>Purpose of Site:</span>
           <select class="form-select block w-full mt-1 rounded" formControlName="purposeOfSite" name="purposeOfSite">
+            <option value="average" selected>Average</option>
             <option value="streaming">Streaming</option>
             <option value="information">Information</option>
             <option value="eCommerce">E-Commerce</option>
             <option value="socialMedia">Social Media</option>
-            <option value="average">Average</option>
           </select>
         </label>
       </div>
@@ -179,6 +176,8 @@
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
-    <button class="bg-gray-200 hover:bg-gray-400 font-bold py-2 px-4 rounded" type="reset">Reset</button>
+    <button class="bg-gray-200 hover:bg-gray-400 font-bold py-2 px-4 rounded" type="button" (click)="resetForm()">
+      Reset
+    </button>
   </div>
 </form>

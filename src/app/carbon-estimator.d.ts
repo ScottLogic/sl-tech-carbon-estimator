@@ -1,3 +1,5 @@
+import { FormControl, FormGroup } from '@angular/forms';
+
 export type CarbonEstimation = {
   version: string;
   upstreamEmissions: number;
@@ -14,10 +16,29 @@ export type EstimatorValues = {
 };
 
 export type EstimatorFormValues = {
-  upstream: FormSection<Upstream>;
-  onPrem: FormSection<OnPrem>;
-  cloud: FormSection<Cloud>;
-  downstream: FormSection<Downstream>;
+  upstream: FormGroup<{
+    enabled: FormControl<boolean>;
+    headCount: FormControl<number>;
+    desktopToLaptopPercentage: FormControl<number>;
+  }>;
+  onPrem: FormGroup<{
+    enabled: FormControl<boolean>;
+    location: FormControl<Location>;
+    numberOfServers: FormControl<number>;
+  }>;
+  cloud: FormGroup<{
+    enabled: FormControl<boolean>;
+    location: FormControl<Location>;
+    cloudPercentage: FormControl<number>;
+    monthlyCloudBill: FormControl<MonthlyCloudBill>;
+  }>;
+  downstream: FormGroup<{
+    enabled: FormControl<boolean>;
+    customerLocation: FormControl<Location>;
+    monthlyActiveUsers: FormControl<number>;
+    mobilePercentage: FormControl<number>;
+    purposeOfSite: FormControl<PurposeOfSite>;
+  }>;
 };
 
 type FormSection<T> = T & { enabled: boolean };
