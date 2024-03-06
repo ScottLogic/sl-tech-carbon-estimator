@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
@@ -13,7 +13,8 @@ import { FormsModule } from '@angular/forms';
   styles: [':host {display: flex}'],
 })
 export class CarbonEstimatorComponent {
-  public sideBySide = true;
+  @Input()
+  public sideBySide: boolean = false;
   public view: 'form' | 'calculation' = 'form';
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
