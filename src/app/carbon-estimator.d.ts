@@ -1,8 +1,9 @@
 export type CarbonEstimation = {
-  upstreamEmissions?: number;
-  cloudEmissions?: number;
-  directEmissions?: number;
-  downstreamEmissions?: number;
+  version: string;
+  upstreamEmissions: number;
+  cloudEmissions: number;
+  directEmissions: number;
+  downstreamEmissions: number;
 };
 
 export type EstimatorValues = {
