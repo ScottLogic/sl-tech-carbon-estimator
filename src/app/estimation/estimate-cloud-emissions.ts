@@ -7,7 +7,11 @@ import { KgCo2e, KilowattHour } from '../types/units';
 const COST_TO_KWH_RATIO = 0.156;
 const AVERAGE_PUE = 1.18;
 
-export function estimateCloudEmissions(cloudPercentage: number, monthlyCloudBill: MonthlyCloudBill, cloudLocation: Location): KgCo2e {
+export function estimateCloudEmissions(
+  cloudPercentage: number,
+  monthlyCloudBill: MonthlyCloudBill,
+  cloudLocation: Location
+): KgCo2e {
   const cloudEnergy = estimateCloudEnergy(cloudPercentage, monthlyCloudBill);
   const cloudDirectEmissions = estimateEnergyEmissions(cloudEnergy, cloudLocation);
   const cloudUpstreamEmissions = server.estimateYearlyUpstreamEmissions(cloudDirectEmissions);
@@ -25,4 +29,3 @@ function estimateCloudEnergy(cloudPercentage: number, monthlyCloudBill: MonthlyC
 
   return midpoint * COST_TO_KWH_RATIO * AVERAGE_PUE;
 }
-
