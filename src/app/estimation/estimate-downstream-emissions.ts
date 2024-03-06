@@ -1,6 +1,7 @@
-import { PurposeOfSite, WorldLocation } from '../carbon-estimator';
+import { PurposeOfSite, Downstream } from '../carbon-estimator';
 import { estimateEnergyEmissions as estimateEnergyEmissions } from './estimate-energy-emissions';
-import { Gb, Hour, KilowattHour } from '../types/units';
+import { Gb, Hour, KgCo2e, KilowattHour } from '../types/units';
+import { laptop, mobile } from './device-type';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
@@ -8,8 +9,7 @@ interface SiteInformation {
 }
 
 // See https://sustainablewebdesign.org/calculating-digital-emissions/
-// TODO - Split this into network by GB and end user by time
-const DOWNSTREAM_GB_TO_KWH_RATIO = 0.5346;
+const NETWORK_GB_TO_KWH_RATIO = 0.1134;
 
 const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
   information: {
@@ -34,25 +34,38 @@ const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
   },
 };
 
-export function estimateDownstreamEmissions(
-  monthlyActiveUsers: number,
-  purposeOfSite: PurposeOfSite,
-  customerLocation: WorldLocation
-) {
-  const downstreamDataTransfer = estimateDownstreamDataTransfer(monthlyActiveUsers, purposeOfSite);
-  const downstreamEnergy = estimateDownstreamEnergy(downstreamDataTransfer);
-  const downstreamEmissions = estimateEnergyEmissions(downstreamEnergy, customerLocation);
+export function estimateDownstreamEmissions(downstream?: Downstream): KgCo2e {
+  if (!downstream || downstream.monthlyActiveUsers === 0) {
+    return 0;
+  }
+
+  const downstreamDataTransfer = estimateDownstreamDataTransfer(
+    downstream.monthlyActiveUsers,
+    downstream.purposeOfSite
+  );
+  const downstreamEndUserTime = estimateDownstreamEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
+  const downstreamEnergy = estimateDownstreamEnergy(
+    downstreamDataTransfer,
+    downstreamEndUserTime,
+    downstream.mobilePercentage
+  );
+  const downstreamEmissions = estimateEnergyEmissions(downstreamEnergy, downstream.customerLocation);
   return downstreamEmissions;
 }
 
 function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
-  if (monthlyActiveUsers === 0) {
-    return 0;
-  }
-
   return siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
 }
 
-function estimateDownstreamEnergy(dataTransferred: Gb): KilowattHour {
-  return dataTransferred * DOWNSTREAM_GB_TO_KWH_RATIO;
+function estimateDownstreamEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
+  return siteTypeInfo[purposeOfSite].averageMonthlyUserTime * monthlyActiveUsers * 12;
+}
+
+function estimateDownstreamEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
+  const mobileTime = (mobilePercentage / 100) * userTime;
+  const generalTime = ((100 - mobilePercentage) / 100) * userTime;
+  const mobileEnergy = mobile.estimateEnergy(mobileTime);
+  // TODO: Add some kind of average device here
+  const generalEnergy = laptop.estimateEnergy(generalTime);
+  return mobileEnergy + generalEnergy + dataTransferred * NETWORK_GB_TO_KWH_RATIO;
 }

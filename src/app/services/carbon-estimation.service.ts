@@ -20,9 +20,6 @@ export class CarbonEstimationService {
     const monthlyCloudBill = formValue.cloud?.monthlyCloudBill ?? '0-200';
     const onPremLocation = formValue.onPrem?.location ?? 'global';
     const cloudLocation = formValue.cloud?.location ?? 'global';
-    const customerLocation = formValue.downstream?.customerLocation ?? 'global';
-    const monthlyActiveUsers = formValue.downstream?.monthlyActiveUsers ?? 0;
-    const purposeOfSite = formValue.downstream?.purposeOfSite ?? 'average';
 
     const laptopPercent = 100 - desktopPercent;
 
@@ -54,7 +51,7 @@ export class CarbonEstimationService {
 
     const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
 
-    const downstreamEmissions = estimateDownstreamEmissions(monthlyActiveUsers, purposeOfSite, customerLocation);
+    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
 
     return toPercentages({
       version: '0.0.1',

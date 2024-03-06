@@ -8,7 +8,11 @@ class DeviceType {
   ) {}
 
   estimateYearlyEnergy(deviceCount: number): KilowattHour {
-    return (deviceCount * this.averageYearlyUsage * this.averagePower) / 1000;
+    return this.estimateEnergy(deviceCount * this.averageYearlyUsage);
+  }
+
+  estimateEnergy(usage: Hour): KilowattHour {
+    return (usage * this.averagePower) / 1000;
   }
 
   estimateYearlyUpstreamEmissions(yearlyDirectEmissions: KgCo2e): KgCo2e {
@@ -21,3 +25,4 @@ export const laptop = new DeviceType(17, 8 * 230, 80 / 20);
 export const desktop = new DeviceType(72, 8 * 230, 50 / 50);
 export const server = new DeviceType(400, 24 * 365, 20 / 80);
 export const network = new DeviceType(150, 24 * 365, 20 / 80);
+export const mobile = new DeviceType(0.65, 24 * 365, 80 / 20);
