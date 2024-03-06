@@ -6,6 +6,5 @@
   "trailingComma": "es5",
   "bracketSameLine": true,
   "printWidth": 120,
-  "experimentalTernaries": true,
-  "endOfLine": "crlf"
+  "experimentalTernaries": true
 }

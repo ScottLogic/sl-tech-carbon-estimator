@@ -3,8 +3,8 @@ import { estimateEnergyEmissions as estimateEnergyEmissions } from './estimate-e
 import { Gb, Hour, KilowattHour } from '../types/units';
 
 interface SiteInformation {
-  averageMonthlyUserTime: Hour,
-  averageMonthlyUserData: Gb,
+  averageMonthlyUserTime: Hour;
+  averageMonthlyUserData: Gb;
 }
 
 // See https://sustainablewebdesign.org/calculating-digital-emissions/
@@ -14,27 +14,31 @@ const DOWNSTREAM_GB_TO_KWH_RATIO = 0.5346;
 const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
   information: {
     averageMonthlyUserTime: 0.016,
-    averageMonthlyUserData: 0.000781
+    averageMonthlyUserData: 0.000781,
   },
   eCommerce: {
     averageMonthlyUserTime: 0.1,
-    averageMonthlyUserData: 0.01656
+    averageMonthlyUserData: 0.01656,
   },
   socialMedia: {
     averageMonthlyUserTime: 16.3,
-    averageMonthlyUserData: 4.4443
+    averageMonthlyUserData: 4.4443,
   },
   streaming: {
     averageMonthlyUserTime: 22.1429,
-    averageMonthlyUserData: 10.3912
+    averageMonthlyUserData: 10.3912,
   },
   average: {
     averageMonthlyUserTime: 9.648,
-    averageMonthlyUserData: 3.713
-  }
-}
+    averageMonthlyUserData: 3.713,
+  },
+};
 
-export function estimateDownstreamEmissions(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite, customerLocation: Location) {
+export function estimateDownstreamEmissions(
+  monthlyActiveUsers: number,
+  purposeOfSite: PurposeOfSite,
+  customerLocation: Location
+) {
   const downstreamDataTransfer = estimateDownstreamDataTransfer(monthlyActiveUsers, purposeOfSite);
   const downstreamEnergy = estimateDownstreamEnergy(downstreamDataTransfer);
   const downstreamEmissions = estimateEnergyEmissions(downstreamEnergy, customerLocation);
@@ -52,4 +56,3 @@ function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSit
 function estimateDownstreamEnergy(dataTransferred: Gb): KilowattHour {
   return dataTransferred * DOWNSTREAM_GB_TO_KWH_RATIO;
 }
-

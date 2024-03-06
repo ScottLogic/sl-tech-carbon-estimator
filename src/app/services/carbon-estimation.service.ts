@@ -41,14 +41,16 @@ export class CarbonEstimationService {
     const serverDirectEmissions = estimateEnergyEmissions(serverEnergy, onPremLocation);
     const networkDirectEmissions = estimateEnergyEmissions(networkEnergy, onPremLocation);
 
-    const totalDirectEmissions = desktopDirectEmissions + laptopDirectEmissions + serverDirectEmissions + networkDirectEmissions;
+    const totalDirectEmissions =
+      desktopDirectEmissions + laptopDirectEmissions + serverDirectEmissions + networkDirectEmissions;
 
     const desktopUpstreamEmissions = desktop.estimateYearlyUpstreamEmissions(desktopDirectEmissions);
     const laptopUpstreamEmissions = laptop.estimateYearlyUpstreamEmissions(laptopDirectEmissions);
     const serverUpstreamEmissions = server.estimateYearlyUpstreamEmissions(serverDirectEmissions);
     const networkUpstreamEmissions = network.estimateYearlyUpstreamEmissions(networkDirectEmissions);
 
-    const totalUpstreamEmissions = desktopUpstreamEmissions + laptopUpstreamEmissions + serverUpstreamEmissions + networkUpstreamEmissions;
+    const totalUpstreamEmissions =
+      desktopUpstreamEmissions + laptopUpstreamEmissions + serverUpstreamEmissions + networkUpstreamEmissions;
 
     const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
 
@@ -59,8 +61,8 @@ export class CarbonEstimationService {
       upstreamEmissions: totalUpstreamEmissions,
       cloudEmissions: cloudEmissions,
       directEmissions: totalDirectEmissions,
-      downstreamEmissions: downstreamEmissions
-    })
+      downstreamEmissions: downstreamEmissions,
+    });
   }
 }
 
@@ -76,7 +78,7 @@ function toPercentages(input: CarbonEstimation): CarbonEstimation {
     directEmissions: input.directEmissions * percentRatio,
     cloudEmissions: input.cloudEmissions * percentRatio,
     downstreamEmissions: input.downstreamEmissions * percentRatio,
-  }
+  };
 }
 
 function calculateCeilingPercentage(percentage: number, value: number) {
@@ -91,5 +93,5 @@ function estimateServerCount(cloudPercentage: number, headCount: number, inputSe
 }
 
 function estimateNetworkDeviceCount(desktopCount: number, serverCount: number) {
-  return Math.ceil((desktopCount + serverCount)/2);
+  return Math.ceil((desktopCount + serverCount) / 2);
 }

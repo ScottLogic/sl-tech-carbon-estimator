@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Line endings
+
+This project is configured to use Linux/macOS line endings (Line Feed or LF), which will be enforced by prettier. If working on Windows, your editor should be configured to insert these kind of line endings (the default for VSCode using the repo settings). To prevent git from attempting to change line endings when pulling down changes you should set the following config option:
+
+```
+git config core.autocrlf input
+```
