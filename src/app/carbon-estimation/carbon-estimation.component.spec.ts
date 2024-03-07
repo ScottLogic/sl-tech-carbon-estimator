@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationComponent } from './carbon-estimation.component';
+import { input } from '@angular/core';
+import { CarbonEstimation } from '../carbon-estimator';
 
 describe('CarbonEstimationComponent', () => {
   let component: CarbonEstimationComponent;
@@ -13,6 +15,9 @@ describe('CarbonEstimationComponent', () => {
 
     fixture = TestBed.createComponent(CarbonEstimationComponent);
     component = fixture.componentInstance;
+    const carbonEstimation = input.required<CarbonEstimation>();
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
+
     fixture.detectChanges();
   });
 
