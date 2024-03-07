@@ -41,10 +41,10 @@ export class CarbonEstimationService {
     const totalDirectEmissions =
       desktopDirectEmissions + laptopDirectEmissions + serverDirectEmissions + networkDirectEmissions;
 
-    const desktopUpstreamEmissions = desktop.estimateYearlyUpstreamEmissions(desktopDirectEmissions);
-    const laptopUpstreamEmissions = laptop.estimateYearlyUpstreamEmissions(laptopDirectEmissions);
-    const serverUpstreamEmissions = server.estimateYearlyUpstreamEmissions(serverDirectEmissions);
-    const networkUpstreamEmissions = network.estimateYearlyUpstreamEmissions(networkDirectEmissions);
+    const desktopUpstreamEmissions = desktop.estimateYearlyUpstreamEmissions(desktopCount);
+    const laptopUpstreamEmissions = laptop.estimateYearlyUpstreamEmissions(laptopCount);
+    const serverUpstreamEmissions = server.estimateYearlyUpstreamEmissions(serverCount);
+    const networkUpstreamEmissions = network.estimateYearlyUpstreamEmissions(networkCount);
 
     const totalUpstreamEmissions =
       desktopUpstreamEmissions + laptopUpstreamEmissions + serverUpstreamEmissions + networkUpstreamEmissions;
