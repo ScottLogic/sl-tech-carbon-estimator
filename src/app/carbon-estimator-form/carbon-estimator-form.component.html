@@ -42,15 +42,7 @@
     </label>
     @if (onPremSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <label>
-          <span>On-Prem Location:</span>
-          <select class="form-select block w-full mt-1 rounded" formControlName="location" name="location">
-            <option value="global">Global</option>
-            <option value="uk">UK</option>
-            <option value="eu">EU</option>
-            <option value="us">US</option>
-          </select>
-        </label>
+        <ng-container *ngTemplateOutlet="locationInput; context: onPremLocation"></ng-container>
 
         <label>
           <span>Number of Servers:</span>
@@ -73,15 +65,7 @@
     </label>
     @if (cloudSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <label>
-          <span>Cloud Location:</span>
-          <select class="form-select block w-full mt-1 rounded" formControlName="location" name="location">
-            <option value="global" selected>Global</option>
-            <option value="uk">UK</option>
-            <option value="eu">EU</option>
-            <option value="us">US</option>
-          </select>
-        </label>
+        <ng-container *ngTemplateOutlet="locationInput; context: cloudLocation"></ng-container>
 
         <label>
           <span>Cloud %:</span>
@@ -122,18 +106,7 @@
     </label>
     @if (downstreamSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <label>
-          <span>Location of Customers:</span>
-          <select
-            class="form-select block w-full mt-1 rounded"
-            formControlName="customerLocation"
-            name="customerLocation">
-            <option value="global" selected>Global</option>
-            <option value="uk">UK</option>
-            <option value="eu">EU</option>
-            <option value="us">US</option>
-          </select>
-        </label>
+        <ng-container *ngTemplateOutlet="locationInput; context: downstreamLocation"></ng-container>
 
         <label>
           <span>Monthly Active Users:</span>
@@ -180,4 +153,22 @@
       Reset
     </button>
   </div>
+  <ng-template
+    #locationInput
+    let-labelString="label"
+    let-formControlName="formControlName"
+    let-formGroupName="formGroupName">
+    <label formGroupName="{{ formGroupName }}">
+      <span>{{ labelString }}:</span>
+      <select
+        class="form-select block w-full mt-1 rounded"
+        name="{{ formControlName }}"
+        formControlName="{{ formControlName }}">
+        <option value="global" selected>Global</option>
+        <option value="uk">UK</option>
+        <option value="eu">EU</option>
+        <option value="us">US</option>
+      </select>
+    </label>
+  </ng-template>
 </form>

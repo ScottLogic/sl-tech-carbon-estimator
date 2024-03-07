@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
@@ -15,7 +15,7 @@ import { defaultValues } from './constants';
 @Component({
   selector: 'sl-carbon-estimator-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule],
   templateUrl: './carbon-estimator-form.component.html',
 })
 export class CarbonEstimatorFormComponent implements OnInit {
@@ -28,6 +28,24 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public onPremSwitch: boolean = true;
   public cloudSwitch: boolean = true;
   public downstreamSwitch: boolean = true;
+
+  public onPremLocation = {
+    label: 'On-Prem Location',
+    formControlName: 'location',
+    formGroupName: 'onPrem',
+  };
+
+  public cloudLocation = {
+    label: 'Cloud Location',
+    formControlName: 'location',
+    formGroupName: 'cloud',
+  };
+
+  public downstreamLocation = {
+    label: 'Customer Location',
+    formControlName: 'customerLocation',
+    formGroupName: 'downstream',
+  };
 
   constructor(
     private formBuilder: FormBuilder,
