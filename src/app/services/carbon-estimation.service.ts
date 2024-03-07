@@ -83,7 +83,7 @@ function calculateCeilingPercentage(percentage: number, value: number) {
 }
 
 function estimateServerCount(cloudPercentage: number, headCount: number, inputServerCount: number | undefined): number {
-  if (inputServerCount) {
+  if (inputServerCount !== undefined && inputServerCount >= 0) {
     return inputServerCount;
   }
   return calculateCeilingPercentage(100 - cloudPercentage, headCount * 0.1);
