@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { CarbonEstimation } from '../carbon-estimator';
 import { DecimalPipe } from '@angular/common';
 
@@ -8,7 +8,7 @@ import { DecimalPipe } from '@angular/common';
   imports: [DecimalPipe],
   templateUrl: './carbon-estimation.component.html',
 })
-export class CarbonEstimationComponent implements OnInit {
+export class CarbonEstimationComponent {
   public carbonEstimation = input.required<CarbonEstimation>();
 
   public upstreamEmissionsHeight: number = 0;
@@ -16,13 +16,13 @@ export class CarbonEstimationComponent implements OnInit {
   public directEmissionsHeight: number = 0;
   public downstreamEmissionsHeight: number = 0;
 
-  constructor() {}
-
-  ngOnInit() {
-    const carbonEstimation = this.carbonEstimation();
-    this.upstreamEmissionsHeight = carbonEstimation.upstreamEmissions * 4;
-    this.cloudEmissionsHeight = carbonEstimation.cloudEmissions * 4;
-    this.directEmissionsHeight = carbonEstimation.directEmissions * 4;
-    this.downstreamEmissionsHeight = carbonEstimation.downstreamEmissions * 4;
+  constructor() {
+    effect(() => {
+      const carbonEstimation = this.carbonEstimation();
+      this.upstreamEmissionsHeight = carbonEstimation.upstreamEmissions * 4;
+      this.cloudEmissionsHeight = carbonEstimation.cloudEmissions * 4;
+      this.directEmissionsHeight = carbonEstimation.directEmissions * 4;
+      this.downstreamEmissionsHeight = carbonEstimation.downstreamEmissions * 4;
+    });
   }
 }
