@@ -23,18 +23,18 @@ export type EstimatorFormValues = {
   }>;
   onPrem: FormGroup<{
     enabled: FormControl<boolean>;
-    location: FormControl<Location>;
+    location: FormControl<WorldLocation>;
     numberOfServers: FormControl<number>;
   }>;
   cloud: FormGroup<{
     enabled: FormControl<boolean>;
-    location: FormControl<Location>;
+    location: FormControl<WorldLocation>;
     cloudPercentage: FormControl<number>;
     monthlyCloudBill: FormControl<MonthlyCloudBill>;
   }>;
   downstream: FormGroup<{
     enabled: FormControl<boolean>;
-    customerLocation: FormControl<Location>;
+    customerLocation: FormControl<WorldLocation>;
     monthlyActiveUsers: FormControl<number>;
     mobilePercentage: FormControl<number>;
     purposeOfSite: FormControl<PurposeOfSite>;
@@ -44,7 +44,7 @@ export type EstimatorFormValues = {
 type FormSection<T> = T & { enabled: boolean };
 
 export type OnPrem = {
-  location: Location;
+  location: WorldLocation;
   numberOfServers: number;
 };
 export type Upstream = {
@@ -52,19 +52,19 @@ export type Upstream = {
   desktopToLaptopPercentage: number;
 };
 export type Cloud = {
-  location: Location;
+  location: WorldLocation;
   cloudPercentage: number;
   monthlyCloudBill: MonthlyCloudBill;
 };
 export type Downstream = {
-  customerLocation: Location;
+  customerLocation: WorldLocation;
   monthlyActiveUsers: number;
   mobilePercentage: number;
   purposeOfSite: PurposeOfSite;
 };
 
 export const locationArray = ['global', 'uk', 'eu', 'us'] as const;
-export type Location = (typeof locationArray)[number];
+export type WorldLocation = (typeof locationArray)[number];
 
 export const monthlyCloudBillArray = [
   '0-200',
