@@ -23,7 +23,7 @@ Without a specified number of servers, we estimate based on the number of employ
 
 ### Number of Networking Devices
 
-Based on number of desktop devices and servers, apply **50%** ratio. *Reference DS Smith numbers?*
+Based on number of desktop devices and servers, apply **50%** ratio.
 
 ### Power consumption
 
