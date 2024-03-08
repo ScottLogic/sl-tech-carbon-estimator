@@ -62,6 +62,12 @@ export type Downstream = {
   mobilePercentage: number;
   purposeOfSite: PurposeOfSite;
 };
+export type DeviceCounts = {
+  desktopCount: number;
+  laptopCount: number;
+  serverCount: number;
+  networkCount: number;
+};
 
 export const locationArray = ['global', 'uk', 'eu', 'us'] as const;
 export type WorldLocation = (typeof locationArray)[number];

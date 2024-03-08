@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CarbonEstimation } from '../carbon-estimator';
-import { desktop, laptop, network, server } from '../estimation/device-type';
-import { estimateEnergyEmissions as estimateEnergyEmissions } from '../estimation/estimate-energy-emissions';
+import { CarbonEstimation, DeviceCounts, EstimatorValues } from '../carbon-estimator';
 import { estimateCloudEmissions } from '../estimation/estimate-cloud-emissions';
+import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
-import { EstimatorValues } from '../carbon-estimator';
+import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
 
 @Injectable({
   providedIn: 'root',
@@ -21,46 +20,36 @@ export class CarbonEstimationService {
     const onPremLocation = formValue.onPrem?.location ?? 'global';
     const cloudLocation = formValue.cloud?.location ?? 'global';
 
-    const laptopPercent = 100 - desktopPercent;
+    const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
 
-    const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
-    const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
-    const serverCount = estimateServerCount(cloudPercentage, headCount, formValue.onPrem?.numberOfServers);
-    const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
-
-    const desktopEnergy = desktop.estimateYearlyEnergy(desktopCount);
-    const laptopEnergy = laptop.estimateYearlyEnergy(laptopCount);
-    const serverEnergy = server.estimateYearlyEnergy(serverCount);
-    const networkEnergy = network.estimateYearlyEnergy(networkCount);
-
-    const desktopDirectEmissions = estimateEnergyEmissions(desktopEnergy, onPremLocation);
-    const laptopDirectEmissions = estimateEnergyEmissions(laptopEnergy, onPremLocation);
-    const serverDirectEmissions = estimateEnergyEmissions(serverEnergy, onPremLocation);
-    const networkDirectEmissions = estimateEnergyEmissions(networkEnergy, onPremLocation);
-
-    const totalDirectEmissions =
-      desktopDirectEmissions + laptopDirectEmissions + serverDirectEmissions + networkDirectEmissions;
-
-    const desktopUpstreamEmissions = desktop.estimateYearlyUpstreamEmissions(desktopCount);
-    const laptopUpstreamEmissions = laptop.estimateYearlyUpstreamEmissions(laptopCount);
-    const serverUpstreamEmissions = server.estimateYearlyUpstreamEmissions(serverCount);
-    const networkUpstreamEmissions = network.estimateYearlyUpstreamEmissions(networkCount);
-
-    const totalUpstreamEmissions =
-      desktopUpstreamEmissions + laptopUpstreamEmissions + serverUpstreamEmissions + networkUpstreamEmissions;
-
+    const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
+    const directEmissions = estimateDirectEmissions(deviceCounts, onPremLocation);
     const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
-
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
 
     return toPercentages({
       version: '0.0.1',
-      upstreamEmissions: totalUpstreamEmissions,
+      upstreamEmissions: upstreamEmissions,
+      directEmissions: directEmissions,
       cloudEmissions: cloudEmissions,
-      directEmissions: totalDirectEmissions,
       downstreamEmissions: downstreamEmissions,
     });
   }
+}
+
+function estimateDeviceCounts(
+  desktopPercent: number,
+  headCount: number,
+  cloudPercentage: number,
+  formValue: EstimatorValues
+): DeviceCounts {
+  const laptopPercent = 100 - desktopPercent;
+
+  const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
+  const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
+  const serverCount = estimateServerCount(cloudPercentage, headCount, formValue.onPrem?.numberOfServers);
+  const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
+  return { desktopCount, laptopCount, serverCount, networkCount };
 }
 
 function toPercentages(input: CarbonEstimation): CarbonEstimation {
