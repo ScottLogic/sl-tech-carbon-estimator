@@ -1,4 +1,4 @@
-import { MonthlyCloudBill, Location } from '../carbon-estimator';
+import { MonthlyCloudBill, WorldLocation } from '../carbon-estimator';
 import { server } from './device-type';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { KgCo2e, KilowattHour } from '../types/units';
@@ -10,7 +10,7 @@ const AVERAGE_PUE = 1.18;
 export function estimateCloudEmissions(
   cloudPercentage: number,
   monthlyCloudBill: MonthlyCloudBill,
-  cloudLocation: Location
+  cloudLocation: WorldLocation
 ): KgCo2e {
   const cloudEnergy = estimateCloudEnergy(cloudPercentage, monthlyCloudBill);
   const cloudDirectEmissions = estimateEnergyEmissions(cloudEnergy, cloudLocation);

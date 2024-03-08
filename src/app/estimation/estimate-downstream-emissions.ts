@@ -1,4 +1,4 @@
-import { PurposeOfSite, Location } from '../carbon-estimator';
+import { PurposeOfSite, WorldLocation } from '../carbon-estimator';
 import { estimateEnergyEmissions as estimateEnergyEmissions } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour } from '../types/units';
 
@@ -37,7 +37,7 @@ const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
 export function estimateDownstreamEmissions(
   monthlyActiveUsers: number,
   purposeOfSite: PurposeOfSite,
-  customerLocation: Location
+  customerLocation: WorldLocation
 ) {
   const downstreamDataTransfer = estimateDownstreamDataTransfer(monthlyActiveUsers, purposeOfSite);
   const downstreamEnergy = estimateDownstreamEnergy(downstreamDataTransfer);
