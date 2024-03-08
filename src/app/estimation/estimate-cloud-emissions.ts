@@ -15,8 +15,7 @@ export function estimateCloudEmissions(
   const cloudDirectEmissions = estimateEnergyEmissions(cloudEnergy, cloudLocation);
   // TODO - Better method for cloud embodied carbon
   const cloudUpstreamEmissions = cloudDirectEmissions * (2 / 8);
-  const totalCloudEmissions = cloudDirectEmissions + cloudUpstreamEmissions;
-  return totalCloudEmissions;
+  return cloudDirectEmissions + cloudUpstreamEmissions;
 }
 
 function estimateCloudEnergy(cloudPercentage: number, monthlyCloudBill: MonthlyCloudBill): KilowattHour {

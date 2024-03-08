@@ -1,8 +1,8 @@
-import { DeviceCounts, Location } from '../carbon-estimator';
+import { DeviceCounts, WorldLocation } from '../carbon-estimator';
 import { desktop, laptop, network, server } from './device-type';
 import { estimateEnergyEmissions as estimateEnergyEmissions } from './estimate-energy-emissions';
 
-export function estimateDirectEmissions(deviceCounts: DeviceCounts, onPremLocation: Location) {
+export function estimateDirectEmissions(deviceCounts: DeviceCounts, onPremLocation: WorldLocation) {
   const desktopEnergy = desktop.estimateYearlyEnergy(deviceCounts.desktopCount);
   const laptopEnergy = laptop.estimateYearlyEnergy(deviceCounts.laptopCount);
   const serverEnergy = server.estimateYearlyEnergy(deviceCounts.serverCount);

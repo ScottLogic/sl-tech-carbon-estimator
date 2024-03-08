@@ -1,16 +1,25 @@
 import { PurposeOfSite, Downstream } from '../carbon-estimator';
-import { estimateEnergyEmissions as estimateEnergyEmissions } from './estimate-energy-emissions';
+import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
 import { Gb, Hour, KgCo2e, KilowattHour } from '../types/units';
 import { laptop, mobile } from './device-type';
+import { co2 } from '@tgwf/co2';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
   averageMonthlyUserData: Gb;
 }
 
-// See https://sustainablewebdesign.org/calculating-digital-emissions/
-const NETWORK_GB_TO_KWH_RATIO = 0.1134;
+interface CO2EstimateComponents {
+  consumerDeviceCO2: number;
+  networkCO2: number;
+  dataCenterCO2: number;
+  productionCO2: number;
+  total: number;
+}
 
+const BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
+
+// Needs source from our own research
 const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
   information: {
     averageMonthlyUserTime: 0.016,
@@ -43,29 +52,53 @@ export function estimateDownstreamEmissions(downstream?: Downstream): KgCo2e {
     downstream.monthlyActiveUsers,
     downstream.purposeOfSite
   );
-  const downstreamEndUserTime = estimateDownstreamEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
-  const downstreamEnergy = estimateDownstreamEnergy(
-    downstreamDataTransfer,
-    downstreamEndUserTime,
-    downstream.mobilePercentage
-  );
-  const downstreamEmissions = estimateEnergyEmissions(downstreamEnergy, downstream.customerLocation);
-  return downstreamEmissions;
+  const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer);
+  const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
+  return endUserEmissions + networkEmissions;
 }
 
 function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
   return siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
 }
 
-function estimateDownstreamEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
+function estimateEndUserEmissions(downstream: Downstream, downstreamDataTransfer: number) {
+  const endUserTime = estimateEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
+  const endUserEnergy = estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
+  return estimateEnergyEmissions(endUserEnergy, downstream.customerLocation);
+}
+
+function estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
   return siteTypeInfo[purposeOfSite].averageMonthlyUserTime * monthlyActiveUsers * 12;
 }
 
-function estimateDownstreamEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
+function estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
   const mobileTime = (mobilePercentage / 100) * userTime;
   const generalTime = ((100 - mobilePercentage) / 100) * userTime;
   const mobileEnergy = mobile.estimateEnergy(mobileTime);
   // TODO: Add some kind of average device here
   const generalEnergy = laptop.estimateEnergy(generalTime);
-  return mobileEnergy + generalEnergy + dataTransferred * NETWORK_GB_TO_KWH_RATIO;
+  return mobileEnergy + generalEnergy;
+}
+
+function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number) {
+  const co2Inst = new co2({
+    model: 'swd',
+    results: 'segment',
+  });
+  const options = {
+    gridIntensity: {
+      deviceCarbonIntensity: {
+        value: 0,
+      },
+      network: {
+        value: getCarbonIntensity(downstream.customerLocation),
+      },
+      dataCenterCarbonIntensity: {
+        value: 0,
+      },
+    },
+  };
+  const result = co2Inst.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
+  // Force a cast to type we know is returned when segment option is used
+  return (result.co2 as unknown as CO2EstimateComponents).networkCO2 / 1000;
 }
