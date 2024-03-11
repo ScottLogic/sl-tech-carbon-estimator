@@ -1,7 +1,7 @@
 import { PurposeOfSite, Downstream } from '../carbon-estimator';
 import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
 import { Gb, Hour, KgCo2e, KilowattHour } from '../types/units';
-import { laptop, mobile } from './device-type';
+import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { co2 } from '@tgwf/co2';
 
 interface SiteInformation {
@@ -72,12 +72,11 @@ function estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeO
 }
 
 function estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
-  const mobileTime = (mobilePercentage / 100) * userTime;
-  const generalTime = ((100 - mobilePercentage) / 100) * userTime;
-  const mobileEnergy = mobile.estimateEnergy(mobileTime);
-  // TODO: Add some kind of average device here
-  const generalEnergy = laptop.estimateEnergy(generalTime);
-  return mobileEnergy + generalEnergy;
+  const averageDevice = new AverageDeviceType(
+    { device: mobile, percentage: mobilePercentage },
+    { device: averagePersonalComputer, percentage: 100 - mobilePercentage }
+  );
+  return averageDevice.estimateEnergy(userTime);
 }
 
 function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number) {
