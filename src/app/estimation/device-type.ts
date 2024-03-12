@@ -55,7 +55,7 @@ export class AverageDeviceType extends DeviceType {
 export const laptop = new DeviceType(17, 8 * 230, 230, 4);
 export const desktop = new DeviceType(72, 8 * 230, 400, 4);
 export const server = new DeviceType(400, 24 * 365, 1450, 4);
-export const network = new DeviceType(150, 24 * 365, 1000, 4);
+export const network = new DeviceType(150, 24 * 365, 650, 4);
 export const mobile = new DeviceType(1, 24 * 365, 54, 3);
 export const tablet = new DeviceType(3, 24 * 365, 134, 3);
 export const monitor = new DeviceType(30, 8 * 230, 350, 6);

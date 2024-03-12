@@ -59,10 +59,12 @@ Each class of device is given an average amount of embodied carbon and a lifespa
 | Laptop      | 230                       | 4                |
 | Desktop     | 400                       | 4                |
 | Server      | 1450                      | 4                |
-| Network     | 1000                      | 4                |
+| Network     | 650 *                     | 4                |
 | Mobile      | 54                        | 3                |
 | Tablet      | 134                       | 3                |
 | Monitor     | 350                       | 6                |
+
+_\* The network device figure is reverse engineered from typical yearly energy and embodied carbon ratios as published values are difficult to find_
 
 ### Cloud Services
 

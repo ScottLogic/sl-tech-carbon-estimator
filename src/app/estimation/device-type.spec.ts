@@ -52,7 +52,7 @@ describe('Device type of network', () => {
   });
 
   it('Estimates upstream emissions of 1 network device', () => {
-    expect(network.estimateYearlyUpstreamEmissions(1)).toBeCloseTo(250);
+    expect(network.estimateYearlyUpstreamEmissions(1)).toBeCloseTo(162.5);
   });
 });
 
