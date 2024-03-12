@@ -130,7 +130,12 @@
             step="1" />
         </label>
         <label>
-          <span>Purpose of Site:</span>
+          <span
+            [satPopoverAnchor]="purposeOfSiteInfo"
+            (mouseenter)="purposeOfSiteInfo.open()"
+            (mouseleave)="purposeOfSiteInfo.close()"
+            >Purpose of Site:</span
+          >
           <select class="form-select block w-full mt-1 rounded" formControlName="purposeOfSite" name="purposeOfSite">
             <option value="average" selected>Average</option>
             <option value="streaming">Streaming</option>
@@ -139,6 +144,13 @@
             <option value="socialMedia">Social Media</option>
           </select>
         </label>
+        <sat-popover #purposeOfSiteInfo verticalAlign="above">
+          <div
+            class="info-wrapper bg-gray-200 borader-[#333] p-4 rounded before:w-4 before:h-4 before:rotate-45 before:bg-gray-200 before:absolute before:z-[-1] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
+            Username: test <br />
+            Posts: test
+          </div>
+        </sat-popover>
       </div>
     }
   </div>

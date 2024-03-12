@@ -11,11 +11,12 @@ import {
   Upstream,
 } from '../carbon-estimator';
 import { defaultValues } from './constants';
+import { SatPopoverModule } from '@ncstate/sat-popover';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule, SatPopoverModule],
   templateUrl: './carbon-estimator-form.component.html',
 })
 export class CarbonEstimatorFormComponent implements OnInit {
