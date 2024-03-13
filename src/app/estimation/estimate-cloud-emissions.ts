@@ -1,5 +1,4 @@
 import { MonthlyCloudBill, WorldLocation } from '../carbon-estimator';
-import { server } from './device-type';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { KgCo2e, KilowattHour } from '../types/units';
 
@@ -14,9 +13,9 @@ export function estimateCloudEmissions(
 ): KgCo2e {
   const cloudEnergy = estimateCloudEnergy(cloudPercentage, monthlyCloudBill);
   const cloudDirectEmissions = estimateEnergyEmissions(cloudEnergy, cloudLocation);
-  const cloudUpstreamEmissions = server.estimateYearlyUpstreamEmissions(cloudDirectEmissions);
-  const totalCloudEmissions = cloudDirectEmissions + cloudUpstreamEmissions;
-  return totalCloudEmissions;
+  // TODO - Better method for cloud embodied carbon
+  const cloudUpstreamEmissions = cloudDirectEmissions * (2 / 8);
+  return cloudDirectEmissions + cloudUpstreamEmissions;
 }
 
 function estimateCloudEnergy(cloudPercentage: number, monthlyCloudBill: MonthlyCloudBill): KilowattHour {
