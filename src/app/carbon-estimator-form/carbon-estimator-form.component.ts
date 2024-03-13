@@ -18,6 +18,7 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule, SatPopoverModule],
   templateUrl: './carbon-estimator-form.component.html',
+  styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
 })
 export class CarbonEstimatorFormComponent implements OnInit {
   public formValue = input<EstimatorValues>();
