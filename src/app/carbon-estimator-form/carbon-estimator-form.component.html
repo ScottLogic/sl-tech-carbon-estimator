@@ -1,27 +1,24 @@
 <form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="max-w-md mx-auto">
   <div formGroupName="upstream">
-    <label class="flex items-center pt-2 pb-1 cursor-pointer">
-      <h2 class="basis-40 text-2xl font-bold">Upstream</h2>
-      <input type="checkbox" checked id="upstream-switch" class="sr-only peer" formControlName="enabled" />
-      <div
-        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-    </label>
+    <ng-container *ngTemplateOutlet="enabledToggle; context: upstreamSection"></ng-container>
 
     @if (upstreamSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <label>
-          <span>Head Count:*</span>
+        <div>
+          <label for="headCount"> Head Count: </label>
           <input
+            id="headCount"
             class="form-input mt-1 block w-full rounded"
             formControlName="headCount"
             name="headCount"
             type="number"
             min="1" />
-        </label>
+        </div>
 
-        <label>
-          <span>Desktop to laptop %:</span>
+        <div>
+          <label for="desktopToLaptopPercentage"> Desktop to laptop %: </label>
           <input
+            id="desktopToLaptopPercentage"
             class="mt-1 block w-full"
             formControlName="desktopToLaptopPercentage"
             name="desktopToLaptopPercentage"
@@ -29,47 +26,39 @@
             min="0"
             max="100"
             step="1" />
-        </label>
+        </div>
       </div>
     }
   </div>
   <div formGroupName="onPrem">
-    <label class="flex items-center pt-2 pb-1 cursor-pointer">
-      <h2 class="basis-40 text-2xl font-bold">On-Prem</h2>
-      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
-      <div
-        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-    </label>
+    <ng-container *ngTemplateOutlet="enabledToggle; context: onPremSection"></ng-container>
     @if (onPremSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: onPremLocation"></ng-container>
+        <ng-container *ngTemplateOutlet="locationInput; context: onPremSection"></ng-container>
 
-        <label>
-          <span>Number of Servers:</span>
+        <div>
+          <label for="numberOfServers">Number of Servers:</label>
           <input
+            id="numberOfServers"
             class="form-input mt-1 block w-full rounded"
             formControlName="numberOfServers"
             name="numberOfServers"
             type="number"
             min="0" />
-        </label>
+        </div>
       </div>
     }
   </div>
   <div formGroupName="cloud">
-    <label class="flex items-center pt-2 pb-1 cursor-pointer">
-      <h2 class="basis-40 text-2xl font-bold">Cloud</h2>
-      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
-      <div
-        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-    </label>
+    <ng-container *ngTemplateOutlet="enabledToggle; context: cloudSection"></ng-container>
     @if (cloudSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: cloudLocation"></ng-container>
+        <ng-container *ngTemplateOutlet="locationInput; context: cloudSection"></ng-container>
 
-        <label>
-          <span>Cloud %:</span>
+        <div>
+          <label for="cloudPercentage">Cloud %:</label>
           <input
+            id="cloudPercentage"
             class="mt-1 block w-full"
             formControlName="cloudPercentage"
             name="cloudPercentage"
@@ -77,11 +66,12 @@
             min="0"
             max="100"
             step="1" />
-        </label>
+        </div>
 
-        <label>
-          <span>Monthly Cloud Bill:</span>
+        <div>
+          <label for="monthlyCloudBill">Monthly Cloud Bill:</label>
           <select
+            id="monthlyCloudBill"
             class="form-select block w-full mt-1 rounded"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
@@ -93,23 +83,18 @@
             <option value="5000-10000">$5000-$10000</option>
             <option value="10000-50000">$10000-$50000</option>
           </select>
-        </label>
+        </div>
       </div>
     }
   </div>
   <div formGroupName="downstream">
-    <label class="flex items-center pt-2 pb-1 cursor-pointer">
-      <h2 class="basis-40 text-2xl font-bold">Downstream</h2>
-      <input type="checkbox" class="sr-only peer" formControlName="enabled" />
-      <div
-        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-    </label>
+    <ng-container *ngTemplateOutlet="enabledToggle; context: downstreamSection"></ng-container>
     @if (downstreamSwitch) {
       <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: downstreamLocation"></ng-container>
+        <ng-container *ngTemplateOutlet="locationInput; context: downstreamSection"></ng-container>
 
-        <label>
-          <span>Monthly Active Users:</span>
+        <div>
+          <label for="number-of-customers">Monthly Active Users:</label>
           <input
             class="form-input mt-1 block w-full rounded"
             formControlName="monthlyActiveUsers"
@@ -117,10 +102,12 @@
             type="number"
             id="number-of-customers"
             min="0" />
-        </label>
-        <label>
-          <span>Mobile %:</span>
+        </div>
+
+        <div>
+          <label for="mobilePercentage">Mobile %:</label>
           <input
+            id="mobilePercentage"
             class="mt-1 block w-full"
             formControlName="mobilePercentage"
             name="mobilePercentage"
@@ -128,17 +115,26 @@
             min="0"
             max="100"
             step="1" />
-        </label>
-        <label>
-          <span>Purpose of Site:</span>
-          <select class="form-select block w-full mt-1 rounded" formControlName="purposeOfSite" name="purposeOfSite">
+        </div>
+
+        <div>
+          <div class="flex">
+            <label for="purposeOfSite">Purpose of Site: </label>
+            <ng-container
+              *ngTemplateOutlet="helperTextPopup; context: { text: helperText.purposeOfSite }"></ng-container>
+          </div>
+          <select
+            class="form-select block w-full mt-1 rounded"
+            formControlName="purposeOfSite"
+            name="purposeOfSite"
+            id="purposeOfSite">
             <option value="average" selected>Average</option>
             <option value="streaming">Streaming</option>
             <option value="information">Information</option>
             <option value="eCommerce">E-Commerce</option>
             <option value="socialMedia">Social Media</option>
           </select>
-        </label>
+        </div>
       </div>
     }
   </div>
@@ -153,22 +149,64 @@
       Reset
     </button>
   </div>
+
   <ng-template
     #locationInput
-    let-labelString="label"
-    let-formControlName="formControlName"
+    let-labelString="location.label"
+    let-formControlName="location.formControlName"
+    let-controlId="location.id"
     let-formGroupName="formGroupName">
-    <label formGroupName="{{ formGroupName }}">
-      <span>{{ labelString }}:</span>
+    <div formGroupName="{{ formGroupName }}">
+      <label for="{{ controlId }}">{{ labelString }}: </label>
       <select
         class="form-select block w-full mt-1 rounded"
         name="{{ formControlName }}"
-        formControlName="{{ formControlName }}">
+        formControlName="{{ formControlName }}"
+        id="{{ controlId }}">
         <option value="global" selected>Global</option>
         <option value="uk">UK</option>
         <option value="eu">EU</option>
         <option value="us">US</option>
       </select>
+    </div>
+  </ng-template>
+
+  <ng-template
+    #enabledToggle
+    let-labelString="enabled.label"
+    let-formControlName="enabled.formControlName"
+    let-controlId="enabled.id"
+    let-formGroupName="formGroupName">
+    <label for="{{ controlId }}" formGroupName="{{ formGroupName }}" class="flex items-center pt-2 pb-1 cursor-pointer">
+      <h2 class="basis-40 text-2xl font-bold">{{ labelString }}</h2>
+      <input
+        type="checkbox"
+        class="sr-only peer"
+        name="{{ controlId }}"
+        formControlName="{{ formControlName }}"
+        id="{{ controlId }}" />
+      <div
+        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
     </label>
   </ng-template>
 </form>
+
+<ng-template #helperTextPopup let-helperText="text">
+  <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+      <path
+        fill-rule="evenodd"
+        d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
+        clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <sat-popover #helperInfo verticalAlign="above">
+    <div
+      class="info-wrapper max-w-64 bg-gray-200 borader-[#333] p-4 rounded before:w-4 before:h-4 before:rotate-45 before:bg-gray-200 before:absolute before:z-[-1] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
+      <p>
+        {{ helperText }}
+      </p>
+    </div>
+  </sat-popover>
+</ng-template>
