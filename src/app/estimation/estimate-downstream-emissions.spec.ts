@@ -22,5 +22,5 @@ it('should return emissions based on average values', () => {
     mobilePercentage: 0,
     purposeOfSite: 'average',
   };
-  expect(estimateDownstreamEmissions(input)).toBeCloseTo(552.399);
+  expect(estimateDownstreamEmissions(input)).toBeCloseTo(552.439);
 });

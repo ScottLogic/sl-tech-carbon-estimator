@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
 import { CarbonEstimation } from '../carbon-estimator';
+import { LoggingService } from './logging.service';
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
   expect(estimation.upstreamEmissions).toBeGreaterThanOrEqual(0);
@@ -18,10 +19,15 @@ function checkTotalPercentage(estimation: CarbonEstimation) {
 
 describe('CarbonEstimationService', () => {
   let service: CarbonEstimationService;
+  let loggingService: jasmine.SpyObj<LoggingService>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    const spy = jasmine.createSpyObj('LoggingService', ['log']);
+    TestBed.configureTestingModule({
+      providers: [CarbonEstimationService, { provide: LoggingService, useValue: spy }],
+    });
     service = TestBed.inject(CarbonEstimationService);
+    loggingService = TestBed.inject(LoggingService) as jasmine.SpyObj<LoggingService>;
   });
 
   it('should be created', () => {
@@ -59,5 +65,22 @@ describe('CarbonEstimationService', () => {
       },
     });
     checkTotalPercentage(estimation);
+  });
+
+  it('should log intermediate results', () => {
+    service.calculateCarbonEstimation({});
+    expect(loggingService.log).toHaveBeenCalledWith('Estimated Device Counts:', jasmine.any(Object));
+    expect(loggingService.log).toHaveBeenCalledWith(
+      jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
+    );
+    expect(loggingService.log).toHaveBeenCalledWith(
+      jasmine.stringMatching(/^Estimated Direct Emissions: \d*\.?\d*kg CO2e$/)
+    );
+    expect(loggingService.log).toHaveBeenCalledWith(
+      jasmine.stringMatching(/^Estimated Cloud Emissions: \d*\.?\d*kg CO2e$/)
+    );
+    expect(loggingService.log).toHaveBeenCalledWith(
+      jasmine.stringMatching(/^Estimated Downstream Emissions: \d*\.?\d*kg CO2e$/)
+    );
   });
 });

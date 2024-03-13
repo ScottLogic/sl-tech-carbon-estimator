@@ -86,15 +86,9 @@ function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer
   });
   const options = {
     gridIntensity: {
-      deviceCarbonIntensity: {
-        value: 0,
-      },
-      network: {
-        value: getCarbonIntensity(downstream.customerLocation),
-      },
-      dataCenterCarbonIntensity: {
-        value: 0,
-      },
+      device: 0,
+      network: getCarbonIntensity(downstream.customerLocation),
+      dataCenter: 0,
     },
   };
   const result = co2Inst.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
