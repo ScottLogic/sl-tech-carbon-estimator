@@ -120,13 +120,8 @@
         <div>
           <div class="flex">
             <label for="purposeOfSite">Purpose of Site: </label>
-            <button
-              [satPopoverAnchor]="purposeOfSiteInfo"
-              (click)="purposeOfSiteInfo.toggle()"
-              class="ml-auto"
-              type="button">
-              <ng-container *ngTemplateOutlet="helperIcon"></ng-container>
-            </button>
+            <ng-container
+              *ngTemplateOutlet="helperTextPopup; context: { text: helperText.purposeOfSite }"></ng-container>
           </div>
           <select
             class="form-select block w-full mt-1 rounded"
@@ -140,12 +135,6 @@
             <option value="socialMedia">Social Media</option>
           </select>
         </div>
-        <sat-popover #purposeOfSiteInfo verticalAlign="above">
-          <div
-            class="info-wrapper bg-gray-200 borader-[#333] p-4 rounded before:w-4 before:h-4 before:rotate-45 before:bg-gray-200 before:absolute before:z-[-1] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
-            Test
-          </div>
-        </sat-popover>
       </div>
     }
   </div>
@@ -204,11 +193,22 @@
   </ng-template>
 </form>
 
-<ng-template #helperIcon>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-    <path
-      fill-rule="evenodd"
-      d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
-      clip-rule="evenodd" />
-  </svg>
+<ng-template #helperTextPopup let-helperText="text">
+  <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+      <path
+        fill-rule="evenodd"
+        d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
+        clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <sat-popover #helperInfo verticalAlign="above">
+    <div
+      class="info-wrapper max-w-64 bg-gray-200 borader-[#333] p-4 rounded before:w-4 before:h-4 before:rotate-45 before:bg-gray-200 before:absolute before:z-[-1] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
+      <p>
+        {{ helperText }}
+      </p>
+    </div>
+  </sat-popover>
 </ng-template>

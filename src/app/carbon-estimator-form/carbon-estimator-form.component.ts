@@ -82,6 +82,12 @@ export class CarbonEstimatorFormComponent implements OnInit {
     formGroupName: 'downstream',
   };
 
+  // TODO - update text was auto generated
+  public helperText = {
+    purposeOfSite:
+      'Purpose of the site is used to determine the amount of mobile traffic. If the site is used for internal purposes, the mobile traffic will be lower. If the site is used for external purposes, the mobile traffic will be higher.',
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef
