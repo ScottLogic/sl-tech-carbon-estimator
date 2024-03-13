@@ -4,12 +4,13 @@ import { estimateCloudEmissions } from '../estimation/estimate-cloud-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarbonEstimationService {
-  constructor() {}
+  constructor(private loggingService: LoggingService) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     // TODO - these should be required params
@@ -21,11 +22,16 @@ export class CarbonEstimationService {
     const cloudLocation = formValue.cloud?.location ?? 'global';
 
     const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
+    this.loggingService.log(`Estimated Device Counts:`, deviceCounts);
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
+    this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
     const directEmissions = estimateDirectEmissions(deviceCounts, onPremLocation);
+    this.loggingService.log(`Estimated Direct Emissions: ${directEmissions}kg CO2e`);
     const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
+    this.loggingService.log(`Estimated Cloud Emissions: ${cloudEmissions}kg CO2e`);
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
+    this.loggingService.log(`Estimated Downstream Emissions: ${downstreamEmissions}kg CO2e`);
 
     return toPercentages({
       version: '0.0.1',
