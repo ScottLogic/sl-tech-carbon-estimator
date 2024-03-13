@@ -30,21 +30,54 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public cloudSwitch: boolean = true;
   public downstreamSwitch: boolean = true;
 
-  public onPremLocation = {
-    label: 'On-Prem Location',
-    formControlName: 'location',
+  public upstreamSection = {
+    enabled: {
+      label: 'On-Prem',
+      formControlName: 'enabled',
+      id: 'upstreamEnabled',
+    },
     formGroupName: 'onPrem',
   };
 
-  public cloudLocation = {
-    label: 'Cloud Location',
-    formControlName: 'location',
+  public onPremSection = {
+    location: {
+      label: 'On-Prem Location',
+      formControlName: 'location',
+      id: 'onPremLocation',
+    },
+    enabled: {
+      label: 'On-Prem',
+      formControlName: 'enabled',
+      id: 'onPremEnabled',
+    },
+    formGroupName: 'onPrem',
+  };
+
+  public cloudSection = {
+    location: {
+      label: 'Cloud Location',
+      formControlName: 'location',
+      id: 'cloudLocation',
+    },
+    enabled: {
+      label: 'Cloud',
+      formControlName: 'enabled',
+      id: 'cloudEnabled',
+    },
     formGroupName: 'cloud',
   };
 
-  public downstreamLocation = {
-    label: 'Customer Location',
-    formControlName: 'customerLocation',
+  public downstreamSection = {
+    location: {
+      label: 'Customer Location',
+      formControlName: 'customerLocation',
+      id: 'customerLocation',
+    },
+    enabled: {
+      label: 'Downstream',
+      formControlName: 'enabled',
+      id: 'downstreamEnabled',
+    },
     formGroupName: 'downstream',
   };
 
