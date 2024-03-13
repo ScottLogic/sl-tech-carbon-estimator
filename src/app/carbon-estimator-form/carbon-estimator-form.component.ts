@@ -33,11 +33,11 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public upstreamSection = {
     enabled: {
-      label: 'On-Prem',
+      label: 'Upstream',
       formControlName: 'enabled',
       id: 'upstreamEnabled',
     },
-    formGroupName: 'onPrem',
+    formGroupName: 'upstream',
   };
 
   public onPremSection = {
