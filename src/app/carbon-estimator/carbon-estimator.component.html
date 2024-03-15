@@ -4,9 +4,7 @@
     [formValue]="formValue"
     (formSubmit)="handleFormSubmit($event)"
     class="w-1/2 mr-4"></sl-carbon-estimator-form>
-  <sl-carbon-estimation
-    [carbonEstimation]="carbonEstimation"
-    class="w-1/2 ml-4"
-    [ngClass]="{ hidden: !showEstimation }">
-  </sl-carbon-estimation>
+  @if (showEstimation) {
+    <sl-carbon-estimation [carbonEstimation]="carbonEstimation" class="w-1/2 ml-4"> </sl-carbon-estimation>
+  }
 </div>
