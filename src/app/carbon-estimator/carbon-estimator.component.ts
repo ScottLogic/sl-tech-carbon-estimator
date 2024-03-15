@@ -13,15 +13,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './carbon-estimator.component.html',
 })
 export class CarbonEstimatorComponent {
-  public showEstimation = true;
+  public showEstimation = false;
   public formValue: EstimatorValues | undefined;
-  public carbonEstimation: CarbonEstimation = {
-    version: '0.0.1',
-    upstreamEmissions: 25,
-    cloudEmissions: 25,
-    directEmissions: 25,
-    downstreamEmissions: 25,
-  };
+  public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 
   constructor(private estimationService: CarbonEstimationService) {}
 
