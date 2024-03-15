@@ -21,9 +21,10 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@material-design-icons/font": "^0.14.13",
+    "@ncstate/sat-popover": "^11.0.0",
     "@tgwf/co2": "^0.14.3",
     "@types/tgwf__co2": "^0.14.1",
-    "@ncstate/sat-popover": "^11.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
