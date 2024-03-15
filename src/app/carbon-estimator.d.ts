@@ -9,31 +9,28 @@ export type CarbonEstimation = {
 };
 
 export type EstimatorValues = {
-  upstream?: Upstream;
-  onPrem?: OnPrem;
-  cloud?: Cloud;
-  downstream?: Downstream;
+  upstream: Upstream;
+  onPremise: OnPremise;
+  cloud: Cloud;
+  downstream: Downstream;
 };
 
 export type EstimatorFormValues = {
   upstream: FormGroup<{
-    enabled: FormControl<boolean>;
     headCount: FormControl<number>;
-    desktopToLaptopPercentage: FormControl<number>;
+    desktopPercentage: FormControl<number>;
   }>;
-  onPrem: FormGroup<{
-    enabled: FormControl<boolean>;
-    location: FormControl<WorldLocation>;
+  onPremise: FormGroup<{
+    serverLocation: FormControl<WorldLocation>;
     numberOfServers: FormControl<number>;
   }>;
   cloud: FormGroup<{
-    enabled: FormControl<boolean>;
-    location: FormControl<WorldLocation>;
+    noCloudServices: FormControl<boolean>;
+    cloudLocation: FormControl<WorldLocation>;
     cloudPercentage: FormControl<number>;
     monthlyCloudBill: FormControl<MonthlyCloudBill>;
   }>;
   downstream: FormGroup<{
-    enabled: FormControl<boolean>;
     customerLocation: FormControl<WorldLocation>;
     monthlyActiveUsers: FormControl<number>;
     mobilePercentage: FormControl<number>;
@@ -41,18 +38,17 @@ export type EstimatorFormValues = {
   }>;
 };
 
-type FormSection<T> = T & { enabled: boolean };
-
-export type OnPrem = {
-  location: WorldLocation;
+export type OnPremise = {
+  serverLocation: WorldLocation;
   numberOfServers: number;
 };
 export type Upstream = {
   headCount: number;
-  desktopToLaptopPercentage: number;
+  desktopPercentage: number;
 };
 export type Cloud = {
-  location: WorldLocation;
+  noCloudServices: boolean;
+  cloudLocation: WorldLocation;
   cloudPercentage: number;
   monthlyCloudBill: MonthlyCloudBill;
 };
