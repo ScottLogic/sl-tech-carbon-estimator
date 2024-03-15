@@ -1,20 +1,12 @@
-<div class="flex mx-auto gap-6 max-w-6xl grow">
-  @if (view === 'form' || sideBySide) {
-    <sl-carbon-estimator-form
-      [formValue]="formValue"
-      (formSubmit)="handleFormSubmit($event)"
-      class="grow"></sl-carbon-estimator-form>
-  }
-  @if (view === 'calculation') {
-    <sl-carbon-estimation [carbonEstimation]="carbonEstimation" class="grow">
-      @if (!sideBySide) {
-        <button
-          id="updateForm"
-          class="bg-gray-200 hover:bg-gray-400 font-bold py-2 px-4 rounded"
-          (click)="handleBack()">
-          Update Form
-        </button>
-      }
-    </sl-carbon-estimation>
-  }
+<h1 class="text-3xl mb-12">Carbon Estimator</h1>
+<div class="flex w-full">
+  <sl-carbon-estimator-form
+    [formValue]="formValue"
+    (formSubmit)="handleFormSubmit($event)"
+    class="w-1/2 mr-4"></sl-carbon-estimator-form>
+  <sl-carbon-estimation
+    [carbonEstimation]="carbonEstimation"
+    class="w-1/2 ml-4"
+    [ngClass]="{ hidden: !showEstimation }">
+  </sl-carbon-estimation>
 </div>
