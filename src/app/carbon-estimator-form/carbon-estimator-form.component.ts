@@ -1,7 +1,7 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EstimatorFormValues, EstimatorValues } from '../carbon-estimator';
+import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-estimator';
 import { defaultValues, formContext, helperTextStrings } from './constants';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { NoteComponent } from '../note/note.component';
@@ -53,12 +53,12 @@ export class CarbonEstimatorFormComponent implements OnInit {
         desktopPercentage: [defaultValues.upstream.desktopPercentage],
       }),
       onPremise: this.formBuilder.nonNullable.group({
-        serverLocation: [defaultValues.onPremise.serverLocation],
+        serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
         numberOfServers: [defaultValues.onPremise.numberOfServers],
       }),
       cloud: this.formBuilder.nonNullable.group({
         noCloudServices: [false],
-        cloudLocation: [defaultValues.cloud.cloudLocation],
+        cloudLocation: [defaultValues.cloud.cloudLocation as WorldLocation | 'unknown'],
         cloudPercentage: [defaultValues.cloud.cloudPercentage],
         monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
       }),
