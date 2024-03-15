@@ -21,12 +21,12 @@ export type EstimatorFormValues = {
     desktopPercentage: FormControl<number>;
   }>;
   onPremise: FormGroup<{
-    serverLocation: FormControl<WorldLocation>;
+    serverLocation: FormControl<WorldLocation | 'unknown'>;
     numberOfServers: FormControl<number>;
   }>;
   cloud: FormGroup<{
     noCloudServices: FormControl<boolean>;
-    cloudLocation: FormControl<WorldLocation>;
+    cloudLocation: FormControl<WorldLocation | 'unknown'>;
     cloudPercentage: FormControl<number>;
     monthlyCloudBill: FormControl<MonthlyCloudBill>;
   }>;
