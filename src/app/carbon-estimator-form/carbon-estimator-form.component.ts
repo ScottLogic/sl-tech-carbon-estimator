@@ -34,17 +34,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public mobilePercentage = defaultValues.downstream.mobilePercentage;
   public computerPercentage: number = 100 - this.mobilePercentage;
 
+  public estimateServerCount = false;
   public previewServerCount = 0;
-
-  public get headCount(): number {
-    return this.estimatorForm.get('upstream.headCount')?.value ?? defaultValues.upstream.headCount;
-  }
-
-  public get estimateServerCount(): boolean {
-    return (
-      this.estimatorForm.get('onPremise.estimateServerCount')?.value ?? defaultValues.onPremise.estimateServerCount
-    );
-  }
 
   public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
 
@@ -88,6 +79,17 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.laptopPercentage = 100 - this.desktopPercentage;
     });
 
+    this.estimatorForm.get('onPremise.estimateServerCount')?.valueChanges.subscribe(estimateServerCount => {
+      this.estimateServerCount = estimateServerCount;
+      this.refreshPreviewServerCount();
+      const noServers = this.estimatorForm.get('onPremise.numberOfServers');
+      if (this.estimateServerCount) {
+        noServers?.disable();
+      } else {
+        noServers?.enable();
+      }
+    });
+
     this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(noCloudServices => {
       this.noCloudServices = noCloudServices;
       this.refreshPreviewServerCount();
@@ -124,23 +126,13 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
-    this.previewServerCount = 0;
-    this.estimateServerCountChange();
-  }
-
-  public estimateServerCountChange() {
-    const noServers = this.estimatorForm.get('onPremise.numberOfServers');
-    if (this.estimateServerCount) {
-      this.refreshPreviewServerCount();
-      noServers?.disable();
-    } else {
-      noServers?.enable();
-    }
   }
 
   private refreshPreviewServerCount() {
-    this.previewServerCount = this.estimationService.estimateServerCount(
-      this.estimatorForm.getRawValue() as EstimatorValues
-    );
+    if (this.estimateServerCount) {
+      this.previewServerCount = this.estimationService.estimateServerCount(
+        this.estimatorForm.getRawValue() as EstimatorValues
+      );
+    }
   }
 }
