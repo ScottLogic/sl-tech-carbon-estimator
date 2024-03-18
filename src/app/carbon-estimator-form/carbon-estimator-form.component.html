@@ -42,20 +42,21 @@
       <p>How many on-premise servers do you use?</p>
       <div class="flex gap-2 items-center">
         <input
-          id="directUnknown"
+          id="estimateServerCount"
           type="checkbox"
           class="rounded-sm"
-          [(ngModel)]="directUnknown"
-          (ngModelChange)="directUnknownChange()"
-          [ngModelOptions]="{ standalone: true }" />
-        <label for="directUnknown" class="cursor-pointer select-none">I don't know</label>
+          formControlName="estimateServerCount"
+          (ngModelChange)="estimateServerCountChange()" />
+        <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
       </div>
 
-      @if (directUnknown) {
+      @if (estimateServerCount) {
         <sl-note>
           <p>
-            We'll use an assumption that there are a number of servers totalling 10% of your number of employees (=
-            {{ headCount * 0.1 | number: '1.0-0' }} on-prem servers).
+            We'll make an assumption about the number of servers based on your number of employees and cloud usage (~{{
+              previewServerCount
+            }}
+            on-prem servers).
           </p>
         </sl-note>
       }

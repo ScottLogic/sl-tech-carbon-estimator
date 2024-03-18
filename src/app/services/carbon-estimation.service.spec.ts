@@ -10,6 +10,7 @@ const emptyEstimatorValues: EstimatorValues = {
     desktopPercentage: 0,
   },
   onPremise: {
+    estimateServerCount: false,
     serverLocation: 'global',
     numberOfServers: 0,
   },
@@ -57,56 +58,87 @@ describe('CarbonEstimationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should include version and zeroed values in estimation', () => {
-    const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
-    expect(estimation.version).toBe('0.0.1');
-    expect(estimation.upstreamEmissions).toBe(0);
-    expect(estimation.directEmissions).toBe(0);
-    expect(estimation.cloudEmissions).toBe(0);
-    expect(estimation.downstreamEmissions).toBe(0);
-  });
-
-  it('should calculate estimations as percentages', () => {
-    const estimation = service.calculateCarbonEstimation({
-      ...emptyEstimatorValues,
-      upstream: {
-        headCount: 1,
-        desktopPercentage: 0,
-      },
+  describe('calculateCarbonEstimation', () => {
+    it('should include version and zeroed values in estimation', () => {
+      const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
+      expect(estimation.version).toBe('0.0.1');
+      expect(estimation.upstreamEmissions).toBe(0);
+      expect(estimation.directEmissions).toBe(0);
+      expect(estimation.cloudEmissions).toBe(0);
+      expect(estimation.downstreamEmissions).toBe(0);
     });
-    checkTotalPercentage(estimation);
-  });
 
-  it('should deal with NaN for server count', () => {
-    const estimation = service.calculateCarbonEstimation({
-      ...emptyEstimatorValues,
-      upstream: {
-        headCount: 1,
-        desktopPercentage: 0,
-      },
-      onPremise: {
-        serverLocation: 'global',
-        numberOfServers: NaN,
-      },
+    it('should calculate estimations as percentages', () => {
+      const estimation = service.calculateCarbonEstimation({
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 1,
+          desktopPercentage: 0,
+        },
+      });
+      checkTotalPercentage(estimation);
     });
-    checkTotalPercentage(estimation);
+
+    it('should log intermediate results', () => {
+      service.calculateCarbonEstimation(emptyEstimatorValues);
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Input Values: .*/));
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Device Counts: .*/));
+      expect(loggingService.log).toHaveBeenCalledWith(
+        jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
+      );
+      expect(loggingService.log).toHaveBeenCalledWith(
+        jasmine.stringMatching(/^Estimated Direct Emissions: \d*\.?\d*kg CO2e$/)
+      );
+      expect(loggingService.log).toHaveBeenCalledWith(
+        jasmine.stringMatching(/^Estimated Cloud Emissions: \d*\.?\d*kg CO2e$/)
+      );
+      expect(loggingService.log).toHaveBeenCalledWith(
+        jasmine.stringMatching(/^Estimated Downstream Emissions: \d*\.?\d*kg CO2e$/)
+      );
+    });
   });
 
-  it('should log intermediate results', () => {
-    service.calculateCarbonEstimation(emptyEstimatorValues);
-    expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Input Values: .*/));
-    expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Device Counts: .*/));
-    expect(loggingService.log).toHaveBeenCalledWith(
-      jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
-    );
-    expect(loggingService.log).toHaveBeenCalledWith(
-      jasmine.stringMatching(/^Estimated Direct Emissions: \d*\.?\d*kg CO2e$/)
-    );
-    expect(loggingService.log).toHaveBeenCalledWith(
-      jasmine.stringMatching(/^Estimated Cloud Emissions: \d*\.?\d*kg CO2e$/)
-    );
-    expect(loggingService.log).toHaveBeenCalledWith(
-      jasmine.stringMatching(/^Estimated Downstream Emissions: \d*\.?\d*kg CO2e$/)
-    );
+  describe('estimateServerCount', () => {
+    it('should estimate zero servers for empty input', () => {
+      expect(service.estimateServerCount(emptyEstimatorValues)).toBe(0);
+    });
+
+    it('should estimate number of servers based on percentage of headcount', () => {
+      const zeroCloudInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 100,
+          desktopPercentage: 0,
+        },
+        onPremise: {
+          estimateServerCount: true,
+          serverLocation: 'global',
+          numberOfServers: 0,
+        },
+      };
+      expect(service.estimateServerCount(zeroCloudInput)).toBe(10);
+    });
+
+    it('should reduce number of servers estimate based on cloud usage', () => {
+      const fiftyPercentCloudInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 100,
+          desktopPercentage: 0,
+        },
+        onPremise: {
+          estimateServerCount: true,
+          serverLocation: 'global',
+          numberOfServers: 0,
+        },
+        cloud: {
+          cloudPercentage: 50,
+          noCloudServices: false,
+          cloudLocation: 'global',
+          monthlyCloudBill: '0-200',
+        },
+      };
+      expect(service.estimateServerCount(fiftyPercentCloudInput)).toBe(5);
+    });
   });
 });
