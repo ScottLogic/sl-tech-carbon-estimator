@@ -1,21 +1,19 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'sl-carbon-estimator',
   standalone: true,
-  imports: [CarbonEstimatorFormComponent, CarbonEstimationComponent, FormsModule],
+  imports: [CarbonEstimatorFormComponent, CarbonEstimationComponent, FormsModule, CommonModule],
   templateUrl: './carbon-estimator.component.html',
-  styles: [':host {display: flex}'],
 })
 export class CarbonEstimatorComponent {
-  @Input()
-  public sideBySide: boolean = false;
-  public view: 'form' | 'calculation' = 'form';
+  public showEstimation = false;
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 
@@ -24,10 +22,6 @@ export class CarbonEstimatorComponent {
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
     this.carbonEstimation = this.estimationService.calculateCarbonEstimation(this.formValue);
-    this.view = 'calculation';
-  }
-
-  public handleBack() {
-    this.view = 'form';
+    this.showEstimation = true;
   }
 }

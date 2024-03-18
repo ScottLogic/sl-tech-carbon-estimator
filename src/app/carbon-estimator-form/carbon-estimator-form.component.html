@@ -1,78 +1,122 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="max-w-md mx-auto">
+<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="w-full flex flex-col gap-12">
   <div formGroupName="upstream">
-    <ng-container *ngTemplateOutlet="enabledToggle; context: upstreamSection"></ng-container>
+    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
 
-    @if (upstreamSwitch) {
-      <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <div>
-          <label for="headCount"> Head Count: </label>
-          <input
-            id="headCount"
-            class="form-input mt-1 block w-full rounded"
-            formControlName="headCount"
-            name="headCount"
-            type="number"
-            min="1" />
-        </div>
-
-        <div>
-          <label for="desktopToLaptopPercentage"> Desktop to laptop %: </label>
-          <input
-            id="desktopToLaptopPercentage"
-            class="mt-1 block w-full"
-            formControlName="desktopToLaptopPercentage"
-            name="desktopToLaptopPercentage"
-            type="range"
-            min="0"
-            max="100"
-            step="1" />
-        </div>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="text-sm text-slate-600" for="headCount">How many employees are in the organisation? </label>
+        <input
+          id="headCount"
+          class="border border-slate-400 rounded"
+          formControlName="headCount"
+          name="headCount"
+          type="number"
+          min="1" />
       </div>
-    }
-  </div>
-  <div formGroupName="onPrem">
-    <ng-container *ngTemplateOutlet="enabledToggle; context: onPremSection"></ng-container>
-    @if (onPremSwitch) {
-      <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: onPremSection"></ng-container>
 
-        <div>
-          <label for="numberOfServers">Number of Servers:</label>
-          <input
-            id="numberOfServers"
-            class="form-input mt-1 block w-full rounded"
-            formControlName="numberOfServers"
-            name="numberOfServers"
-            type="number"
-            min="0" />
-        </div>
+      <div class="flex flex-col gap-2">
+        <label for="desktopPercentage" class="text-sm text-slate-600">
+          What percentage of those employee devices are desktops or laptops?
+        </label>
+        <label for="desktopPercentage" class="flex justify-between text-sm text-slate-600"
+          ><span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span></label
+        >
+
+        <input
+          id="desktopPercentage"
+          class="mt-1 block w-full"
+          formControlName="desktopPercentage"
+          name="desktopPercentage"
+          type="range"
+          min="0"
+          max="100"
+          step="5" />
       </div>
-    }
+    </div>
   </div>
+
+  <div formGroupName="onPremise">
+    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
+
+    <div class="flex flex-col gap-4">
+      <p>How many on-premise servers do you use?</p>
+      <div class="flex gap-2 items-center">
+        <input
+          id="directUnknown"
+          type="checkbox"
+          class="rounded-sm"
+          [(ngModel)]="directUnknown"
+          (ngModelChange)="directUnknownChange()"
+          [ngModelOptions]="{ standalone: true }" />
+        <label for="directUnknown" class="cursor-pointer select-none">I don't know</label>
+      </div>
+
+      @if (directUnknown) {
+        <sl-note>
+          <p>
+            We'll use an assumption that there are a number of servers totalling 10% of your number of employees (=
+            {{ headCount * 0.1 | number: '1.0-0' }} on-prem servers).
+          </p>
+        </sl-note>
+      }
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm text-slate-600" for="numberOfServers">Number of Servers:</label>
+        <input
+          id="numberOfServers"
+          class="border border-slate-400 rounded disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+          formControlName="numberOfServers"
+          name="numberOfServers"
+          type="number"
+          min="0" />
+      </div>
+
+      <ng-container *ngTemplateOutlet="locationInput; context: formContext.onPremise"></ng-container>
+    </div>
+  </div>
+
   <div formGroupName="cloud">
-    <ng-container *ngTemplateOutlet="enabledToggle; context: cloudSection"></ng-container>
-    @if (cloudSwitch) {
-      <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: cloudSection"></ng-container>
+    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.cloud"></ng-container>
 
-        <div>
-          <label for="cloudPercentage">Cloud %:</label>
+    <div class="flex flex-col gap-4">
+      <div class="flex gap-2 items-center">
+        <input id="noCloudServices" type="checkbox" formControlName="noCloudServices" class="rounded-sm" />
+        <label for="noCloudServices" class="cursor-pointer select-none">We don't use cloud services</label>
+      </div>
+
+      @if (!noCloudServices) {
+        <div class="flex flex-col gap-2">
+          <label for="cloudPercentage" class="text-sm text-slate-600"
+            >What percentage of your servers are cloud services vs on-premise?</label
+          >
+          <label for="cloudPercentage" class="flex justify-between text-sm text-slate-600">
+            <span>Cloud {{ cloudPercentage }}%</span>
+            <span>On-prem {{ onPremisePercentage }}%</span>
+          </label>
           <input
             id="cloudPercentage"
-            class="mt-1 block w-full"
+            class="disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
             formControlName="cloudPercentage"
             name="cloudPercentage"
             type="range"
             min="0"
             max="100"
-            step="1" />
+            step="5" />
         </div>
 
+        <ng-container *ngTemplateOutlet="locationInput; context: formContext.cloud"></ng-container>
+
         <div>
-          <label for="monthlyCloudBill">Monthly Cloud Bill:</label>
+          <p>
+            We have derived a rough figure to give a ratio from US dollars spent to kWh of energy used in data centres.
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="monthlyCloudBill" class="text-sm text-slate-600">What is your monthly cloud bill?</label>
           <select
             id="monthlyCloudBill"
-            class="form-select block w-full mt-1 rounded"
+            class="border border-slate-400 rounded disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
             required>
@@ -84,127 +128,137 @@
             <option value="10000-50000">$10000-$50000</option>
           </select>
         </div>
-      </div>
-    }
+      }
+    </div>
   </div>
+
   <div formGroupName="downstream">
-    <ng-container *ngTemplateOutlet="enabledToggle; context: downstreamSection"></ng-container>
-    @if (downstreamSwitch) {
-      <div class="form-group border-2 border-slate-500 p-2 pb-3 rounded flex flex-col gap-2">
-        <ng-container *ngTemplateOutlet="locationInput; context: downstreamSection"></ng-container>
+    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
+    <div class="flex flex-col gap-4">
+      <!-- <label for="customerLocation" class="text-sm text-slate-600">Where are your users primarily located?</label>
+      <select
+        class="border border-slate-400 rounded"
+        name="customerLocation"
+        formControlName="customerLocation"
+        id="customerLocation">
+        <option value="global" selected>Global</option>
+        <option value="uk">in the UK</option>
+        <option value="eu">in the EU</option>
+        <option value="us">in the US</option>
+      </select> -->
 
-        <div>
-          <label for="number-of-customers">Monthly Active Users:</label>
-          <input
-            class="form-input mt-1 block w-full rounded"
-            formControlName="monthlyActiveUsers"
-            name="monthlyActiveUsers"
-            type="number"
-            id="number-of-customers"
-            min="0" />
-        </div>
+      <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
-        <div>
-          <label for="mobilePercentage">Mobile %:</label>
-          <input
-            id="mobilePercentage"
-            class="mt-1 block w-full"
-            formControlName="mobilePercentage"
-            name="mobilePercentage"
-            type="range"
-            min="0"
-            max="100"
-            step="1" />
-        </div>
-
-        <div>
-          <div class="flex">
-            <label for="purposeOfSite">Purpose of Site: </label>
-            <ng-container
-              *ngTemplateOutlet="helperTextPopup; context: { text: helperText.purposeOfSite }"></ng-container>
-          </div>
-          <select
-            class="form-select block w-full mt-1 rounded"
-            formControlName="purposeOfSite"
-            name="purposeOfSite"
-            id="purposeOfSite">
-            <option value="average" selected>Average</option>
-            <option value="streaming">Streaming</option>
-            <option value="information">Information</option>
-            <option value="eCommerce">E-Commerce</option>
-            <option value="socialMedia">Social Media</option>
-          </select>
-        </div>
+      <div class="flex flex-col gap-2">
+        <label for="monthlyActiveUsers" class="text-sm text-slate-600">
+          How many monthly active users does your website have?
+        </label>
+        <input
+          class="border border-slate-400 rounded"
+          formControlName="monthlyActiveUsers"
+          name="monthlyActiveUsers"
+          type="number"
+          id="monthlyActiveUsers"
+          min="0" />
       </div>
-    }
+
+      <div class="flex flex-col gap-2">
+        <label for="mobilePercentage" class="text-sm text-slate-600">
+          What percentage of your users are mobile or personal computer users?
+        </label>
+        <label for="mobilePercentage" class="flex justify-between text-sm text-slate-600">
+          <span>Mobile {{ mobilePercentage }}%</span>
+          <span>Computer {{ computerPercentage }}%</span>
+        </label>
+        <input
+          id="mobilePercentage"
+          formControlName="mobilePercentage"
+          name="mobilePercentage"
+          type="range"
+          min="0"
+          max="100"
+          step="5" />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="flex">
+          <label for="purposeOfSite" class="text-sm text-slate-600">What's the purpose of your website?</label>
+          <ng-container *ngTemplateOutlet="helperTextPopup; context: { text: helperText.purposeOfSite }"></ng-container>
+        </div>
+        <select
+          class="border border-slate-400 rounded"
+          formControlName="purposeOfSite"
+          name="purposeOfSite"
+          id="purposeOfSite">
+          <option value="average" selected>Average</option>
+          <option value="streaming">Streaming</option>
+          <option value="information">Information</option>
+          <option value="eCommerce">E-Commerce</option>
+          <option value="socialMedia">Social Media</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <div class="flex items-center gap-6 py-2">
+
+  <div class="flex gap-4 flex-row-reverse">
     <button
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
-    <button class="bg-gray-200 hover:bg-gray-400 font-bold py-2 px-4 rounded" type="button" (click)="resetForm()">
-      Reset
-    </button>
+    <button class="px-3 py-2 bg-slate-200 text-slate-800 rounded" type="button" (click)="resetForm()">Reset</button>
   </div>
 
   <ng-template
     #locationInput
-    let-labelString="location.label"
+    let-label="location.label"
+    let-hasUnknown="location.hasUnknown"
     let-formControlName="location.formControlName"
-    let-controlId="location.id"
     let-formGroupName="formGroupName">
-    <div formGroupName="{{ formGroupName }}">
-      <label for="{{ controlId }}">{{ labelString }}: </label>
+    <div formGroupName="{{ formGroupName }}" class="flex flex-col gap-2">
+      <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
       <select
-        class="form-select block w-full mt-1 rounded"
+        class="border border-slate-400 rounded"
         name="{{ formControlName }}"
         formControlName="{{ formControlName }}"
-        id="{{ controlId }}">
-        <option value="global" selected>Global</option>
-        <option value="uk">UK</option>
-        <option value="eu">EU</option>
-        <option value="us">US</option>
+        id="{{ formControlName }}">
+        <option value="global" selected>Globally</option>
+        <option value="uk">in the UK</option>
+        <option value="eu">in the EU</option>
+        <option value="us">in the US</option>
+        @if (hasUnknown) {
+          <option value="unknown">I don't know</option>
+        }
       </select>
+      @if (estimatorForm.get(formGroupName + '.' + formControlName)?.value === 'unknown') {
+        <sl-note>
+          <p>We'll use the assumption that any servers you use are located globally.</p>
+        </sl-note>
+      }
     </div>
   </ng-template>
 
-  <ng-template
-    #enabledToggle
-    let-labelString="enabled.label"
-    let-formControlName="enabled.formControlName"
-    let-controlId="enabled.id"
-    let-formGroupName="formGroupName">
-    <label for="{{ controlId }}" formGroupName="{{ formGroupName }}" class="flex items-center pt-2 pb-1 cursor-pointer">
-      <h2 class="basis-40 text-2xl font-bold">{{ labelString }}</h2>
-      <input
-        type="checkbox"
-        class="sr-only peer"
-        name="{{ controlId }}"
-        formControlName="{{ formControlName }}"
-        id="{{ controlId }}" />
-      <div
-        class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-    </label>
+  <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
+    <div class="flex justify-between gap-2 flex-col mb-4">
+      <h2 class="text-xl">{{ heading }}</h2>
+      <!-- <span class="material-symbols-outlined">{{ expandUpstream ? 'expand_less' : 'expand_more' }}</span> -->
+      <div>
+        <p>{{ sectionDetails }}</p>
+      </div>
+    </div>
   </ng-template>
 </form>
 
 <ng-template #helperTextPopup let-helperText="text">
   <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-      <path
-        fill-rule="evenodd"
-        d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
-        clip-rule="evenodd" />
-    </svg>
+    <span class="material-icons-outlined text-sm text-slate-600">help_outline</span>
   </button>
 
   <sat-popover #helperInfo verticalAlign="above" hasBackdrop>
     <div
-      class="info-wrapper max-w-64 bg-gray-200 borader-[#333] p-4 rounded before:w-4 before:h-4 before:rotate-45 before:bg-gray-200 before:absolute before:z-[-1] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
-      <p>
+      class="max-w-64 bg-white border border-slate-600 rounded p-2 before:w-4 before:h-4 before:rotate-45 before:bg-slate-600 before:absolute before:z-[-10] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
+      <p class="text-sm text-slate-600">
         {{ helperText }}
       </p>
     </div>

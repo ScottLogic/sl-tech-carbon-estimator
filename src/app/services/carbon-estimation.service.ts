@@ -14,12 +14,12 @@ export class CarbonEstimationService {
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     // TODO - these should be required params
-    const desktopPercent = formValue.upstream?.desktopToLaptopPercentage ?? 0;
+    const desktopPercent = formValue.upstream?.desktopPercentage ?? 0;
     const headCount = formValue.upstream?.headCount ?? 0;
     const cloudPercentage = formValue.cloud?.cloudPercentage ?? 0;
     const monthlyCloudBill = formValue.cloud?.monthlyCloudBill ?? '0-200';
-    const onPremLocation = formValue.onPrem?.location ?? 'global';
-    const cloudLocation = formValue.cloud?.location ?? 'global';
+    const onPremLocation = formValue.onPremise?.serverLocation ?? 'global';
+    const cloudLocation = formValue.cloud?.cloudLocation ?? 'global';
 
     const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
     this.loggingService.log(`Estimated Device Counts:`, deviceCounts);
@@ -53,7 +53,7 @@ function estimateDeviceCounts(
 
   const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
   const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
-  const serverCount = estimateServerCount(cloudPercentage, headCount, formValue.onPrem?.numberOfServers);
+  const serverCount = estimateServerCount(cloudPercentage, headCount, formValue.onPremise?.numberOfServers);
   const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
   return { desktopCount, laptopCount, serverCount, networkCount };
 }

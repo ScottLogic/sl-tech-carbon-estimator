@@ -1,22 +1,15 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  Cloud,
-  Downstream,
-  EstimatorFormValues,
-  EstimatorValues,
-  FormSection,
-  OnPrem,
-  Upstream,
-} from '../carbon-estimator';
-import { defaultValues } from './constants';
+import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-estimator';
+import { defaultValues, formContext, helperTextStrings } from './constants';
 import { SatPopoverModule } from '@ncstate/sat-popover';
+import { NoteComponent } from '../note/note.component';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule, SatPopoverModule],
+  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule, SatPopoverModule, NoteComponent],
   templateUrl: './carbon-estimator-form.component.html',
   styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
 })
@@ -26,67 +19,27 @@ export class CarbonEstimatorFormComponent implements OnInit {
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
-  public upstreamSwitch: boolean = true;
-  public onPremSwitch: boolean = true;
-  public cloudSwitch: boolean = true;
-  public downstreamSwitch: boolean = true;
 
-  public upstreamSection = {
-    enabled: {
-      label: 'Upstream',
-      formControlName: 'enabled',
-      id: 'upstreamEnabled',
-    },
-    formGroupName: 'upstream',
-  };
+  public formContext = formContext;
 
-  public onPremSection = {
-    location: {
-      label: 'On-Prem Location',
-      formControlName: 'location',
-      id: 'onPremLocation',
-    },
-    enabled: {
-      label: 'On-Prem',
-      formControlName: 'enabled',
-      id: 'onPremEnabled',
-    },
-    formGroupName: 'onPrem',
-  };
+  public helperText = helperTextStrings;
 
-  public cloudSection = {
-    location: {
-      label: 'Cloud Location',
-      formControlName: 'location',
-      id: 'cloudLocation',
-    },
-    enabled: {
-      label: 'Cloud',
-      formControlName: 'enabled',
-      id: 'cloudEnabled',
-    },
-    formGroupName: 'cloud',
-  };
+  public desktopPercentage = defaultValues.upstream.desktopPercentage;
+  public laptopPercentage: number = 100 - this.desktopPercentage;
 
-  public downstreamSection = {
-    location: {
-      label: 'Customer Location',
-      formControlName: 'customerLocation',
-      id: 'customerLocation',
-    },
-    enabled: {
-      label: 'Downstream',
-      formControlName: 'enabled',
-      id: 'downstreamEnabled',
-    },
-    formGroupName: 'downstream',
-  };
+  public cloudPercentage = defaultValues.cloud.cloudPercentage;
+  public onPremisePercentage: number = 100 - this.cloudPercentage;
 
-  // TODO - update text was auto generated
-  public helperText = {
-    purposeOfSite:
-      'Purpose of the site is used to determine the amount of mobile traffic. If the site is used for internal purposes, the mobile traffic will be lower. If the site is used for external purposes, the mobile traffic will be higher.',
-  };
+  public mobilePercentage = defaultValues.downstream.mobilePercentage;
+  public computerPercentage: number = 100 - this.mobilePercentage;
+
+  public directUnknown = false;
+
+  public get headCount(): number {
+    return this.estimatorForm.get('upstream.headCount')?.value ?? defaultValues.upstream.headCount;
+  }
+
+  public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -96,23 +49,20 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public ngOnInit() {
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
-        enabled: [true],
         headCount: [defaultValues.upstream.headCount, Validators.required],
-        desktopToLaptopPercentage: [defaultValues.upstream.desktopToLaptopPercentage],
+        desktopPercentage: [defaultValues.upstream.desktopPercentage],
       }),
-      onPrem: this.formBuilder.nonNullable.group({
-        enabled: [true],
-        location: [defaultValues.onPrem.location],
-        numberOfServers: [defaultValues.onPrem.numberOfServers],
+      onPremise: this.formBuilder.nonNullable.group({
+        serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
+        numberOfServers: [defaultValues.onPremise.numberOfServers],
       }),
       cloud: this.formBuilder.nonNullable.group({
-        enabled: [true],
-        location: [defaultValues.cloud.location],
+        noCloudServices: [false],
+        cloudLocation: [defaultValues.cloud.cloudLocation as WorldLocation | 'unknown'],
         cloudPercentage: [defaultValues.cloud.cloudPercentage],
         monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
       }),
       downstream: this.formBuilder.nonNullable.group({
-        enabled: [true],
         customerLocation: [defaultValues.downstream.customerLocation],
         monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers],
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
@@ -120,67 +70,56 @@ export class CarbonEstimatorFormComponent implements OnInit {
       }),
     });
 
-    if (this.formValue() !== undefined) {
-      const formValue = this.formValue();
-      this.estimatorForm.setValue({
-        upstream: this.setFormSection(defaultValues.upstream, formValue?.upstream),
-        onPrem: this.setFormSection(defaultValues.onPrem, formValue?.onPrem),
-        cloud: this.setFormSection(defaultValues.cloud, formValue?.cloud),
-        downstream: this.setFormSection(defaultValues.downstream, formValue?.downstream),
-      });
+    this.estimatorForm.get('upstream.desktopPercentage')?.valueChanges.subscribe(desktopPercentage => {
+      this.desktopPercentage = desktopPercentage;
+      this.laptopPercentage = 100 - this.desktopPercentage;
+    });
+
+    this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(noCloudServices => {
+      this.noCloudServices = noCloudServices;
+      this.changeDetector.detectChanges();
+    });
+
+    this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
+      this.cloudPercentage = cloudPercentage;
+      this.onPremisePercentage = 100 - this.cloudPercentage;
+    });
+
+    this.estimatorForm.get('downstream.mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
+      this.mobilePercentage = mobilePercentage;
+      this.computerPercentage = 100 - this.mobilePercentage;
+    });
+
+    const formValue = this.formValue();
+    if (formValue !== undefined) {
+      this.estimatorForm.setValue(formValue);
     }
-
-    this.estimatorForm.get('upstream.enabled')?.valueChanges.subscribe(value => {
-      this.upstreamSwitch = value;
-      const headCount = this.estimatorForm.get('upstream.headCount');
-      if (headCount) {
-        headCount.setValidators(this.upstreamSwitch ? [Validators.required] : null);
-        headCount.updateValueAndValidity();
-      }
-      this.changeDetector.detectChanges();
-    });
-
-    this.estimatorForm.get('onPrem.enabled')?.valueChanges.subscribe(value => {
-      this.onPremSwitch = value;
-      this.changeDetector.detectChanges();
-    });
-
-    this.estimatorForm.get('cloud.enabled')?.valueChanges.subscribe(value => {
-      this.cloudSwitch = value;
-      this.changeDetector.detectChanges();
-    });
-
-    this.estimatorForm.get('downstream.enabled')?.valueChanges.subscribe(value => {
-      this.downstreamSwitch = value;
-      this.changeDetector.detectChanges();
-    });
   }
 
   public handleSubmit() {
     const formValue = this.estimatorForm.getRawValue();
-
-    this.formSubmit.emit({
-      upstream: this.setSection<Upstream>(formValue.upstream),
-      onPrem: this.setSection<OnPrem>(formValue.onPrem),
-      cloud: this.setSection<Cloud>(formValue.cloud),
-      downstream: this.setSection<Downstream>(formValue.downstream),
-    });
-
-    this.formValue;
+    if (formValue.onPremise.serverLocation === 'unknown') {
+      formValue.onPremise.serverLocation = 'global';
+    }
+    if (formValue.cloud.cloudLocation === 'unknown') {
+      formValue.cloud.cloudLocation = 'global';
+    }
+    this.formSubmit.emit(formValue as EstimatorValues);
   }
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.directUnknown = false;
+    this.directUnknownChange();
   }
 
-  private setSection<T>({ enabled, ...section }: FormSection<T>): T | undefined {
-    return enabled ? (section as T) : undefined;
-  }
-
-  private setFormSection<T>(defaultValue: T, section?: T): FormSection<T> {
-    return {
-      ...(section ?? defaultValue),
-      enabled: true,
-    };
+  public directUnknownChange() {
+    const noServers = this.estimatorForm.get('onPremise.numberOfServers');
+    if (this.directUnknown) {
+      noServers?.setValue(this.headCount * 0.1);
+      noServers?.disable();
+    } else {
+      noServers?.enable();
+    }
   }
 }

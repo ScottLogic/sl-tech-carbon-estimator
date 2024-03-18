@@ -7,23 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
-  <body class="flex p-4">
-    <div>
-      <span>Estimator Inputs:</span>
-      <label class="flex gap-2">
-        <h2>Side by side</h2>
-        <input type="checkbox" class="sr-only peer" onclick="sideBySideChecked()" id="sideBySideCheckbox" checked />
-        <div
-          class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-      </label>
-    </div>
-    <sl-carbon-estimator id="slCarbonEstimator" side-by-side="true" class="grow"></sl-carbon-estimator>
+  <body>
+    <sl-carbon-estimator id="slCarbonEstimator"></sl-carbon-estimator>
   </body>
-  <script>
-    function sideBySideChecked() {
-      var checkBox = document.getElementById('sideBySideCheckbox');
-      var slCarbonEstimator = document.getElementById('slCarbonEstimator');
-      slCarbonEstimator.sideBySide = checkBox.checked;
-    }
-  </script>
 </html>

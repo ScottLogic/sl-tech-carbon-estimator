@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation } from '../carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 import { LoggingService } from './logging.service';
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
@@ -35,7 +35,7 @@ describe('CarbonEstimationService', () => {
   });
 
   it('should include version and zeroed values in estimation', () => {
-    const estimation = service.calculateCarbonEstimation({});
+    const estimation = service.calculateCarbonEstimation({} as EstimatorValues);
     expect(estimation.version).toBe('0.0.1');
     expect(estimation.upstreamEmissions).toBe(0);
     expect(estimation.directEmissions).toBe(0);
@@ -47,9 +47,9 @@ describe('CarbonEstimationService', () => {
     const estimation = service.calculateCarbonEstimation({
       upstream: {
         headCount: 1,
-        desktopToLaptopPercentage: 0,
+        desktopPercentage: 0,
       },
-    });
+    } as EstimatorValues);
     checkTotalPercentage(estimation);
   });
 
@@ -57,18 +57,18 @@ describe('CarbonEstimationService', () => {
     const estimation = service.calculateCarbonEstimation({
       upstream: {
         headCount: 1,
-        desktopToLaptopPercentage: 0,
+        desktopPercentage: 0,
       },
-      onPrem: {
-        location: 'global',
+      onPremise: {
+        serverLocation: 'global',
         numberOfServers: NaN,
       },
-    });
+    } as EstimatorValues);
     checkTotalPercentage(estimation);
   });
 
   it('should log intermediate results', () => {
-    service.calculateCarbonEstimation({});
+    service.calculateCarbonEstimation({} as EstimatorValues);
     expect(loggingService.log).toHaveBeenCalledWith('Estimated Device Counts:', jasmine.any(Object));
     expect(loggingService.log).toHaveBeenCalledWith(
       jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
