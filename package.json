@@ -24,7 +24,6 @@
     "@material-design-icons/font": "^0.14.13",
     "@ncstate/sat-popover": "^11.0.0",
     "@tgwf/co2": "^0.14.3",
-    "@types/tgwf__co2": "^0.14.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -40,6 +39,7 @@
     "@angular/compiler-cli": "^17.2.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/jasmine": "~5.1.0",
+    "@types/tgwf__co2": "^0.14.2",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
     "@web/test-runner": "^0.18.0",
