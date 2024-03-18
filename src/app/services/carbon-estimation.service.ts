@@ -22,11 +22,7 @@ export class CarbonEstimationService {
     this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
     const directEmissions = estimateDirectEmissions(deviceCounts, formValue.onPremise.serverLocation);
     this.loggingService.log(`Estimated Direct Emissions: ${directEmissions}kg CO2e`);
-    const cloudEmissions = estimateCloudEmissions(
-      formValue.cloud.cloudPercentage,
-      formValue.cloud.monthlyCloudBill,
-      formValue.cloud.cloudLocation
-    );
+    const cloudEmissions = estimateCloudEmissions(formValue.cloud);
     this.loggingService.log(`Estimated Cloud Emissions: ${cloudEmissions}kg CO2e`);
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
     this.loggingService.log(`Estimated Downstream Emissions: ${downstreamEmissions}kg CO2e`);
