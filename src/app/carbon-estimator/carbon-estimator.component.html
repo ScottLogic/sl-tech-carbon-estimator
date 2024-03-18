@@ -1,10 +1,12 @@
-<h1 class="text-3xl mb-12">Carbon Estimator</h1>
-<div class="flex w-full">
-  <sl-carbon-estimator-form
-    [formValue]="formValue"
-    (formSubmit)="handleFormSubmit($event)"
-    class="w-1/2 mr-4"></sl-carbon-estimator-form>
-  @if (showEstimation) {
-    <sl-carbon-estimation [carbonEstimation]="carbonEstimation" class="w-1/2 ml-4"> </sl-carbon-estimation>
-  }
+<div class="p-4">
+  <h1 class="text-3xl mb-12">Carbon Estimator</h1>
+  <div class="flex w-full">
+    <sl-carbon-estimator-form
+      [formValue]="formValue"
+      (formSubmit)="handleFormSubmit($event)"
+      class="w-1/2 pr-4"></sl-carbon-estimator-form>
+    @if (showEstimation) {
+      <sl-carbon-estimation [carbonEstimation]="carbonEstimation" class="w-1/2 pl-4"> </sl-carbon-estimation>
+    }
+  </div>
 </div>
