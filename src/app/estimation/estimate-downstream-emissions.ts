@@ -9,14 +9,6 @@ interface SiteInformation {
   averageMonthlyUserData: Gb;
 }
 
-interface CO2EstimateComponents {
-  consumerDeviceCO2: number;
-  networkCO2: number;
-  dataCenterCO2: number;
-  productionCO2: number;
-  total: number;
-}
-
 const BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
 
 // Needs source from our own research
@@ -92,6 +84,8 @@ function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer
     },
   };
   const result = co2Inst.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
-  // Force a cast to type we know is returned when segment option is used
-  return (result.co2 as unknown as CO2EstimateComponents).networkCO2 / 1000;
+  if (typeof result.co2 !== 'number') {
+    return result.co2.networkCO2 / 1000;
+  }
+  throw new Error('perByteTrace should return CO2EstimateComponents for segment results');
 }
