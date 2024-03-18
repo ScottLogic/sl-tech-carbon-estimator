@@ -14,22 +14,19 @@ export class CarbonEstimationService {
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${JSON.stringify(formValue, undefined, 2)}`);
-    // TODO - these should be required params
-    const desktopPercent = formValue.upstream?.desktopPercentage ?? 0;
-    const headCount = formValue.upstream?.headCount ?? 0;
-    const cloudPercentage = formValue.cloud?.cloudPercentage ?? 0;
-    const monthlyCloudBill = formValue.cloud?.monthlyCloudBill ?? '0-200';
-    const onPremLocation = formValue.onPremise?.serverLocation ?? 'global';
-    const cloudLocation = formValue.cloud?.cloudLocation ?? 'global';
 
-    const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
+    const deviceCounts = estimateDeviceCounts(formValue);
     this.loggingService.log(`Estimated Device Counts: ${JSON.stringify(deviceCounts, undefined, 2)}`);
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
     this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
-    const directEmissions = estimateDirectEmissions(deviceCounts, onPremLocation);
+    const directEmissions = estimateDirectEmissions(deviceCounts, formValue.onPremise.serverLocation);
     this.loggingService.log(`Estimated Direct Emissions: ${directEmissions}kg CO2e`);
-    const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
+    const cloudEmissions = estimateCloudEmissions(
+      formValue.cloud.cloudPercentage,
+      formValue.cloud.monthlyCloudBill,
+      formValue.cloud.cloudLocation
+    );
     this.loggingService.log(`Estimated Cloud Emissions: ${cloudEmissions}kg CO2e`);
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
     this.loggingService.log(`Estimated Downstream Emissions: ${downstreamEmissions}kg CO2e`);
@@ -44,12 +41,10 @@ export class CarbonEstimationService {
   }
 }
 
-function estimateDeviceCounts(
-  desktopPercent: number,
-  headCount: number,
-  cloudPercentage: number,
-  formValue: EstimatorValues
-): DeviceCounts {
+function estimateDeviceCounts(formValue: EstimatorValues): DeviceCounts {
+  const desktopPercent = formValue.upstream.desktopPercentage;
+  const headCount = formValue.upstream.headCount;
+  const cloudPercentage = formValue.cloud.cloudPercentage;
   const laptopPercent = 100 - desktopPercent;
 
   const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);

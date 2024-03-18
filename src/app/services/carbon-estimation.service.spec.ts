@@ -4,6 +4,29 @@ import { CarbonEstimationService } from './carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 import { LoggingService } from './logging.service';
 
+const emptyEstimatorValues: EstimatorValues = {
+  upstream: {
+    headCount: 0,
+    desktopPercentage: 0,
+  },
+  onPremise: {
+    serverLocation: 'global',
+    numberOfServers: 0,
+  },
+  cloud: {
+    noCloudServices: true,
+    cloudLocation: 'global',
+    cloudPercentage: 0,
+    monthlyCloudBill: '0-200',
+  },
+  downstream: {
+    customerLocation: 'global',
+    monthlyActiveUsers: 0,
+    mobilePercentage: 0,
+    purposeOfSite: 'streaming',
+  },
+};
+
 function checkTotalPercentage(estimation: CarbonEstimation) {
   expect(estimation.upstreamEmissions).toBeGreaterThanOrEqual(0);
   expect(estimation.directEmissions).toBeGreaterThanOrEqual(0);
@@ -35,7 +58,7 @@ describe('CarbonEstimationService', () => {
   });
 
   it('should include version and zeroed values in estimation', () => {
-    const estimation = service.calculateCarbonEstimation({} as EstimatorValues);
+    const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
     expect(estimation.version).toBe('0.0.1');
     expect(estimation.upstreamEmissions).toBe(0);
     expect(estimation.directEmissions).toBe(0);
@@ -45,16 +68,18 @@ describe('CarbonEstimationService', () => {
 
   it('should calculate estimations as percentages', () => {
     const estimation = service.calculateCarbonEstimation({
+      ...emptyEstimatorValues,
       upstream: {
         headCount: 1,
         desktopPercentage: 0,
       },
-    } as EstimatorValues);
+    });
     checkTotalPercentage(estimation);
   });
 
   it('should deal with NaN for server count', () => {
     const estimation = service.calculateCarbonEstimation({
+      ...emptyEstimatorValues,
       upstream: {
         headCount: 1,
         desktopPercentage: 0,
@@ -63,12 +88,12 @@ describe('CarbonEstimationService', () => {
         serverLocation: 'global',
         numberOfServers: NaN,
       },
-    } as EstimatorValues);
+    });
     checkTotalPercentage(estimation);
   });
 
   it('should log intermediate results', () => {
-    service.calculateCarbonEstimation({} as EstimatorValues);
+    service.calculateCarbonEstimation(emptyEstimatorValues);
     expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Input Values: .*/));
     expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Device Counts: .*/));
     expect(loggingService.log).toHaveBeenCalledWith(
