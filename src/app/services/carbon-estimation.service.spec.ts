@@ -69,7 +69,8 @@ describe('CarbonEstimationService', () => {
 
   it('should log intermediate results', () => {
     service.calculateCarbonEstimation({} as EstimatorValues);
-    expect(loggingService.log).toHaveBeenCalledWith('Estimated Device Counts:', jasmine.any(Object));
+    expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Input Values: .*/));
+    expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Device Counts: .*/));
     expect(loggingService.log).toHaveBeenCalledWith(
       jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
     );

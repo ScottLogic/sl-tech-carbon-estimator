@@ -13,6 +13,7 @@ export class CarbonEstimationService {
   constructor(private loggingService: LoggingService) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
+    this.loggingService.log(`Input Values: ${JSON.stringify(formValue, undefined, 2)}`);
     // TODO - these should be required params
     const desktopPercent = formValue.upstream?.desktopPercentage ?? 0;
     const headCount = formValue.upstream?.headCount ?? 0;
@@ -22,7 +23,7 @@ export class CarbonEstimationService {
     const cloudLocation = formValue.cloud?.cloudLocation ?? 'global';
 
     const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
-    this.loggingService.log(`Estimated Device Counts:`, deviceCounts);
+    this.loggingService.log(`Estimated Device Counts: ${JSON.stringify(deviceCounts, undefined, 2)}`);
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
     this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
