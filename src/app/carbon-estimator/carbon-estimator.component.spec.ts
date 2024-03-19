@@ -12,10 +12,26 @@ describe('CarbonEstimatorComponent', () => {
     estimationServiceStub = {
       calculateCarbonEstimation: () => ({
         version: '0.0.0',
-        upstreamEmissions: 25,
-        cloudEmissions: 25,
-        directEmissions: 25,
-        downstreamEmissions: 25,
+        upstreamEmissions: {
+          software: 0,
+          user: 10,
+          network: 10,
+          server: 5,
+        },
+        indirectEmissions: {
+          saas: 0,
+          managed: 0,
+          cloud: 25,
+        },
+        directEmissions: {
+          user: 10,
+          network: 10,
+          server: 5,
+        },
+        downstreamEmissions: {
+          endUser: 15,
+          network: 10,
+        },
       }),
     };
 

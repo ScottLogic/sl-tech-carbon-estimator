@@ -2,10 +2,31 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 export type CarbonEstimation = {
   version: string;
-  upstreamEmissions: number;
-  cloudEmissions: number;
-  directEmissions: number;
-  downstreamEmissions: number;
+  upstreamEmissions: UpstreamEstimation;
+  indirectEmissions: IndirectEstimation;
+  directEmissions: DirectEstimation;
+  downstreamEmissions: DownstreamEstimation;
+};
+
+export type UpstreamEstimation = {
+  software: number;
+  user: number;
+  network: number;
+  server: number;
+};
+export type IndirectEstimation = {
+  cloud: number;
+  saas: number;
+  managed: number;
+};
+export type DirectEstimation = {
+  user: number;
+  network: number;
+  server: number;
+};
+export type DownstreamEstimation = {
+  endUser: number;
+  network: number;
 };
 
 export type EstimatorValues = {

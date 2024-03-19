@@ -1,6 +1,6 @@
-import { PurposeOfSite, Downstream } from '../carbon-estimator';
+import { PurposeOfSite, Downstream, DownstreamEstimation } from '../carbon-estimator';
 import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
-import { Gb, Hour, KgCo2e, KilowattHour } from '../types/units';
+import { Gb, Hour, KilowattHour } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { co2 } from '@tgwf/co2';
 
@@ -35,9 +35,9 @@ const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
   },
 };
 
-export function estimateDownstreamEmissions(downstream?: Downstream): KgCo2e {
-  if (!downstream || downstream.monthlyActiveUsers === 0) {
-    return 0;
+export function estimateDownstreamEmissions(downstream: Downstream): DownstreamEstimation {
+  if (downstream.monthlyActiveUsers === 0) {
+    return { endUser: 0, network: 0 };
   }
 
   const downstreamDataTransfer = estimateDownstreamDataTransfer(
@@ -46,7 +46,7 @@ export function estimateDownstreamEmissions(downstream?: Downstream): KgCo2e {
   );
   const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer);
   const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
-  return endUserEmissions + networkEmissions;
+  return { endUser: endUserEmissions, network: networkEmissions };
 }
 
 function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {

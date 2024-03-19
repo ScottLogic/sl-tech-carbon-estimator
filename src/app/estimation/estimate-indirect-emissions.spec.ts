@@ -1,5 +1,5 @@
 import { Cloud } from '../carbon-estimator';
-import { estimateCloudEmissions } from './estimate-cloud-emissions';
+import { estimateIndirectEmissions } from './estimate-indirect-emissions';
 
 it('should return no emissions if cloud not used', () => {
   const input: Cloud = {
@@ -8,7 +8,12 @@ it('should return no emissions if cloud not used', () => {
     monthlyCloudBill: '5000-10000',
     cloudLocation: 'global',
   };
-  expect(estimateCloudEmissions(input)).toBe(0);
+  const result = estimateIndirectEmissions(input);
+  expect(result).toEqual({
+    cloud: 0,
+    saas: 0,
+    managed: 0,
+  });
 });
 
 it('should return emissions based on ratio of costs', () => {
@@ -18,5 +23,8 @@ it('should return emissions based on ratio of costs', () => {
     monthlyCloudBill: '0-200',
     cloudLocation: 'global',
   };
-  expect(estimateCloudEmissions(input)).toBeCloseTo(11.367);
+  const result = estimateIndirectEmissions(input);
+  expect(result.cloud).toBeCloseTo(11.367);
+  expect(result.saas).toBe(0);
+  expect(result.managed).toBe(0);
 });

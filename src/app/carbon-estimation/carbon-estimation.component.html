@@ -7,17 +7,17 @@
         x="0"
         [attr.y]="upstreamEmissionsHeight"
         width="100"
-        [attr.height]="cloudEmissionsHeight"
+        [attr.height]="indirectEmissionsHeight"
         style="fill: rgb(203 55 117)" />
       <rect
         x="0"
-        [attr.y]="upstreamEmissionsHeight + cloudEmissionsHeight"
+        [attr.y]="upstreamEmissionsHeight + indirectEmissionsHeight"
         width="100"
         [attr.height]="directEmissionsHeight"
         style="fill: rgb(145 35 76)" />
       <rect
         x="0"
-        [attr.y]="upstreamEmissionsHeight + cloudEmissionsHeight + directEmissionsHeight"
+        [attr.y]="upstreamEmissionsHeight + indirectEmissionsHeight + directEmissionsHeight"
         width="100"
         [attr.height]="downstreamEmissionsHeight"
         style="fill: rgb(75 126 86)" />
@@ -25,19 +25,19 @@
     <div class="grid grid-cols-[1fr_6rem] grid-flow-row gap-4">
       @if (carbonEstimation().upstreamEmissions) {
         <span class="text-lg text-[#40798C]">Upstream Emissions:</span>
-        <span class="text-lg">{{ carbonEstimation().upstreamEmissions | number: '1.0-2' }}%</span>
+        <span class="text-lg">{{ upstreamEmissionsPercent | number: '1.0-0' }}%</span>
       }
-      @if (carbonEstimation().cloudEmissions) {
-        <span class="text-lg text-[#CB3775]">Cloud Emissions:</span>
-        <span class="text-lg">{{ carbonEstimation().cloudEmissions | number: '1.0-2' }}%</span>
+      @if (carbonEstimation().indirectEmissions) {
+        <span class="text-lg text-[#CB3775]">Indirect Emissions:</span>
+        <span class="text-lg">{{ indirectEmissionsPercent | number: '1.0-0' }}%</span>
       }
       @if (carbonEstimation().directEmissions) {
         <span class="text-lg text-[#91234C]">Direct Emissions:</span>
-        <span class="text-lg">{{ carbonEstimation().directEmissions | number: '1.0-2' }}%</span>
+        <span class="text-lg">{{ directEmissionsPercent | number: '1.0-0' }}%</span>
       }
       @if (carbonEstimation().downstreamEmissions) {
         <span class="text-lg text-[#4B7E56]">Downstream Emissions:</span>
-        <span class="text-lg">{{ carbonEstimation().downstreamEmissions | number: '1.0-2' }}%</span>
+        <span class="text-lg">{{ downstreamEmissionsPercent | number: '1.0-0' }}%</span>
       }
     </div>
   </div>
