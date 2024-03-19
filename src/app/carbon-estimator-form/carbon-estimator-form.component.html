@@ -234,17 +234,24 @@
       }
     </div>
   </ng-template>
-
-  <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-    <div class="flex justify-between gap-2 flex-col mb-4">
-      <h2 class="text-xl">{{ heading }}</h2>
-      <!-- <span class="material-symbols-outlined">{{ expandUpstream ? 'expand_less' : 'expand_more' }}</span> -->
-      <div>
-        <p>{{ sectionDetails }}</p>
-      </div>
-    </div>
-  </ng-template>
 </form>
+
+<ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
+  <!-- <div class="flex justify-between gap-2 flex-col mb-4">
+    <h2 class="text-xl">{{ heading }}</h2>
+    <div>
+      <p>{{ sectionDetails }}</p>
+    </div>
+  </div> -->
+  <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+    <div header>
+      <h2 class="text-xl">{{ heading }}</h2>
+    </div>
+    <div content>
+      <p>{{ sectionDetails }}</p>
+    </div>
+  </sl-expansion-panel>
+</ng-template>
 
 <ng-template #helperTextPopup let-helperText="text">
   <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">

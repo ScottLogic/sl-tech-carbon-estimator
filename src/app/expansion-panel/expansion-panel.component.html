@@ -1,6 +1,13 @@
-<div>
-  <div tabindex="0" role="button" (click)="toggle()" (keydown.enter)="toggle()">
-    <ng-content select="[header]"></ng-content>
-  </div>
-  <div [ngClass]="{ hidden: !expanded }" role="region"><ng-content select="[content]"></ng-content></div>
+<div class="flex justify-between">
+  <ng-content select="[header]"></ng-content>
+  <button
+    type="button"
+    (click)="toggle()"
+    (keydown.enter)="toggle()"
+    class="material-icons-outlined text text-slate-600 hover:bg-slate-200 hover:rounded">
+    {{ expanded ? 'expand_less' : 'expand_more' }}
+  </button>
+</div>
+<div [ngClass]="{ hidden: !expanded }" role="region">
+  <ng-content select="[content]"></ng-content>
 </div>

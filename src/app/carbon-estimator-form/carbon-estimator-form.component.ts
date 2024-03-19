@@ -6,11 +6,21 @@ import { defaultValues, formContext, helperTextStrings } from './constants';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
+import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, JsonPipe, FormsModule, CommonModule, SatPopoverModule, NoteComponent],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    JsonPipe,
+    FormsModule,
+    CommonModule,
+    SatPopoverModule,
+    NoteComponent,
+    ExpansionPanelComponent,
+  ],
   templateUrl: './carbon-estimator-form.component.html',
   styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
 })
