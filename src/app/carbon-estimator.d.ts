@@ -21,6 +21,7 @@ export type EstimatorFormValues = {
     desktopPercentage: FormControl<number>;
   }>;
   onPremise: FormGroup<{
+    estimateServerCount: FormControl<boolean>;
     serverLocation: FormControl<WorldLocation | 'unknown'>;
     numberOfServers: FormControl<number>;
   }>;
@@ -39,6 +40,7 @@ export type EstimatorFormValues = {
 };
 
 export type OnPremise = {
+  estimateServerCount: boolean;
   serverLocation: WorldLocation;
   numberOfServers: number;
 };

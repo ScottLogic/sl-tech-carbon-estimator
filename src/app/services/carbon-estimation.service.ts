@@ -13,22 +13,16 @@ export class CarbonEstimationService {
   constructor(private loggingService: LoggingService) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
-    // TODO - these should be required params
-    const desktopPercent = formValue.upstream?.desktopPercentage ?? 0;
-    const headCount = formValue.upstream?.headCount ?? 0;
-    const cloudPercentage = formValue.cloud?.cloudPercentage ?? 0;
-    const monthlyCloudBill = formValue.cloud?.monthlyCloudBill ?? '0-200';
-    const onPremLocation = formValue.onPremise?.serverLocation ?? 'global';
-    const cloudLocation = formValue.cloud?.cloudLocation ?? 'global';
+    this.loggingService.log(`Input Values: ${JSON.stringify(formValue, undefined, 2)}`);
 
-    const deviceCounts = estimateDeviceCounts(desktopPercent, headCount, cloudPercentage, formValue);
-    this.loggingService.log(`Estimated Device Counts:`, deviceCounts);
+    const deviceCounts = this.estimateDeviceCounts(formValue);
+    this.loggingService.log(`Estimated Device Counts: ${JSON.stringify(deviceCounts, undefined, 2)}`);
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
     this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
-    const directEmissions = estimateDirectEmissions(deviceCounts, onPremLocation);
+    const directEmissions = estimateDirectEmissions(deviceCounts, formValue.onPremise.serverLocation);
     this.loggingService.log(`Estimated Direct Emissions: ${directEmissions}kg CO2e`);
-    const cloudEmissions = estimateCloudEmissions(cloudPercentage, monthlyCloudBill, cloudLocation);
+    const cloudEmissions = estimateCloudEmissions(formValue.cloud);
     this.loggingService.log(`Estimated Cloud Emissions: ${cloudEmissions}kg CO2e`);
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
     this.loggingService.log(`Estimated Downstream Emissions: ${downstreamEmissions}kg CO2e`);
@@ -41,21 +35,26 @@ export class CarbonEstimationService {
       downstreamEmissions: downstreamEmissions,
     });
   }
-}
 
-function estimateDeviceCounts(
-  desktopPercent: number,
-  headCount: number,
-  cloudPercentage: number,
-  formValue: EstimatorValues
-): DeviceCounts {
-  const laptopPercent = 100 - desktopPercent;
+  estimateServerCount(formValue: EstimatorValues): number {
+    if (!formValue.onPremise.estimateServerCount) {
+      return formValue.onPremise.numberOfServers;
+    }
+    const cloudPercentage = formValue.cloud.noCloudServices ? 0 : formValue.cloud.cloudPercentage;
+    return calculateCeilingPercentage(100 - cloudPercentage, formValue.upstream.headCount * 0.1);
+  }
 
-  const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
-  const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
-  const serverCount = estimateServerCount(cloudPercentage, headCount, formValue.onPremise?.numberOfServers);
-  const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
-  return { desktopCount, laptopCount, serverCount, networkCount };
+  private estimateDeviceCounts(formValue: EstimatorValues): DeviceCounts {
+    const desktopPercent = formValue.upstream.desktopPercentage;
+    const headCount = formValue.upstream.headCount;
+    const laptopPercent = 100 - desktopPercent;
+
+    const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
+    const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
+    const serverCount = this.estimateServerCount(formValue);
+    const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
+    return { desktopCount, laptopCount, serverCount, networkCount };
+  }
 }
 
 function toPercentages(input: CarbonEstimation): CarbonEstimation {
@@ -75,13 +74,6 @@ function toPercentages(input: CarbonEstimation): CarbonEstimation {
 
 function calculateCeilingPercentage(percentage: number, value: number) {
   return Math.ceil((percentage / 100) * value);
-}
-
-function estimateServerCount(cloudPercentage: number, headCount: number, inputServerCount: number | undefined): number {
-  if (inputServerCount !== undefined && inputServerCount >= 0) {
-    return inputServerCount;
-  }
-  return calculateCeilingPercentage(100 - cloudPercentage, headCount * 0.1);
 }
 
 function estimateNetworkDeviceCount(desktopCount: number, serverCount: number) {

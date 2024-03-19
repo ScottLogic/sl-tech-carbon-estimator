@@ -5,6 +5,7 @@ import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-e
 import { defaultValues, formContext, helperTextStrings } from './constants';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { NoteComponent } from '../note/note.component';
+import { CarbonEstimationService } from '../services/carbon-estimation.service';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
@@ -33,17 +34,15 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public mobilePercentage = defaultValues.downstream.mobilePercentage;
   public computerPercentage: number = 100 - this.mobilePercentage;
 
-  public directUnknown = false;
-
-  public get headCount(): number {
-    return this.estimatorForm.get('upstream.headCount')?.value ?? defaultValues.upstream.headCount;
-  }
+  public estimateServerCount = false;
+  public previewServerCount = 0;
 
   public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
 
   constructor(
     private formBuilder: FormBuilder,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private estimationService: CarbonEstimationService
   ) {}
 
   public ngOnInit() {
@@ -53,8 +52,9 @@ export class CarbonEstimatorFormComponent implements OnInit {
         desktopPercentage: [defaultValues.upstream.desktopPercentage],
       }),
       onPremise: this.formBuilder.nonNullable.group({
+        estimateServerCount: [defaultValues.onPremise.estimateServerCount],
         serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
-        numberOfServers: [defaultValues.onPremise.numberOfServers],
+        numberOfServers: [defaultValues.onPremise.numberOfServers, Validators.required],
       }),
       cloud: this.formBuilder.nonNullable.group({
         noCloudServices: [false],
@@ -70,19 +70,36 @@ export class CarbonEstimatorFormComponent implements OnInit {
       }),
     });
 
+    this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
+      this.refreshPreviewServerCount();
+    });
+
     this.estimatorForm.get('upstream.desktopPercentage')?.valueChanges.subscribe(desktopPercentage => {
       this.desktopPercentage = desktopPercentage;
       this.laptopPercentage = 100 - this.desktopPercentage;
     });
 
+    this.estimatorForm.get('onPremise.estimateServerCount')?.valueChanges.subscribe(estimateServerCount => {
+      this.estimateServerCount = estimateServerCount;
+      this.refreshPreviewServerCount();
+      const noServers = this.estimatorForm.get('onPremise.numberOfServers');
+      if (this.estimateServerCount) {
+        noServers?.disable();
+      } else {
+        noServers?.enable();
+      }
+    });
+
     this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(noCloudServices => {
       this.noCloudServices = noCloudServices;
+      this.refreshPreviewServerCount();
       this.changeDetector.detectChanges();
     });
 
     this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
       this.cloudPercentage = cloudPercentage;
       this.onPremisePercentage = 100 - this.cloudPercentage;
+      this.refreshPreviewServerCount();
     });
 
     this.estimatorForm.get('downstream.mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
@@ -109,17 +126,13 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
-    this.directUnknown = false;
-    this.directUnknownChange();
   }
 
-  public directUnknownChange() {
-    const noServers = this.estimatorForm.get('onPremise.numberOfServers');
-    if (this.directUnknown) {
-      noServers?.setValue(this.headCount * 0.1);
-      noServers?.disable();
-    } else {
-      noServers?.enable();
+  private refreshPreviewServerCount() {
+    if (this.estimateServerCount) {
+      this.previewServerCount = this.estimationService.estimateServerCount(
+        this.estimatorForm.getRawValue() as EstimatorValues
+      );
     }
   }
 }

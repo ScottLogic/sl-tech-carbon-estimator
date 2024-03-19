@@ -6,6 +6,7 @@ export const defaultValues: Required<EstimatorValues> = {
     desktopPercentage: 50,
   },
   onPremise: {
+    estimateServerCount: false,
     serverLocation: 'global',
     numberOfServers: 10,
   },
