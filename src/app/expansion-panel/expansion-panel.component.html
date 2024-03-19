@@ -1,0 +1,6 @@
+<div>
+  <div tabindex="0" role="button" (click)="toggle()" (keydown.enter)="toggle()">
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div [ngClass]="{ hidden: !expanded }" role="region"><ng-content select="[content]"></ng-content></div>
+</div>
