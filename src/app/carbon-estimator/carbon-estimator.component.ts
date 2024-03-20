@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
@@ -25,6 +25,8 @@ export class CarbonEstimatorComponent {
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 
+  @ViewChild('content') content!: ElementRef;
+
   constructor(private estimationService: CarbonEstimationService) {}
 
   public handleFormSubmit(formValue: EstimatorValues) {
@@ -35,9 +37,11 @@ export class CarbonEstimatorComponent {
 
   public showAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = true;
+    this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
   }
 
   public closeAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = false;
+    this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
   }
 }
