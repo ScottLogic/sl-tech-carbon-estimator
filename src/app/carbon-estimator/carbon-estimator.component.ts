@@ -5,15 +5,23 @@ import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
 
 @Component({
   selector: 'sl-carbon-estimator',
   standalone: true,
-  imports: [CarbonEstimatorFormComponent, CarbonEstimationComponent, FormsModule, CommonModule],
+  imports: [
+    CarbonEstimatorFormComponent,
+    CarbonEstimationComponent,
+    FormsModule,
+    CommonModule,
+    AssumptionsAndLimitationComponent,
+  ],
   templateUrl: './carbon-estimator.component.html',
 })
 export class CarbonEstimatorComponent {
   public showEstimation = false;
+  public showAssumptionsAndLimitationView = true;
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 
@@ -23,5 +31,13 @@ export class CarbonEstimatorComponent {
     this.formValue = formValue;
     this.carbonEstimation = this.estimationService.calculateCarbonEstimation(this.formValue);
     this.showEstimation = true;
+  }
+
+  public showAssumptionsAndLimitation(): void {
+    this.showAssumptionsAndLimitationView = true;
+  }
+
+  public closeAssumptionsAndLimitation(): void {
+    this.showAssumptionsAndLimitationView = false;
   }
 }

@@ -1,14 +1,27 @@
 <div class="flex flex-col p-4 h-full">
   <h1 class="text-3xl mb-12">Carbon Estimator</h1>
   <div class="flex w-full grow">
-    <sl-carbon-estimator-form
-      [formValue]="formValue"
-      (formSubmit)="handleFormSubmit($event)"
-      class="w-1/2 pr-4"></sl-carbon-estimator-form>
+    @if (showAssumptionsAndLimitationView) {
+      <sl-assumptions-and-limitation
+        (closeEvent)="closeAssumptionsAndLimitation()"
+        class="w-1/2 pr-4"></sl-assumptions-and-limitation>
+    } @else {
+      <sl-carbon-estimator-form
+        [formValue]="formValue"
+        (formSubmit)="handleFormSubmit($event)"
+        class="w-1/2 pr-4"></sl-carbon-estimator-form>
+    }
     @if (showEstimation) {
-      <sl-carbon-estimation
-        [carbonEstimation]="carbonEstimation"
-        class="w-1/2 pl-4 sticky top-0 h-fit"></sl-carbon-estimation>
+      <div class="w-1/2 pl-4 sticky top-0 h-fit flex flex-col">
+        <sl-carbon-estimation [carbonEstimation]="carbonEstimation"></sl-carbon-estimation>
+        @if (!showAssumptionsAndLimitationView) {
+          <button
+            class="px-3 py-2 bg-slate-200 text-slate-800 rounded hover:bg-slate-300 w-fit self-end"
+            (click)="showAssumptionsAndLimitation()">
+            Assumptions and limitations
+          </button>
+        }
+      </div>
     }
   </div>
 </div>
