@@ -24,7 +24,7 @@
 
         <input
           id="desktopPercentage"
-          class="mt-1 block w-full"
+          class="cursor-pointer"
           formControlName="desktopPercentage"
           name="desktopPercentage"
           type="range"
@@ -91,7 +91,7 @@
           </label>
           <input
             id="cloudPercentage"
-            class="disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+            class="cursor-pointer disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
             formControlName="cloudPercentage"
             name="cloudPercentage"
             type="range"
@@ -131,18 +131,6 @@
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
     <div class="flex flex-col gap-4">
-      <!-- <label for="customerLocation" class="text-sm text-slate-600">Where are your users primarily located?</label>
-      <select
-        class="border border-slate-400 rounded"
-        name="customerLocation"
-        formControlName="customerLocation"
-        id="customerLocation">
-        <option value="global" selected>Global</option>
-        <option value="uk">in the UK</option>
-        <option value="eu">in the EU</option>
-        <option value="us">in the US</option>
-      </select> -->
-
       <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
       <div class="flex flex-col gap-2">
@@ -198,12 +186,17 @@
 
   <div class="flex gap-4 flex-row-reverse">
     <button
-      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-900"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
-    <button class="px-3 py-2 bg-slate-200 text-slate-800 rounded" type="button" (click)="resetForm()">Reset</button>
+    <button
+      class="px-3 py-2 bg-slate-200 text-slate-800 rounded hover:bg-slate-300"
+      type="button"
+      (click)="resetForm()">
+      Reset
+    </button>
   </div>
 
   <ng-template
@@ -234,17 +227,18 @@
       }
     </div>
   </ng-template>
-
-  <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-    <div class="flex justify-between gap-2 flex-col mb-4">
-      <h2 class="text-xl">{{ heading }}</h2>
-      <!-- <span class="material-symbols-outlined">{{ expandUpstream ? 'expand_less' : 'expand_more' }}</span> -->
-      <div>
-        <p>{{ sectionDetails }}</p>
-      </div>
-    </div>
-  </ng-template>
 </form>
+
+<ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
+  <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+    <div header>
+      <h2 class="text-xl">{{ heading }}</h2>
+    </div>
+    <div content>
+      <p>{{ sectionDetails }}</p>
+    </div>
+  </sl-expansion-panel>
+</ng-template>
 
 <ng-template #helperTextPopup let-helperText="text">
   <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">
