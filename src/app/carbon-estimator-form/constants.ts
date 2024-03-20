@@ -38,6 +38,8 @@ export const formContext = {
     formGroupName: 'onPremise',
     location: {
       label: 'Where are they primarily located?',
+      helperText:
+        'This will affect the average <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity">Carbon Intensity</a> of the energy used by your servers.',
       formControlName: 'serverLocation',
       hasUnknown: true,
     },
@@ -48,6 +50,8 @@ export const formContext = {
     formGroupName: 'cloud',
     location: {
       label: 'Where are your cloud servers primarily located?',
+      helperText:
+        'This will affect the average <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity">Carbon Intensity</a> of the energy used by your cloud services.',
       formControlName: 'cloudLocation',
       hasUnknown: true,
     },
@@ -59,6 +63,8 @@ export const formContext = {
     formGroupName: 'downstream',
     location: {
       label: 'Where are your users primarily located?',
+      helperText:
+        'This will affect the average <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity">Carbon Intensity</a> of the energy used by end-user devices and network infrastructure.',
       formControlName: 'customerLocation',
       hasUnknown: false,
     },
@@ -67,6 +73,8 @@ export const formContext = {
 
 // TODO - update text was auto generated
 export const helperTextStrings = {
+  mobilePercentage:
+    'The percentage of mobile users will affect the energy used by end user devices and network infrastructure.<br>While the power demand of mobile devices is often much lower, the use of mobile networks can increase the power used when transferring data.',
   purposeOfSite:
-    'Purpose of the site is used to determine the amount of mobile traffic. If the site is used for internal purposes, the mobile traffic will be lower. If the site is used for external purposes, the mobile traffic will be higher.',
+    'The purpose of the site is used to determine the typical amount of time a user might spend on your site and the amount of data that may be transferred.<br>This can affect the amount of energy used by end user devices and how much energy from network traffic is attributable to your site',
 };

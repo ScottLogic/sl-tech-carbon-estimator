@@ -147,9 +147,13 @@
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="mobilePercentage" class="text-sm text-slate-600">
-          What percentage of your users are mobile or personal computer users?
-        </label>
+        <div class="flex">
+          <label for="mobilePercentage" class="text-sm text-slate-600">
+            What percentage of your users are mobile or personal computer users?
+          </label>
+          <ng-container
+            *ngTemplateOutlet="helperTextPopup; context: { text: helperText.mobilePercentage }"></ng-container>
+        </div>
         <label for="mobilePercentage" class="flex justify-between text-sm text-slate-600">
           <span>Mobile {{ mobilePercentage }}%</span>
           <span>Computer {{ computerPercentage }}%</span>
@@ -202,11 +206,17 @@
   <ng-template
     #locationInput
     let-label="location.label"
+    let-helperText="location.helperText"
     let-hasUnknown="location.hasUnknown"
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
     <div formGroupName="{{ formGroupName }}" class="flex flex-col gap-2">
-      <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
+      <div class="flex">
+        <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
+        @if (helperText) {
+          <ng-container *ngTemplateOutlet="helperTextPopup; context: { text: helperText }"></ng-container>
+        }
+      </div>
       <select
         class="border border-slate-400 rounded"
         name="{{ formControlName }}"
@@ -248,9 +258,7 @@
   <sat-popover #helperInfo verticalAlign="above" hasBackdrop>
     <div
       class="max-w-64 bg-white border border-slate-600 rounded p-2 before:w-4 before:h-4 before:rotate-45 before:bg-slate-600 before:absolute before:z-[-10] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
-      <p class="text-sm text-slate-600">
-        {{ helperText }}
-      </p>
+      <p class="text-sm text-slate-600" [innerHTML]="helperText"></p>
     </div>
   </sat-popover>
 </ng-template>
