@@ -90,10 +90,17 @@ function formatObject(input: unknown): string {
 }
 
 function formatCarbonEstimate(input: NumberObject): string {
-  const description = Object.entries(input)
+  const description = Object.entries(withTotal(input))
     .map(([key, value]) => {
-      return `  "${key}": ${value}kg CO2e`;
+      return `  "${key}": ${value.toLocaleString()}kg CO2e`;
     })
     .join(',\n');
   return `{\n${description}\n}`;
+}
+
+function withTotal(input: NumberObject): NumberObject {
+  if (input['total'] !== undefined) {
+    return input;
+  }
+  return { ...input, total: sumValues(input) };
 }
