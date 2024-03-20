@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CarbonEstimation, DeviceCounts, EstimatorValues } from '../carbon-estimator';
-import { estimateCloudEmissions } from '../estimation/estimate-cloud-emissions';
+import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
 import { LoggingService } from './logging.service';
+import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
 
 @Injectable({
   providedIn: 'root',
@@ -13,25 +14,25 @@ export class CarbonEstimationService {
   constructor(private loggingService: LoggingService) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
-    this.loggingService.log(`Input Values: ${JSON.stringify(formValue, undefined, 2)}`);
+    this.loggingService.log(`Input Values: ${formatObject(formValue)}`);
 
     const deviceCounts = this.estimateDeviceCounts(formValue);
-    this.loggingService.log(`Estimated Device Counts: ${JSON.stringify(deviceCounts, undefined, 2)}`);
+    this.loggingService.log(`Estimated Device Counts: ${formatObject(deviceCounts)}`);
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
-    this.loggingService.log(`Estimated Upstream Emissions: ${upstreamEmissions}kg CO2e`);
+    this.loggingService.log(`Estimated Upstream Emissions: ${formatCarbonEstimate(upstreamEmissions)}`);
     const directEmissions = estimateDirectEmissions(deviceCounts, formValue.onPremise.serverLocation);
-    this.loggingService.log(`Estimated Direct Emissions: ${directEmissions}kg CO2e`);
-    const cloudEmissions = estimateCloudEmissions(formValue.cloud);
-    this.loggingService.log(`Estimated Cloud Emissions: ${cloudEmissions}kg CO2e`);
+    this.loggingService.log(`Estimated Direct Emissions: ${formatCarbonEstimate(directEmissions)}`);
+    const indirectEmissions = estimateIndirectEmissions(formValue.cloud);
+    this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
-    this.loggingService.log(`Estimated Downstream Emissions: ${downstreamEmissions}kg CO2e`);
+    this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     return toPercentages({
       version: '0.0.1',
       upstreamEmissions: upstreamEmissions,
       directEmissions: directEmissions,
-      cloudEmissions: cloudEmissions,
+      indirectEmissions: indirectEmissions,
       downstreamEmissions: downstreamEmissions,
     });
   }
@@ -58,17 +59,21 @@ export class CarbonEstimationService {
 }
 
 function toPercentages(input: CarbonEstimation): CarbonEstimation {
-  const total = input.upstreamEmissions + input.directEmissions + input.cloudEmissions + input.downstreamEmissions;
+  const total =
+    sumValues(input.upstreamEmissions) +
+    sumValues(input.directEmissions) +
+    sumValues(input.indirectEmissions) +
+    sumValues(input.downstreamEmissions);
   if (total === 0) {
     return input;
   }
   const percentRatio = 100 / total;
   return {
     ...input,
-    upstreamEmissions: input.upstreamEmissions * percentRatio,
-    directEmissions: input.directEmissions * percentRatio,
-    cloudEmissions: input.cloudEmissions * percentRatio,
-    downstreamEmissions: input.downstreamEmissions * percentRatio,
+    upstreamEmissions: multiplyValues(input.upstreamEmissions, percentRatio),
+    directEmissions: multiplyValues(input.directEmissions, percentRatio),
+    indirectEmissions: multiplyValues(input.indirectEmissions, percentRatio),
+    downstreamEmissions: multiplyValues(input.downstreamEmissions, percentRatio),
   };
 }
 
@@ -78,4 +83,17 @@ function calculateCeilingPercentage(percentage: number, value: number) {
 
 function estimateNetworkDeviceCount(desktopCount: number, serverCount: number) {
   return Math.ceil((desktopCount + serverCount) / 2);
+}
+
+function formatObject(input: unknown): string {
+  return JSON.stringify(input, undefined, 2);
+}
+
+function formatCarbonEstimate(input: NumberObject): string {
+  const description = Object.entries(input)
+    .map(([key, value]) => {
+      return `  "${key}": ${value}kg CO2e`;
+    })
+    .join(',\n');
+  return `{\n${description}\n}`;
 }

@@ -3,7 +3,12 @@ import { estimateUpstreamEmissions } from './estimate-upstream-emissions';
 
 it('should return no emissions if all device counts are empty', () => {
   const deviceCounts = { laptopCount: 0, desktopCount: 0, serverCount: 0, networkCount: 0 };
-  expect(estimateUpstreamEmissions(deviceCounts)).toBe(0);
+  expect(estimateUpstreamEmissions(deviceCounts)).toEqual({
+    software: 0,
+    user: 0,
+    server: 0,
+    network: 0,
+  });
 });
 
 it('should return emissions from specified amounts of devices', () => {
@@ -13,7 +18,12 @@ it('should return emissions from specified amounts of devices', () => {
   const estimateServerEmissions = spyOn(server, 'estimateYearlyUpstreamEmissions').and.returnValue(3);
   const estimateNetworkEmissions = spyOn(network, 'estimateYearlyUpstreamEmissions').and.returnValue(4);
 
-  expect(estimateUpstreamEmissions(deviceCounts)).toBe(10);
+  expect(estimateUpstreamEmissions(deviceCounts)).toEqual({
+    software: 0,
+    user: 3,
+    server: 3,
+    network: 4,
+  });
   expect(estimateLaptopEmissions).toHaveBeenCalledOnceWith(1);
   expect(estimateDesktopEmissions).toHaveBeenCalledOnceWith(2);
   expect(estimateServerEmissions).toHaveBeenCalledOnceWith(3);

@@ -1,10 +1,6 @@
 import { Downstream } from '../carbon-estimator';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 
-it('should return no emissions if no downstream info provided', () => {
-  expect(estimateDownstreamEmissions()).toBe(0);
-});
-
 it('should return no emissions if monthly active users is zero', () => {
   const input: Downstream = {
     monthlyActiveUsers: 0,
@@ -12,7 +8,10 @@ it('should return no emissions if monthly active users is zero', () => {
     mobilePercentage: 0,
     purposeOfSite: 'average',
   };
-  expect(estimateDownstreamEmissions(input)).toBe(0);
+  expect(estimateDownstreamEmissions(input)).toEqual({
+    endUser: 0,
+    network: 0,
+  });
 });
 
 it('should return emissions based on average values', () => {
@@ -22,5 +21,7 @@ it('should return emissions based on average values', () => {
     mobilePercentage: 0,
     purposeOfSite: 'average',
   };
-  expect(estimateDownstreamEmissions(input)).toBeCloseTo(552.439);
+  const result = estimateDownstreamEmissions(input);
+  expect(result.endUser).toBeCloseTo(302.839);
+  expect(result.network).toBeCloseTo(249.601);
 });

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { CarbonEstimationService } from './carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
 import { LoggingService } from './logging.service';
+import { sumValues } from '../utils/number-object';
 
 const emptyEstimatorValues: EstimatorValues = {
   upstream: {
@@ -29,15 +30,15 @@ const emptyEstimatorValues: EstimatorValues = {
 };
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
-  expect(estimation.upstreamEmissions).toBeGreaterThanOrEqual(0);
-  expect(estimation.directEmissions).toBeGreaterThanOrEqual(0);
-  expect(estimation.cloudEmissions).toBeGreaterThanOrEqual(0);
-  expect(estimation.downstreamEmissions).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.upstreamEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.directEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.indirectEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.downstreamEmissions)).toBeGreaterThanOrEqual(0);
   const total =
-    estimation.upstreamEmissions +
-    estimation.directEmissions +
-    estimation.cloudEmissions +
-    estimation.downstreamEmissions;
+    sumValues(estimation.upstreamEmissions) +
+    sumValues(estimation.directEmissions) +
+    sumValues(estimation.indirectEmissions) +
+    sumValues(estimation.downstreamEmissions);
   expect(total).toBeCloseTo(100);
 }
 
@@ -62,10 +63,10 @@ describe('CarbonEstimationService', () => {
     it('should include version and zeroed values in estimation', () => {
       const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
       expect(estimation.version).toBe('0.0.1');
-      expect(estimation.upstreamEmissions).toBe(0);
-      expect(estimation.directEmissions).toBe(0);
-      expect(estimation.cloudEmissions).toBe(0);
-      expect(estimation.downstreamEmissions).toBe(0);
+      expect(sumValues(estimation.upstreamEmissions)).toBe(0);
+      expect(sumValues(estimation.directEmissions)).toBe(0);
+      expect(sumValues(estimation.indirectEmissions)).toBe(0);
+      expect(sumValues(estimation.downstreamEmissions)).toBe(0);
     });
 
     it('should calculate estimations as percentages', () => {
@@ -83,18 +84,10 @@ describe('CarbonEstimationService', () => {
       service.calculateCarbonEstimation(emptyEstimatorValues);
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Input Values: .*/));
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Device Counts: .*/));
-      expect(loggingService.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(/^Estimated Upstream Emissions: \d*\.?\d*kg CO2e$/)
-      );
-      expect(loggingService.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(/^Estimated Direct Emissions: \d*\.?\d*kg CO2e$/)
-      );
-      expect(loggingService.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(/^Estimated Cloud Emissions: \d*\.?\d*kg CO2e$/)
-      );
-      expect(loggingService.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(/^Estimated Downstream Emissions: \d*\.?\d*kg CO2e$/)
-      );
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Upstream Emissions: .*/));
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Direct Emissions: .*/));
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Indirect Emissions: .*/));
+      expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Downstream Emissions: .*/));
     });
   });
 
