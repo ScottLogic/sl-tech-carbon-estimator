@@ -21,7 +21,7 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
 })
 export class CarbonEstimatorComponent {
   public showEstimation = false;
-  public showAssumptionsAndLimitationView = true;
+  public showAssumptionsAndLimitationView = false;
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 

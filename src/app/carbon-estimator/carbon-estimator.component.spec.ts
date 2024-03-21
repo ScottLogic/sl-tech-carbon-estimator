@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimatorComponent } from './carbon-estimator.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
+import { EstimatorValues } from '../carbon-estimator';
 
 describe('CarbonEstimatorComponent', () => {
   let component: CarbonEstimatorComponent;
@@ -46,6 +47,7 @@ describe('CarbonEstimatorComponent', () => {
 
   it('should only show form when showEstimation is false', () => {
     component.showEstimation = false;
+    component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
     const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
@@ -57,6 +59,7 @@ describe('CarbonEstimatorComponent', () => {
 
   it('should show form and estimation when showEstimation is true', () => {
     component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
     const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
@@ -64,5 +67,53 @@ describe('CarbonEstimatorComponent', () => {
 
     expect(formElement).toBeTruthy();
     expect(estimationElement).toBeTruthy();
+  });
+
+  it('should show assumptions and estimations when showEstimation and showAssumptionsAndLimitationView are true', () => {
+    component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = true;
+    fixture.detectChanges();
+
+    const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
+    const estimationElement = fixture.nativeElement.querySelector('sl-carbon-estimation');
+    const assumptionsElement = fixture.nativeElement.querySelector('sl-assumptions-and-limitation');
+
+    expect(formElement).toBeFalsy();
+    expect(estimationElement).toBeTruthy();
+    expect(assumptionsElement).toBeTruthy();
+  });
+
+  it('should call estimationService.calculateCarbonEstimation when handleFormSubmit is called', () => {
+    spyOn(estimationServiceStub, 'calculateCarbonEstimation' as never).and.callThrough();
+
+    const formValue = {} as EstimatorValues;
+    component.handleFormSubmit(formValue);
+    expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
+    expect(component.showEstimation).toBeTrue();
+  });
+
+  it('should scroll to top of content when showAssumptionsAndLimitation is called', () => {
+    component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = false;
+    fixture.detectChanges();
+    spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
+
+    component.showAssumptionsAndLimitation();
+    fixture.detectChanges();
+
+    expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
+  });
+
+  it('should scroll to top of content when closeAssumptionsAndLimitation is called', () => {
+    component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = true;
+    fixture.detectChanges();
+
+    spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
+
+    component.closeAssumptionsAndLimitation();
+    fixture.detectChanges();
+
+    expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
   });
 });
