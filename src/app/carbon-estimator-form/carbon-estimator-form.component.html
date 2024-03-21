@@ -24,7 +24,7 @@
 
         <input
           id="desktopPercentage"
-          class="mt-1 block w-full"
+          class="cursor-pointer"
           formControlName="desktopPercentage"
           name="desktopPercentage"
           type="range"
@@ -91,7 +91,7 @@
           </label>
           <input
             id="cloudPercentage"
-            class="disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+            class="cursor-pointer disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
             formControlName="cloudPercentage"
             name="cloudPercentage"
             type="range"
@@ -131,18 +131,6 @@
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
     <div class="flex flex-col gap-4">
-      <!-- <label for="customerLocation" class="text-sm text-slate-600">Where are your users primarily located?</label>
-      <select
-        class="border border-slate-400 rounded"
-        name="customerLocation"
-        formControlName="customerLocation"
-        id="customerLocation">
-        <option value="global" selected>Global</option>
-        <option value="uk">in the UK</option>
-        <option value="eu">in the EU</option>
-        <option value="us">in the US</option>
-      </select> -->
-
       <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
       <div class="flex flex-col gap-2">
@@ -159,9 +147,13 @@
       </div>
 
       <div class="flex flex-col gap-2">
-        <label for="mobilePercentage" class="text-sm text-slate-600">
-          What percentage of your users are mobile or personal computer users?
-        </label>
+        <div class="flex">
+          <label for="mobilePercentage" class="text-sm text-slate-600">
+            What percentage of your users are mobile or personal computer users?
+          </label>
+          <ng-container
+            *ngTemplateOutlet="helperTextPopup; context: { text: helperText.mobilePercentage }"></ng-container>
+        </div>
         <label for="mobilePercentage" class="flex justify-between text-sm text-slate-600">
           <span>Mobile {{ mobilePercentage }}%</span>
           <span>Computer {{ computerPercentage }}%</span>
@@ -198,22 +190,33 @@
 
   <div class="flex gap-4 flex-row-reverse">
     <button
-      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-900"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
-    <button class="px-3 py-2 bg-slate-200 text-slate-800 rounded" type="button" (click)="resetForm()">Reset</button>
+    <button
+      class="px-3 py-2 bg-slate-200 text-slate-800 rounded hover:bg-slate-300"
+      type="button"
+      (click)="resetForm()">
+      Reset
+    </button>
   </div>
 
   <ng-template
     #locationInput
     let-label="location.label"
+    let-helperText="location.helperText"
     let-hasUnknown="location.hasUnknown"
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
     <div formGroupName="{{ formGroupName }}" class="flex flex-col gap-2">
-      <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
+      <div class="flex">
+        <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
+        @if (helperText) {
+          <ng-container *ngTemplateOutlet="helperTextPopup; context: { text: helperText }"></ng-container>
+        }
+      </div>
       <select
         class="border border-slate-400 rounded"
         name="{{ formControlName }}"
@@ -234,17 +237,18 @@
       }
     </div>
   </ng-template>
-
-  <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-    <div class="flex justify-between gap-2 flex-col mb-4">
-      <h2 class="text-2xl">{{ heading }}</h2>
-      <!-- <span class="material-symbols-outlined">{{ expandUpstream ? 'expand_less' : 'expand_more' }}</span> -->
-      <div>
-        <p>{{ sectionDetails }}</p>
-      </div>
-    </div>
-  </ng-template>
 </form>
+
+<ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
+  <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+    <div header>
+      <h2 class="text-2xl">{{ heading }}</h2>
+    </div>
+    <div content>
+      <p>{{ sectionDetails }}</p>
+    </div>
+  </sl-expansion-panel>
+</ng-template>
 
 <ng-template #helperTextPopup let-helperText="text">
   <button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" class="ml-auto" type="button">
@@ -254,9 +258,7 @@
   <sat-popover #helperInfo verticalAlign="above" hasBackdrop>
     <div
       class="max-w-64 bg-white border border-slate-600 rounded p-2 before:w-4 before:h-4 before:rotate-45 before:bg-slate-600 before:absolute before:z-[-10] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
-      <p class="text-sm text-slate-600">
-        {{ helperText }}
-      </p>
+      <p class="text-sm text-slate-600" [innerHTML]="helperText"></p>
     </div>
   </sat-popover>
 </ng-template>
