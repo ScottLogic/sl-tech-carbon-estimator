@@ -24,10 +24,10 @@ describe('AssumptionsAndLimitationComponent', () => {
     expect(component.closeEvent.emit).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit close event when press esc key function ran', () => {
+  it('should emit close event when press esc key', () => {
     spyOn(component.closeEvent, 'emit');
 
-    component.onEscKeydown();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
     expect(component.closeEvent.emit).toHaveBeenCalledTimes(1);
   });
