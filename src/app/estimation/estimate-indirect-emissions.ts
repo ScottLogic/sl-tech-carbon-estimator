@@ -1,4 +1,4 @@
-import { Cloud, IndirectEstimation, MonthlyCloudBill } from '../carbon-estimator';
+import { Cloud, CostRange, IndirectEstimation } from '../carbon-estimator';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { KilowattHour } from '../types/units';
 
@@ -21,9 +21,7 @@ export function estimateIndirectEmissions(input: Cloud): IndirectEstimation {
   return { cloud: cloudDirectEmissions + cloudUpstreamEmissions, saas: 0, managed: 0 };
 }
 
-function estimateCloudEnergy(monthlyCloudBill: MonthlyCloudBill): KilowattHour {
-  const range = monthlyCloudBill.split('-');
-  const midpoint = (Number(range[0]) + Number(range[1])) / 2;
-
+function estimateCloudEnergy(monthlyCloudBill: CostRange): KilowattHour {
+  const midpoint = (monthlyCloudBill.min + monthlyCloudBill.max) / 2;
   return midpoint * COST_TO_KWH_RATIO * AVERAGE_PUE;
 }

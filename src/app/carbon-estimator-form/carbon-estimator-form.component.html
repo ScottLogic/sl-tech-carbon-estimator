@@ -116,12 +116,9 @@
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
             required>
-            <option value="0-200" selected>$0-$200</option>
-            <option value="200-500">$200-$500</option>
-            <option value="500-1000">$500-$1000</option>
-            <option value="1000-5000">$1000-$5000</option>
-            <option value="5000-10000">$5000-$10000</option>
-            <option value="10000-50000">$10000-$50000</option>
+            @for (range of costRanges; track $index) {
+              <option [ngValue]="range">{{ formatRange(range) }}</option>
+            }
           </select>
         </div>
       }

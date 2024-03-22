@@ -19,7 +19,7 @@ const emptyEstimatorValues: EstimatorValues = {
     noCloudServices: true,
     cloudLocation: 'global',
     cloudPercentage: 0,
-    monthlyCloudBill: '0-200',
+    monthlyCloudBill: { min: 0, max: 200 },
   },
   downstream: {
     customerLocation: 'global',
@@ -128,7 +128,7 @@ describe('CarbonEstimationService', () => {
           cloudPercentage: 50,
           noCloudServices: false,
           cloudLocation: 'global',
-          monthlyCloudBill: '0-200',
+          monthlyCloudBill: { min: 0, max: 200 },
         },
       };
       expect(service.estimateServerCount(fiftyPercentCloudInput)).toBe(5);

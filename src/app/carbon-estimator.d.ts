@@ -50,7 +50,7 @@ export type EstimatorFormValues = {
     noCloudServices: FormControl<boolean>;
     cloudLocation: FormControl<WorldLocation | 'unknown'>;
     cloudPercentage: FormControl<number>;
-    monthlyCloudBill: FormControl<MonthlyCloudBill>;
+    monthlyCloudBill: FormControl<CostRange>;
   }>;
   downstream: FormGroup<{
     customerLocation: FormControl<WorldLocation>;
@@ -73,7 +73,7 @@ export type Cloud = {
   noCloudServices: boolean;
   cloudLocation: WorldLocation;
   cloudPercentage: number;
-  monthlyCloudBill: MonthlyCloudBill;
+  monthlyCloudBill: CostRange;
 };
 export type Downstream = {
   customerLocation: WorldLocation;
@@ -91,15 +91,10 @@ export type DeviceCounts = {
 export const locationArray = ['global', 'uk', 'eu', 'us'] as const;
 export type WorldLocation = (typeof locationArray)[number];
 
-export const monthlyCloudBillArray = [
-  '0-200',
-  '200-500',
-  '500-1000',
-  '1000-5000',
-  '5000-10000',
-  '10000-50000',
-] as const;
-export type MonthlyCloudBill = (typeof monthlyCloudBillArray)[number];
+export type CostRange = {
+  min: number;
+  max: number;
+};
 
 export const purposeOfSiteArray = ['streaming', 'information', 'eCommerce', 'socialMedia', 'average'] as const;
 export type PurposeOfSite = (typeof purposeOfSiteArray)[number];
