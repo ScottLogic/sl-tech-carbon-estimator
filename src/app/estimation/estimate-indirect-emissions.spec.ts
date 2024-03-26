@@ -5,7 +5,7 @@ it('should return no emissions if cloud not used', () => {
   const input: Cloud = {
     noCloudServices: true,
     cloudPercentage: 100,
-    monthlyCloudBill: '5000-10000',
+    monthlyCloudBill: { min: 5000, max: 10000 },
     cloudLocation: 'global',
   };
   const result = estimateIndirectEmissions(input);
@@ -20,7 +20,7 @@ it('should return emissions based on ratio of costs', () => {
   const input: Cloud = {
     noCloudServices: false,
     cloudPercentage: 50,
-    monthlyCloudBill: '0-200',
+    monthlyCloudBill: { min: 0, max: 200 },
     cloudLocation: 'global',
   };
   const result = estimateIndirectEmissions(input);

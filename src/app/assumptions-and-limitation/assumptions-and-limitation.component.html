@@ -174,42 +174,59 @@
   </p>
   <h4 class="text-lg">Cloud Services</h4>
   <p class="text-sm">
-    We have derived a rough figure to give a ratio from US dollars spent to kWh of energy used in data centres. By
-    combining a list of AWS EC2 instance prices with power data from the
-    <a href="https://github.com/cloud-carbon-footprint/cloud-carbon-coefficients/blob/main/data/aws-instances.csv"
-      >Cloud Carbon Coefficients</a
+    We have derived average figures to convert from US dollars spent, to kWh of energy and kg of embodied CO2e.
+    Beginning with a list of AWS EC2 instance prices, we combined this with
+    <a
+      class="underline"
+      href="https://github.com/cloud-carbon-footprint/cloud-carbon-coefficients/blob/main/data/aws-instances.csv">
+      power</a
     >
-    notebook, we calculated a kWh per $ figure for each entry in the price list. This uses the Wattage reported under
-    50% load, the same default utilisation used by the Cloud Carbon Footprint tool. Some of the results from this were
-    as follows:
+    and
+    <a
+      class="underline"
+      href="https://github.com/cloud-carbon-footprint/ccf-coefficients/blob/main/output/coefficients-aws-embodied.csv">
+      embodied</a
+    >
+    data from Cloud Carbon Footprint's coefficients.<br />
+    We calculated kWh per $ and kg CO2e per $ figures for each entry in the price list. For kWh we used the Wattage
+    reported under 50% load, the same default utilisation used by the Cloud Carbon Footprint tool. For kg CO2e we assume
+    a 4 year lifespan and a proportion of the embodied carbon relative the the amount of vCPUs allocated to the
+    instance.<br />
+    Some of the results from this were as follows:
   </p>
   <table class="w-max">
     <thead>
       <tr>
         <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Figure</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Value (kWh per $)</th>
+        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">kWh per $</th>
+        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">kg CO2e per $</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="text-sm border border-slate-300 px-2 py-1">Mean</td>
         <td class="text-sm border border-slate-300 px-2 py-1">0.155819</td>
+        <td class="text-sm border border-slate-300 px-2 py-1">0.0164479</td>
       </tr>
       <tr>
         <td class="text-sm border border-slate-300 px-2 py-1">Median</td>
         <td class="text-sm border border-slate-300 px-2 py-1">0.097193</td>
+        <td class="text-sm border border-slate-300 px-2 py-1">0.00957173</td>
       </tr>
       <tr>
         <td class="text-sm border border-slate-300 px-2 py-1">Standard Deviation</td>
         <td class="text-sm border border-slate-300 px-2 py-1">0.516504</td>
+        <td class="text-sm border border-slate-300 px-2 py-1">0.0910805</td>
       </tr>
       <tr>
         <td class="text-sm border border-slate-300 px-2 py-1">Minimum</td>
         <td class="text-sm border border-slate-300 px-2 py-1">0.007634</td>
+        <td class="text-sm border border-slate-300 px-2 py-1">0.000725901</td>
       </tr>
       <tr>
         <td class="text-sm border border-slate-300 px-2 py-1">Maximum</td>
         <td class="text-sm border border-slate-300 px-2 py-1">48.9952</td>
+        <td class="text-sm border border-slate-300 px-2 py-1">8.17118</td>
       </tr>
     </tbody>
   </table>
@@ -218,14 +235,12 @@
     period and upfront payment etc. This also only covers a single service that AWS provides but could be seen as the
     simplest available, with the most direct link between pricing and kWh of power available. Other services may cost
     more based on the additional management that AWS performs, which does not necessarily translate into an increase in
-    power used. For these reasons we have decided to use the mean figure of ~0.156 kWh/$ as the method of transforming
-    cloud costs to kWh for the purposes of Cloud Emissions.
+    power used. For these reasons we have decided to use the mean figures of ~0.156 kWh/$ and ~0.0164 kg CO2e/$ as the
+    method of transforming cloud costs to kWh and kg CO2e for the purposes of Cloud Emissions.
   </p>
   <p class="text-sm">
     The estimated kWh of cloud usage is combined with an average Cloud PUE figure of 1.18 and the relevant Carbon
-    Intensity figure for the selected Cloud Location to give a final kg CO2e estimation. We also apply a simple 1.25
-    ratio to the final carbon estimation to account for the embodied carbon of devices - acknowledged to generally
-    follow an 80/20% split in server hardware.
+    Intensity figure for the selected Cloud Location to give a final kg CO2e estimation.
   </p>
   <h4 class="text-lg">Downstream Emissions</h4>
   <p class="text-sm">

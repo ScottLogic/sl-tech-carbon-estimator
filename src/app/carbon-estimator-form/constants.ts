@@ -1,4 +1,26 @@
-import { EstimatorValues } from '../carbon-estimator';
+import { CostRange, EstimatorValues } from '../carbon-estimator';
+
+export const currencyFormat = new Intl.NumberFormat(undefined, {
+  style: 'currency',
+  currency: 'USD',
+  currencyDisplay: 'narrowSymbol',
+  notation: 'compact',
+});
+
+export const costRanges: CostRange[] = [
+  { min: 0, max: 1000 },
+  { min: 1000, max: 2000 },
+  { min: 2000, max: 5000 },
+  { min: 5000, max: 10000 },
+  { min: 10000, max: 20000 },
+  { min: 20000, max: 50000 },
+  { min: 50000, max: 100000 },
+  { min: 100000, max: 200000 },
+  { min: 200000, max: 500000 },
+  { min: 500000, max: 1000000 },
+  { min: 1000000, max: 2000000 },
+  { min: 2000000, max: 5000000 },
+];
 
 export const defaultValues: Required<EstimatorValues> = {
   upstream: {
@@ -14,7 +36,7 @@ export const defaultValues: Required<EstimatorValues> = {
     noCloudServices: false,
     cloudLocation: 'global',
     cloudPercentage: 50,
-    monthlyCloudBill: '0-200',
+    monthlyCloudBill: costRanges[0],
   },
   downstream: {
     customerLocation: 'global',
