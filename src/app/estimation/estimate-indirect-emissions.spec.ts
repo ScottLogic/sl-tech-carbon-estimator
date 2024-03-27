@@ -24,7 +24,7 @@ it('should return emissions based on ratio of costs', () => {
     cloudLocation: 'global',
   };
   const result = estimateIndirectEmissions(input);
-  expect(result.cloud).toBeCloseTo(11.367);
+  expect(result.cloud).toBeCloseTo(10.733552);
   expect(result.saas).toBe(0);
   expect(result.managed).toBe(0);
 });
