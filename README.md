@@ -25,7 +25,7 @@ Example: `pytest test_newTest.py`
 Output in terminal window will be along lines of `1 passed in 4.23s`
 
 Tests are automatically “headless”, meaning no browser window will be opened while running the tests and only results (Pass or Fail) will be seen in the terminal. However, you can run tests in headed mode by using the `--headed`
-and the brwoser window will open.
+and the browser window will open.
 
 Example: `pytest test_newTest.py --headed`
 
@@ -47,7 +47,7 @@ If this is the case then then the code within each individual test to be run may
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
 
-Run `npm install` to get the most recent dependenices
+Run `npm install` to get the most recent dependencies
 
 ## Development server
 
