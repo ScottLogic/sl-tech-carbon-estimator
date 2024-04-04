@@ -2,11 +2,11 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-estimator';
-import { costRanges, currencyFormat, defaultValues, formContext, helperTextStrings } from './constants';
-import { SatPopoverModule } from '@ncstate/sat-popover';
+import { costRanges, currencyFormat, defaultValues, formContext } from './constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
+import { HelperInfoComponent } from '../helper-info/helper-info.component';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
@@ -17,7 +17,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
     JsonPipe,
     FormsModule,
     CommonModule,
-    SatPopoverModule,
+    HelperInfoComponent,
     NoteComponent,
     ExpansionPanelComponent,
   ],
@@ -33,7 +33,6 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public formContext = formContext;
   public costRanges = costRanges;
-  public helperText = helperTextStrings;
 
   public desktopPercentage = defaultValues.upstream.desktopPercentage;
   public laptopPercentage: number = 100 - this.desktopPercentage;
