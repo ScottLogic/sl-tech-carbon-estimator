@@ -8,7 +8,7 @@ def test_example(page: Page) -> None:
     page.goto("http://localhost:4200/")
     page.set_viewport_size({"width": 1920, "height": 1200})
 
-    page.pause()
+    # page.pause()
     expect(page.get_by_role("heading", name="Carbon Estimator")).to_be_visible()
     expect(page.get_by_label("How many employees are in the")).to_have_value("100");
     expect(page.get_by_text("Desktops 50%")).to_be_visible()

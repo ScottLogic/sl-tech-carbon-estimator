@@ -12,7 +12,7 @@ def test_example(page: Page) -> None:
    
     page.get_by_role("heading", name="Carbon Estimator").click()
     
-    # Organisation
+       # Organisation
     expect(page.get_by_role("heading", name="Organisation")).to_be_visible()
     expect(page.get_by_text("To understand the scale of")).to_be_visible()
     expect(page.get_by_text("How many employees are in the")).to_be_visible()
@@ -63,7 +63,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
     expect(page.get_by_text("We have derived a rough")).to_be_visible()
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
-    expect(page.get_by_label("What is your monthly cloud")).to_have_value("0-200");
+    expect(page.get_by_label("What is your monthly cloud")).to_have_value("0: Object");
     
     # Users
     expect(page.get_by_role("heading", name="Users")).to_be_visible()
@@ -86,6 +86,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("Indirect Emissions:")).to_be_visible()
     expect(page.get_by_text("0%", exact=True)).to_be_visible()
     expect(page.get_by_text("Direct Emissions:", exact=True)).to_be_visible()
-    expect(page.get_by_text("68%")).to_be_visible()
+    expect(page.get_by_text("67%")).to_be_visible()
     expect(page.get_by_text("Downstream Emissions:")).to_be_visible()
     expect(page.get_by_text("1%", exact=True)).to_be_visible()
+

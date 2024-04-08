@@ -46,7 +46,7 @@ def test_example(page: Page) -> None:
     page.get_by_label("Cloud 25%On-prem 75%").press("ArrowLeft")
     page.get_by_label("Cloud 20%On-prem 80%").press("ArrowLeft")
     expect(page.get_by_text("Cloud 15%")).to_be_visible()
-    page.get_by_label("What is your monthly cloud").select_option("10000-50000")
+    page.get_by_label("What is your monthly cloud").select_option("4: Object")
     
     # Users
     expect(page.get_by_role("heading", name="Users")).to_be_visible()

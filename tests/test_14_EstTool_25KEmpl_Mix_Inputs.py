@@ -44,7 +44,7 @@ def test_example(page: Page) -> None:
     page.get_by_label("Cloud 75%On-prem 25%").press("ArrowRight")
     expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
-    page.get_by_label("What is your monthly cloud").select_option("5000-10000")
+    page.get_by_label("What is your monthly cloud").select_option("10: Object")
     
     # Users
     expect(page.get_by_role("heading", name="Users")).to_be_visible()
@@ -76,4 +76,5 @@ def test_example(page: Page) -> None:
 
 
     ##############################################################################
+    
     

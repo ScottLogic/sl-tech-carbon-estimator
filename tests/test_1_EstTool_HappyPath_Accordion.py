@@ -1,7 +1,7 @@
 import re
 from playwright.sync_api import Page, expect
 
-# This test is to ensure accordion buttoms work as expected
+# This test is to ensure accordion buttons work as expected
 
 def test_example(page: Page) -> None:
     # page.goto("http://localhost:57056/")

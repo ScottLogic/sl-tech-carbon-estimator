@@ -44,7 +44,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("Cloud 80%")).to_be_visible()
     expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
-    page.get_by_label("What is your monthly cloud").select_option("1000-5000")
+    page.get_by_label("What is your monthly cloud").select_option("1: Object")
     
 
     # Users

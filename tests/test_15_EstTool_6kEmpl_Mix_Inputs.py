@@ -14,7 +14,7 @@ def test_example(page: Page) -> None:
     page.set_viewport_size({"width": 1920, "height": 1200})
     expect(page.get_by_role("heading", name="Carbon Estimator")).to_be_visible()
     
-    #Organisation
+        #Organisation
     page.get_by_label("How many employees are in the").click()
     page.get_by_label("How many employees are in the").fill("6000")
     expect(page.get_by_text("Desktops 50%")).to_be_visible()
@@ -45,7 +45,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("Cloud 80%")).to_be_visible()
     expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
-    page.get_by_label("What is your monthly cloud").select_option("1000-5000")
+    page.get_by_label("What is your monthly cloud").select_option("7: Object")
     
 
     # Users
@@ -63,7 +63,7 @@ def test_example(page: Page) -> None:
     # Calculate
     page.get_by_role("button", name="Calculate").click()
     expect(page.get_by_text("Upstream Emissions:")).to_be_visible()
-    expect(page.get_by_text("29%")).to_be_visible()
+    expect(page.get_by_text("28%")).to_be_visible()
     expect(page.get_by_text("Indirect Emissions:")).to_be_visible()
     expect(page.get_by_text("0%", exact=True).first).to_be_visible()
     expect(page.get_by_text("Direct Emissions:", exact=True)).to_be_visible()

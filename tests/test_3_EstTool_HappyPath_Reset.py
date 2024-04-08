@@ -113,7 +113,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
     expect(page.get_by_text("We have derived a rough")).to_be_visible()
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
-    expect(page.get_by_label("What is your monthly cloud")).to_have_value("0-200");
+    expect(page.get_by_label("What is your monthly cloud")).to_have_value("0: Object");
     expect(page.get_by_role("heading", name="Users")).to_be_visible()
     expect(page.get_by_text("Tell us about your users. At")).to_be_visible()
     expect(page.get_by_text("Where are your users")).to_be_visible()
