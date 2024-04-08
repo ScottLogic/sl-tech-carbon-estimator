@@ -1,16 +1,19 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-estimator';
-import { costRanges, currencyFormat, defaultValues, formContext, helperTextStrings } from './constants';
+import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../carbon-estimator';
+import { costRanges, defaultValues, formContext, helperTextStrings } from './constants';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
+import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 
 @Component({
   selector: 'sl-carbon-estimator-form',
   standalone: true,
+  templateUrl: './carbon-estimator-form.component.html',
+  styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
   imports: [
     ReactiveFormsModule,
     FormsModule,
@@ -20,9 +23,8 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
     SatPopoverModule,
     NoteComponent,
     ExpansionPanelComponent,
+    FormatCostRangePipe,
   ],
-  templateUrl: './carbon-estimator-form.component.html',
-  styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
 })
 export class CarbonEstimatorFormComponent implements OnInit {
   public formValue = input<EstimatorValues>();
@@ -136,10 +138,6 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
-  }
-
-  public formatRange(range: CostRange) {
-    return `${currencyFormat.format(range.min)} - ${currencyFormat.format(range.max)}`;
   }
 
   private refreshPreviewServerCount() {

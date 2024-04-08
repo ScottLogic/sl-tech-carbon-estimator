@@ -117,7 +117,7 @@
             name="monthlyCloudBill"
             required>
             @for (range of costRanges; track $index) {
-              <option [ngValue]="range">{{ formatRange(range) }}</option>
+              <option [ngValue]="range">{{ range | formatCostRange }}</option>
             }
           </select>
         </div>

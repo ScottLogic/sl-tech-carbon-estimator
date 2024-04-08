@@ -23,9 +23,9 @@ export function estimateIndirectEmissions(input: Cloud): IndirectEstimation {
 }
 
 function estimateCloudEnergy(monthlyCloudBill: number): KilowattHour {
-  return monthlyCloudBill * COST_TO_KWH_RATIO * AVERAGE_PUE;
+  return monthlyCloudBill * COST_TO_KWH_RATIO * AVERAGE_PUE * 12;
 }
 
 function estimateCloudUpstream(monthlyCloudBill: number): KgCo2e {
-  return monthlyCloudBill * COST_TO_UPSTREAM_RATIO;
+  return monthlyCloudBill * COST_TO_UPSTREAM_RATIO * 12;
 }
