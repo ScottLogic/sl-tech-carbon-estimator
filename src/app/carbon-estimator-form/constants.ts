@@ -1,12 +1,5 @@
 import { CostRange, EstimatorValues } from '../carbon-estimator';
 
-export const currencyFormat = new Intl.NumberFormat(undefined, {
-  style: 'currency',
-  currency: 'USD',
-  currencyDisplay: 'narrowSymbol',
-  notation: 'compact',
-});
-
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
   { min: 1000, max: 2000 },
