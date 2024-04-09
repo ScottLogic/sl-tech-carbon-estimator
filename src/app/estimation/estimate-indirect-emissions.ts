@@ -1,12 +1,11 @@
 import { Cloud, IndirectEstimation } from '../carbon-estimator';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { KgCo2e, KilowattHour } from '../types/units';
+import { CLOUD_AVERAGE_PUE } from './constants';
 
 // Calculated in spreadsheet, explained in assumptions-and-limitation component
 const COST_TO_KWH_RATIO = 0.156;
 const COST_TO_UPSTREAM_RATIO = 0.0164;
-const AVERAGE_PUE = 1.18;
-
 export function estimateIndirectEmissions(input: Cloud): IndirectEstimation {
   if (input.noCloudServices) {
     return {
@@ -23,7 +22,7 @@ export function estimateIndirectEmissions(input: Cloud): IndirectEstimation {
 }
 
 function estimateCloudEnergy(monthlyCloudBill: number): KilowattHour {
-  return monthlyCloudBill * COST_TO_KWH_RATIO * AVERAGE_PUE * 12;
+  return monthlyCloudBill * COST_TO_KWH_RATIO * CLOUD_AVERAGE_PUE * 12;
 }
 
 function estimateCloudUpstream(monthlyCloudBill: number): KgCo2e {
