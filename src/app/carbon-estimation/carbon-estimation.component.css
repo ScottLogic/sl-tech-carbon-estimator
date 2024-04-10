@@ -1,0 +1,7 @@
+::ng-deep  .apexcharts-legend-series {
+  cursor: default !important;
+}
+
+::ng-deep .apexcharts-legend-series:hover {
+  background-color: rgb(226 232 240);
+}
