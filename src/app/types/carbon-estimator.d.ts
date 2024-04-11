@@ -1,4 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
+import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 
 export type CarbonEstimation = {
   version: string;
@@ -98,3 +99,12 @@ export type CostRange = {
 
 export const purposeOfSiteArray = ['streaming', 'information', 'eCommerce', 'socialMedia', 'average'] as const;
 export type PurposeOfSite = (typeof purposeOfSiteArray)[number];
+
+export type ChartOptions = {
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  legend: ApexLegend;
+  tooltip: ApexTooltip;
+  states: ApexStates;
+  dataLabels: ApexDataLabels;
+};

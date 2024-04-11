@@ -1,44 +1,28 @@
 <div class="flex flex-col">
-  <h2 class="text-xl">Estimations</h2>
-  <div class="flex my-4 gap-4">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="400" role="presentation">
-      <rect x="0" y="0" width="100" [attr.height]="upstreamEmissionsHeight" style="fill: rgb(64 121 140)" />
-      <rect
-        x="0"
-        [attr.y]="upstreamEmissionsHeight"
-        width="100"
-        [attr.height]="indirectEmissionsHeight"
-        style="fill: rgb(203 55 117)" />
-      <rect
-        x="0"
-        [attr.y]="upstreamEmissionsHeight + indirectEmissionsHeight"
-        width="100"
-        [attr.height]="directEmissionsHeight"
-        style="fill: rgb(145 35 76)" />
-      <rect
-        x="0"
-        [attr.y]="upstreamEmissionsHeight + indirectEmissionsHeight + directEmissionsHeight"
-        width="100"
-        [attr.height]="downstreamEmissionsHeight"
-        style="fill: rgb(75 126 86)" />
-    </svg>
-    <div class="grid grid-cols-[1fr_6rem] grid-flow-row gap-4">
-      @if (carbonEstimation().upstreamEmissions) {
-        <span class="text-lg text-[#40798C]">Upstream Emissions:</span>
-        <span class="text-lg">{{ upstreamEmissionsPercent | number: '1.0-0' }}%</span>
-      }
-      @if (carbonEstimation().indirectEmissions) {
-        <span class="text-lg text-[#CB3775]">Indirect Emissions:</span>
-        <span class="text-lg">{{ indirectEmissionsPercent | number: '1.0-0' }}%</span>
-      }
-      @if (carbonEstimation().directEmissions) {
-        <span class="text-lg text-[#91234C]">Direct Emissions:</span>
-        <span class="text-lg">{{ directEmissionsPercent | number: '1.0-0' }}%</span>
-      }
-      @if (carbonEstimation().downstreamEmissions) {
-        <span class="text-lg text-[#4B7E56]">Downstream Emissions:</span>
-        <span class="text-lg">{{ downstreamEmissionsPercent | number: '1.0-0' }}%</span>
-      }
+  <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+    <div header>
+      <h2 class="text-2xl">Estimations</h2>
     </div>
-  </div>
+    <div content>
+      <p>
+        The estimations are divided into 4 categories:
+        <a class="underline" href="https://www.techcarbonstandard.org/categories/upstream">Upstream Emissions</a>,
+        <a class="underline" href="https://www.techcarbonstandard.org/categories/operational#direct-emissions"
+          >Operational Direct Emissions</a
+        >,
+        <a class="underline" href="https://www.techcarbonstandard.org/categories/operational#indirect-emissions"
+          >Operational Indirect Emissions</a
+        >, and
+        <a class="underline" href="https://www.techcarbonstandard.org/categories/downstream">Downstream Emissions</a>.
+      </p>
+    </div>
+  </sl-expansion-panel>
+  <apx-chart
+    [series]="emissions"
+    [chart]="chartOptions.chart"
+    [plotOptions]="chartOptions.plotOptions"
+    [legend]="chartOptions.legend"
+    [states]="chartOptions.states"
+    [dataLabels]="chartOptions.dataLabels"
+    [tooltip]="chartOptions.tooltip"></apx-chart>
 </div>

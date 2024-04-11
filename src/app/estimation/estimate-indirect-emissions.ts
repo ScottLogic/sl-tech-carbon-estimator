@@ -1,4 +1,4 @@
-import { Cloud, IndirectEstimation } from '../carbon-estimator';
+import { Cloud, IndirectEstimation } from '../types/carbon-estimator';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { KgCo2e, KilowattHour } from '../types/units';
 import { CLOUD_AVERAGE_PUE } from './constants';

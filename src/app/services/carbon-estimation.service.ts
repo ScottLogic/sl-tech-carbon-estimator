@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CarbonEstimation, DeviceCounts, EstimatorValues } from '../carbon-estimator';
+import { CarbonEstimation, DeviceCounts, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';

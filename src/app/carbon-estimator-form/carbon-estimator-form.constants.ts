@@ -1,4 +1,4 @@
-import { CostRange, EstimatorValues } from '../carbon-estimator';
+import { CostRange, EstimatorValues } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },

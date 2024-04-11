@@ -1,4 +1,4 @@
-import { Cloud } from '../carbon-estimator';
+import { Cloud } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from './estimate-indirect-emissions';
 
 it('should return no emissions if cloud not used', () => {

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, EstimatorValues } from '../carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { sumValues } from '../utils/number-object';
 

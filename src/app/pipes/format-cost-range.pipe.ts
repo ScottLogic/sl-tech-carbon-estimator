@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CostRange } from '../carbon-estimator';
+import { CostRange } from '../types/carbon-estimator';
 
 export const currencyFormat = new Intl.NumberFormat(undefined, {
   style: 'currency',
