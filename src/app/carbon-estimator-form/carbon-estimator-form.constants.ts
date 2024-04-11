@@ -29,11 +29,11 @@ export const defaultValues: Required<EstimatorValues> = {
     noCloudServices: false,
     cloudLocation: 'global',
     cloudPercentage: 50,
-    monthlyCloudBill: costRanges[4],
+    monthlyCloudBill: costRanges[0],
   },
   downstream: {
     customerLocation: 'global',
-    monthlyActiveUsers: 10000,
+    monthlyActiveUsers: 100,
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
