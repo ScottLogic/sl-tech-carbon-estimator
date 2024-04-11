@@ -1,32 +1,15 @@
 import { Component, effect, input } from '@angular/core';
-import { CarbonEstimation } from '../carbon-estimator';
-import { DecimalPipe } from '@angular/common';
+import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexDataLabels,
-  ApexLegend,
-  ApexPlotOptions,
-  ApexStates,
-  ApexTooltip,
-  NgApexchartsModule,
-} from 'ng-apexcharts';
+import { ApexAxisChartSeries, NgApexchartsModule } from 'ng-apexcharts';
 
-type ChartOptions = {
-  chart: ApexChart;
-  plotOptions: ApexPlotOptions;
-  legend: ApexLegend;
-  tooltip: ApexTooltip;
-  states: ApexStates;
-  dataLabels: ApexDataLabels;
-};
 import { startCase } from 'lodash-es';
+import { EmissionsColours, chartOptions } from './carbon-estimation.constants';
 
 @Component({
   selector: 'sl-carbon-estimation',
   standalone: true,
-  imports: [DecimalPipe, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
 })
@@ -35,123 +18,100 @@ export class CarbonEstimationComponent {
 
   public emissions: ApexAxisChartSeries = [];
 
-  public chartOptions: ChartOptions = {
-    legend: {
-      show: true,
-      position: 'right',
-      fontSize: '20px',
-      fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-      fontWeight: '400',
-      markers: {
-        height: 20,
-        width: 10,
-        radius: 2,
-        offsetY: 2,
-      },
-    },
-    chart: {
-      height: 700,
-      type: 'treemap',
-      toolbar: {
-        show: false,
-      },
-      selection: {
-        enabled: false,
-      },
-    },
-    plotOptions: {
-      treemap: {
-        distributed: false,
-        enableShades: false,
-        borderRadius: 4,
-      },
-    },
-    tooltip: {
-      y: { formatter: value => (value < 1 ? '<1%' : `${Math.round(value)}%`) },
-    },
-    states: {
-      active: {
-        filter: {
-          type: 'none',
-          value: 0,
-        },
-      },
-    },
-    dataLabels: {
-      style: {
-        fontSize: '16px',
-        fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-        fontWeight: '400',
-      },
-    },
-  };
+  public chartOptions: ChartOptions = chartOptions;
 
   constructor() {
     effect(() => {
-      const carbonEstimation = this.carbonEstimation();
-      const upstreamEmissionsPercent = Math.round(sumValues(carbonEstimation.upstreamEmissions));
-      const indirectEmissionsPercent = Math.round(sumValues(carbonEstimation.indirectEmissions));
-      const directEmissionsPercent = Math.round(sumValues(carbonEstimation.directEmissions));
-      const downstreamEmissionsPercent = Math.round(sumValues(carbonEstimation.downstreamEmissions));
-
-      // this.emissions = [
-      //   {
-      //     data: [
-      //       {
-      //         x: 'Upstream',
-      //         y: this.upstreamEmissionsPercent,
-      //         fillColor: '#40798C',
-      //       },
-      //       {
-      //         x: 'Indirect',
-      //         y: this.indirectEmissionsPercent,
-      //         fillColor: '#CB3775',
-      //       },
-      //       {
-      //         x: 'Direct',
-      //         y: this.directEmissionsPercent,
-      //         fillColor: '#91234C',
-      //       },
-      //       {
-      //         x: 'Downstream',
-      //         y: this.downstreamEmissionsPercent,
-      //         fillColor: '#4B7E56',
-      //       },
-      //     ],
-      //   },
-      // ];
-
-      this.emissions = [
-        {
-          name: `Upstream Emissions - ${upstreamEmissionsPercent}%`,
-          color: '#40798C',
-          data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions),
-        },
-        {
-          name: `Indirect Emissions - ${indirectEmissionsPercent}%`,
-          color: '#CB3775',
-          data: this.getEmissionPercentages(carbonEstimation.indirectEmissions),
-        },
-        {
-          name: `Direct Emissions - ${directEmissionsPercent}%`,
-          color: '#91234C',
-          data: this.getEmissionPercentages(carbonEstimation.directEmissions),
-        },
-        {
-          name: `Downstream Emissions - ${downstreamEmissionsPercent}%`,
-          color: '#4B7E56',
-          data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions),
-        },
-      ];
+      this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
     });
   }
 
-  private getEmissionPercentages(emissions: { [key: string]: number }): { x: string; y: number }[] {
+  private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
+    return [
+      {
+        name: `Upstream Emissions - ${Math.round(sumValues(carbonEstimation.upstreamEmissions))}%`,
+        color: EmissionsColours.Upstream,
+        data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, this.getUpstreamLabel),
+      },
+      {
+        name: `Direct Emissions - ${Math.round(sumValues(carbonEstimation.directEmissions))}%`,
+        color: EmissionsColours.Direct,
+        data: this.getEmissionPercentages(carbonEstimation.directEmissions, this.getDirectLabel),
+      },
+      {
+        name: `Indirect Emissions - ${Math.round(sumValues(carbonEstimation.indirectEmissions))}%`,
+        color: EmissionsColours.Indirect,
+        data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, this.getIndirectLabel),
+      },
+      {
+        name: `Downstream Emissions - ${Math.round(sumValues(carbonEstimation.downstreamEmissions))}%`,
+        color: EmissionsColours.Downstream,
+        data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, this.getDownstreamLabel),
+      },
+    ];
+  }
+
+  private getEmissionPercentages(
+    emissions: { [key: string]: number },
+    labelFunction: (key: string) => string
+  ): { x: string; y: number }[] {
     return (
       Object.entries(emissions)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_key, value]) => value !== 0)
-        .map(([key, value]) => ({ x: startCase(key), y: value }))
+        .map(([key, value]) => ({ x: labelFunction(key), y: value }))
     );
+  }
+
+  private getUpstreamLabel(key: string): string {
+    switch (key) {
+      case 'software':
+        return 'Software';
+      case 'user':
+        return 'User';
+      case 'network':
+        return 'Network Hardware';
+      case 'server':
+        return 'Server Hardware';
+      default:
+        return startCase(key);
+    }
+  }
+
+  private getDirectLabel(key: string): string {
+    switch (key) {
+      case 'user':
+        return 'Employee Devices';
+      case 'network':
+        return 'Network Devices';
+      case 'server':
+        return 'Servers and Storage';
+      default:
+        return startCase(key);
+    }
+  }
+
+  private getIndirectLabel(key: string): string {
+    switch (key) {
+      case 'cloud':
+        return 'Cloud Services';
+      case 'saas':
+        return 'Saas';
+      case 'managed':
+        return 'Managed Services';
+      default:
+        return startCase(key);
+    }
+  }
+
+  private getDownstreamLabel(key: string): string {
+    switch (key) {
+      case 'endUser':
+        return 'End User Devices';
+      case 'network':
+        return 'Network Data Transfer';
+      default:
+        return startCase(key);
+    }
   }
 }
