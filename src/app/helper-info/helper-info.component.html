@@ -1,5 +1,10 @@
-<button [satPopoverAnchor]="helperInfo" (click)="helperInfo.toggle()" type="button">
-  <span class="material-icons-outlined text-base text-slate-600">help_outline</span>
+<button
+  [satPopoverAnchor]="helperInfo"
+  (click)="helperInfo.toggle()"
+  type="button"
+  aria-label="Show helper popup"
+  class="material-icons-outlined text-base text-slate-600 hover:bg-slate-300 rounded">
+  help_outline
 </button>
 
 <sat-popover #helperInfo verticalAlign="above" hasBackdrop>
@@ -7,4 +12,10 @@
     class="max-w-64 bg-white border border-slate-600 rounded p-2 before:w-4 before:h-4 before:rotate-45 before:bg-slate-600 before:absolute before:z-[-10] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
     <ng-content></ng-content>
   </div>
+  <button
+    (click)="helperInfo.close()"
+    aria-label="Close helper popup"
+    class="absolute top-1 right-1 h-4 w-4 text-slate-800 rounded hover:bg-slate-300 text-base leading-4 text-slate-600 material-icons-outlined">
+    close
+  </button>
 </sat-popover>
