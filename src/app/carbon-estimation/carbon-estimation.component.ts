@@ -1,15 +1,16 @@
 import { Component, effect, input } from '@angular/core';
 import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
-import { sumValues } from '../utils/number-object';
+import { NumberObject, sumValues } from '../utils/number-object';
 import { ApexAxisChartSeries, NgApexchartsModule } from 'ng-apexcharts';
 
 import { startCase } from 'lodash-es';
 import { EmissionsColours, chartOptions } from './carbon-estimation.constants';
+import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
 @Component({
   selector: 'sl-carbon-estimation',
   standalone: true,
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, ExpansionPanelComponent],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
 })
@@ -29,30 +30,35 @@ export class CarbonEstimationComponent {
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
     return [
       {
-        name: `Upstream Emissions - ${Math.round(sumValues(carbonEstimation.upstreamEmissions))}%`,
+        name: `Upstream Emissions - ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
         color: EmissionsColours.Upstream,
         data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, this.getUpstreamLabel),
       },
       {
-        name: `Direct Emissions - ${Math.round(sumValues(carbonEstimation.directEmissions))}%`,
+        name: `Direct Emissions - ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
         color: EmissionsColours.Direct,
         data: this.getEmissionPercentages(carbonEstimation.directEmissions, this.getDirectLabel),
       },
       {
-        name: `Indirect Emissions - ${Math.round(sumValues(carbonEstimation.indirectEmissions))}%`,
+        name: `Indirect Emissions - ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
         color: EmissionsColours.Indirect,
         data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, this.getIndirectLabel),
       },
       {
-        name: `Downstream Emissions - ${Math.round(sumValues(carbonEstimation.downstreamEmissions))}%`,
+        name: `Downstream Emissions - ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
         color: EmissionsColours.Downstream,
         data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, this.getDownstreamLabel),
       },
     ];
   }
 
+  private getOverallPercentageLabel = (emissions: NumberObject): string => {
+    const percentage = sumValues(emissions);
+    return percentage < 1 ? '<1%' : Math.round(percentage) + '%';
+  };
+
   private getEmissionPercentages(
-    emissions: { [key: string]: number },
+    emissions: NumberObject,
     labelFunction: (key: string) => string
   ): { x: string; y: number }[] {
     return (
