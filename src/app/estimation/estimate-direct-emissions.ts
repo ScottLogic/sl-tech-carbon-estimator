@@ -1,4 +1,4 @@
-import { DeviceCounts, DirectEstimation, WorldLocation } from '../carbon-estimator';
+import { DeviceCounts, DirectEstimation, WorldLocation } from '../types/carbon-estimator';
 import { desktop, laptop, network, server } from './device-type';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 

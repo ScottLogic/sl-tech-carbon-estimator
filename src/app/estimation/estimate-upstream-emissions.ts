@@ -1,4 +1,4 @@
-import { DeviceCounts, UpstreamEstimation } from '../carbon-estimator';
+import { DeviceCounts, UpstreamEstimation } from '../types/carbon-estimator';
 import { desktop, laptop, network, server } from './device-type';
 
 export function estimateUpstreamEmissions(deviceCounts: DeviceCounts): UpstreamEstimation {

@@ -1,4 +1,4 @@
-import { PurposeOfSite, Downstream, DownstreamEstimation } from '../carbon-estimator';
+import { PurposeOfSite, Downstream, DownstreamEstimation } from '../types/carbon-estimator';
 import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';

@@ -1,4 +1,4 @@
-import { Downstream } from '../carbon-estimator';
+import { Downstream } from '../types/carbon-estimator';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 
 it('should return no emissions if monthly active users is zero', () => {

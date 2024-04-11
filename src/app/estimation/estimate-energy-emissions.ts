@@ -1,5 +1,5 @@
 import { KgCo2e, KgCo2ePerKwh, KilowattHour, gCo2ePerKwh } from '../types/units';
-import { WorldLocation } from '../carbon-estimator';
+import { WorldLocation } from '../types/carbon-estimator';
 
 // Carbon Intensity figures sourced from https://ember-climate.org/data/data-tools/data-explorer/
 const location_intensity_map: Record<WorldLocation, KgCo2ePerKwh> = {
