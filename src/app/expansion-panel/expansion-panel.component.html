@@ -4,7 +4,8 @@
     type="button"
     (click)="toggle()"
     (keydown.enter)="toggle()"
-    class="material-icons-outlined text text-slate-600 hover:bg-slate-200 hover:rounded">
+    class="material-icons-outlined text text-slate-600 hover:bg-slate-200 hover:rounded"
+    [attr.aria-label]="expanded ? 'Hide details' : 'Show details'">
     {{ expanded ? 'expand_less' : 'expand_more' }}
   </button>
 </div>
