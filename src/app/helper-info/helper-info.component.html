@@ -2,7 +2,7 @@
   [satPopoverAnchor]="helperInfo"
   (click)="helperInfo.toggle()"
   type="button"
-  aria-label="Show helper popup"
+  [attr.aria-label]="inputLabel + ' helper popup'"
   class="material-icons-outlined text-base text-slate-600 hover:bg-slate-300 rounded">
   help_outline
 </button>
