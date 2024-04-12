@@ -7,6 +7,8 @@ export enum EmissionsColours {
   Downstream = '#4B7E56',
 }
 
+export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
+
 export const chartOptions: ChartOptions = {
   legend: {
     show: true,
@@ -38,7 +40,7 @@ export const chartOptions: ChartOptions = {
     },
   },
   tooltip: {
-    y: { formatter: (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`) },
+    y: { formatter: tooltipFormatter },
   },
   states: {
     active: {

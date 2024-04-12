@@ -1,4 +1,4 @@
-<div class="flex flex-col">
+<div class="flex flex-col" aria-live="polite">
   <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
     <div header>
       <h2 class="text-2xl">Estimations</h2>
@@ -17,12 +17,15 @@
       </p>
     </div>
   </sl-expansion-panel>
-  <apx-chart
-    [series]="emissions"
-    [chart]="chartOptions.chart"
-    [plotOptions]="chartOptions.plotOptions"
-    [legend]="chartOptions.legend"
-    [states]="chartOptions.states"
-    [dataLabels]="chartOptions.dataLabels"
-    [tooltip]="chartOptions.tooltip"></apx-chart>
+  <div [attr.aria-label]="emissionAriaLabel" role="presentation" tabindex="0">
+    <apx-chart
+      aria-hidden="true"
+      [series]="emissions"
+      [chart]="chartOptions.chart"
+      [plotOptions]="chartOptions.plotOptions"
+      [legend]="chartOptions.legend"
+      [states]="chartOptions.states"
+      [dataLabels]="chartOptions.dataLabels"
+      [tooltip]="chartOptions.tooltip"></apx-chart>
+  </div>
 </div>

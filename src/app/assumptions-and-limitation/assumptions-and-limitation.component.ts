@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 
 @Component({
@@ -6,17 +6,24 @@ import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constan
   standalone: true,
   templateUrl: './assumptions-and-limitation.component.html',
 })
-export class AssumptionsAndLimitationComponent {
-  @Output() public closeEvent = new EventEmitter<void>();
+export class AssumptionsAndLimitationComponent implements AfterContentInit {
+  @Output() public closeEvent = new EventEmitter<boolean>();
   readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
   readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
 
-  public onClose(): void {
-    this.closeEvent.emit();
+  @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;
+
+  public ngAfterContentInit(): void {
+    this.assumptionsLimitation.nativeElement.focus();
+  }
+
+  public onClose(hasFocus = true): void {
+    this.closeEvent.emit(hasFocus);
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   public onEscKeydown(): void {
-    this.onClose();
+    const hasFocus = this.assumptionsLimitation.nativeElement.contains(document.activeElement);
+    this.onClose(hasFocus);
   }
 }

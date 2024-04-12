@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-4">
+<div #assumptionsLimitation class="flex flex-col gap-4" tabindex="0">
   <h2 class="text-2xl">Assumptions and Limitations</h2>
   <p class="text-sm">
     The Tech Carbon Estimator tool is designed to give a high-level overview of the possible areas of carbon impact
@@ -345,5 +345,10 @@
   <p class="text-sm">
     We currently do not make a distinction between on-premises data centers and those ran by a third party.
   </p>
-  <button class="px-3 py-2 bg-sky-800 text-white rounded hover:bg-sky-900 self-end" (click)="onClose()">Close</button>
+  <button
+    class="px-3 py-2 bg-sky-800 text-white rounded hover:bg-sky-900 self-end"
+    (click)="onClose()"
+    aria-label="Close assumptions and limitations">
+    Close
+  </button>
 </div>

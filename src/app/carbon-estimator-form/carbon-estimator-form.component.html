@@ -18,9 +18,6 @@
         <label for="desktopPercentage" class="text-sm text-slate-600">
           What percentage of those employee devices are desktops or laptops?
         </label>
-        <label for="desktopPercentage" class="flex justify-between text-sm text-slate-600"
-          ><span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span></label
-        >
         <input
           id="desktopPercentage"
           class="cursor-pointer"
@@ -29,7 +26,11 @@
           type="range"
           min="0"
           max="100"
-          step="5" />
+          step="5"
+          [attr.aria-valuetext]="'Desktops ' + desktopPercentage + '%, Laptops ' + laptopPercentage + '%'" />
+        <div class="flex justify-between text-sm text-slate-600">
+          <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
+        </div>
       </div>
     </div>
   </div>
@@ -38,9 +39,14 @@
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
 
     <div class="flex flex-col gap-4">
-      <p>How many on-premise servers do you use?</p>
+      <p id="on-prem-servers-question">How many on-premise servers do you use?</p>
       <div class="flex gap-2 items-center">
-        <input id="estimateServerCount" type="checkbox" class="rounded-sm" formControlName="estimateServerCount" />
+        <input
+          id="estimateServerCount"
+          type="checkbox"
+          class="rounded-sm"
+          formControlName="estimateServerCount"
+          aria-describedby="on-prem-servers-question" />
         <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
       </div>
 
@@ -84,10 +90,6 @@
           <label for="cloudPercentage" class="text-sm text-slate-600"
             >What percentage of your servers are cloud services vs on-premise?</label
           >
-          <label for="cloudPercentage" class="flex justify-between text-sm text-slate-600">
-            <span>Cloud {{ cloudPercentage }}%</span>
-            <span>On-prem {{ onPremisePercentage }}%</span>
-          </label>
           <input
             id="cloudPercentage"
             class="cursor-pointer disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
@@ -96,7 +98,12 @@
             type="range"
             min="0"
             max="100"
-            step="5" />
+            step="5"
+            [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
+          <div class="flex justify-between text-sm text-slate-600">
+            <span>Cloud {{ cloudPercentage }}%</span>
+            <span>On-premise {{ onPremisePercentage }}%</span>
+          </div>
         </div>
 
         <ng-container *ngTemplateOutlet="locationInput; context: formContext.cloud"></ng-container>
@@ -147,7 +154,9 @@
           <label for="mobilePercentage" class="text-sm text-slate-600">
             What percentage of your users are mobile or personal computer users?
           </label>
-          <sl-helper-info class="ml-auto">
+          <sl-helper-info
+            class="ml-auto"
+            inputLabel="What percentage of your users are mobile or personal computer users">
             <p class="text-sm text-slate-600">
               The percentage of mobile users will affect the energy used by end user devices and network infrastructure.
             </p>
@@ -157,10 +166,6 @@
             </p>
           </sl-helper-info>
         </div>
-        <label for="mobilePercentage" class="flex justify-between text-sm text-slate-600">
-          <span>Mobile {{ mobilePercentage }}%</span>
-          <span>Computer {{ computerPercentage }}%</span>
-        </label>
         <input
           id="mobilePercentage"
           formControlName="mobilePercentage"
@@ -168,13 +173,18 @@
           type="range"
           min="0"
           max="100"
-          step="5" />
+          step="5"
+          [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
+        <div class="flex justify-between text-sm text-slate-600">
+          <span>Mobile {{ mobilePercentage }}%</span>
+          <span>Computer {{ computerPercentage }}%</span>
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="flex">
           <label for="purposeOfSite" class="text-sm text-slate-600">What's the purpose of your website?</label>
-          <sl-helper-info class="ml-auto">
+          <sl-helper-info class="ml-auto" inputLabel="What's the purpose of your website">
             <p class="text-sm text-slate-600">
               The purpose of the site is used to determine the typical amount of time a user might spend on your site
               and the amount of data that may be transferred.
@@ -226,7 +236,7 @@
       <div class="flex">
         <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
         @if (helperText) {
-          <sl-helper-info class="ml-auto">
+          <sl-helper-info class="ml-auto" [inputLabel]="label">
             <p class="text-sm text-slate-600">
               This will affect the average
               <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"

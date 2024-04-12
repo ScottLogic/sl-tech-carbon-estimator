@@ -3,7 +3,8 @@
   <div #content class="flex w-full grow">
     @if (showAssumptionsAndLimitationView) {
       <sl-assumptions-and-limitation
-        (closeEvent)="closeAssumptionsAndLimitation()"
+        aria-live="polite"
+        (closeEvent)="closeAssumptionsAndLimitation($event)"
         class="w-1/2 pr-4"></sl-assumptions-and-limitation>
     } @else {
       <sl-carbon-estimator-form
@@ -16,6 +17,7 @@
         <sl-carbon-estimation [carbonEstimation]="carbonEstimation"></sl-carbon-estimation>
         @if (!showAssumptionsAndLimitationView) {
           <button
+            id="showAssumptionsAndLimitationButton"
             class="px-3 py-2 bg-slate-200 text-slate-800 rounded hover:bg-slate-300 w-fit self-end"
             (click)="showAssumptionsAndLimitation()">
             Assumptions and limitations

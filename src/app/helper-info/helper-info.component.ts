@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 
 @Component({
@@ -7,4 +7,6 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
   imports: [SatPopoverModule],
   templateUrl: './helper-info.component.html',
 })
-export class HelperInfoComponent {}
+export class HelperInfoComponent {
+  @Input() inputLabel!: string;
+}
