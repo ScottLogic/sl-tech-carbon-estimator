@@ -4,8 +4,10 @@ import { NumberObject, sumValues } from '../utils/number-object';
 import { ApexAxisChartSeries, NgApexchartsModule } from 'ng-apexcharts';
 
 import { startCase } from 'lodash-es';
-import { EmissionsColours, chartOptions } from './carbon-estimation.constants';
+import { EmissionsColours, chartOptions, tooltipFormatter } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
+
+type ApexChartDataItem = { x: string; y: number };
 
 @Component({
   selector: 'sl-carbon-estimation',
@@ -18,12 +20,15 @@ export class CarbonEstimationComponent {
   public carbonEstimation = input.required<CarbonEstimation>();
 
   public emissions: ApexAxisChartSeries = [];
+  public emissionAriaLabel = 'Estimations of emissions.';
 
   public chartOptions: ChartOptions = chartOptions;
+  private tooltipFormatter = tooltipFormatter;
 
   constructor() {
     effect(() => {
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
+      this.emissionAriaLabel = this.getAriaLabel(this.carbonEstimation());
     });
   }
 
@@ -52,15 +57,23 @@ export class CarbonEstimationComponent {
     ];
   }
 
+  private getAriaLabel(carbonEstimation: CarbonEstimation): string {
+    return `Estimation of emissions. Upstream emissions are ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[0].data as ApexChartDataItem[])}.
+    Direct emissions are ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[1].data as ApexChartDataItem[])}.
+    Indirect emissions are ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[2].data as ApexChartDataItem[])}.
+    Downstream emissions are ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[3].data as ApexChartDataItem[])}.`;
+  }
+
+  private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
+    return emission.map(item => `${item.x} ${this.tooltipFormatter(item.y)}`).join(', ');
+  }
+
   private getOverallPercentageLabel = (emissions: NumberObject): string => {
     const percentage = sumValues(emissions);
     return percentage < 1 ? '<1%' : Math.round(percentage) + '%';
   };
 
-  private getEmissionPercentages(
-    emissions: NumberObject,
-    labelFunction: (key: string) => string
-  ): { x: string; y: number }[] {
+  private getEmissionPercentages(emissions: NumberObject, labelFunction: (key: string) => string): ApexChartDataItem[] {
     return (
       Object.entries(emissions)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
