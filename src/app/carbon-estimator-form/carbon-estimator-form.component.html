@@ -39,9 +39,14 @@
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
 
     <div class="flex flex-col gap-4">
-      <p>How many on-premise servers do you use?</p>
+      <p id="on-prem-servers-question">How many on-premise servers do you use?</p>
       <div class="flex gap-2 items-center">
-        <input id="estimateServerCount" type="checkbox" class="rounded-sm" formControlName="estimateServerCount" />
+        <input
+          id="estimateServerCount"
+          type="checkbox"
+          class="rounded-sm"
+          formControlName="estimateServerCount"
+          aria-describedby="on-prem-servers-question" />
         <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
       </div>
 
