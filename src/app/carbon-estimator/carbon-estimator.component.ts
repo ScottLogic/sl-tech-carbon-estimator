@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -27,7 +27,10 @@ export class CarbonEstimatorComponent {
 
   @ViewChild('content') content!: ElementRef;
 
-  constructor(private estimationService: CarbonEstimationService) {}
+  constructor(
+    private estimationService: CarbonEstimationService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
@@ -40,8 +43,12 @@ export class CarbonEstimatorComponent {
     this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
   }
 
-  public closeAssumptionsAndLimitation(): void {
+  public closeAssumptionsAndLimitation(hasFocus: boolean): void {
     this.showAssumptionsAndLimitationView = false;
     this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
+    if (hasFocus) {
+      this.changeDetector.detectChanges();
+      this.content.nativeElement.querySelector('button#showAssumptionsAndLimitationButton')?.focus();
+    }
   }
 }

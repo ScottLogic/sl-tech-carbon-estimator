@@ -7,22 +7,23 @@ import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constan
   templateUrl: './assumptions-and-limitation.component.html',
 })
 export class AssumptionsAndLimitationComponent implements AfterContentInit {
-  @Output() public closeEvent = new EventEmitter<void>();
+  @Output() public closeEvent = new EventEmitter<boolean>();
   readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
   readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
 
-  @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef;
+  @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;
 
   public ngAfterContentInit(): void {
     this.assumptionsLimitation.nativeElement.focus();
   }
 
-  public onClose(): void {
-    this.closeEvent.emit();
+  public onClose(hasFocus = true): void {
+    this.closeEvent.emit(hasFocus);
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   public onEscKeydown(): void {
-    this.onClose();
+    const hasFocus = this.assumptionsLimitation.nativeElement.contains(document.activeElement);
+    this.onClose(hasFocus);
   }
 }
