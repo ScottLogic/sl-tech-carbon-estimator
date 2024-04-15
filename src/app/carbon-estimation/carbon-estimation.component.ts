@@ -1,10 +1,10 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, effect, input } from '@angular/core';
 import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
 import { NumberObject, sumValues } from '../utils/number-object';
-import { ApexAxisChartSeries, NgApexchartsModule } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 
 import { startCase } from 'lodash-es';
-import { EmissionsColours, chartOptions, tooltipFormatter } from './carbon-estimation.constants';
+import { EmissionsColours, chartOptions, estimatorBaseHeight, tooltipFormatter } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
 type ApexChartDataItem = { x: string; y: number };
@@ -16,8 +16,9 @@ type ApexChartDataItem = { x: string; y: number };
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
 })
-export class CarbonEstimationComponent {
+export class CarbonEstimationComponent implements OnInit {
   public carbonEstimation = input.required<CarbonEstimation>();
+  public extraHeight = input<string>();
 
   public emissions: ApexAxisChartSeries = [];
   public emissionAriaLabel = 'Estimations of emissions.';
@@ -25,11 +26,28 @@ export class CarbonEstimationComponent {
   public chartOptions: ChartOptions = chartOptions;
   private tooltipFormatter = tooltipFormatter;
 
+  @ViewChild('chart') chart: ChartComponent | undefined;
+
   constructor() {
     effect(() => {
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
       this.emissionAriaLabel = this.getAriaLabel(this.carbonEstimation());
     });
+  }
+
+  public ngOnInit(): void {
+    const chartHeight = this.getChartHeight(innerHeight);
+    if (chartHeight > 0) {
+      this.chartOptions.chart.height = chartHeight;
+    }
+  }
+
+  @HostListener('window:resize', ['$event.target.innerHeight'])
+  onResize(innerHeight: number) {
+    const chartHeight = this.getChartHeight(innerHeight);
+    if (chartHeight > 0) {
+      this.chart?.updateOptions({ chart: { height: chartHeight } });
+    }
   }
 
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
@@ -132,5 +150,11 @@ export class CarbonEstimationComponent {
       default:
         return startCase(key);
     }
+  }
+
+  private getChartHeight(innerHeight: number): number {
+    const extraHeightString = this.extraHeight();
+    const extraHeight = Number(extraHeightString) ?? 0;
+    return innerHeight - estimatorBaseHeight - extraHeight;
   }
 }

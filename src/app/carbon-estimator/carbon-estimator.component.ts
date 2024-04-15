@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -20,6 +20,8 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
   templateUrl: './carbon-estimator.component.html',
 })
 export class CarbonEstimatorComponent {
+  @Input() public extraHeight?: string;
+
   public showEstimation = false;
   public showAssumptionsAndLimitationView = false;
   public formValue: EstimatorValues | undefined;

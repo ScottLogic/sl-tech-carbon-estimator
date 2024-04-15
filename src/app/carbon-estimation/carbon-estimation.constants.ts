@@ -60,3 +60,5 @@ export const chartOptions: ChartOptions = {
     },
   },
 };
+
+export const estimatorBaseHeight = 282; // Addition of Title, Subtitle, and Assumptions and Limitations button heights
