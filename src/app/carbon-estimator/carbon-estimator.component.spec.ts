@@ -111,9 +111,23 @@ describe('CarbonEstimatorComponent', () => {
 
     spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
 
-    component.closeAssumptionsAndLimitation();
+    component.closeAssumptionsAndLimitation(false);
     fixture.detectChanges();
 
     expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
+  });
+
+  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
+    component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = true;
+    fixture.detectChanges();
+
+    component.closeAssumptionsAndLimitation(true);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement
+      .querySelector('button#showAssumptionsAndLimitationButton')
+      ?.contains(document.activeElement);
+    expect(button).toBeTrue();
   });
 });
