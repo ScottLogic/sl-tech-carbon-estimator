@@ -1,4 +1,5 @@
-import { Downstream } from '../types/carbon-estimator';
+import { Downstream, PurposeOfSite, basePurposeArray } from '../types/carbon-estimator';
+import { sumValues } from '../utils/number-object';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 
 describe('estimateDownstreamEmissions', () => {
@@ -15,63 +16,51 @@ describe('estimateDownstreamEmissions', () => {
     });
   });
 
-  it('should return emissions for information site', () => {
-    const input: Downstream = {
+  function createInput(purposeOfSite: PurposeOfSite): Downstream {
+    return {
       monthlyActiveUsers: 100,
       customerLocation: 'global',
       mobilePercentage: 0,
-      purposeOfSite: 'information',
+      purposeOfSite: purposeOfSite,
     };
-    const result = estimateDownstreamEmissions(input);
+  }
+
+  it('should return emissions for information site', () => {
+    const result = estimateDownstreamEmissions(createInput('information'));
     expect(result.endUser).toBeCloseTo(0.50222);
     expect(result.network).toBeCloseTo(0.0525016);
   });
 
   it('should return emissions for e-commerce site', () => {
-    const input: Downstream = {
-      monthlyActiveUsers: 100,
-      customerLocation: 'global',
-      mobilePercentage: 0,
-      purposeOfSite: 'eCommerce',
-    };
-    const result = estimateDownstreamEmissions(input);
+    const result = estimateDownstreamEmissions(createInput('eCommerce'));
     expect(result.endUser).toBeCloseTo(3.13888);
     expect(result.network).toBeCloseTo(1.11322);
   });
 
   it('should return emissions for social media site', () => {
-    const input: Downstream = {
-      monthlyActiveUsers: 100,
-      customerLocation: 'global',
-      mobilePercentage: 0,
-      purposeOfSite: 'socialMedia',
-    };
-    const result = estimateDownstreamEmissions(input);
+    const result = estimateDownstreamEmissions(createInput('socialMedia'));
     expect(result.endUser).toBeCloseTo(511.637);
     expect(result.network).toBeCloseTo(298.761);
   });
 
   it('should return emissions for streaming site', () => {
-    const input: Downstream = {
-      monthlyActiveUsers: 100,
-      customerLocation: 'global',
-      mobilePercentage: 0,
-      purposeOfSite: 'streaming',
-    };
-    const result = estimateDownstreamEmissions(input);
+    const result = estimateDownstreamEmissions(createInput('streaming'));
     expect(result.endUser).toBeCloseTo(695.038);
     expect(result.network).toBeCloseTo(698.533);
   });
 
   it('should return emissions based on average values', () => {
-    const input: Downstream = {
-      monthlyActiveUsers: 100,
-      customerLocation: 'global',
-      mobilePercentage: 0,
-      purposeOfSite: 'average',
-    };
-    const result = estimateDownstreamEmissions(input);
+    const result = estimateDownstreamEmissions(createInput('average'));
     expect(result.endUser).toBeCloseTo(302.579);
     expect(result.network).toBeCloseTo(249.615);
+  });
+
+  it('should create average equivalent to average of all other purposes', () => {
+    const totalEmissions = basePurposeArray
+      .map(purpose => sumValues(estimateDownstreamEmissions(createInput(purpose))))
+      .reduce((x, y) => x + y);
+    const expectedAverage = totalEmissions / basePurposeArray.length;
+    const result = estimateDownstreamEmissions(createInput('average'));
+    expect(sumValues(result)).toBeCloseTo(expectedAverage);
   });
 });
