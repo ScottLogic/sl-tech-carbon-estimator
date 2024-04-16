@@ -1,4 +1,10 @@
-import { PurposeOfSite, Downstream, DownstreamEstimation } from '../types/carbon-estimator';
+import {
+  PurposeOfSite,
+  Downstream,
+  DownstreamEstimation,
+  BasePurposeOfSite,
+  basePurposeArray,
+} from '../types/carbon-estimator';
 import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
@@ -11,8 +17,25 @@ interface SiteInformation {
 
 const BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
 
+function addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<PurposeOfSite, SiteInformation> {
+  let totalMonthlyUserTime = 0;
+  let totalMonthlyUserData = 0;
+  for (const value of Object.values(input)) {
+    totalMonthlyUserTime += value.averageMonthlyUserTime;
+    totalMonthlyUserData += value.averageMonthlyUserData;
+  }
+  const count = basePurposeArray.length;
+  return {
+    ...input,
+    average: {
+      averageMonthlyUserTime: totalMonthlyUserTime / count,
+      averageMonthlyUserData: totalMonthlyUserData / count,
+    },
+  };
+}
+
 // Needs source from our own research
-const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
+export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
   information: {
     averageMonthlyUserTime: 0.016,
     averageMonthlyUserData: 0.000781,
@@ -29,11 +52,7 @@ const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = {
     averageMonthlyUserTime: 22.1429,
     averageMonthlyUserData: 10.3912,
   },
-  average: {
-    averageMonthlyUserTime: 9.648,
-    averageMonthlyUserData: 3.713,
-  },
-};
+});
 
 export function estimateDownstreamEmissions(downstream: Downstream): DownstreamEstimation {
   if (downstream.monthlyActiveUsers === 0) {
