@@ -36,7 +36,7 @@ export class CarbonEstimationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const chartHeight = this.getChartHeight(innerHeight);
+    const chartHeight = this.getChartHeight(window.innerHeight);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
     }
@@ -133,7 +133,7 @@ export class CarbonEstimationComponent implements OnInit {
       case 'cloud':
         return 'Cloud Services';
       case 'saas':
-        return 'Saas';
+        return 'SaaS';
       case 'managed':
         return 'Managed Services';
       default:
@@ -154,7 +154,7 @@ export class CarbonEstimationComponent implements OnInit {
 
   private getChartHeight(innerHeight: number): number {
     const extraHeightString = this.extraHeight();
-    const extraHeight = Number(extraHeightString) ?? 0;
+    const extraHeight = Number(extraHeightString) || 0;
     return innerHeight - estimatorBaseHeight - extraHeight;
   }
 }
