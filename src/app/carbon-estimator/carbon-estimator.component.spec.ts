@@ -104,16 +104,28 @@ describe('CarbonEstimatorComponent', () => {
     expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
   });
 
-  it('should scroll to top of content when closeAssumptionsAndLimitation is called', () => {
+  it('should scroll to top of content when closeAssumptionsAndLimitation is calleds', () => {
     component.showEstimation = true;
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
     spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
 
-    component.closeAssumptionsAndLimitation();
+    component.closeAssumptionsAndLimitation(false);
     fixture.detectChanges();
 
     expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
+  });
+
+  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
+    component.showEstimation = true;
+    component.showAssumptionsAndLimitationView = true;
+    fixture.detectChanges();
+
+    component.closeAssumptionsAndLimitation(false);
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button#showAssumptionsAndLimitationButton:focus');
+    expect(button).toBeDefined();
   });
 });
