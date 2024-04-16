@@ -97,7 +97,10 @@ export type CostRange = {
   max: number;
 };
 
-export const purposeOfSiteArray = ['streaming', 'information', 'eCommerce', 'socialMedia', 'average'] as const;
+export const basePurposeArray = ['information', 'eCommerce', 'socialMedia', 'streaming'] as const;
+export type BasePurposeOfSite = (typeof basePurposeArray)[number];
+
+export const purposeOfSiteArray = [...basePurposeArray, 'average'] as const;
 export type PurposeOfSite = (typeof purposeOfSiteArray)[number];
 
 export type ChartOptions = {

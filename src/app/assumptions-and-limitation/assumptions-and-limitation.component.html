@@ -261,36 +261,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Information</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.016666667</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.000781</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">E-Commerce</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.1</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.01656</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Social Media</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">16.33333333</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">4.4443</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Streaming</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">22.14285714</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">10.3912</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Average</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">9.648214286</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">3.71321025</td>
-      </tr>
+      @for (item of siteTypeInfo; track $index) {
+        <tr>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.type }}</td>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.time | number: '1.0-6' }}</td>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.data | number: '1.0-6' }}</td>
+        </tr>
+      }
     </tbody>
   </table>
   <p class="text-sm">
     These figures are combined with the provided Monthly active user number and service type to estimate figures for a
-    full year.
+    full year. It should be noted that the 'Unspecified' option uses an average of the above figures and is not an
+    attempt to describe an average website. For a general purpose static website the most appropriate option is
+    'Information'.
   </p>
   <h4 class="text-lg">Network Data Transfer</h4>
   <p class="text-sm">
