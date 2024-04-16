@@ -19,6 +19,7 @@
   </sl-expansion-panel>
   <div [attr.aria-label]="emissionAriaLabel" role="presentation" tabindex="0">
     <apx-chart
+      #chart
       aria-hidden="true"
       [series]="emissions"
       [chart]="chartOptions.chart"

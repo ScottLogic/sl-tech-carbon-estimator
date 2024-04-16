@@ -212,13 +212,13 @@
 
   <div class="flex gap-4 flex-row-reverse">
     <button
-      class="px-3 py-2 bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-900"
+      class="px-3 py-2 !bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-900"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
     <button
-      class="px-3 py-2 bg-slate-200 text-slate-800 rounded hover:bg-slate-300"
+      class="px-3 py-2 !bg-slate-200 text-slate-800 rounded hover:bg-slate-300"
       type="button"
       (click)="resetForm()">
       Reset

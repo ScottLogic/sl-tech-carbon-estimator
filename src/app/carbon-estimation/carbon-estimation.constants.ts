@@ -12,7 +12,8 @@ export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.
 export const chartOptions: ChartOptions = {
   legend: {
     show: true,
-    position: 'right',
+    position: 'bottom',
+    horizontalAlign: 'left',
     fontSize: '20px',
     fontFamily: 'ui-sans-serif, system-ui, sans-serif',
     fontWeight: '400',
@@ -41,6 +42,7 @@ export const chartOptions: ChartOptions = {
   },
   tooltip: {
     y: { formatter: tooltipFormatter },
+    marker: { show: false },
   },
   states: {
     active: {
@@ -58,3 +60,5 @@ export const chartOptions: ChartOptions = {
     },
   },
 };
+
+export const estimatorBaseHeight = 282; // Addition of Title, Subtitle, and Assumptions and Limitations button heights

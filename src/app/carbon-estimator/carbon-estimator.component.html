@@ -14,7 +14,7 @@
     }
     @if (showEstimation) {
       <div class="w-1/2 pl-4 sticky top-0 h-fit flex flex-col">
-        <sl-carbon-estimation [carbonEstimation]="carbonEstimation"></sl-carbon-estimation>
+        <sl-carbon-estimation [carbonEstimation]="carbonEstimation" [extraHeight]="extraHeight"></sl-carbon-estimation>
         @if (!showAssumptionsAndLimitationView) {
           <button
             id="showAssumptionsAndLimitationButton"
