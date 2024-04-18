@@ -33,3 +33,7 @@ This project is configured to use Linux/macOS line endings (Line Feed or LF), wh
 ```
 git config core.autocrlf input
 ```
+
+## Documentation
+
+For further documentation please see the [docs](docs) folder.
