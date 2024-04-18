@@ -18,6 +18,10 @@ const locationDescriptions: Record<WorldLocation, string> = {
   us: 'United States',
   eu: 'Europe',
   uk: 'United Kingdom',
+  asia: 'Asia',
+  africa: 'Africa',
+  oceania: 'Oceania',
+  latinAmerica: 'Latin America and Caribbean',
 };
 
 @Component({

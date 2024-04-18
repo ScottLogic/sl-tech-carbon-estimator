@@ -7,6 +7,10 @@ export const locationIntensityMap: Record<WorldLocation, KgCo2ePerKwh> = {
   us: 0.41,
   eu: 0.33,
   uk: 0.238,
+  asia: 0.591,
+  africa: 0.559,
+  oceania: 0.508,
+  latinAmerica: 0.26,
 };
 
 export function estimateEnergyEmissions(energy: KilowattHour, location: WorldLocation): KgCo2e {
