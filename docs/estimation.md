@@ -1,6 +1,6 @@
 # Estimation
 
-The estimation folder contains modules related to the estimation process
+The estimation folder contains modules and classes related to the estimation process.
 
 ```mermaid
 classDiagram
@@ -29,8 +29,8 @@ classDiagram
       <<module>>
       +siteTypeInfo: Record~PurposeOfSite, SiteInformation~
       -BYTES_IN_GIGABYTE: number
-      -addAverage(input: Record~BasePurposeOfSite, SiteInformation~) Record~PurposeOfSite, SiteInformation~
       +estimateDownstreamEmissions(downstream: Downstream) DownstreamEstimation
+      -addAverage(input: Record~BasePurposeOfSite, SiteInformation~) Record~PurposeOfSite, SiteInformation~
       -estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite) Gb
       -estimateEndUserEmissions(downstream: Downstream, downstreamDataTransfer: number)
       -estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite) Hour
@@ -39,26 +39,21 @@ classDiagram
     }
   }
 
-
-  namespace device-types{
-    class DeviceType {
-      +constructor(Watt averagePower, Hour averageYearlyUsage, KgCo2e averageEmbodiedCarbon, Year averageLifespan)
-      +estimateYearlyEnergy(number deviceCount) KilowattHour
-      +estimateEnergy(Hour usage) KilowattHour
-      +estimateYearlyUpstreamEmissions(number deviceCount): KgCo2e
-      +estimateYearlyUpstreamEmissionsForLifespan(number deviceCount, Year lifespan) KgCo2e
+  namespace supporting-modules{
+    class device-type {
+      <<module>>
+      +laptop: DeviceType
+      +desktop: DeviceType
+      +server: DeviceType
+      +network: DeviceType
+      +mobile: DeviceType
+      +tablet: DeviceType
+      +monitor: DeviceType
+      +averagePersonalComputer: AverageDeviceType
+      +AverageDeviceType(...shares: DeviceShare[])
+      -DeviceType(averagePower: Watt, averageYearlyUsage: Hour, averageEmbodiedCarbon: KgCo2e, averageLifespan: Year)
     }
 
-    class AverageDeviceType {
-      +constructor(...shares: DeviceShare[])
-      +estimateYearlyEnergy(number deviceCount) KilowattHour
-      +estimateEnergy(Hour usage) KilowattHour
-      +estimateYearlyUpstreamEmissions(number deviceCount): KgCo2e
-      +estimateYearlyUpstreamEmissionsForLifespan(number deviceCount, Year lifespan) KgCo2e
-    }
-  }
-
-  namespace carbon-intensity {
     class estimate-energy-emissions {
       <<module>>
       -location_intensity_map: Record~WorldLocation, KgCo2ePerKwh~
@@ -67,15 +62,12 @@ classDiagram
     }
   }
 
-  estimate-upstream-emissions ..> DeviceType
-  estimate-direct-emissions ..> DeviceType
-  estimate-downstream-emissions ..> DeviceType
-  estimate-downstream-emissions ..> AverageDeviceType
+  estimate-upstream-emissions ..> device-type
   estimate-direct-emissions ..> estimate-energy-emissions
+  estimate-direct-emissions ..> device-type
   estimate-indirect-emissions ..> estimate-energy-emissions
   estimate-downstream-emissions ..> estimate-energy-emissions
-  %%AverageDeviceType --|> DeviceType
-  DeviceType <|-- AverageDeviceType
+  estimate-downstream-emissions ..> device-type
 ```
 
 ## estimate-upstream-emissions
@@ -135,6 +127,15 @@ Estimate emissions from Indirect categories
 
 Exported to allow use in assumptions component.
 
+```mermaid
+classDiagram
+class SiteInformation {
+  <<interface>>
+  averageMonthlyUserTime: Hour
+  averageMonthlyUserData: Gb
+}
+```
+
 ---
 
 ### Exported functions
@@ -153,7 +154,44 @@ Estimate emissions from Downstream categories
 
 ## device-type
 
-Includes the `DeviceType` class, which is not explicitly exported but performs calculations based on input power and embodied carbon/lifespan.
+```mermaid
+classDiagram
+  direction TB
+  class DeviceType {
+    -averagePower: Watt
+    -averageYearlyUsage: Hour
+    -averageEmbodiedCarbon: KgCo2e
+    -averageLifespan: Year
+    +constructor(averagePower: Watt, averageYearlyUsage: Hour, averageEmbodiedCarbon: KgCo2e, averageLifespan: Year)
+    +estimateYearlyEnergy(deviceCount: number) KilowattHour
+    +estimateEnergy(usage: Hour) KilowattHour
+    +estimateYearlyUpstreamEmissions(deviceCount: number): KgCo2e
+    +estimateYearlyUpstreamEmissionsForLifespan(deviceCount: number, lifespan: Year) KgCo2e
+  }
+
+  class AverageDeviceType {
+    -averagePower: Watt
+    -averageYearlyUsage: Hour
+    -averageEmbodiedCarbon: KgCo2e
+    -averageLifespan: Year
+    +constructor(...shares: DeviceShare[])
+    +estimateYearlyEnergy(deviceCount: number) KilowattHour
+    +estimateEnergy(usage: Hour) KilowattHour
+    +estimateYearlyUpstreamEmissions(deviceCount: number): KgCo2e
+    +estimateYearlyUpstreamEmissionsForLifespan(deviceCount: number, lifespan: Year) KgCo2e
+  }
+
+  class DeviceShare {
+    +device: DeviceType
+    +percentage: number
+  }
+
+  DeviceType <|-- AverageDeviceType
+  AverageDeviceType ..> DeviceShare
+  DeviceShare ..> DeviceType
+```
+
+The `DeviceType` class is not exported but performs calculations based on average power, usage, embodied carbon, and lifespan.
 
 ### Exported variables
 
