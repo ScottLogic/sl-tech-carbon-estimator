@@ -1,19 +1,19 @@
-<div class="flex flex-col p-4 h-full">
-  <h1 class="text-3xl mb-12">Carbon Estimator</h1>
-  <div #content class="flex w-full grow">
+<div class="flex flex-col px-4 pt-4 md:pb-4 h-full">
+  <h1 class="text-3xl mb-6">Carbon Estimator</h1>
+  <div #content class="flex w-full grow flex-wrap md:flex-nowrap">
     @if (showAssumptionsAndLimitationView) {
       <sl-assumptions-and-limitation
         aria-live="polite"
         (closeEvent)="closeAssumptionsAndLimitation($event)"
-        class="w-1/2 pr-4"></sl-assumptions-and-limitation>
+        class="w-full md:w-1/2 pb-4 md:pb-0 md:pr-4"></sl-assumptions-and-limitation>
     } @else {
       <sl-carbon-estimator-form
         [formValue]="formValue"
         (formSubmit)="handleFormSubmit($event)"
-        class="w-1/2 pr-4"></sl-carbon-estimator-form>
+        class="w-full md:w-1/2 pb-4 md:pb-0 md:pr-4"></sl-carbon-estimator-form>
     }
     @if (showEstimation) {
-      <div class="w-1/2 pl-4 sticky top-0 h-fit flex flex-col">
+      <div class="w-full md:w-1/2 flex flex-col h-dvh md:h-fit py-4 md:py-0 md:pl-4 md:sticky md:top-0">
         <sl-carbon-estimation [carbonEstimation]="carbonEstimation" [extraHeight]="extraHeight"></sl-carbon-estimation>
         @if (!showAssumptionsAndLimitationView) {
           <button
