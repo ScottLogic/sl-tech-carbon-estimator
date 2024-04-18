@@ -4,6 +4,7 @@ import { CarbonEstimationService } from './carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { sumValues } from '../utils/number-object';
+import { version } from '../../../package.json';
 
 const emptyEstimatorValues: EstimatorValues = {
   upstream: {
@@ -62,7 +63,7 @@ describe('CarbonEstimationService', () => {
   describe('calculateCarbonEstimation', () => {
     it('should include version and zeroed values in estimation', () => {
       const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
-      expect(estimation.version).toBe('0.0.1');
+      expect(estimation.version).toBe(version);
       expect(sumValues(estimation.upstreamEmissions)).toBe(0);
       expect(sumValues(estimation.directEmissions)).toBe(0);
       expect(sumValues(estimation.indirectEmissions)).toBe(0);

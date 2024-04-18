@@ -6,6 +6,7 @@ import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-e
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
+import { version } from '../../../package.json';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class CarbonEstimationService {
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     return toPercentages({
-      version: '0.0.1',
+      version,
       upstreamEmissions: upstreamEmissions,
       directEmissions: directEmissions,
       indirectEmissions: indirectEmissions,
