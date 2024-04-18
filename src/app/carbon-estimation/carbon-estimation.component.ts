@@ -1,10 +1,19 @@
-import { Component, HostListener, OnInit, ViewChild, effect, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+  effect,
+  input,
+} from '@angular/core';
 import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 
 import { startCase } from 'lodash-es';
-import { EmissionsColours, chartOptions, estimatorBaseHeight, tooltipFormatter } from './carbon-estimation.constants';
+import { EmissionsColours, chartOptions, estimatorHeights, tooltipFormatter } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
 type ApexChartDataItem = { x: string; y: number };
@@ -25,10 +34,12 @@ export class CarbonEstimationComponent implements OnInit {
 
   public chartOptions: ChartOptions = chartOptions;
   private tooltipFormatter = tooltipFormatter;
+  private estimatorBaseHeight = sumValues(estimatorHeights);
 
   @ViewChild('chart') chart: ChartComponent | undefined;
+  @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
-  constructor() {
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
       this.emissionAriaLabel = this.getAriaLabel(this.carbonEstimation());
@@ -36,15 +47,20 @@ export class CarbonEstimationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const chartHeight = this.getChartHeight(window.innerHeight);
+    const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
     }
   }
 
-  @HostListener('window:resize', ['$event.target.innerHeight'])
-  onResize(innerHeight: number) {
-    const chartHeight = this.getChartHeight(innerHeight);
+  public onExpanded(): void {
+    this.changeDetectorRef.detectChanges();
+    this.onResize(window.innerHeight, window.innerWidth);
+  }
+
+  @HostListener('window:resize', ['$event.target.innerHeight', '$event.target.innerWidth'])
+  onResize(innerHeight: number, innerWidth: number): void {
+    const chartHeight = this.getChartHeight(innerHeight, innerWidth);
     if (chartHeight > 0) {
       this.chart?.updateOptions({ chart: { height: chartHeight } });
     }
@@ -152,9 +168,16 @@ export class CarbonEstimationComponent implements OnInit {
     }
   }
 
-  private getChartHeight(innerHeight: number): number {
+  private getChartHeight(innerHeight: number, innerWidth: number): number {
+    const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
+
+    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
+    if (innerWidth < 768) {
+      return innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title;
+    }
+
     const extraHeightString = this.extraHeight();
     const extraHeight = Number(extraHeightString) || 0;
-    return innerHeight - estimatorBaseHeight - extraHeight;
+    return innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
   }
 }

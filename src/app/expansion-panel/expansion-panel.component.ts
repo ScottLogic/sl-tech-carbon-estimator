@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'sl-expansion-panel',
@@ -9,9 +9,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpansionPanelComponent {
+  @Output() expandedChanged = new EventEmitter<void>();
   public expanded: boolean = true;
 
   toggle() {
     this.expanded = !this.expanded;
+    this.expandedChanged.emit();
   }
 }
