@@ -4,8 +4,8 @@ import { WorldLocation } from '../types/carbon-estimator';
 // Carbon Intensity figures sourced from https://ember-climate.org/data/data-tools/data-explorer/
 export const locationIntensityMap: Record<WorldLocation, KgCo2ePerKwh> = {
   global: 0.494,
-  us: 0.41,
-  eu: 0.33,
+  northAmerica: 0.356,
+  europe: 0.328,
   uk: 0.238,
   asia: 0.591,
   africa: 0.559,

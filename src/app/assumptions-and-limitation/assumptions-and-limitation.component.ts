@@ -15,8 +15,8 @@ const purposeDescriptions: Record<PurposeOfSite, string> = {
 
 const locationDescriptions: Record<WorldLocation, string> = {
   global: 'Global',
-  us: 'United States',
-  eu: 'Europe',
+  northAmerica: 'North America',
+  europe: 'Europe',
   uk: 'United Kingdom',
   asia: 'Asia',
   africa: 'Africa',

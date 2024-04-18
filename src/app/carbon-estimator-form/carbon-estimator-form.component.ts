@@ -11,8 +11,8 @@ import { HelperInfoComponent } from '../helper-info/helper-info.component';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   global: 'Globally',
-  us: 'in the US',
-  eu: 'in the EU',
+  northAmerica: 'in North America',
+  europe: 'in Europe',
   uk: 'in the UK',
   asia: 'in Asia',
   africa: 'in Africa',
