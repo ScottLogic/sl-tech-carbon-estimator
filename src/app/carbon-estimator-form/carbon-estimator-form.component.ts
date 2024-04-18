@@ -1,13 +1,20 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import { costRanges, defaultValues, formContext } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { HelperInfoComponent } from '../helper-info/helper-info.component';
+
+const locationDescriptions: Record<WorldLocation, string> = {
+  global: 'Globally',
+  us: 'in the US',
+  eu: 'in the EU',
+  uk: 'in the UK',
+};
 
 @Component({
   selector: 'sl-carbon-estimator-form',
@@ -49,6 +56,11 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public previewServerCount = 0;
 
   public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
+
+  public locationDescriptions = locationArray.map(location => ({
+    value: location,
+    description: locationDescriptions[location],
+  }));
 
   constructor(
     private formBuilder: FormBuilder,
