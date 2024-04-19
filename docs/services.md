@@ -31,7 +31,7 @@ The main service responsible for producing a carbon estimate.
 #### `calculateCarbonEstimation()`
 
 Takes input form values and uses them to calculate a carbon estimation.  
-Uses LoggingService to output intermediate parts of the calculation.  
+Uses [LoggingService](#loggingservice) to output intermediate parts of the calculation.  
 Returns estimation as percentages.  
 Uses functions in other modules to perform the calculation.
 
@@ -77,21 +77,21 @@ classDiagram
 
 ##### Parameters
 
-`formValue: EstimatorValues` - The user form input.
+`formValue:`[`EstimatorValues`](types#estimatorvalues) - The user form input.
 
 ##### Returns
 
-`CarbonEstimation` - Contains the components of the estimation as percentages.
+[`CarbonEstimation`](types#carbonestimation) - Contains the components of the estimation as percentages.
 
 ---
 
 #### `estimateServerCount()`
 
-Method is used as part of `calculateCarbonEstimation()` and exposed publicly so that the `carbon-estimator-form` can update the preview server count as input values are changed.
+Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestimation) and exposed publicly so that the [CarbonEstimatorFormComponent](components#carbonestimatorformcomponent) can update the preview server count as input values are changed.
 
 ##### Parameters
 
-`formValue: EstimatorValues` - The user form input.
+`formValue:`[`EstimatorValues`](types#estimatorvalues) - The user form input.
 
 ##### Returns
 
