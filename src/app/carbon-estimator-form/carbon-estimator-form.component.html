@@ -252,10 +252,9 @@
         name="{{ formControlName }}"
         formControlName="{{ formControlName }}"
         id="{{ formControlName }}">
-        <option value="global" selected>Globally</option>
-        <option value="uk">in the UK</option>
-        <option value="eu">in the EU</option>
-        <option value="us">in the US</option>
+        @for (item of locationDescriptions; track $index) {
+          <option value="{{ item.value }}">{{ item.description }}</option>
+        }
         @if (hasUnknown) {
           <option value="unknown">I don't know</option>
         }

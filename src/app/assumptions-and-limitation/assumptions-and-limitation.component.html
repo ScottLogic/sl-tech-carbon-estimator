@@ -1,10 +1,10 @@
 <div #assumptionsLimitation class="flex flex-col gap-4" tabindex="0">
   <h2 class="text-2xl">Assumptions and Limitations</h2>
   <p class="text-sm">
-    The Tech Carbon Estimator tool is designed to give a high-level overview of the possible areas of carbon impact
-    within your IT estate. We use a minimal number of questions to present this view, so we must make some assumptions
-    based on that, which we list here for clarity. Where there are aspects that cannot be covered by this methodology,
-    we also call out its limitations.
+    The Technology Carbon Estimator tool is designed to give a high-level overview of the possible areas of carbon
+    impact within your IT estate. We use a minimal number of questions to present this view, so we must make some
+    assumptions based on that, which we list here for clarity. Where there are aspects that cannot be covered by this
+    methodology, we also call out its limitations.
   </p>
 
   <h3 class="text-xl">Assumptions</h3>
@@ -92,8 +92,8 @@
   <h4 class="text-lg">Carbon Intensity</h4>
   <p class="text-sm">
     We make use of the latest available Carbon Intensity figures from the
-    <a href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> for the regions we make
-    available. At present these are:
+    <a class="underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> for the
+    regions we make available. At present these are:
   </p>
   <table class="w-max">
     <thead>
@@ -103,22 +103,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Global</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.494</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">United States</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.41</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Europe</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.33</td>
-      </tr>
-      <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">United Kingdom</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.238</td>
-      </tr>
+      @for (item of locationCarbonInfo; track $index) {
+        <tr>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.location }}</td>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.carbonIntensity }}</td>
+        </tr>
+      }
     </tbody>
   </table>
   <h4 class="text-lg">Upstream Emissions</h4>

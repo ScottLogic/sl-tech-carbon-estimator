@@ -1,15 +1,27 @@
 import { AfterContentInit, Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { siteTypeInfo } from '../estimation/estimate-downstream-emissions';
-import { PurposeOfSite, purposeOfSiteArray } from '../types/carbon-estimator';
+import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
 import { DecimalPipe } from '@angular/common';
+import { locationIntensityMap } from '../estimation/estimate-energy-emissions';
 
-const userDescriptions: Record<PurposeOfSite, string> = {
+const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
   eCommerce: 'E-Commerce',
   socialMedia: 'Social Media',
   streaming: 'Streaming',
   average: 'Average',
+};
+
+const locationDescriptions: Record<WorldLocation, string> = {
+  global: 'Global',
+  northAmerica: 'North America',
+  europe: 'Europe',
+  uk: 'United Kingdom',
+  asia: 'Asia',
+  africa: 'Africa',
+  oceania: 'Oceania',
+  latinAmerica: 'Latin America and Caribbean',
 };
 
 @Component({
@@ -23,9 +35,13 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
   readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
   readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
   readonly siteTypeInfo = purposeOfSiteArray.map(purpose => ({
-    type: userDescriptions[purpose],
+    type: purposeDescriptions[purpose],
     time: siteTypeInfo[purpose].averageMonthlyUserTime,
     data: siteTypeInfo[purpose].averageMonthlyUserData,
+  }));
+  readonly locationCarbonInfo = locationArray.map(location => ({
+    location: locationDescriptions[location],
+    carbonIntensity: locationIntensityMap[location],
   }));
 
   @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;

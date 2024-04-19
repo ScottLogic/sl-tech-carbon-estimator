@@ -89,7 +89,16 @@ export type DeviceCounts = {
   networkCount: number;
 };
 
-export const locationArray = ['global', 'uk', 'eu', 'us'] as const;
+export const locationArray = [
+  'global',
+  'uk',
+  'europe',
+  'northAmerica',
+  'asia',
+  'africa',
+  'oceania',
+  'latinAmerica',
+] as const;
 export type WorldLocation = (typeof locationArray)[number];
 
 export type CostRange = {
