@@ -27,7 +27,8 @@ export class CarbonEstimatorComponent {
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
 
-  @ViewChild('content') content!: ElementRef;
+  @ViewChild('assumptionsLimitation', { read: ElementRef }) assumptionsLimitation!: ElementRef;
+  @ViewChild('estimations') estimations!: ElementRef;
 
   constructor(
     private estimationService: CarbonEstimationService,
@@ -38,19 +39,22 @@ export class CarbonEstimatorComponent {
     this.formValue = formValue;
     this.carbonEstimation = this.estimationService.calculateCarbonEstimation(this.formValue);
     this.showEstimation = true;
+    this.changeDetector.detectChanges();
+    this.estimations.nativeElement.scrollIntoView();
   }
 
   public showAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = true;
-    this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
+    this.changeDetector.detectChanges();
+    this.assumptionsLimitation.nativeElement.scrollIntoView();
   }
 
   public closeAssumptionsAndLimitation(hasFocus: boolean): void {
     this.showAssumptionsAndLimitationView = false;
-    this.content.nativeElement.scrollIntoView({ behavior: 'instant' });
+    this.estimations.nativeElement.scrollIntoView();
     if (hasFocus) {
       this.changeDetector.detectChanges();
-      this.content.nativeElement.querySelector('button#showAssumptionsAndLimitationButton')?.focus();
+      this.estimations.nativeElement.querySelector('button#showAssumptionsAndLimitationButton')?.focus();
     }
   }
 }
