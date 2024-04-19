@@ -14,7 +14,7 @@ classDiagram
     +transform(range: CostRange) string
   }
 
-  CostRange <.. FormatCostRangePipe
+  FormatCostRangePipe ..> CostRange
 ```
 
 Takes in a CostRange and outputs a string representation of it in dollars, with compact notation ie.  

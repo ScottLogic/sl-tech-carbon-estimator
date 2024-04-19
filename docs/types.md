@@ -83,7 +83,7 @@ classDiagram
   PurposeOfSite --|> BasePurposeOfSite
 ```
 
-This is the input data that the [CarbonEstimationService](services#carbonestimationservice) requires.
+This is the input data that the [CarbonEstimationService](services.md#carbonestimationservice) requires.
 
 ### EstimatorFormValues
 

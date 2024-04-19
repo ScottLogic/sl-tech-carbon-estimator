@@ -77,21 +77,21 @@ classDiagram
 
 ##### Parameters
 
-`formValue:`[`EstimatorValues`](types#estimatorvalues) - The user form input.
+`formValue:`[`EstimatorValues`](types.md#estimatorvalues) - The user form input.
 
 ##### Returns
 
-[`CarbonEstimation`](types#carbonestimation) - Contains the components of the estimation as percentages.
+[`CarbonEstimation`](types.md#carbonestimation) - Contains the components of the estimation as percentages.
 
 ---
 
 #### `estimateServerCount()`
 
-Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestimation) and exposed publicly so that the [CarbonEstimatorFormComponent](components#carbonestimatorformcomponent) can update the preview server count as input values are changed.
+Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestimation) and exposed publicly so that the [CarbonEstimatorFormComponent](components.md#carbonestimatorformcomponent) can update the preview server count as input values are changed.
 
 ##### Parameters
 
-`formValue:`[`EstimatorValues`](types#estimatorvalues) - The user form input.
+`formValue:`[`EstimatorValues`](types.md#estimatorvalues) - The user form input.
 
 ##### Returns
 

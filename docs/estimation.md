@@ -80,11 +80,11 @@ Estimate emissions from Upstream categories
 
 ##### Parameters
 
-`deviceCounts:`[`DeviceCounts`](types#devicecounts) - The Device counts to estimate upstream emissions for.
+`deviceCounts:`[`DeviceCounts`](types.md#devicecounts) - The Device counts to estimate upstream emissions for.
 
 ##### Returns
 
-[`UpstreamEstimation`](types#carbonestimation) - Estimation of Upstream emissions under TCS categories.
+[`UpstreamEstimation`](types.md#carbonestimation) - Estimation of Upstream emissions under TCS categories.
 
 ## estimate-direct-emissions
 
@@ -96,12 +96,12 @@ Estimate emissions from Direct categories
 
 ##### Parameters
 
-`deviceCounts:`[`DeviceCounts`](types#devicecounts) - The Device counts to estimate upstream emissions for.  
-`onPremLocation:`[`WorldLocation`](types#estimatorvalues) - The World Location of the hardware for Carbon Intensity.
+`deviceCounts:`[`DeviceCounts`](types.md#devicecounts) - The Device counts to estimate upstream emissions for.  
+`onPremLocation:`[`WorldLocation`](types.md#estimatorvalues) - The World Location of the hardware for Carbon Intensity.
 
 ##### Returns
 
-[`DirectEstimation`](types#carbonestimation) - Estimation of Direct emissions under TCS categories.
+[`DirectEstimation`](types.md#carbonestimation) - Estimation of Direct emissions under TCS categories.
 
 ## estimate-indirect-emissions
 
@@ -113,11 +113,11 @@ Estimate emissions from Indirect categories
 
 ##### Parameters
 
-`input:`[`Cloud`](types#estimatorvalues) - The inputs relevant to cloud.
+`input:`[`Cloud`](types.md#estimatorvalues) - The inputs relevant to cloud.
 
 ##### Returns
 
-[`IndirectEstimation`](types#carbonestimation) - Estimation of Indirect emissions under TCS categories.
+[`IndirectEstimation`](types.md#carbonestimation) - Estimation of Indirect emissions under TCS categories.
 
 ## estimate-downstream-emissions
 
@@ -146,11 +146,11 @@ Estimate emissions from Downstream categories
 
 ##### Parameters
 
-`downstream:`[`Downstream`](types#estimatorvalues) - The inputs relevant to downstream emissions.
+`downstream:`[`Downstream`](types.md#estimatorvalues) - The inputs relevant to downstream emissions.
 
 ##### Returns
 
-[`DownstreamEstimation`](types#carbonestimation) - Estimation of Downstream emissions under TCS categories.
+[`DownstreamEstimation`](types.md#carbonestimation) - Estimation of Downstream emissions under TCS categories.
 
 ## device-type
 
@@ -224,12 +224,12 @@ Estimate emissions from energy used in a location.
 
 ##### Parameters
 
-`energy:`[`KilowattHour`](types#units) - Amount of energy used.
-`location:`[`WorldLocation`](types#estimatorvalues) - The World Location where the energy was used for Carbon Intensity.
+`energy:`[`KilowattHour`](types.md#units) - Amount of energy used.
+`location:`[`WorldLocation`](types.md#estimatorvalues) - The World Location where the energy was used for Carbon Intensity.
 
 ##### Returns
 
-[`KgCo2e`](types#units) - Kg of CO2e emitted via energy use.
+[`KgCo2e`](types.md#units) - Kg of CO2e emitted via energy use.
 
 ---
 
@@ -239,11 +239,11 @@ Exported to get Carbon Intensity in unit that [CO2.js](https://www.thegreenwebfo
 
 ##### Parameters
 
-`location:`[`WorldLocation`](types#estimatorvalues) - The World Location for Carbon Intensity.
+`location:`[`WorldLocation`](types.md#estimatorvalues) - The World Location for Carbon Intensity.
 
 ##### Returns
 
-[`gCo2ePerKwh`](types#units) - g of CO2e emitted per kWh of energy used.
+[`gCo2ePerKwh`](types.md#units) - g of CO2e emitted per kWh of energy used.
 
 ### Exported variables
 

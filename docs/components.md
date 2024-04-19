@@ -38,13 +38,13 @@ flowchart TB
 
 Chooses which of its sub-components to display based on the current state.  
 Receives events from sub components to transition between states.  
-Uses the [CarbonEstimationService](services#carbonestimationservice) to produce the estimation for display.
+Uses the [CarbonEstimationService](services.md#carbonestimationservice) to produce the estimation for display.
 
 ## CarbonEstimatorFormComponent
 
 The main form for user input, takes care of validation and updates descriptions in response to input changes.  
-Uses the [CarbonEstimationService](services#carbonestimationservice) to estimate the number of servers.  
-Uses the [FormatCostRangePipe](pipes#formatcostrangepipe) to display the monthly cloud bill options.
+Uses the [CarbonEstimationService](services.md#carbonestimationservice) to estimate the number of servers.  
+Uses the [FormatCostRangePipe](pipes.md#formatcostrangepipe) to display the monthly cloud bill options.
 
 ## CarbonEstimationComponent
 
