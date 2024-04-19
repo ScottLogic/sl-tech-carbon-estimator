@@ -189,7 +189,58 @@ classDiagram
   DeviceShare ..> DeviceType
 ```
 
-The `DeviceType` class is not exported but performs calculations based on average power, usage, embodied carbon, and lifespan.
+The `DeviceType` class is not exported but performs calculations based on average power, usage, embodied carbon, and lifespan. This module instead exports multiple types of devices with different averages.
+
+### Public Methods
+
+#### `estimateYearlyEnergy()`
+
+Estimates the energy a given amount of devices will use in a year.
+
+##### Parameters
+
+`deviceCount: number` - The number of devices.
+
+##### Returns
+
+[`KilowattHour`](types.md#units) - The estimated amount of energy used.
+
+#### `estimateEnergy()`
+
+Estimates the energy a device would use over a given amount of hours.
+
+##### Parameters
+
+`usage: Hour` - The amount of hours the device is used for.
+
+##### Returns
+
+[`KilowattHour`](types.md#units) - The estimated amount of energy used.
+
+#### `estimateYearlyUpstreamEmissions()`
+
+Estimates the yearly upstream emissions of a given number of devices.
+
+##### Parameters
+
+`deviceCount: number` - The number of devices.
+
+##### Returns
+
+[`KgCo2e`](types.md#units) - The estimated upstream emissions.
+
+#### `estimateYearlyUpstreamEmissionsForLifespan()`
+
+Estimates the yearly upstream emissions of a given number of devices with a specific lifespan.
+
+##### Parameters
+
+`deviceCount: number` - The number of devices.  
+`lifespan:`[`Year`](types.md#units) - The desired lifespan of the device.
+
+##### Returns
+
+[`KgCo2e`](types.md#units) - The estimated upstream emissions.
 
 ### Exported variables
 
@@ -220,7 +271,7 @@ Estimate emissions from energy used in a location.
 
 ##### Parameters
 
-`energy:`[`KilowattHour`](types.md#units) - Amount of energy used.
+`energy:`[`KilowattHour`](types.md#units) - Amount of energy used.  
 `location:`[`WorldLocation`](types.md#estimatorvalues) - The World Location where the energy was used for Carbon Intensity.
 
 ##### Returns
