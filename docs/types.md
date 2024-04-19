@@ -49,10 +49,14 @@ classDiagram
 
   class WorldLocation{
     <<union>>
-    global
-    uk
-    eu
-    us
+    'global'
+    'uk'
+    'europe'
+    'northAmerica'
+    'asia'
+    'africa'
+    'oceania'
+    'latinAmerica'
   }
 
   class CostRange {
@@ -62,19 +66,19 @@ classDiagram
 
   class BasePurposeOfSite{
     <<union>>
-    information
-    eCommerce
-    socialMedia
-    streaming
+    'information'
+    'eCommerce'
+    'socialMedia'
+    'streaming'
   }
 
   class PurposeOfSite{
     <<union>>
-    information
-    eCommerce
-    socialMedia
-    streaming
-    average
+    'information'
+    'eCommerce'
+    'socialMedia'
+    'streaming'
+    'average'
   }
   PurposeOfSite --|> BasePurposeOfSite
 ```
@@ -138,7 +142,7 @@ classDiagram
   }
 ```
 
-This is the type output at the end of the estimation process. As a final output the values will be in percentages that add up to 100 but the components are also reused in the process to hold real values in Kg CO2e.
+This is the type output at the end of the estimation process. As a final output the values will be in percentages that add up to 100 but the components are also reused in the process to hold real values in Kg CO2e. The version will be driven by the version of the npm package.
 
 ### ChartOptions
 

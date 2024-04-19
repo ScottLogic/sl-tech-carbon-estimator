@@ -56,7 +56,7 @@ classDiagram
 
     class estimate-energy-emissions {
       <<module>>
-      -location_intensity_map: Record~WorldLocation, KgCo2ePerKwh~
+      +locationIntensityMap: Record~WorldLocation, KgCo2ePerKwh~
       +estimateEnergyEmissions(energy: KilowattHour, location: WorldLocation) KgCo2e
       +getCarbonIntensity(location: WorldLocation) gCo2ePerKwh
     }
@@ -244,3 +244,9 @@ Exported to get Carbon Intensity in unit that [CO2.js](https://www.thegreenwebfo
 ##### Returns
 
 `gCo2ePerKwh` - g of CO2e emitted per kWh of energy used.
+
+### Exported variables
+
+#### `locationIntensityMap: Record<WorldLocation, KgCo2ePerKwh>`
+
+Exported to allow use in assumptions component.
