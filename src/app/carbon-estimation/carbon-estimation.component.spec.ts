@@ -2,12 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationComponent } from './carbon-estimation.component';
 import { CarbonEstimation } from '../types/carbon-estimator';
-import { estimatorBaseHeight } from './carbon-estimation.constants';
 import { ChartComponent } from 'ng-apexcharts';
+import { sumValues } from '../utils/number-object';
+import { estimatorHeights } from './carbon-estimation.constants';
 
 describe('CarbonEstimationComponent', () => {
   let component: CarbonEstimationComponent;
   let fixture: ComponentFixture<CarbonEstimationComponent>;
+  const estimatorBaseHeight = sumValues(estimatorHeights);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -45,27 +47,51 @@ describe('CarbonEstimationComponent', () => {
   });
 
   it('should set chart height when inner height is more than base height', () => {
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight);
+    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200);
   });
 
   it('should set chart height to value if inner height more than base height plus extra height', () => {
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
     fixture.componentRef.setInput('extraHeight', '100');
     fixture.detectChanges();
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 100);
+    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200 - 100);
   });
 
-  it('should recalculate chart height on window resize', () => {
+  it('should recalculate chart height on window resize, for laptop screen', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(2000);
+    component.onResize(2000, 1000);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({ chart: { height: 2000 - estimatorBaseHeight } });
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 2000 - estimatorBaseHeight - 200 },
+    });
+  });
+
+  it('should recalculate chart height on window resize, for mobile screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    component.onResize(1000, 500);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 1000 - estimatorBaseHeight - 200 + estimatorHeights.title },
+    });
+  });
+
+  it('should call onResize when onExpansion is called', () => {
+    spyOn(component, 'onResize');
+
+    component.onExpanded();
+
+    expect(component.onResize).toHaveBeenCalledTimes(1);
   });
 
   it('chart updateOptions should be not be called if inner height less than base height and extra height', () => {

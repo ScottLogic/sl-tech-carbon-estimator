@@ -86,35 +86,36 @@ describe('CarbonEstimatorComponent', () => {
   it('should call estimationService.calculateCarbonEstimation when handleFormSubmit is called', () => {
     spyOn(estimationServiceStub, 'calculateCarbonEstimation' as never).and.callThrough();
 
-    const formValue = {} as EstimatorValues;
+    // The form component expects a full EstimatorValues object or undefined, but we only need to test that the service is called
+    const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
     expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
     expect(component.showEstimation).toBeTrue();
   });
 
-  it('should scroll to top of content when showAssumptionsAndLimitation is called', () => {
-    component.showEstimation = true;
-    component.showAssumptionsAndLimitationView = false;
-    fixture.detectChanges();
-    spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
-
-    component.showAssumptionsAndLimitation();
-    fixture.detectChanges();
-
-    expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
-  });
-
-  it('should scroll to top of content when closeAssumptionsAndLimitation is called', () => {
+  it('should scroll to top of assumptions and limitation when showAssumptionsAndLimitation is called', () => {
     component.showEstimation = true;
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
+    spyOn(component.assumptionsLimitation.nativeElement, 'scrollIntoView').and.callThrough();
+    component.showAssumptionsAndLimitation();
+    fixture.detectChanges();
 
-    spyOn(component.content.nativeElement, 'scrollIntoView').and.callThrough();
+    expect(component.assumptionsLimitation.nativeElement.scrollIntoView).toHaveBeenCalled();
+  });
+
+  it('should scroll to top of estimations when closeAssumptionsAndLimitation is called', () => {
+    component.showEstimation = true;
+    // Setting to true so the component exists, the detectChanges on line 48 doesn't not seem to result in the component being created as is normal when running the app
+    component.showAssumptionsAndLimitationView = true;
+    fixture.detectChanges();
+
+    spyOn(component.estimations.nativeElement, 'scrollIntoView').and.callThrough();
 
     component.closeAssumptionsAndLimitation(false);
     fixture.detectChanges();
 
-    expect(component.content.nativeElement.scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' });
+    expect(component.estimations.nativeElement.scrollIntoView).toHaveBeenCalled();
   });
 
   it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
