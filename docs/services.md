@@ -24,9 +24,7 @@ classDiagram
 
 The main service responsible for producing a carbon estimate.
 
-### Methods
-
----
+### Public Methods
 
 #### `calculateCarbonEstimation()`
 
@@ -83,8 +81,6 @@ classDiagram
 
 [`CarbonEstimation`](types.md#carbonestimation) - Contains the components of the estimation as percentages.
 
----
-
 #### `estimateServerCount()`
 
 Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestimation) and exposed publicly so that the [CarbonEstimatorFormComponent](components.md#carbonestimatorformcomponent) can update the preview server count as input values are changed.
@@ -101,9 +97,7 @@ Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestima
 
 Currently a simple service to wrap console logging.
 
-### Methods
-
----
+### Public Methods
 
 #### `log()`
 

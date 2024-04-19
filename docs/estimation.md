@@ -136,8 +136,6 @@ class SiteInformation {
 }
 ```
 
----
-
 ### Exported functions
 
 #### `estimateDownstreamEmissions()`
@@ -206,8 +204,6 @@ The `DeviceType` class is not exported but performs calculations based on averag
 
 Exported to allow use in various calculations.
 
----
-
 ### Exported classes
 
 #### `AverageDeviceType`
@@ -230,8 +226,6 @@ Estimate emissions from energy used in a location.
 ##### Returns
 
 [`KgCo2e`](types.md#units) - Kg of CO2e emitted via energy use.
-
----
 
 #### `getCarbonIntensity()`
 
