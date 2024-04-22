@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'sl-expansion-panel',
+  selector: 'expansion-panel',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './expansion-panel.component.html',

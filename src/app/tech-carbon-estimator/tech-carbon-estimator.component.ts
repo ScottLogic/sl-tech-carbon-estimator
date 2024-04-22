@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
 
 @Component({
-  selector: 'sl-carbon-estimator',
+  selector: 'tech-carbon-estimator',
   standalone: true,
   imports: [
     CarbonEstimatorFormComponent,
@@ -17,9 +17,9 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
     CommonModule,
     AssumptionsAndLimitationComponent,
   ],
-  templateUrl: './carbon-estimator.component.html',
+  templateUrl: './tech-carbon-estimator.component.html',
 })
-export class CarbonEstimatorComponent {
+export class TechCarbonEstimatorComponent {
   @Input() public extraHeight?: string;
 
   public showEstimation = false;

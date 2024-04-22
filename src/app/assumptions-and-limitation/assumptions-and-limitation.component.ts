@@ -25,7 +25,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
 };
 
 @Component({
-  selector: 'sl-assumptions-and-limitation',
+  selector: 'assumptions-and-limitation',
   standalone: true,
   templateUrl: './assumptions-and-limitation.component.html',
   imports: [DecimalPipe],

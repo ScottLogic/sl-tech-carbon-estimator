@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sl-note',
+  selector: 'note',
   standalone: true,
   templateUrl: './note.component.html',
 })

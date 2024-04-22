@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarbonEstimatorComponent } from './carbon-estimator.component';
+import { TechCarbonEstimatorComponent } from './tech-carbon-estimator.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { EstimatorValues } from '../types/carbon-estimator';
 
-describe('CarbonEstimatorComponent', () => {
-  let component: CarbonEstimatorComponent;
-  let fixture: ComponentFixture<CarbonEstimatorComponent>;
+describe('TechCarbonEstimatorComponent', () => {
+  let component: TechCarbonEstimatorComponent;
+  let fixture: ComponentFixture<TechCarbonEstimatorComponent>;
   let estimationServiceStub: Partial<CarbonEstimationService>;
 
   beforeEach(async () => {
@@ -37,11 +37,11 @@ describe('CarbonEstimatorComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [CarbonEstimatorComponent],
+      imports: [TechCarbonEstimatorComponent],
       providers: [{ provide: CarbonEstimationService, useValue: estimationServiceStub }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CarbonEstimatorComponent);
+    fixture = TestBed.createComponent(TechCarbonEstimatorComponent);
     component = fixture.componentInstance;
   });
 
@@ -50,8 +50,8 @@ describe('CarbonEstimatorComponent', () => {
     component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('sl-carbon-estimation');
+    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
+    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
 
     expect(formElement).toBeTruthy();
     expect(estimationElement).toBeFalsy();
@@ -62,8 +62,8 @@ describe('CarbonEstimatorComponent', () => {
     component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('sl-carbon-estimation');
+    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
+    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
 
     expect(formElement).toBeTruthy();
     expect(estimationElement).toBeTruthy();
@@ -74,9 +74,9 @@ describe('CarbonEstimatorComponent', () => {
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('sl-carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('sl-carbon-estimation');
-    const assumptionsElement = fixture.nativeElement.querySelector('sl-assumptions-and-limitation');
+    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
+    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
+    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeFalsy();
     expect(estimationElement).toBeTruthy();

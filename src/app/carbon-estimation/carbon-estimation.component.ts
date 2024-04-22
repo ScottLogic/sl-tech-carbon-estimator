@@ -19,7 +19,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 type ApexChartDataItem = { x: string; y: number };
 
 @Component({
-  selector: 'sl-carbon-estimation',
+  selector: 'carbon-estimation',
   standalone: true,
   imports: [NgApexchartsModule, ExpansionPanelComponent],
   templateUrl: './carbon-estimation.component.html',
