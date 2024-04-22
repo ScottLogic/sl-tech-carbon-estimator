@@ -88,14 +88,22 @@ export class CarbonEstimationComponent implements OnInit {
         color: EmissionsColours.Downstream,
         data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, this.getDownstreamLabel),
       },
-    ];
+    ].filter(entry => entry.data.length !== 0);
   }
 
   private getAriaLabel(carbonEstimation: CarbonEstimation): string {
-    return `Estimation of emissions. Upstream emissions are ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[0].data as ApexChartDataItem[])}.
-    Direct emissions are ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[1].data as ApexChartDataItem[])}.
-    Indirect emissions are ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[2].data as ApexChartDataItem[])}.
-    Downstream emissions are ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}, made up of ${this.getEmissionMadeUp(this.emissions[3].data as ApexChartDataItem[])}.`;
+    return `Estimation of emissions. ${this.getAriaLabelForCategory('Upstream', carbonEstimation.upstreamEmissions, this.getUpstreamLabel)}
+    ${this.getAriaLabelForCategory('Direct', carbonEstimation.directEmissions, this.getDirectLabel)}
+    ${this.getAriaLabelForCategory('Indirect', carbonEstimation.indirectEmissions, this.getIndirectLabel)}
+    ${this.getAriaLabelForCategory('Downstream', carbonEstimation.downstreamEmissions, this.getDownstreamLabel)}`;
+  }
+
+  private getAriaLabelForCategory(
+    category: string,
+    emissions: NumberObject,
+    labelFunction: (key: string) => string
+  ): string {
+    return `${category} emissions are ${this.getOverallPercentageLabel(emissions)}, made up of ${this.getEmissionMadeUp(this.getEmissionPercentages(emissions, labelFunction))}.`;
   }
 
   private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
