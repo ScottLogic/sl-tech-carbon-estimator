@@ -103,11 +103,14 @@ export class CarbonEstimationComponent implements OnInit {
     emissions: NumberObject,
     labelFunction: (key: string) => string
   ): string {
-    return `${category} emissions are ${this.getOverallPercentageLabel(emissions)}, made up of ${this.getEmissionMadeUp(this.getEmissionPercentages(emissions, labelFunction))}.`;
+    return `${category} emissions are ${this.getOverallPercentageLabel(emissions)}${this.getEmissionMadeUp(this.getEmissionPercentages(emissions, labelFunction))}`;
   }
 
   private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
-    return emission.map(item => `${item.x} ${this.tooltipFormatter(item.y)}`).join(', ');
+    if (emission.length === 0) {
+      return '.';
+    }
+    return `, made up of ${emission.map(item => `${item.x} ${this.tooltipFormatter(item.y)}`).join(', ')}.`;
   }
 
   private getOverallPercentageLabel = (emissions: NumberObject): string => {
