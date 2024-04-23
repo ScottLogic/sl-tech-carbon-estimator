@@ -1,5 +1,22 @@
 #!/bin/bash
+
+# This script is used to publish the package to npm, flags can be used to specify the version bump type and whether to run in dry run mode
+# -v: version bump type. Set to one of major, minor, or patch
+# -d: dry run mode, will not publish to npm. No value needed just need to add flag
+
 set -e
+
+dryRun='false'
+bump=patch
+
+while getopts v:d flag
+do
+    case "${flag}" in
+        v) bump=${OPTARG};;
+        d) dryRun='true';;
+        \?) exit 1;;
+    esac
+done
 
 # Check if npm is logged in
 if ! npm whoami &> /dev/null; then
@@ -8,12 +25,7 @@ if ! npm whoami &> /dev/null; then
 fi
 
 # Get version bump
-bump=patch
-if [ -z "$1" ]; then
-  echo "No version bump type provided, defaulting to patch"
-elif [ "$1" = "major" ] || [ "$1" = "minor" ] || [ "$1" = "patch" ]; then
-  bump= $1
-else
+if [ "$bump" != "major" ] && [ "$bump" != "minor" ] && [ "$bump" != "patch" ]; then
   echo "Invalid version bump type provided, specfiy one of major, minor, or patch"
   exit 1
 fi
@@ -27,7 +39,7 @@ npm run build
 npm run test
 
 # Update version and commit version bump and tag
-npm version $bump
+# npm version $bump
 
 version=$(npm pkg get version --workspaces=false | tr -d \")
 
@@ -44,6 +56,10 @@ npm pack
 
 publishFile=tech-carbon-estimator-"${version}".tgz
 
-npm publish $publishFile
+if [ "$dryRun" = 'true' ]; then
+  npm publish $publishFile --dry-run
+else
+  npm publish $publishFile
+fi
 
 echo "Published version $version to npm, run git push --follow-tags to push version update to git"
