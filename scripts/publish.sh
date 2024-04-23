@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Check if npm is logged in
 if ! npm whoami &> /dev/null; then
