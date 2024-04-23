@@ -6,19 +6,19 @@ This page details the Angular components that are part of the application and ho
 flowchart TB
   subgraph components
     CarbonEstimator["`CarbonEstimatorComponent
-    sl-carbon-estimator`"]
+    carbon-estimator`"]
     CarbonEstimatorForm["`CarbonEstimatorFormComponent
-    sl-carbon-estimator-form`"]
+    carbon-estimator-form`"]
     CarbonEstimation["`CarbonEstimationComponent
-    sl-carbon-estimation`"]
+    carbon-estimation`"]
     Assumptions["`AssumptionsAndLimitationComponent
-    sl-assumptions-and-limitation`"]
+    assumptions-and-limitation`"]
     HelperInfo["`HelperInfoComponent
-    sl-helper-info`"]
+    helper-info`"]
     Note["`NoteComponent
-    sl-note`"]
+    note`"]
     ExpansionPanel["`ExpansionPanelComponent
-    sl-expansion-panel`"]
+    expansion-panel`"]
   end
   subgraph services
     CarbonEstimationService
