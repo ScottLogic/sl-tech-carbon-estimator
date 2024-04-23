@@ -5,12 +5,12 @@ describe('Estimate Direct emissions', () => {
     expect(estimateEnergyEmissions(1, 'global')).toBeCloseTo(0.494);
   });
 
-  it('Should estimate emissions using us average', () => {
-    expect(estimateEnergyEmissions(1, 'us')).toBeCloseTo(0.41);
+  it('Should estimate emissions using North America average', () => {
+    expect(estimateEnergyEmissions(1, 'northAmerica')).toBeCloseTo(0.356);
   });
 
-  it('Should estimate emissions using eu average', () => {
-    expect(estimateEnergyEmissions(1, 'eu')).toBeCloseTo(0.33);
+  it('Should estimate emissions using europe average', () => {
+    expect(estimateEnergyEmissions(1, 'europe')).toBeCloseTo(0.33);
   });
 
   it('Should estimate emissions using uk average', () => {

@@ -292,4 +292,58 @@ describe('CarbonEstimationComponent', () => {
 
     expect(component.emissions).toEqual(expectedEmissions);
   });
+
+  it('should remove parent categories when all values are 0', () => {
+    const carbonEstimation: CarbonEstimation = {
+      version: '1.0',
+      upstreamEmissions: {
+        software: 50,
+        user: 0,
+        network: 0,
+        server: 0,
+      },
+      directEmissions: {
+        user: 50,
+        network: 0,
+        server: 0,
+      },
+      indirectEmissions: {
+        cloud: 0,
+        saas: 0,
+        managed: 0,
+      },
+      downstreamEmissions: {
+        endUser: 0,
+        network: 0,
+      },
+    };
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
+
+    fixture.detectChanges();
+
+    const expectedEmissions = [
+      {
+        name: 'Upstream Emissions - 50%',
+        color: '#40798C',
+        data: [
+          {
+            x: 'Software',
+            y: 50,
+          },
+        ],
+      },
+      {
+        name: 'Direct Emissions - 50%',
+        color: '#CB3775',
+        data: [
+          {
+            x: 'Employee Devices',
+            y: 50,
+          },
+        ],
+      },
+    ];
+
+    expect(component.emissions).toEqual(expectedEmissions);
+  });
 });
