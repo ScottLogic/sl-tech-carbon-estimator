@@ -70,12 +70,12 @@ export const formContext = {
     },
   },
   downstream: {
-    heading: 'Users',
+    heading: 'End-Users',
     details:
-      'Tell us about your users. At present we focus on the downstream impact of web based services, estimating an amount time spent in hours and of Data transferred in Gb per month.',
+      'Tell us about your end-users - this refers to your customers and/or any other users outside of your organisation. At present we focus on the downstream impact of web based services, estimating an amount time spent in hours and of Data transferred in Gb per month.',
     formGroupName: 'downstream',
     location: {
-      label: 'Where are your users primarily located?',
+      label: 'Where are your end-users primarily located?',
       helperText: 'end-user devices and network infrastructure',
       formControlName: 'customerLocation',
       hasUnknown: false,
