@@ -1,6 +1,18 @@
 # sl-tech-carbon-estimator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
+The tech carbon estimator is a web component that allow you to estimate, at high level, your carbon emissions
+
+## Using component
+
+exposed as a web component `tech-carbon-estimator`. The component takes the follow optional input:
+- `extra-height` - this is extra height to be added whe calculating the height if the chart. eg a header/footer that will be visible on the page
+
+You will need to import the following files to use the tech-carbon-estimator:
+- main.js
+- polyfill.js
+- styles.css
+
+These files can be found under dist/tech-carbon-estimator when developing locally.
 
 ## Development server
 
@@ -17,10 +29,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
 ## Further help
 
