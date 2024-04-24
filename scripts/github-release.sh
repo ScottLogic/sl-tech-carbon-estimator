@@ -4,4 +4,4 @@
 
 version=$(npm pkg get version --workspaces=false | tr -d \")
 # Remove --pre-release flag when estimator is ready for production
-gh release create v$version ./dist/tech-carbon-estimaotr/*.tgz --pre-release
+gh release create v$version ./dist/tech-carbon-estimator/*.tgz --pre-release
