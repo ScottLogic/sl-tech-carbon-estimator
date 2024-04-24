@@ -39,7 +39,7 @@ npm run build
 npm run test
 
 # Update version and commit version bump and tag
-# npm version $bump
+npm version $bump
 
 version=$(npm pkg get version --workspaces=false | tr -d \")
 
