@@ -9,6 +9,24 @@ export enum EmissionsColours {
 
 export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
 
+const customTooltip = ({
+  series,
+  seriesIndex,
+  dataPointIndex,
+  w,
+}: {
+  series: number[][];
+  seriesIndex: number;
+  dataPointIndex: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  w: any;
+}) => {
+  return `<div class="p-3">
+    <div>${w.globals.initialSeries[seriesIndex].name.split(' -')[0]}:</div>
+    <div>${w.globals.initialSeries[seriesIndex].data[dataPointIndex].x} -
+    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`;
+};
+
 export const chartOptions: ChartOptions = {
   legend: {
     show: true,
@@ -41,8 +59,7 @@ export const chartOptions: ChartOptions = {
     },
   },
   tooltip: {
-    y: { formatter: tooltipFormatter },
-    marker: { show: false },
+    custom: customTooltip,
   },
   states: {
     active: {
