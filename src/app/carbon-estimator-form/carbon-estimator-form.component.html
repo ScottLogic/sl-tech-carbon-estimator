@@ -51,14 +51,14 @@
       </div>
 
       @if (estimateServerCount) {
-        <sl-note>
+        <note>
           <p>
             We'll make an assumption about the number of servers based on your number of employees and cloud usage (~{{
               previewServerCount
             }}
             on-prem servers).
           </p>
-        </sl-note>
+        </note>
       }
 
       <div class="flex flex-col gap-2">
@@ -154,9 +154,7 @@
           <label for="mobilePercentage" class="text-sm text-slate-600">
             What percentage of your end-users are mobile or personal computer users?
           </label>
-          <sl-helper-info
-            class="ml-auto"
-            inputLabel="What percentage of your users are mobile or personal computer users">
+          <helper-info class="ml-auto" inputLabel="What percentage of your users are mobile or personal computer users">
             <p class="text-sm text-slate-600">
               The percentage of mobile users will affect the energy used by end user devices and network infrastructure.
             </p>
@@ -164,7 +162,7 @@
               While the power demand of mobile devices is often much lower, the use of mobile networks can increase the
               power used when transferring data.
             </p>
-          </sl-helper-info>
+          </helper-info>
         </div>
         <input
           id="mobilePercentage"
@@ -186,7 +184,7 @@
           <label for="purposeOfSite" class="text-sm text-slate-600"
             >What's the primary purpose of your web presence?</label
           >
-          <sl-helper-info class="ml-auto" inputLabel="What's the purpose of your website">
+          <helper-info class="ml-auto" inputLabel="What's the purpose of your website">
             <p class="text-sm text-slate-600">
               The purpose of the site is used to determine the typical amount of time a user might spend on your site
               and the amount of data that may be transferred.
@@ -195,7 +193,7 @@
               This can affect the amount of energy used by end user devices and how much energy from network traffic is
               attributable to your site
             </p>
-          </sl-helper-info>
+          </helper-info>
         </div>
         <select
           class="border border-slate-400 rounded"
@@ -238,7 +236,7 @@
       <div class="flex">
         <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
         @if (helperText) {
-          <sl-helper-info class="ml-auto" [inputLabel]="label">
+          <helper-info class="ml-auto" [inputLabel]="label">
             <p class="text-sm text-slate-600">
               This will affect the average
               <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
@@ -246,7 +244,7 @@
               >
               of the energy used by your {{ helperText }}.
             </p>
-          </sl-helper-info>
+          </helper-info>
         }
       </div>
       <select
@@ -262,21 +260,21 @@
         }
       </select>
       @if (estimatorForm.get(formGroupName + '.' + formControlName)?.value === 'unknown') {
-        <sl-note>
+        <note>
           <p>We'll use the assumption that any servers you use are located globally.</p>
-        </sl-note>
+        </note>
       }
     </div>
   </ng-template>
 </form>
 
 <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-  <sl-expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+  <expansion-panel class="flex justify-between gap-2 flex-col mb-4">
     <div header>
       <h2 class="text-2xl">{{ heading }}</h2>
     </div>
     <div content>
       <p>{{ sectionDetails }}</p>
     </div>
-  </sl-expansion-panel>
+  </expansion-panel>
 </ng-template>

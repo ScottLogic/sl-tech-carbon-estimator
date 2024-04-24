@@ -21,7 +21,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
 };
 
 @Component({
-  selector: 'sl-carbon-estimator-form',
+  selector: 'carbon-estimator-form',
   standalone: true,
   templateUrl: './carbon-estimator-form.component.html',
   styles: ['input.ng-touched.ng-invalid { border-color: red; }'],

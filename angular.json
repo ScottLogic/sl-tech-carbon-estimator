@@ -3,22 +3,24 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sl-tech-carbon-estimator": {
+    "tech-carbon-estimator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "sl",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/sl-tech-carbon-estimator",
+            "outputPath": {
+              "base": "dist/tech-carbon-estimator",
+              "browser": ""
+            },
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [],
             "styles": ["src/styles.css"],
             "scripts": []
           },
@@ -49,10 +51,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sl-tech-carbon-estimator:build:production"
+              "buildTarget": "tech-carbon-estimator:build:production"
             },
             "development": {
-              "buildTarget": "sl-tech-carbon-estimator:build:development"
+              "buildTarget": "tech-carbon-estimator:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -60,7 +62,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "sl-tech-carbon-estimator:build"
+            "buildTarget": "tech-carbon-estimator:build"
           }
         },
         "test": {
