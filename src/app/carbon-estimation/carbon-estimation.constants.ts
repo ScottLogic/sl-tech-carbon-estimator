@@ -12,7 +12,7 @@ export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.
 export const chartOptions: ChartOptions = {
   legend: {
     show: true,
-    position: 'bottom',
+    position: 'top',
     horizontalAlign: 'left',
     fontSize: '20px',
     fontFamily: 'ui-sans-serif, system-ui, sans-serif',
