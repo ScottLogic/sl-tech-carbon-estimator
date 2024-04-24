@@ -134,7 +134,7 @@ export class CarbonEstimationComponent implements OnInit {
       case 'user':
         return 'User Hardware';
       case 'network':
-        return 'Network and Infrastructure Hardware';
+        return 'Networking and Infrastructure Hardware';
       case 'server':
         return 'Servers and Storage Hardware';
       default:
@@ -147,7 +147,7 @@ export class CarbonEstimationComponent implements OnInit {
       case 'user':
         return 'User Devices';
       case 'network':
-        return 'Network and Infrastructure';
+        return 'Networking and Infrastructure';
       case 'server':
         return 'Servers and Storage';
       default:

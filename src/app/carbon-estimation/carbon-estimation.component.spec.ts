@@ -120,7 +120,7 @@ describe('CarbonEstimationComponent', () => {
             y: 6,
           },
           {
-            x: 'Network and Infrastructure Hardware',
+            x: 'Networking and Infrastructure Hardware',
             y: 6,
           },
           {
@@ -138,7 +138,7 @@ describe('CarbonEstimationComponent', () => {
             y: 9,
           },
           {
-            x: 'Network and Infrastructure',
+            x: 'Networking and Infrastructure',
             y: 8,
           },
           {
