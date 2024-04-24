@@ -130,13 +130,13 @@ export class CarbonEstimationComponent implements OnInit {
   private getUpstreamLabel(key: string): string {
     switch (key) {
       case 'software':
-        return 'Software';
+        return 'Software - Off the Shelf';
       case 'user':
-        return 'User';
+        return 'User Hardware';
       case 'network':
-        return 'Network Hardware';
+        return 'Networking and Infrastructure Hardware';
       case 'server':
-        return 'Server Hardware';
+        return 'Servers and Storage Hardware';
       default:
         return startCase(key);
     }
@@ -145,9 +145,9 @@ export class CarbonEstimationComponent implements OnInit {
   private getDirectLabel(key: string): string {
     switch (key) {
       case 'user':
-        return 'Employee Devices';
+        return 'User Devices';
       case 'network':
-        return 'Network Devices';
+        return 'Networking and Infrastructure';
       case 'server':
         return 'Servers and Storage';
       default:
@@ -171,7 +171,7 @@ export class CarbonEstimationComponent implements OnInit {
   private getDownstreamLabel(key: string): string {
     switch (key) {
       case 'endUser':
-        return 'End User Devices';
+        return 'End-User Devices';
       case 'network':
         return 'Network Data Transfer';
       default:

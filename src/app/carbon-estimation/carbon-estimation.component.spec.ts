@@ -112,19 +112,19 @@ describe('CarbonEstimationComponent', () => {
         color: '#40798C',
         data: [
           {
-            x: 'Software',
+            x: 'Software - Off the Shelf',
             y: 7,
           },
           {
-            x: 'User',
+            x: 'User Hardware',
             y: 6,
           },
           {
-            x: 'Network Hardware',
+            x: 'Networking and Infrastructure Hardware',
             y: 6,
           },
           {
-            x: 'Server Hardware',
+            x: 'Servers and Storage Hardware',
             y: 6,
           },
         ],
@@ -134,11 +134,11 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'Employee Devices',
+            x: 'User Devices',
             y: 9,
           },
           {
-            x: 'Network Devices',
+            x: 'Networking and Infrastructure',
             y: 8,
           },
           {
@@ -170,7 +170,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#4B7E56',
         data: [
           {
-            x: 'End User Devices',
+            x: 'End-User Devices',
             y: 13,
           },
           {
@@ -253,7 +253,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#40798C',
         data: [
           {
-            x: 'Software',
+            x: 'Software - Off the Shelf',
             y: 25,
           },
         ],
@@ -263,7 +263,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'Employee Devices',
+            x: 'User Devices',
             y: 25,
           },
         ],
@@ -283,7 +283,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#4B7E56',
         data: [
           {
-            x: 'End User Devices',
+            x: 'End-User Devices',
             y: 25,
           },
         ],
@@ -327,7 +327,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#40798C',
         data: [
           {
-            x: 'Software',
+            x: 'Software - Off the Shelf',
             y: 50,
           },
         ],
@@ -337,7 +337,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'Employee Devices',
+            x: 'User Devices',
             y: 50,
           },
         ],
