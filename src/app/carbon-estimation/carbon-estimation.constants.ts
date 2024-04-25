@@ -24,11 +24,11 @@ const customTooltip = ({
   const initialSeries = w.globals.initialSeries[seriesIndex];
   const data = initialSeries.data[dataPointIndex];
 
-  return `<div class="rounded flex">
-    <div class="p-2 flex" style="background-color:${initialSeries.color}"><svg class=" m-auto size-8" viewBox="0 -960 960 960"><path style="fill:white" d="${data.meta.svg}"/></svg></div>
-    <div class="p-2">
-    <div>${initialSeries.name.split(' -')[0]}:</div>
-    <div>${data.x} -
+  return `<div class="rounded flex max-w-40 md:max-w-none">
+    <div class="p-1 md:p-2 flex" style="background-color:${initialSeries.color}"><svg class=" m-auto size-4 md:size-8" viewBox="0 -960 960 960"><path style="fill:white" d="${data.meta.svg}"/></svg></div>
+    <div class="p-1 md:p-2">
+    <div class="text-wrap">${initialSeries.name.split(' -')[0]}:</div>
+    <div class="text-wrap">${data.x} -
     <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
 };
 
