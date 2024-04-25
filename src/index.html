@@ -9,6 +9,31 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
   </head>
   <body>
-    <tech-carbon-estimator></tech-carbon-estimator>
+    <!-- <tech-carbon-estimator></tech-carbon-estimator> -->
+    <div class="m-4">
+      <tech-carbon-estimations
+        carbon-estimation='{
+        "upstreamEmissions": {
+          "software": 7,
+          "user": 6,
+          "network": 6,
+          "server": 6
+        },
+        "directEmissions": {
+          "user": 9,
+          "network": 8,
+          "server": 8
+        },
+        "indirectEmissions": {
+          "cloud": 9,
+          "saas": 8,
+          "managed": 8
+        },
+        "downstreamEmissions": {
+          "endUser": 13,
+          "network": 12
+        }
+      }'></tech-carbon-estimations>
+    </div>
   </body>
 </html>
