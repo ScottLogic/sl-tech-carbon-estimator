@@ -42,12 +42,6 @@ describe('CarbonEstimationComponent', () => {
       },
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    spyOn(component as any, 'getDataItemObject').and.callFake((x: string, y: number) => ({
-      x,
-      y,
-    }));
-
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
 
     fixture.detectChanges();
@@ -121,18 +115,22 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 7,
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
           },
           {
             x: 'User Hardware',
             y: 6,
+            meta: { svg: 'devices-logo', parent: 'Upstream Emissions' },
           },
           {
             x: 'Networking and Infrastructure Hardware',
             y: 6,
+            meta: { svg: 'router-logo', parent: 'Upstream Emissions' },
           },
           {
             x: 'Servers and Storage Hardware',
             y: 6,
+            meta: { svg: 'storage-logo', parent: 'Upstream Emissions' },
           },
         ],
       },
@@ -143,14 +141,17 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 9,
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },
           {
             x: 'Networking and Infrastructure',
             y: 8,
+            meta: { svg: 'router-logo', parent: 'Direct Emissions' },
           },
           {
             x: 'Servers and Storage',
             y: 8,
+            meta: { svg: 'storage-logo', parent: 'Direct Emissions' },
           },
         ],
       },
@@ -161,14 +162,17 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Cloud Services',
             y: 9,
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
           },
           {
             x: 'SaaS',
             y: 8,
+            meta: { svg: 'web-logo', parent: 'Indirect Emissions' },
           },
           {
             x: 'Managed Services',
             y: 8,
+            meta: { svg: 'storage-logo', parent: 'Indirect Emissions' },
           },
         ],
       },
@@ -179,10 +183,12 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'End-User Devices',
             y: 13,
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
           },
           {
             x: 'Network Data Transfer',
             y: 12,
+            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions' },
           },
         ],
       },
@@ -262,6 +268,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 25,
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
           },
         ],
       },
@@ -272,6 +279,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 25,
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },
         ],
       },
@@ -282,6 +290,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Cloud Services',
             y: 25,
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
           },
         ],
       },
@@ -292,6 +301,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'End-User Devices',
             y: 25,
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
           },
         ],
       },
@@ -336,6 +346,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 50,
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
           },
         ],
       },
@@ -346,6 +357,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 50,
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },
         ],
       },
