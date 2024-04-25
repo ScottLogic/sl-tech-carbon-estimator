@@ -45,3 +45,7 @@ git config core.autocrlf input
 ## Documentation
 
 For further documentation please see the [docs](docs) folder.
+
+---
+
+© Copyright Scott Logic
