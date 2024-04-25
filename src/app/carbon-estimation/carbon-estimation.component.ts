@@ -109,7 +109,7 @@ export class CarbonEstimationComponent implements OnInit {
   }
 
   private getAriaLabelForCategory(series: ApexChartSeries): string {
-    const category = series.name.replace('-', 'emissions are');
+    const category = series.name.replace('-', 'are');
     return `${category}${this.getEmissionMadeUp(series.data)}`;
   }
 
