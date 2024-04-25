@@ -41,6 +41,10 @@ describe('CarbonEstimationComponent', () => {
         network: 12,
       },
     };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    spyOn(component as any, 'getSvg').and.callFake((key: string) => key);
+
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
 
     fixture.detectChanges();
@@ -114,18 +118,22 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 7,
+            meta: { svg: 'software' },
           },
           {
             x: 'User Hardware',
             y: 6,
+            meta: { svg: 'user' },
           },
           {
             x: 'Networking and Infrastructure Hardware',
             y: 6,
+            meta: { svg: 'network' },
           },
           {
             x: 'Servers and Storage Hardware',
             y: 6,
+            meta: { svg: 'server' },
           },
         ],
       },
@@ -136,14 +144,17 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 9,
+            meta: { svg: 'user' },
           },
           {
             x: 'Networking and Infrastructure',
             y: 8,
+            meta: { svg: 'network' },
           },
           {
             x: 'Servers and Storage',
             y: 8,
+            meta: { svg: 'server' },
           },
         ],
       },
@@ -154,14 +165,17 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Cloud Services',
             y: 9,
+            meta: { svg: 'cloud' },
           },
           {
             x: 'SaaS',
             y: 8,
+            meta: { svg: 'saas' },
           },
           {
             x: 'Managed Services',
             y: 8,
+            meta: { svg: 'managed' },
           },
         ],
       },
@@ -172,10 +186,12 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'End-User Devices',
             y: 13,
+            meta: { svg: 'endUser' },
           },
           {
             x: 'Network Data Transfer',
             y: 12,
+            meta: { svg: 'network' },
           },
         ],
       },
@@ -255,6 +271,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 25,
+            meta: { svg: 'software' },
           },
         ],
       },
@@ -265,6 +282,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 25,
+            meta: { svg: 'user' },
           },
         ],
       },
@@ -275,6 +293,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Cloud Services',
             y: 25,
+            meta: { svg: 'cloud' },
           },
         ],
       },
@@ -285,6 +304,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'End-User Devices',
             y: 25,
+            meta: { svg: 'endUser' },
           },
         ],
       },
@@ -329,6 +349,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Software - Off the Shelf',
             y: 50,
+            meta: { svg: 'software' },
           },
         ],
       },
@@ -339,6 +360,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'User Devices',
             y: 50,
+            meta: { svg: 'user' },
           },
         ],
       },
