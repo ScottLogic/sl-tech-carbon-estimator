@@ -31,7 +31,7 @@ describe('TechCarbonEstimatorComponent', () => {
         },
         downstreamEmissions: {
           endUser: 15,
-          network: 10,
+          networkTransfer: 10,
         },
       }),
     };

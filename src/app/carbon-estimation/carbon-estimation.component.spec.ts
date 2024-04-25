@@ -38,7 +38,7 @@ describe('CarbonEstimationComponent', () => {
       },
       downstreamEmissions: {
         endUser: 13,
-        network: 12,
+        networkTransfer: 12,
       },
     };
 
@@ -191,7 +191,7 @@ describe('CarbonEstimationComponent', () => {
           {
             x: 'Network Data Transfer',
             y: 12,
-            meta: { svg: 'network' },
+            meta: { svg: 'networkTransfer' },
           },
         ],
       },
@@ -225,7 +225,7 @@ describe('CarbonEstimationComponent', () => {
       },
       downstreamEmissions: {
         endUser: 13,
-        network: 12,
+        networkTransfer: 12,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -256,7 +256,7 @@ describe('CarbonEstimationComponent', () => {
       },
       downstreamEmissions: {
         endUser: 25,
-        network: 0,
+        networkTransfer: 0,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -334,7 +334,7 @@ describe('CarbonEstimationComponent', () => {
       },
       downstreamEmissions: {
         endUser: 0,
-        network: 0,
+        networkTransfer: 0,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
