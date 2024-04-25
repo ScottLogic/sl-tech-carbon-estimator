@@ -44,7 +44,7 @@ npm version $bump
 version=$(npm pkg get version --workspaces=false | tr -d \")
 
 # Publish to npm
-cp README.md LICENSE package.json ./dist/tech-carbon-estimator/
+cp README.md package.json ./dist/tech-carbon-estimator/
 
 cd dist/tech-carbon-estimator
 
