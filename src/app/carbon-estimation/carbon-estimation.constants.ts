@@ -21,10 +21,15 @@ const customTooltip = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   w: any;
 }) => {
-  return `<div class="p-3">
-    <div>${w.globals.initialSeries[seriesIndex].name.split(' -')[0]}:</div>
-    <div>${w.globals.initialSeries[seriesIndex].data[dataPointIndex].x} -
-    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`;
+  const initialSeries = w.globals.initialSeries[seriesIndex];
+  const data = initialSeries.data[dataPointIndex];
+
+  return `<div class="rounded flex">
+    <div class="p-2 flex" style="background-color:${initialSeries.color}"><svg class=" m-auto size-8" viewBox="0 -960 960 960"><path style="fill:white" d="${data.meta.svg}"/></svg></div>
+    <div class="p-2">
+    <div>${initialSeries.name.split(' -')[0]}:</div>
+    <div>${data.x} -
+    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
 };
 
 export const chartOptions: ChartOptions = {
