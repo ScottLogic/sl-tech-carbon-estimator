@@ -13,10 +13,23 @@ import { NumberObject, sumValues } from '../utils/number-object';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 
 import { startCase } from 'lodash-es';
-import { EmissionsColours, chartOptions, estimatorHeights, tooltipFormatter } from './carbon-estimation.constants';
+import {
+  EmissionsColours,
+  EmissionsLabels,
+  SVG,
+  chartOptions,
+  estimatorHeights,
+  tooltipFormatter,
+} from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
-type ApexChartDataItem = { x: string; y: number };
+type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
+
+type ApexChartSeries = {
+  name: string;
+  color: string;
+  data: ApexChartDataItem[];
+};
 
 @Component({
   selector: 'carbon-estimation',
@@ -42,7 +55,7 @@ export class CarbonEstimationComponent implements OnInit {
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
-      this.emissionAriaLabel = this.getAriaLabel(this.carbonEstimation());
+      this.emissionAriaLabel = this.getAriaLabel(this.emissions);
     });
   }
 
@@ -69,41 +82,35 @@ export class CarbonEstimationComponent implements OnInit {
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
     return [
       {
-        name: `Upstream Emissions - ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
+        name: `${EmissionsLabels.Upstream} - ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
         color: EmissionsColours.Upstream,
-        data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, this.getUpstreamLabel),
+        data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, EmissionsLabels.Upstream),
       },
       {
-        name: `Direct Emissions - ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
+        name: `${EmissionsLabels.Direct} - ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
         color: EmissionsColours.Direct,
-        data: this.getEmissionPercentages(carbonEstimation.directEmissions, this.getDirectLabel),
+        data: this.getEmissionPercentages(carbonEstimation.directEmissions, EmissionsLabels.Direct),
       },
       {
-        name: `Indirect Emissions - ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
+        name: `${EmissionsLabels.Indirect} - ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
         color: EmissionsColours.Indirect,
-        data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, this.getIndirectLabel),
+        data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, EmissionsLabels.Indirect),
       },
       {
-        name: `Downstream Emissions - ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
+        name: `${EmissionsLabels.Downstream} - ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
         color: EmissionsColours.Downstream,
-        data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, this.getDownstreamLabel),
+        data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, EmissionsLabels.Downstream),
       },
     ].filter(entry => entry.data.length !== 0);
   }
 
-  private getAriaLabel(carbonEstimation: CarbonEstimation): string {
-    return `Estimation of emissions. ${this.getAriaLabelForCategory('Upstream', carbonEstimation.upstreamEmissions, this.getUpstreamLabel)}
-    ${this.getAriaLabelForCategory('Direct', carbonEstimation.directEmissions, this.getDirectLabel)}
-    ${this.getAriaLabelForCategory('Indirect', carbonEstimation.indirectEmissions, this.getIndirectLabel)}
-    ${this.getAriaLabelForCategory('Downstream', carbonEstimation.downstreamEmissions, this.getDownstreamLabel)}`;
+  private getAriaLabel(emission: ApexAxisChartSeries): string {
+    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
   }
 
-  private getAriaLabelForCategory(
-    category: string,
-    emissions: NumberObject,
-    labelFunction: (key: string) => string
-  ): string {
-    return `${category} emissions are ${this.getOverallPercentageLabel(emissions)}${this.getEmissionMadeUp(this.getEmissionPercentages(emissions, labelFunction))}`;
+  private getAriaLabelForCategory(series: ApexChartSeries): string {
+    const category = series.name.replace('-', 'are');
+    return `${category}${this.getEmissionMadeUp(series.data)}`;
   }
 
   private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
@@ -118,65 +125,13 @@ export class CarbonEstimationComponent implements OnInit {
     return percentage < 1 ? '<1%' : Math.round(percentage) + '%';
   };
 
-  private getEmissionPercentages(emissions: NumberObject, labelFunction: (key: string) => string): ApexChartDataItem[] {
+  private getEmissionPercentages(emissions: NumberObject, parent: string): ApexChartDataItem[] {
     return (
       Object.entries(emissions)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_key, value]) => value !== 0)
-        .map(([key, value]) => ({ x: labelFunction(key), y: value }))
+        .map(([_key, value]) => this.getDataItem(_key, value, parent))
     );
-  }
-
-  private getUpstreamLabel(key: string): string {
-    switch (key) {
-      case 'software':
-        return 'Software - Off the Shelf';
-      case 'user':
-        return 'User Hardware';
-      case 'network':
-        return 'Networking and Infrastructure Hardware';
-      case 'server':
-        return 'Servers and Storage Hardware';
-      default:
-        return startCase(key);
-    }
-  }
-
-  private getDirectLabel(key: string): string {
-    switch (key) {
-      case 'user':
-        return 'User Devices';
-      case 'network':
-        return 'Networking and Infrastructure';
-      case 'server':
-        return 'Servers and Storage';
-      default:
-        return startCase(key);
-    }
-  }
-
-  private getIndirectLabel(key: string): string {
-    switch (key) {
-      case 'cloud':
-        return 'Cloud Services';
-      case 'saas':
-        return 'SaaS';
-      case 'managed':
-        return 'Managed Services';
-      default:
-        return startCase(key);
-    }
-  }
-
-  private getDownstreamLabel(key: string): string {
-    switch (key) {
-      case 'endUser':
-        return 'End-User Devices';
-      case 'network':
-        return 'Network Data Transfer';
-      default:
-        return startCase(key);
-    }
   }
 
   private getChartHeight(innerHeight: number, innerWidth: number): number {
@@ -190,5 +145,74 @@ export class CarbonEstimationComponent implements OnInit {
     const extraHeightString = this.extraHeight();
     const extraHeight = Number(extraHeightString) || 0;
     return innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
+  }
+
+  private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
+    switch (key) {
+      case 'software':
+        return this.getDataItemObject('Software - Off the Shelf', value, SVG.WEB, parent);
+      case 'saas':
+        return this.getDataItemObject('SaaS', value, SVG.WEB, parent);
+      case 'user':
+        return this.getDataItemObject(this.getUserLabel(parent), value, SVG.DEVICES, parent);
+      case 'endUser':
+        return this.getDataItemObject('End-User Devices', value, SVG.DEVICES, parent);
+      case 'network':
+        return this.getDataItemObject(this.getNetworkLabel(parent), value, SVG.ROUTER, parent);
+      case 'server':
+        return this.getDataItemObject(this.getServerLabel(parent), value, SVG.STORAGE, parent);
+      case 'managed':
+        return this.getDataItemObject('Managed Services', value, SVG.STORAGE, parent);
+      case 'cloud':
+        return this.getDataItemObject('Cloud Services', value, SVG.CLOUD, parent);
+      case 'networkTransfer':
+        return this.getDataItemObject('Network Data Transfer', value, SVG.CELL_TOWER, parent);
+      default:
+        return this.getDataItemObject(startCase(key), value, '', parent);
+    }
+  }
+
+  private getDataItemObject(x: string, y: number, svg: string, parent: string): ApexChartDataItem {
+    return {
+      x,
+      y,
+      meta: {
+        svg,
+        parent,
+      },
+    };
+  }
+
+  private getUserLabel(key: string): string {
+    switch (key) {
+      case 'Upstream Emissions':
+        return 'User Hardware';
+      case 'Direct Emissions':
+        return 'User Devices';
+      default:
+        return startCase(key);
+    }
+  }
+
+  private getNetworkLabel(key: string): string {
+    switch (key) {
+      case 'Upstream Emissions':
+        return 'Networking and Infrastructure Hardware';
+      case 'Direct Emissions':
+        return 'Networking and Infrastructure';
+      default:
+        return startCase(key);
+    }
+  }
+
+  private getServerLabel(key: string): string {
+    switch (key) {
+      case 'Upstream Emissions':
+        return 'Servers and Storage Hardware';
+      case 'Direct Emissions':
+        return 'Servers and Storage';
+      default:
+        return startCase(key);
+    }
   }
 }

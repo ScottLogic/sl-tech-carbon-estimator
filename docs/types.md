@@ -138,7 +138,7 @@ classDiagram
   }
   class DownstreamEstimation {
     endUser: number;
-    network: number;
+    networkTransfer: number;
   }
 ```
 

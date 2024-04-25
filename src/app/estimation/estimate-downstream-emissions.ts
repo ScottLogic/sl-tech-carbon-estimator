@@ -56,7 +56,7 @@ export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
 
 export function estimateDownstreamEmissions(downstream: Downstream): DownstreamEstimation {
   if (downstream.monthlyActiveUsers === 0) {
-    return { endUser: 0, network: 0 };
+    return { endUser: 0, networkTransfer: 0 };
   }
 
   const downstreamDataTransfer = estimateDownstreamDataTransfer(
@@ -65,7 +65,7 @@ export function estimateDownstreamEmissions(downstream: Downstream): DownstreamE
   );
   const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer);
   const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
-  return { endUser: endUserEmissions, network: networkEmissions };
+  return { endUser: endUserEmissions, networkTransfer: networkEmissions };
 }
 
 function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {

@@ -21,10 +21,15 @@ const customTooltip = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   w: any;
 }) => {
-  return `<div class="p-3">
-    <div>${w.globals.initialSeries[seriesIndex].name.split(' -')[0]}:</div>
-    <div>${w.globals.initialSeries[seriesIndex].data[dataPointIndex].x} -
-    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`;
+  const initialSeries = w.globals.initialSeries[seriesIndex];
+  const data = initialSeries.data[dataPointIndex];
+
+  return `<div class="rounded flex max-w-40 md:max-w-none">
+  <div class="p-1 md:p-2 flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} m-auto size-4 md:size-8"></div></div>
+    <div class="p-1 md:p-2">
+    <div class="text-wrap">${data.meta.parent}:</div>
+    <div class="text-wrap">${data.x} -
+    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
 };
 
 export const chartOptions: ChartOptions = {
@@ -84,3 +89,19 @@ export const estimatorHeights = {
   button: 40,
   chartExtra: 15,
 };
+
+export enum SVG {
+  WEB = 'web-logo',
+  DEVICES = 'devices-logo',
+  ROUTER = 'router-logo',
+  STORAGE = 'storage-logo',
+  CLOUD = 'cloud-logo',
+  CELL_TOWER = 'cell-tower-logo',
+}
+
+export enum EmissionsLabels {
+  Upstream = 'Upstream Emissions',
+  Direct = 'Direct Emissions',
+  Indirect = 'Indirect Emissions',
+  Downstream = 'Downstream Emissions',
+}

@@ -27,7 +27,7 @@ export type DirectEstimation = {
 };
 export type DownstreamEstimation = {
   endUser: number;
-  network: number;
+  networkTransfer: number;
 };
 
 export type EstimatorValues = {
