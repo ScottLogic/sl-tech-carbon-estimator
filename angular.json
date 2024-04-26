@@ -37,7 +37,8 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ]
+              ],
+              "baseHref": "/sl-tech-carbon-estimator/"
             },
             "development": {
               "optimization": false,
