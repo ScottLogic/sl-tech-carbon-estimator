@@ -54,6 +54,7 @@ export type EstimatorFormValues = {
     monthlyCloudBill: FormControl<CostRange>;
   }>;
   downstream: FormGroup<{
+    noDownstream: FormControl<boolean>;
     customerLocation: FormControl<WorldLocation>;
     monthlyActiveUsers: FormControl<number>;
     mobilePercentage: FormControl<number>;
@@ -77,6 +78,7 @@ export type Cloud = {
   monthlyCloudBill: CostRange;
 };
 export type Downstream = {
+  noDownstream: boolean;
   customerLocation: WorldLocation;
   monthlyActiveUsers: number;
   mobilePercentage: number;

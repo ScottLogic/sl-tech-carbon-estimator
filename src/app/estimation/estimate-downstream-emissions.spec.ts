@@ -3,9 +3,10 @@ import { sumValues } from '../utils/number-object';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 
 describe('estimateDownstreamEmissions', () => {
-  it('should return no emissions if monthly active users is zero', () => {
+  it('should return no emissions if no downstream is requested', () => {
     const input: Downstream = {
-      monthlyActiveUsers: 0,
+      noDownstream: true,
+      monthlyActiveUsers: 100,
       customerLocation: 'global',
       mobilePercentage: 0,
       purposeOfSite: 'average',
@@ -18,6 +19,7 @@ describe('estimateDownstreamEmissions', () => {
 
   function createInput(purposeOfSite: PurposeOfSite): Downstream {
     return {
+      noDownstream: false,
       monthlyActiveUsers: 100,
       customerLocation: 'global',
       mobilePercentage: 0,
