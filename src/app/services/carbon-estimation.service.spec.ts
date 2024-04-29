@@ -90,6 +90,28 @@ describe('CarbonEstimationService', () => {
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Indirect Emissions: .*/));
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Downstream Emissions: .*/));
     });
+
+    it('calculates emissions for hardware', () => {
+      const hardwareInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 4,
+          desktopPercentage: 50,
+        },
+        onPremise: {
+          estimateServerCount: false,
+          serverLocation: 'global',
+          numberOfServers: 2,
+        },
+      };
+      const result = service.calculateCarbonEstimation(hardwareInput);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.48);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.01);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.59);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.79);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.45);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.67);
+    });
   });
 
   describe('estimateServerCount', () => {
