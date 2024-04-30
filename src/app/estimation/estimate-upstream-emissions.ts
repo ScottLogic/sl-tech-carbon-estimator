@@ -1,16 +1,17 @@
-import { DeviceCounts, UpstreamEstimation } from '../types/carbon-estimator';
-import { desktop, laptop, network, server } from './device-type';
+import { DeviceCategory, UpstreamEstimation } from '../types/carbon-estimator';
+import { DeviceUsage } from './device-usage';
 
-export function estimateUpstreamEmissions(deviceCounts: DeviceCounts): UpstreamEstimation {
-  const desktopUpstreamEmissions = desktop.estimateYearlyUpstreamEmissions(deviceCounts.desktopCount);
-  const laptopUpstreamEmissions = laptop.estimateYearlyUpstreamEmissions(deviceCounts.laptopCount);
-  const serverUpstreamEmissions = server.estimateYearlyUpstreamEmissions(deviceCounts.serverCount);
-  const networkUpstreamEmissions = network.estimateYearlyUpstreamEmissions(deviceCounts.networkCount);
-
+export function estimateUpstreamEmissions(deviceUsage: DeviceUsage[]): UpstreamEstimation {
+  const result: Record<DeviceCategory, number> = {
+    user: 0,
+    server: 0,
+    network: 0,
+  };
+  for (const usage of deviceUsage) {
+    result[usage.category] += usage.estimateUpstreamEmissions();
+  }
   return {
+    ...result,
     software: 0,
-    user: desktopUpstreamEmissions + laptopUpstreamEmissions,
-    server: serverUpstreamEmissions,
-    network: networkUpstreamEmissions,
   };
 }

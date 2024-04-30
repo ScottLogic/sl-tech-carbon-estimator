@@ -78,6 +78,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       upstream: this.formBuilder.nonNullable.group({
         headCount: [defaultValues.upstream.headCount, Validators.required],
         desktopPercentage: [defaultValues.upstream.desktopPercentage],
+        employeeLocation: [defaultValues.upstream.employeeLocation],
       }),
       onPremise: this.formBuilder.nonNullable.group({
         estimateServerCount: [defaultValues.onPremise.estimateServerCount],

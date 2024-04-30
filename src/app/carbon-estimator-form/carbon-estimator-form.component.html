@@ -32,6 +32,8 @@
           <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
         </div>
       </div>
+
+      <ng-container *ngTemplateOutlet="locationInput; context: formContext.upstream"></ng-container>
     </div>
   </div>
 

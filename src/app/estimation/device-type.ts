@@ -1,6 +1,6 @@
 import { Hour, KgCo2e, KilowattHour, Watt, Year } from '../types/units';
 
-class DeviceType {
+export class DeviceType {
   constructor(
     readonly averagePower: Watt,
     readonly averageYearlyUsage: Hour,

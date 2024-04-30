@@ -19,6 +19,7 @@ export const defaultValues: Required<EstimatorValues> = {
   upstream: {
     headCount: 100,
     desktopPercentage: 50,
+    employeeLocation: 'global',
   },
   onPremise: {
     estimateServerCount: false,
@@ -46,6 +47,12 @@ export const formContext = {
     details:
       'To understand the scale of your emissions, we estimate based on the number of employees and the proportion of desktops to laptops specified. This may be an overestimate if a significant number of employees are not provided with devices, or an underestimate if they typically have more than one.',
     formGroupName: 'upstream',
+    location: {
+      label: 'Where are your employees primarily located?',
+      helperText: 'your employee devices',
+      formControlName: 'employeeLocation',
+      hasUnknown: false,
+    },
   },
   onPremise: {
     heading: 'On-Premise Servers',

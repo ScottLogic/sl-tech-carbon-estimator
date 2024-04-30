@@ -10,6 +10,7 @@ const emptyEstimatorValues: EstimatorValues = {
   upstream: {
     headCount: 0,
     desktopPercentage: 0,
+    employeeLocation: 'global',
   },
   onPremise: {
     estimateServerCount: false,
@@ -77,6 +78,7 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 1,
           desktopPercentage: 0,
+          employeeLocation: 'global',
         },
       });
       checkTotalPercentage(estimation);
@@ -91,6 +93,52 @@ describe('CarbonEstimationService', () => {
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Indirect Emissions: .*/));
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Downstream Emissions: .*/));
     });
+
+    it('calculates emissions for hardware', () => {
+      const hardwareInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 4,
+          desktopPercentage: 50,
+          employeeLocation: 'global',
+        },
+        onPremise: {
+          estimateServerCount: false,
+          serverLocation: 'global',
+          numberOfServers: 2,
+        },
+      };
+      const result = service.calculateCarbonEstimation(hardwareInput);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.48);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.01);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.59);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.79);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.45);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.67);
+    });
+
+    it('calculates emissions for hardware where servers are in different location to employees', () => {
+      const hardwareInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 4,
+          desktopPercentage: 50,
+          employeeLocation: 'uk',
+        },
+        onPremise: {
+          estimateServerCount: false,
+          serverLocation: 'global',
+          numberOfServers: 2,
+        },
+      };
+      const result = service.calculateCarbonEstimation(hardwareInput);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.74);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.6);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.85);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.92);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.87);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.02);
+    });
   });
 
   describe('estimateServerCount', () => {
@@ -104,6 +152,7 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
+          employeeLocation: 'global',
         },
         onPremise: {
           estimateServerCount: true,
@@ -120,6 +169,7 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
+          employeeLocation: 'global',
         },
         onPremise: {
           estimateServerCount: true,
