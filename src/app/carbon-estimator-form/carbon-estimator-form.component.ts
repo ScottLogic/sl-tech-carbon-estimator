@@ -60,6 +60,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public previewServerCount = 0;
 
   public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
+  public noDownstream: boolean = defaultValues.downstream.noDownstream;
 
   public locationDescriptions = locationArray.map(location => ({
     value: location,
@@ -91,6 +92,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
         monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
       }),
       downstream: this.formBuilder.nonNullable.group({
+        noDownstream: [false],
         customerLocation: [defaultValues.downstream.customerLocation],
         monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers],
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
@@ -123,6 +125,10 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.refreshPreviewServerCount();
       this.changeDetector.detectChanges();
     });
+
+    this.estimatorForm
+      .get('downstream.noDownstream')
+      ?.valueChanges.subscribe(noDownstream => (this.noDownstream = noDownstream));
 
     this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
       this.cloudPercentage = cloudPercentage;

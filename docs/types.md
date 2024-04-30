@@ -40,6 +40,7 @@ classDiagram
   Cloud --> "cloudLocation" WorldLocation
   Cloud --> "monthlyCloudBill" CostRange
   class Downstream {
+    noDownstream: boolean
     customerLocation: WorldLocation
     monthlyActiveUsers: number
     mobilePercentage: number

@@ -24,6 +24,7 @@ const emptyEstimatorValues: EstimatorValues = {
     monthlyCloudBill: { min: 0, max: 200 },
   },
   downstream: {
+    noDownstream: true,
     customerLocation: 'global',
     monthlyActiveUsers: 0,
     mobilePercentage: 0,
