@@ -44,7 +44,7 @@
         <input
           id="estimateServerCount"
           type="checkbox"
-          class="rounded-sm"
+          class="rounded-sm cursor-pointer"
           formControlName="estimateServerCount"
           aria-describedby="on-prem-servers-question" />
         <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
@@ -81,7 +81,11 @@
 
     <div class="flex flex-col gap-4">
       <div class="flex gap-2 items-center">
-        <input id="noCloudServices" type="checkbox" formControlName="noCloudServices" class="rounded-sm" />
+        <input
+          id="noCloudServices"
+          type="checkbox"
+          formControlName="noCloudServices"
+          class="rounded-sm cursor-pointer" />
         <label for="noCloudServices" class="cursor-pointer select-none">We don't use cloud services</label>
       </div>
 
@@ -135,7 +139,7 @@
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
     <div class="flex flex-col gap-4">
       <div class="flex gap-2 items-center">
-        <input id="noDownstream" type="checkbox" formControlName="noDownstream" class="rounded-sm" />
+        <input id="noDownstream" type="checkbox" formControlName="noDownstream" class="rounded-sm cursor-pointer" />
         <label for="noDownstream" class="cursor-pointer select-none"
           >We don't have any external users of our digital services</label
         >
