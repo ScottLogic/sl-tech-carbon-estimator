@@ -31,6 +31,7 @@ classDiagram
     desktopPercentage: number
     employeeLocation: WorldLocation
   }
+  Upstream --> "employeeLocation" WorldLocation
   class Cloud {
     noCloudServices: boolean
     cloudLocation: WorldLocation
