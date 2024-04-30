@@ -89,19 +89,19 @@ This is the input data that the [CarbonEstimationService](services.md#carbonesti
 
 This contains the data as entered on the main form, which uses Angular FormGroup and FormControl classes. It is mostly the same as the above but it also allows for `unknown` to be selected for On-premise and Cloud locations, which will be converted to `global` before sending to the estimation service.
 
-### DeviceCounts
+### DeviceCategory
 
 ```mermaid
 classDiagram
-  class DeviceCounts {
-    desktopCount: number
-    laptopCount: number
-    serverCount: number
-    networkCount: number
+  class DeviceCategory {
+    <<union>>
+    'user'
+    'server'
+    'network'
   }
 ```
 
-This is produced during the estimation process so that the same device counts can be used to estimate Upstream and Direct emissions.
+This union defines the possible direct/upstream TCS categories that a device can fall under. This helps to simplify the code that calculates the total for each category in the estimation.
 
 ### CarbonEstimation
 

@@ -1,34 +1,49 @@
-import { ON_PREMISE_AVERAGE_PUE } from './constants';
-import { desktop, laptop, network, server } from './device-type';
+import { DeviceCategory } from '../types/carbon-estimator';
+import { KgCo2e } from '../types/units';
+import { DeviceUsage } from './device-usage';
 import { estimateDirectEmissions } from './estimate-direct-emissions';
-import { estimateEnergyEmissions } from './estimate-energy-emissions';
 
-it('should return no emissions if all device counts are empty', () => {
-  const deviceCounts = { laptopCount: 0, desktopCount: 0, serverCount: 0, networkCount: 0 };
-  expect(estimateDirectEmissions(deviceCounts, 'global')).toEqual({
-    user: 0,
-    server: 0,
-    network: 0,
+describe('estimateDirectEmissions', () => {
+  function createDirectDeviceUsageStub(category: DeviceCategory, directEmissions: KgCo2e): DeviceUsage {
+    return {
+      category: category,
+      estimateDirectEmissions: () => directEmissions,
+      estimateUpstreamEmissions: () => 0,
+    };
+  }
+
+  it('should return no emissions for an empty list', () => {
+    expect(estimateDirectEmissions([])).toEqual({
+      user: 0,
+      server: 0,
+      network: 0,
+    });
   });
-});
 
-it('should return emissions from specified amounts of devices with PUE applied for data centre equipment', () => {
-  const deviceCounts = { laptopCount: 1, desktopCount: 2, serverCount: 3, networkCount: 4 };
-  const estimateLaptopEnergy = spyOn(laptop, 'estimateYearlyEnergy').and.returnValue(1);
-  const estimateDesktopEnergy = spyOn(desktop, 'estimateYearlyEnergy').and.returnValue(2);
-  const estimateServerEnergy = spyOn(server, 'estimateYearlyEnergy').and.returnValue(3);
-  const estimateNetworkEnergy = spyOn(network, 'estimateYearlyEnergy').and.returnValue(4);
+  it('should allocate emissions to relevant category', () => {
+    const deviceUsage: DeviceUsage[] = [
+      createDirectDeviceUsageStub('user', 1),
+      createDirectDeviceUsageStub('server', 2),
+      createDirectDeviceUsageStub('network', 3),
+    ];
 
-  const expectedUserEnergyEmissions = estimateEnergyEmissions(3, 'global');
-  const expectedServerEnergyEmissions = estimateEnergyEmissions(3 * ON_PREMISE_AVERAGE_PUE, 'global');
-  const expectedNetworkEnergyEmissions = estimateEnergyEmissions(4 * ON_PREMISE_AVERAGE_PUE, 'global');
-  const result = estimateDirectEmissions(deviceCounts, 'global');
-  expect(result.user).toEqual(expectedUserEnergyEmissions);
-  expect(result.server).toEqual(expectedServerEnergyEmissions);
-  expect(result.network).toEqual(expectedNetworkEnergyEmissions);
+    expect(estimateDirectEmissions(deviceUsage)).toEqual({
+      user: 1,
+      server: 2,
+      network: 3,
+    });
+  });
 
-  expect(estimateLaptopEnergy).toHaveBeenCalledOnceWith(1);
-  expect(estimateDesktopEnergy).toHaveBeenCalledOnceWith(2);
-  expect(estimateServerEnergy).toHaveBeenCalledOnceWith(3);
-  expect(estimateNetworkEnergy).toHaveBeenCalledOnceWith(4);
+  it('should total multiple emissions in the same category', () => {
+    const deviceUsage: DeviceUsage[] = [
+      createDirectDeviceUsageStub('user', 1),
+      createDirectDeviceUsageStub('user', 2),
+      createDirectDeviceUsageStub('user', 3),
+    ];
+    expect(estimateDirectEmissions(deviceUsage)).toEqual({
+      user: 6,
+      server: 0,
+      network: 0,
+    });
+  });
 });

@@ -82,12 +82,8 @@ export type Downstream = {
   mobilePercentage: number;
   purposeOfSite: PurposeOfSite;
 };
-export type DeviceCounts = {
-  desktopCount: number;
-  laptopCount: number;
-  serverCount: number;
-  networkCount: number;
-};
+
+export type DeviceCategory = 'user' | 'server' | 'network';
 
 export const locationArray = [
   'global',

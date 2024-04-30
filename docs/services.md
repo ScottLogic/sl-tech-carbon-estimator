@@ -9,7 +9,7 @@ classDiagram
     -loggingService: LoggingService 
     +calculateCarbonEstimation(formValue: EstimatorValues) CarbonEstimation
     +estimateServerCount(formValue: EstimatorValues) number
-    -estimateDeviceCounts(formValue: EstimatorValues) DeviceCounts
+    -estimateDeviceUsage(formValue: EstimatorValues) DeviceUsage[]
   }
 
   class LoggingService{
@@ -41,18 +41,18 @@ classDiagram
     -loggingService: LoggingService 
     +calculateCarbonEstimation(formValue: EstimatorValues) CarbonEstimation
     +estimateServerCount(formValue: EstimatorValues) number
-    -estimateDeviceCounts(formValue: EstimatorValues) DeviceCounts
+    -estimateDeviceUsage(formValue: EstimatorValues) DeviceUsage[]
   }
 
   namespace estimation-directory {
     class estimate-upstream-emissions{
       <<module>>
-      +estimateUpstreamEmissions(deviceCounts: DeviceCounts) UpstreamEstimation
+      +estimateUpstreamEmissions(deviceUsage: DeviceUsage[]) UpstreamEstimation
     }
 
     class estimate-direct-emissions{
       <<module>>
-      +estimateDirectEmissions(deviceCounts: DeviceCounts, onPremLocation: WorldLocation) DirectEstimation
+      +estimateDirectEmissions(deviceUsage: DeviceUsage[]) DirectEstimation
     }
 
     class estimate-indirect-emissions{

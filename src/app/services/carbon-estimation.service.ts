@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CarbonEstimation, DeviceCounts, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
@@ -7,6 +7,9 @@ import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emiss
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
 import { version } from '../../../package.json';
+import { desktop, laptop, network, server } from '../estimation/device-type';
+import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
+import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +20,11 @@ export class CarbonEstimationService {
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${formatObject(formValue)}`);
 
-    const deviceCounts = this.estimateDeviceCounts(formValue);
-    this.loggingService.log(`Estimated Device Counts: ${formatObject(deviceCounts)}`);
+    const deviceUsage = this.estimateDeviceUsage(formValue);
 
-    const upstreamEmissions = estimateUpstreamEmissions(deviceCounts);
+    const upstreamEmissions = estimateUpstreamEmissions(deviceUsage);
     this.loggingService.log(`Estimated Upstream Emissions: ${formatCarbonEstimate(upstreamEmissions)}`);
-    const directEmissions = estimateDirectEmissions(deviceCounts, formValue.onPremise.serverLocation);
+    const directEmissions = estimateDirectEmissions(deviceUsage);
     this.loggingService.log(`Estimated Direct Emissions: ${formatCarbonEstimate(directEmissions)}`);
     const indirectEmissions = estimateIndirectEmissions(formValue.cloud);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
@@ -46,7 +48,7 @@ export class CarbonEstimationService {
     return calculateCeilingPercentage(100 - cloudPercentage, formValue.upstream.headCount * 0.1);
   }
 
-  private estimateDeviceCounts(formValue: EstimatorValues): DeviceCounts {
+  private estimateDeviceUsage(formValue: EstimatorValues): DeviceUsage[] {
     const desktopPercent = formValue.upstream.desktopPercentage;
     const headCount = formValue.upstream.headCount;
     const laptopPercent = 100 - desktopPercent;
@@ -55,7 +57,18 @@ export class CarbonEstimationService {
     const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
     const serverCount = this.estimateServerCount(formValue);
     const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
-    return { desktopCount, laptopCount, serverCount, networkCount };
+
+    this.loggingService.log(
+      `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, networkCount })}`
+    );
+
+    const onPremLocation = formValue.onPremise.serverLocation;
+    return [
+      createDeviceUsage(desktop, 'user', onPremLocation, desktopCount),
+      createDeviceUsage(laptop, 'user', onPremLocation, laptopCount),
+      createDeviceUsage(server, 'server', onPremLocation, serverCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(network, 'network', onPremLocation, networkCount, ON_PREMISE_AVERAGE_PUE),
+    ];
   }
 }
 

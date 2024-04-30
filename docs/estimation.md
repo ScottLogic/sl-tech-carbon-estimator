@@ -8,38 +8,33 @@ classDiagram
   namespace TCS-categories {
     class estimate-upstream-emissions{
       <<module>>
-      +estimateUpstreamEmissions(deviceCounts: DeviceCounts) UpstreamEstimation
+      +estimateUpstreamEmissions(deviceUsage: DeviceUsage[]) UpstreamEstimation
     }
 
     class estimate-direct-emissions{
       <<module>>
-      +estimateDirectEmissions(deviceCounts: DeviceCounts, onPremLocation: WorldLocation) DirectEstimation
+      +estimateDirectEmissions(deviceUsage: DeviceUsage[]) DirectEstimation
     }
 
     class estimate-indirect-emissions{
       <<module>>
-      -number COST_TO_KWH_RATIO
-      -number COST_TO_UPSTREAM_RATIO
       +estimateIndirectEmissions(input: Cloud) IndirectEstimation
-      -estimateCloudEnergy(monthlyCloudBill: number) KilowattHour
-      -estimateCloudUpstream(monthlyCloudBill: number) KgCo2e
     }
 
     class estimate-downstream-emissions{
       <<module>>
       +siteTypeInfo: Record~PurposeOfSite, SiteInformation~
-      -BYTES_IN_GIGABYTE: number
       +estimateDownstreamEmissions(downstream: Downstream) DownstreamEstimation
-      -addAverage(input: Record~BasePurposeOfSite, SiteInformation~) Record~PurposeOfSite, SiteInformation~
-      -estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite) Gb
-      -estimateEndUserEmissions(downstream: Downstream, downstreamDataTransfer: number)
-      -estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite) Hour
-      -estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number) KilowattHour 
-      -estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number) 
     }
   }
 
   namespace supporting-modules{
+    class device-usage {
+      <<module>>
+      +DeviceUsage: interface
+      +createDeviceUsage(type: DeviceType, ...) DeviceUsage
+    }
+
     class device-type {
       <<module>>
       +laptop: DeviceType
@@ -50,24 +45,25 @@ classDiagram
       +tablet: DeviceType
       +monitor: DeviceType
       +averagePersonalComputer: AverageDeviceType
+      +DeviceType(...)
       +AverageDeviceType(...shares: DeviceShare[])
-      -DeviceType(averagePower: Watt, averageYearlyUsage: Hour, averageEmbodiedCarbon: KgCo2e, averageLifespan: Year)
     }
 
     class estimate-energy-emissions {
       <<module>>
       +locationIntensityMap: Record~WorldLocation, KgCo2ePerKwh~
-      +estimateEnergyEmissions(energy: KilowattHour, location: WorldLocation) KgCo2e
-      +getCarbonIntensity(location: WorldLocation) gCo2ePerKwh
+      +estimateEnergyEmissions(...) KgCo2e
+      +getCarbonIntensity(...) gCo2ePerKwh
     }
   }
 
-  estimate-upstream-emissions ..> device-type
-  estimate-direct-emissions ..> estimate-energy-emissions
-  estimate-direct-emissions ..> device-type
+  estimate-upstream-emissions ..> device-usage
+  estimate-direct-emissions ..> device-usage
   estimate-indirect-emissions ..> estimate-energy-emissions
-  estimate-downstream-emissions ..> estimate-energy-emissions
   estimate-downstream-emissions ..> device-type
+  estimate-downstream-emissions ..> estimate-energy-emissions
+  device-usage ..> device-type
+  device-usage ..> estimate-energy-emissions
 ```
 
 ## estimate-upstream-emissions
@@ -80,7 +76,7 @@ Estimate emissions from Upstream categories
 
 ##### Parameters
 
-`deviceCounts:`[`DeviceCounts`](types.md#devicecounts) - The Device counts to estimate upstream emissions for.
+`deviceUsage:`[`DeviceUsage`](#deviceusage)`[]` - The Device usage to estimate upstream emissions for.
 
 ##### Returns
 
@@ -96,8 +92,7 @@ Estimate emissions from Direct categories
 
 ##### Parameters
 
-`deviceCounts:`[`DeviceCounts`](types.md#devicecounts) - The Device counts to estimate upstream emissions for.  
-`onPremLocation:`[`WorldLocation`](types.md#estimatorvalues) - The World Location of the hardware for Carbon Intensity.
+`deviceUsage:`[`DeviceUsage`](#deviceusage)`[]` - The Device usage to estimate direct emissions for.  
 
 ##### Returns
 
@@ -189,56 +184,58 @@ classDiagram
   DeviceShare ..> DeviceType
 ```
 
-The `DeviceType` class is not exported but performs calculations based on average power, usage, embodied carbon, and lifespan. This module instead exports multiple types of devices with different averages.
+### `DeviceType`
 
-### Public Methods
+The `DeviceType` class performs calculations based on average power, usage, embodied carbon, and lifespan. This module also exports multiple types of devices with different averages.
 
-#### `estimateYearlyEnergy()`
+#### Public Methods
+
+##### `estimateYearlyEnergy()`
 
 Estimates the energy a given amount of devices will use in a year.
 
-##### Parameters
+###### Parameters
 
 `deviceCount: number` - The number of devices.
 
-##### Returns
+###### Returns
 
 [`KilowattHour`](types.md#units) - The estimated amount of energy used.
 
-#### `estimateEnergy()`
+##### `estimateEnergy()`
 
 Estimates the energy a device would use over a given amount of hours.
 
-##### Parameters
+###### Parameters
 
 `usage: Hour` - The amount of hours the device is used for.
 
-##### Returns
+###### Returns
 
 [`KilowattHour`](types.md#units) - The estimated amount of energy used.
 
-#### `estimateYearlyUpstreamEmissions()`
+##### `estimateYearlyUpstreamEmissions()`
 
 Estimates the yearly upstream emissions of a given number of devices.
 
-##### Parameters
+###### Parameters
 
 `deviceCount: number` - The number of devices.
 
-##### Returns
+###### Returns
 
 [`KgCo2e`](types.md#units) - The estimated upstream emissions.
 
-#### `estimateYearlyUpstreamEmissionsForLifespan()`
+##### `estimateYearlyUpstreamEmissionsForLifespan()`
 
 Estimates the yearly upstream emissions of a given number of devices with a specific lifespan.
 
-##### Parameters
+###### Parameters
 
 `deviceCount: number` - The number of devices.  
 `lifespan:`[`Year`](types.md#units) - The desired lifespan of the device.
 
-##### Returns
+###### Returns
 
 [`KgCo2e`](types.md#units) - The estimated upstream emissions.
 
@@ -257,9 +254,49 @@ Exported to allow use in various calculations.
 
 ### Exported classes
 
+#### `DeviceType`
+
+Exported so that [`DeviceUsage`](#deviceusage) can reference the type internally. This module also exports multiple types of devices with different averages.
+
 #### `AverageDeviceType`
 
 Exported to allow an average device to be created based on mobile end-user ratio.
+
+## device-usage
+
+```mermaid
+classDiagram
+class DeviceUsage {
+  <<interface>>
+  estimateUpstreamEmissions() KgCo2e
+  estimateDirectEmissions() KgCo2e
+  category: DeviceCategory
+}
+```
+
+### Exported interfaces
+
+#### `DeviceUsage`
+
+Exported to be used as parameter for upstream and direct estimation functions.
+
+### Exported functions
+
+#### `createDeviceUsage()`
+
+Creates device usage without exposing the exact method of calculation.
+
+##### Parameters
+
+`type:`[`DeviceType`](#devicetype) - The type of device being used.  
+`category:`[`DeviceCategory`](types#devicecategory) - The category the device usage falls under.  
+`location:`[`WorldLocation`](types#estimatorvalues) - The location the devices are being used in.  
+`count: number` - The number of devices being used.  
+`pue?: number` - The Power Usage Effectiveness of the device usage (optional, defaults to 1).  
+
+##### Returns
+
+`DeviceUsage` - used to calculate the upstream and direct emissions of devices.
 
 ## estimate-energy-emissions
 
