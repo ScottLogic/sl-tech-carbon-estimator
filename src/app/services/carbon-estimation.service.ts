@@ -56,18 +56,21 @@ export class CarbonEstimationService {
     const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
     const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
     const serverCount = this.estimateServerCount(formValue);
-    const networkCount = estimateNetworkDeviceCount(desktopCount, serverCount);
+    const employeeNetworkCount = estimateNetworkDeviceCount(desktopCount);
+    const serverNetworkCount = estimateNetworkDeviceCount(serverCount);
 
     this.loggingService.log(
-      `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, networkCount })}`
+      `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, employeeNetworkCount, serverNetworkCount })}`
     );
 
+    const employeeLocation = formValue.upstream.employeeLocation;
     const onPremLocation = formValue.onPremise.serverLocation;
     return [
-      createDeviceUsage(desktop, 'user', onPremLocation, desktopCount),
-      createDeviceUsage(laptop, 'user', onPremLocation, laptopCount),
+      createDeviceUsage(desktop, 'user', employeeLocation, desktopCount),
+      createDeviceUsage(laptop, 'user', employeeLocation, laptopCount),
+      createDeviceUsage(network, 'network', employeeLocation, employeeNetworkCount, ON_PREMISE_AVERAGE_PUE),
       createDeviceUsage(server, 'server', onPremLocation, serverCount, ON_PREMISE_AVERAGE_PUE),
-      createDeviceUsage(network, 'network', onPremLocation, networkCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(network, 'network', onPremLocation, serverNetworkCount, ON_PREMISE_AVERAGE_PUE),
     ];
   }
 }
@@ -95,8 +98,8 @@ function calculateCeilingPercentage(percentage: number, value: number) {
   return Math.ceil((percentage / 100) * value);
 }
 
-function estimateNetworkDeviceCount(desktopCount: number, serverCount: number) {
-  return Math.ceil((desktopCount + serverCount) / 2);
+function estimateNetworkDeviceCount(deviceCount: number) {
+  return Math.ceil(deviceCount / 2);
 }
 
 function formatObject(input: unknown): string {

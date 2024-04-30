@@ -41,6 +41,7 @@ export type EstimatorFormValues = {
   upstream: FormGroup<{
     headCount: FormControl<number>;
     desktopPercentage: FormControl<number>;
+    employeeLocation: FormControl<WorldLocation>;
   }>;
   onPremise: FormGroup<{
     estimateServerCount: FormControl<boolean>;
@@ -69,6 +70,7 @@ export type OnPremise = {
 export type Upstream = {
   headCount: number;
   desktopPercentage: number;
+  employeeLocation: WorldLocation;
 };
 export type Cloud = {
   noCloudServices: boolean;

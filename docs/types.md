@@ -29,6 +29,7 @@ classDiagram
   class Upstream {
     headCount: number
     desktopPercentage: number
+    employeeLocation: WorldLocation
   }
   class Cloud {
     noCloudServices: boolean
