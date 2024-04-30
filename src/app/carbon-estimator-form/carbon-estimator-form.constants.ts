@@ -32,6 +32,7 @@ export const defaultValues: Required<EstimatorValues> = {
     monthlyCloudBill: costRanges[0],
   },
   downstream: {
+    noDownstream: false,
     customerLocation: 'global',
     monthlyActiveUsers: 100,
     mobilePercentage: 50,

@@ -55,7 +55,7 @@ export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
 });
 
 export function estimateDownstreamEmissions(downstream: Downstream): DownstreamEstimation {
-  if (downstream.monthlyActiveUsers === 0) {
+  if (downstream.noDownstream) {
     return { endUser: 0, networkTransfer: 0 };
   }
 

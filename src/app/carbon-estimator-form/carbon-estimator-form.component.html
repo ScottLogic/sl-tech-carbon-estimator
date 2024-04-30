@@ -44,7 +44,7 @@
         <input
           id="estimateServerCount"
           type="checkbox"
-          class="rounded-sm"
+          class="rounded-sm cursor-pointer"
           formControlName="estimateServerCount"
           aria-describedby="on-prem-servers-question" />
         <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
@@ -81,7 +81,11 @@
 
     <div class="flex flex-col gap-4">
       <div class="flex gap-2 items-center">
-        <input id="noCloudServices" type="checkbox" formControlName="noCloudServices" class="rounded-sm" />
+        <input
+          id="noCloudServices"
+          type="checkbox"
+          formControlName="noCloudServices"
+          class="rounded-sm cursor-pointer" />
         <label for="noCloudServices" class="cursor-pointer select-none">We don't use cloud services</label>
       </div>
 
@@ -134,78 +138,90 @@
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col gap-2">
-        <div class="flex">
-          <label for="purposeOfSite" class="text-sm text-slate-600"
-            >What's the primary purpose of your digital services?</label
-          >
-          <helper-info class="ml-auto" inputLabel="What's the purpose of your website">
-            <p class="text-sm text-slate-600">
-              The purpose of your digital services is used to determine the typical amount of time a user might spend on
-              them and the amount of data that may be transferred.
-            </p>
-            <p class="text-sm text-slate-600">
-              This can affect the amount of energy used by end user devices and how much energy from network traffic is
-              attributable to your organisation
-            </p>
-          </helper-info>
+      <div class="flex gap-2 items-center">
+        <input id="noDownstream" type="checkbox" formControlName="noDownstream" class="rounded-sm cursor-pointer" />
+        <label for="noDownstream" class="cursor-pointer select-none"
+          >We don't have any external users of our digital services</label
+        >
+      </div>
+
+      @if (!noDownstream) {
+        <div class="flex flex-col gap-2">
+          <div class="flex">
+            <label for="purposeOfSite" class="text-sm text-slate-600"
+              >What's the primary purpose of your digital services?</label
+            >
+            <helper-info class="ml-auto" inputLabel="What's the purpose of your website">
+              <p class="text-sm text-slate-600">
+                The purpose of your digital services is used to determine the typical amount of time a user might spend
+                on them and the amount of data that may be transferred.
+              </p>
+              <p class="text-sm text-slate-600">
+                This can affect the amount of energy used by end user devices and how much energy from network traffic
+                is attributable to your organisation
+              </p>
+            </helper-info>
+          </div>
+          <select
+            class="border border-slate-400 rounded"
+            formControlName="purposeOfSite"
+            name="purposeOfSite"
+            id="purposeOfSite">
+            <option value="average" selected>Unspecified (uses average)</option>
+            <option value="information">Information</option>
+            <option value="eCommerce">E-Commerce</option>
+            <option value="socialMedia">Social Media</option>
+            <option value="streaming">Streaming</option>
+          </select>
         </div>
-        <select
-          class="border border-slate-400 rounded"
-          formControlName="purposeOfSite"
-          name="purposeOfSite"
-          id="purposeOfSite">
-          <option value="average" selected>Unspecified (uses average)</option>
-          <option value="information">Information</option>
-          <option value="eCommerce">E-Commerce</option>
-          <option value="socialMedia">Social Media</option>
-          <option value="streaming">Streaming</option>
-        </select>
-      </div>
-      <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
+        <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
-      <div class="flex flex-col gap-2">
-        <label for="monthlyActiveUsers" class="text-sm text-slate-600">
-          How many monthly active users do your digital services have?
-        </label>
-        <input
-          class="border border-slate-400 rounded"
-          formControlName="monthlyActiveUsers"
-          name="monthlyActiveUsers"
-          type="number"
-          id="monthlyActiveUsers"
-          min="0" />
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <div class="flex">
-          <label for="mobilePercentage" class="text-sm text-slate-600">
-            What percentage of your end-users are mobile or personal computer users?
+        <div class="flex flex-col gap-2">
+          <label for="monthlyActiveUsers" class="text-sm text-slate-600">
+            How many monthly active users do your digital services have?
           </label>
-          <helper-info class="ml-auto" inputLabel="What percentage of your users are mobile or personal computer users">
-            <p class="text-sm text-slate-600">
-              The percentage of mobile users will affect the energy used by end user devices and network infrastructure.
-            </p>
-            <p class="text-sm text-slate-600">
-              While the power demand of mobile devices is often much lower, the use of mobile networks can increase the
-              power used when transferring data.
-            </p>
-          </helper-info>
+          <input
+            class="border border-slate-400 rounded"
+            formControlName="monthlyActiveUsers"
+            name="monthlyActiveUsers"
+            type="number"
+            id="monthlyActiveUsers"
+            min="1" />
         </div>
-        <input
-          id="mobilePercentage"
-          formControlName="mobilePercentage"
-          name="mobilePercentage"
-          type="range"
-          min="0"
-          max="100"
-          step="5"
-          [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
-        <div class="flex justify-between text-sm text-slate-600">
-          <span>Mobile {{ mobilePercentage }}%</span>
-          <span>Computer {{ computerPercentage }}%</span>
+
+        <div class="flex flex-col gap-2">
+          <div class="flex">
+            <label for="mobilePercentage" class="text-sm text-slate-600">
+              What percentage of your end-users are mobile or personal computer users?
+            </label>
+            <helper-info
+              class="ml-auto"
+              inputLabel="What percentage of your users are mobile or personal computer users">
+              <p class="text-sm text-slate-600">
+                The percentage of mobile users will affect the energy used by end user devices and network
+                infrastructure.
+              </p>
+              <p class="text-sm text-slate-600">
+                While the power demand of mobile devices is often much lower, the use of mobile networks can increase
+                the power used when transferring data.
+              </p>
+            </helper-info>
+          </div>
+          <input
+            id="mobilePercentage"
+            formControlName="mobilePercentage"
+            name="mobilePercentage"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
+          <div class="flex justify-between text-sm text-slate-600">
+            <span>Mobile {{ mobilePercentage }}%</span>
+            <span>Computer {{ computerPercentage }}%</span>
+          </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 
