@@ -3,19 +3,19 @@
   (click)="helperInfo.toggle()"
   type="button"
   [attr.aria-label]="inputLabel + ' helper popup'"
-  class="material-icons-outlined text-base text-slate-600 hover:bg-slate-300 rounded">
+  class="material-icons-outlined tce-text-base tce-text-slate-600 hover:tce-bg-slate-300 tce-rounded">
   help_outline
 </button>
 
 <sat-popover #helperInfo verticalAlign="above" hasBackdrop>
   <div
-    class="max-w-64 bg-white border border-slate-600 rounded p-2 before:w-4 before:h-4 before:rotate-45 before:bg-slate-600 before:absolute before:z-[-10] before:-bottom-1 before:left-0 before:right-0 before:mx-auto">
+    class="tce-max-w-64 tce-bg-white tce-border tce-border-slate-600 tce-rounded tce-p-2 before:tce-w-4 before:tce-h-4 before:tce-rotate-45 before:tce-bg-slate-600 before:tce-absolute before:tce-z-[-10] before:-tce-bottom-1 before:tce-left-0 before:tce-right-0 before:tce-mx-auto">
     <ng-content></ng-content>
   </div>
   <button
     (click)="helperInfo.close()"
     aria-label="Close helper popup"
-    class="absolute top-1 right-1 h-4 w-4 text-slate-800 rounded hover:bg-slate-300 text-base leading-4 text-slate-600 material-icons-outlined">
+    class="tce-absolute tce-top-1 tce-right-1 tce-h-4 tce-w-4 tce-text-slate-800 tce-rounded hover:tce-bg-slate-300 tce-text-base leading-4 tce-text-slate-600 material-icons-outlined">
     close
   </button>
 </sat-popover>

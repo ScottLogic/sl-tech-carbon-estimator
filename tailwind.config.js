@@ -12,4 +12,5 @@ export default {
     }),
     form
 ],
+  prefix: 'tce-',
 };
