@@ -8,7 +8,7 @@ export default {
   },
   plugins: [
     scopedPreflightStyles({
-      isolationStrategy: isolateInsideOfContainer('tech-carbon-estimator'),
+      isolationStrategy: isolateInsideOfContainer(['tech-carbon-estimator', '.cdk-overlay-container']),
     }),
     form
 ],

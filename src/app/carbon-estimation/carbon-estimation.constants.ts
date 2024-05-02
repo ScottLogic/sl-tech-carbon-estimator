@@ -24,12 +24,12 @@ const customTooltip = ({
   const initialSeries = w.globals.initialSeries[seriesIndex];
   const data = initialSeries.data[dataPointIndex];
 
-  return `<div class="rounded flex max-w-40 md:max-w-none">
-  <div class="p-1 md:p-2 flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} m-auto size-4 md:size-8"></div></div>
-    <div class="p-1 md:p-2">
-    <div class="text-wrap">${data.meta.parent}:</div>
-    <div class="text-wrap">${data.x} -
-    <span class="font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
+  return `<div class="tce-rounded tce-flex tce-max-w-40 md:tce-max-w-none">
+  <div class="tce-p-1 md:tce-p-2 tce-flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce-m-auto tce-size-4 md:tce-size-8"></div></div>
+    <div class="tce-p-1 md:tce-p-2">
+    <div class="tce-text-wrap">${data.meta.parent}:</div>
+    <div class="tce-text-wrap">${data.x} -
+    <span class="tce-font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
 };
 
 export const chartOptions: ChartOptions = {
