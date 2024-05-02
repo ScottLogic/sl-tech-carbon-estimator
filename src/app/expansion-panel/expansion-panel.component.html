@@ -1,10 +1,10 @@
-<div class="flex justify-between">
+<div class="tce-flex tce-justify-between">
   <ng-content select="[header]"></ng-content>
   <button
     type="button"
     (click)="toggle()"
     (keydown.enter)="toggle()"
-    class="material-icons-outlined text text-slate-600 hover:bg-slate-200 hover:rounded"
+    class="material-icons-outlined tce-text tce-text-slate-600 hover:tce-bg-slate-200 hover:tce-rounded"
     [attr.aria-label]="expanded ? 'Hide details' : 'Show details'">
     {{ expanded ? 'expand_less' : 'expand_more' }}
   </button>

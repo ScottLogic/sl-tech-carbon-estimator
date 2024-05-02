@@ -1,183 +1,189 @@
-<div #assumptionsLimitation class="flex flex-col gap-4" tabindex="0">
-  <h2 class="text-2xl">Assumptions and Limitations</h2>
-  <p class="text-sm">
+<div #assumptionsLimitation class="tce-flex tce-flex-col tce-gap-4" tabindex="0">
+  <h2 class="tce-text-2xl">Assumptions and Limitations</h2>
+  <p class="tce-text-sm">
     The Technology Carbon Estimator tool is designed to give a high-level overview of the possible areas of carbon
     impact within your IT estate. We use a minimal number of questions to present this view, so we must make some
     assumptions based on that, which we list here for clarity. Where there are aspects that cannot be covered by this
     methodology, we also call out its limitations.
   </p>
 
-  <h3 class="text-xl">Assumptions</h3>
+  <h3 class="tce-text-xl">Assumptions</h3>
 
-  <h4 class="text-lg">Time period</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Time period</h4>
+  <p class="tce-text-sm">
     The estimation is based on a typical year's utilization. Where relevant for energy calculations, we use different
     typical numbers of hours for different classes of hardware:
   </p>
-  <ul class="list-disc list-inside">
-    <li class="text-sm">
+  <ul class="tce-list-disc tce-list-inside">
+    <li class="tce-text-sm">
       Desktops, Laptops and Monitors - These both assume 8 hours of daily usage, for 230 days a year.
     </li>
-    <li class="text-sm">
+    <li class="tce-text-sm">
       Servers and Networking Devices - These both assume 24 hours of daily usage, for 365 days a year.
     </li>
   </ul>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     Obviously, this may not match up with your organisation's usage, either due to different working hours or whether
     equipment is turned off during out of work hours.
   </p>
-  <h4 class="text-lg">Number of Employee Devices</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Number of Employee Devices</h4>
+  <p class="tce-text-sm">
     Without a specified number of devices, we estimate based on the number of employees and the proportion of desktops
     to laptops specified. This may be an overestimate if a significant number of employees are not provided with
     devices, or an underestimate if they typically have more than one.
   </p>
-  <h4 class="text-lg">Number of Servers</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Number of Servers</h4>
+  <p class="tce-text-sm">
     Without a specified number of servers, we give an initial estimate based on the 10% of the number of employees. This
     is reduced based on the percentage of cloud services that you report you make use of.
   </p>
-  <h4 class="text-lg">Number of Networking Devices</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Number of Networking Devices</h4>
+  <p class="tce-text-sm">
     At present, we estimate a number of large networking devices based on the combined number of desktop devices and
     servers, applying a 50% ratio.
   </p>
-  <h4 class="text-lg">Power consumption</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Power consumption</h4>
+  <p class="tce-text-sm">
     Each class of device is given an average power demand, based on data compiled from multiple sources and our own
-    research. The figures are rounded to the nearest Watt:
+    research. The figures are tce-rounded to the nearest Watt:
   </p>
-  <table class="w-fit">
+  <table class="tce-w-fit">
     <thead>
       <tr>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Device Type</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Average Power (Watts)</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">Device Type</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">
+          Average Power (Watts)
+        </th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Laptop</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">17</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Laptop</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">17</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Desktop</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">72</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Desktop</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">72</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Server</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">400</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Server</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">400</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Network</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">150</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Network</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">150</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Mobile</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">1</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Mobile</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">1</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Tablet</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">3</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Tablet</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">3</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Monitor</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">30</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Monitor</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">30</td>
       </tr>
     </tbody>
   </table>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     In the case of servers and network devices, we also apply an on-premises PUE factor of {{ ON_PREMISE_AVERAGE_PUE }},
     based on an average across all data centers.
   </p>
-  <h4 class="text-lg">Carbon Intensity</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Carbon Intensity</h4>
+  <p class="tce-text-sm">
     We make use of the latest available Carbon Intensity figures from the
-    <a class="underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> for the
-    regions we make available. At present these are:
+    <a class="tce-underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> for
+    the regions we make available. At present these are:
   </p>
-  <table class="w-fit">
+  <table class="tce-w-fit">
     <thead>
       <tr>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">World Location</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Carbon Intensity (Kg CO2e/kWh)</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">World Location</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">
+          Carbon Intensity (Kg CO2e/kWh)
+        </th>
       </tr>
     </thead>
     <tbody>
       @for (item of locationCarbonInfo; track $index) {
         <tr>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.location }}</td>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.carbonIntensity }}</td>
+          <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">{{ item.location }}</td>
+          <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">{{ item.carbonIntensity }}</td>
         </tr>
       }
     </tbody>
   </table>
-  <h4 class="text-lg">Upstream Emissions</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Upstream Emissions</h4>
+  <p class="tce-text-sm">
     Each class of device is given an average amount of embodied carbon and a lifespan, based on averages taken from
     manufacturer provided Product Carbon Footprint documentation. At present these are:
   </p>
-  <table class="w-fit">
+  <table class="tce-w-fit">
     <thead>
       <tr>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Device Type</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Embodied Carbon (Kg Co2e)</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Lifespan (Years)</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">Device Type</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">
+          Embodied Carbon (Kg Co2e)
+        </th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">Lifespan (Years)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Laptop</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">230</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">4</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Laptop</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">230</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">4</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Desktop</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">400</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">4</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Desktop</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">400</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">4</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Server</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">1450</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">4</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Server</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">1450</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">4</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Network</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">650 *</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">4</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Network</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">650 *</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">4</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Mobile</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">54</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">3</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Mobile</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">54</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">3</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Tablet</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">134</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">3</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Tablet</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">134</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">3</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Monitor</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">350</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">6</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Monitor</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">350</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">6</td>
       </tr>
     </tbody>
   </table>
-  <p class="text-sm italic">
+  <p class="tce-text-sm tce-italic">
     * The network device figure is reverse engineered from typical yearly energy and embodied carbon ratios as published
     values are difficult to find
   </p>
-  <h4 class="text-lg">Cloud Services</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Cloud Services</h4>
+  <p class="tce-text-sm">
     We have derived average figures to convert from US dollars spent, to kWh of energy and kg of embodied CO2e.
     Beginning with a list of AWS EC2 instance prices, we combined this with
     <a
-      class="underline"
+      class="tce-underline"
       href="https://github.com/cloud-carbon-footprint/cloud-carbon-coefficients/blob/main/data/aws-instances.csv">
       power</a
     >
     and
     <a
-      class="underline"
+      class="tce-underline"
       href="https://github.com/cloud-carbon-footprint/ccf-coefficients/blob/main/output/coefficients-aws-embodied.csv">
       embodied</a
     >
@@ -188,43 +194,43 @@
     instance.<br />
     Some of the results from this were as follows:
   </p>
-  <table class="w-fit">
+  <table class="tce-w-fit">
     <thead>
       <tr>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Figure</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">kWh per $</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">kg CO2e per $</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">Figure</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">kWh per $</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">kg CO2e per $</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Mean</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.155819</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.0164479</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Mean</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.155819</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.0164479</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Median</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.097193</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.00957173</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Median</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.097193</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.00957173</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Standard Deviation</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.516504</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.0910805</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Standard Deviation</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.516504</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.0910805</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Minimum</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.007634</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">0.000725901</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Minimum</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.007634</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">0.000725901</td>
       </tr>
       <tr>
-        <td class="text-sm border border-slate-300 px-2 py-1">Maximum</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">48.9952</td>
-        <td class="text-sm border border-slate-300 px-2 py-1">8.17118</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">Maximum</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">48.9952</td>
+        <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">8.17118</td>
       </tr>
     </tbody>
   </table>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     Clearly there is a large amount of variation here, with a wide variety of pricing options available based on lease
     period and upfront payment etc. This also only covers a single service that AWS provides but could be seen as the
     simplest available, with the most direct link between pricing and kWh of power available. Other services may cost
@@ -232,42 +238,50 @@
     power used. For these reasons we have decided to use the mean figures of ~0.156 kWh/$ and ~0.0164 kg CO2e/$ as the
     method of transforming cloud costs to kWh and kg CO2e for the purposes of Cloud Emissions.
   </p>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     The estimated kWh of cloud usage is combined with an average Cloud PUE figure of {{ CLOUD_AVERAGE_PUE }} and the
     relevant Carbon Intensity figure for the selected Cloud Location to give a final kg CO2e estimation.
   </p>
-  <h4 class="text-lg">Downstream Emissions</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Downstream Emissions</h4>
+  <p class="tce-text-sm">
     At present we focus on the downstream impact of web based services, estimating an amount time spent in hours and of
     Data transferred in Gb per month. To do this we have collated some average usage figures for different kinds of web
     services from online sources and our own research:
   </p>
-  <table class="w-fit">
+  <table class="tce-w-fit">
     <thead>
       <tr>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Type</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Average User Time (hours/month)</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Average User Data (Gb/month)</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">Type</th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">
+          Average User Time (hours/month)
+        </th>
+        <th class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1 tce-font-medium">
+          Average User Data (Gb/month)
+        </th>
       </tr>
     </thead>
     <tbody>
       @for (item of siteTypeInfo; track $index) {
         <tr>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.type }}</td>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.time | number: '1.0-6' }}</td>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.data | number: '1.0-6' }}</td>
+          <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">{{ item.type }}</td>
+          <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">
+            {{ item.time | number: '1.0-6' }}
+          </td>
+          <td class="tce-text-sm tce-border tce-border-slate-300 tce-px-2 tce-py-1">
+            {{ item.data | number: '1.0-6' }}
+          </td>
         </tr>
       }
     </tbody>
   </table>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     These figures are combined with the provided Monthly active user number and service type to estimate figures for a
     full year. It should be noted that the 'Unspecified' option uses an average of the above figures and is not an
     attempt to describe an average website. For a general purpose static website the most appropriate option is
     'Information'.
   </p>
-  <h4 class="text-lg">Network Data Transfer</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Network Data Transfer</h4>
+  <p class="tce-text-sm">
     Our outgoing network data estimation makes use of the
     <a href="https://developers.thegreenwebfoundation.org/co2js/overview/">CO2.js</a> library, specifically using the
     <a href="https://sustainablewebdesign.org/calculating-digital-emissions/">Sustainable Web Design</a> model. This
@@ -276,51 +290,53 @@
     point in time, due to the difficulties involved in making a more specific estimation of the Downstream Network
     infrastructure used by an organisation.
   </p>
-  <h4 class="text-lg">End-User Devices</h4>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">End-User Devices</h4>
+  <p class="tce-text-sm">
     We combine device information to give an average power demand for a typical user of web services. Mobile phones are
     called out specifically as a separate percentage, due to their relatively low power demand. This is also an aspect
     that we want to break down further as there can be significant differences based on the method of data transfer
     (Wifi vs 3/4/5G).
   </p>
-  <h3 class="text-xl">Limitations</h3>
-  <p class="text-sm">Here are some aspects of the Tech Carbon Standard, which the tool currently does not consider.</p>
-  <h4 class="text-lg">Upstream Emissions</h4>
-  <h5 class="text-base">Off the Shelf Software</h5>
-  <p class="text-sm">
+  <h3 class="tce-text-xl">Limitations</h3>
+  <p class="tce-text-sm">
+    Here are some aspects of the Tech Carbon Standard, which the tool currently does not consider.
+  </p>
+  <h4 class="tce-text-lg">Upstream Emissions</h4>
+  <h5 class="tce-text-base">Off the Shelf Software</h5>
+  <p class="tce-text-sm">
     This is a tough area to estimate even with a detailed breakdown of the commercial software that an organisation
     makes use of. It is uncommon for organisations to publish the carbon footprint information for a piece of software.
     Even if this was available, there is still a question of how to apportion a given total to an organisation making
     use of it.
   </p>
-  <p class="text-sm">
+  <p class="tce-text-sm">
     Without this kind of detailed information, we could only make limited guesses about the typical software that might
     be used by an organisation of a given size within a specific industry. At this point in time, we do not feel that we
     have enough information to make an educated guess at its impact, although we welcome any contributions towards
     taking this into account.
   </p>
-  <h4 class="text-lg">Operational Emissions - Direct</h4>
-  <h5 class="text-base">Generators</h5>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Operational Emissions - Direct</h4>
+  <h5 class="tce-text-base">Generators</h5>
+  <p class="tce-text-sm">
     In the interests of using information that should be easy to source, we have omitted questions about whether your
     data centers have fossil fuel based generators and how often they are used. This is something we could investigate
     further in future, either via new questions or by using more fine-grained location data to estimate an average
     amount of electricity network downtime that might be typical and what effect that might have on your average Carbon
     Intensity.
   </p>
-  <h4 class="text-lg">Operational Emissions - Indirect</h4>
-  <h5 class="text-base">SaaS</h5>
-  <p class="text-sm">
+  <h4 class="tce-text-lg">Operational Emissions - Indirect</h4>
+  <h5 class="tce-text-base">SaaS</h5>
+  <p class="tce-text-sm">
     Like Off the shelf and open source software, this can be a difficult area to estimate even with the knowledge of the
     software services in use. This aspect is excluded at this point in time but we hope to consider more in future. Some
     aspects can be similar to Cloud Services that follow best practices.
   </p>
-  <h5 class="text-base">Managed Services</h5>
-  <p class="text-sm">
+  <h5 class="tce-text-base">Managed Services</h5>
+  <p class="tce-text-sm">
     We currently do not make a distinction between on-premises data centers and those ran by a third party.
   </p>
   <button
-    class="px-3 py-2 bg-sky-800 text-white rounded hover:bg-sky-900 self-end"
+    class="tce-px-3 tce-py-2 tce-bg-sky-800 tce-text-white tce-rounded hover:tce-bg-sky-900 tce-self-end"
     (click)="onClose()"
     aria-label="Close assumptions and limitations">
     Close

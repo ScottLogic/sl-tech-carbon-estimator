@@ -1,19 +1,23 @@
-<div class="flex flex-col" aria-live="polite">
-  <expansion-panel #detailsPanel (expandedChanged)="onExpanded()" class="flex justify-between gap-2 flex-col">
+<div class="tce-flex tce-flex-col" aria-live="polite">
+  <expansion-panel
+    #detailsPanel
+    (expandedChanged)="onExpanded()"
+    class="tce-flex tce-justify-between tce-gap-2 tce-flex-col">
     <div header>
-      <h2 class="text-2xl">Estimations</h2>
+      <h2 class="tce-text-2xl">Estimations</h2>
     </div>
     <div content>
       <p>
         The estimations are divided into 4 categories:
-        <a class="underline" href="https://www.techcarbonstandard.org/categories/upstream">Upstream Emissions</a>,
-        <a class="underline" href="https://www.techcarbonstandard.org/categories/operational#direct-emissions"
+        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/upstream">Upstream Emissions</a>,
+        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/operational#direct-emissions"
           >Operational Direct Emissions</a
         >,
-        <a class="underline" href="https://www.techcarbonstandard.org/categories/operational#indirect-emissions"
+        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/operational#indirect-emissions"
           >Operational Indirect Emissions</a
         >, and
-        <a class="underline" href="https://www.techcarbonstandard.org/categories/downstream">Downstream Emissions</a>.
+        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/downstream">Downstream Emissions</a
+        >.
       </p>
     </div>
   </expansion-panel>
