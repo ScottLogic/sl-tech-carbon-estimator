@@ -3,7 +3,7 @@ import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constan
 import { siteTypeInfo } from '../estimation/estimate-downstream-emissions';
 import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
 import { DecimalPipe } from '@angular/common';
-import { locationIntensityMap } from '../estimation/estimate-energy-emissions';
+import { averageIntensity } from '@tgwf/co2';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
@@ -14,14 +14,14 @@ const purposeDescriptions: Record<PurposeOfSite, string> = {
 };
 
 const locationDescriptions: Record<WorldLocation, string> = {
-  global: 'Global',
-  northAmerica: 'North America',
-  europe: 'Europe',
-  uk: 'United Kingdom',
-  asia: 'Asia',
-  africa: 'Africa',
-  oceania: 'Oceania',
-  latinAmerica: 'Latin America and Caribbean',
+  WORLD: 'Global',
+  'NORTH AMERICA': 'North America',
+  EUROPE: 'Europe',
+  GBR: 'United Kingdom',
+  ASIA: 'Asia',
+  AFRICA: 'Africa',
+  OCEANIA: 'Oceania',
+  'LATIN AMERICA AND CARIBBEAN': 'Latin America and Caribbean',
 };
 
 @Component({
@@ -41,7 +41,7 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
   }));
   readonly locationCarbonInfo = locationArray.map(location => ({
     location: locationDescriptions[location],
-    carbonIntensity: locationIntensityMap[location],
+    carbonIntensity: averageIntensity.data[location],
   }));
 
   @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;

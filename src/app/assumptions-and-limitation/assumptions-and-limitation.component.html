@@ -92,21 +92,21 @@
   <h4 class="text-lg">Carbon Intensity</h4>
   <p class="text-sm">
     We make use of the latest available Carbon Intensity figures from the
-    <a class="underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> for the
-    regions we make available. At present these are:
+    <a class="underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember Data Explorer</a> via the
+    CO2.js library. We limit the range of regions that can be selected, which are currently:
   </p>
   <table class="w-fit">
     <thead>
       <tr>
         <th class="text-sm border border-slate-300 px-2 py-1 font-medium">World Location</th>
-        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Carbon Intensity (Kg CO2e/kWh)</th>
+        <th class="text-sm border border-slate-300 px-2 py-1 font-medium">Carbon Intensity (g CO2e/kWh)</th>
       </tr>
     </thead>
     <tbody>
       @for (item of locationCarbonInfo; track $index) {
         <tr>
           <td class="text-sm border border-slate-300 px-2 py-1">{{ item.location }}</td>
-          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.carbonIntensity }}</td>
+          <td class="text-sm border border-slate-300 px-2 py-1">{{ item.carbonIntensity | number: '0.0-0' }}</td>
         </tr>
       }
     </tbody>

@@ -52,14 +52,14 @@ classDiagram
 
   class WorldLocation{
     <<union>>
-    'global'
-    'uk'
-    'europe'
-    'northAmerica'
-    'asia'
-    'africa'
-    'oceania'
-    'latinAmerica'
+    'WORLD'
+    'GBR'
+    'EUROPE'
+    'NORTH AMERICA'
+    'ASIA'
+    'AFRICA'
+    'OCEANIA'
+    'LATIN AMERICA AND CARIBBEAN'
   }
 
   class CostRange {

@@ -1,13 +1,13 @@
-import { Downstream, PurposeOfSite, basePurposeArray } from '../types/carbon-estimator';
+import { Downstream, DownstreamEstimation, PurposeOfSite, basePurposeArray } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 
-describe('estimateDownstreamEmissions', () => {
+describe('estimateDownstreamEmissions()', () => {
   it('should return no emissions if no downstream is requested', () => {
     const input: Downstream = {
       noDownstream: true,
       monthlyActiveUsers: 100,
-      customerLocation: 'global',
+      customerLocation: 'WORLD',
       mobilePercentage: 0,
       purposeOfSite: 'average',
     };
@@ -21,40 +21,40 @@ describe('estimateDownstreamEmissions', () => {
     return {
       noDownstream: false,
       monthlyActiveUsers: 100,
-      customerLocation: 'global',
+      customerLocation: 'WORLD',
       mobilePercentage: 0,
       purposeOfSite: purposeOfSite,
     };
   }
 
+  function expectEmissionsCloseTo(actual: DownstreamEstimation, expected: DownstreamEstimation) {
+    expect(actual.endUser).withContext('endUser').toBeCloseTo(expected.endUser);
+    expect(actual.networkTransfer).withContext('networkTransfer').toBeCloseTo(expected.networkTransfer);
+  }
+
   it('should return emissions for information site', () => {
     const result = estimateDownstreamEmissions(createInput('information'));
-    expect(result.endUser).toBeCloseTo(0.50222);
-    expect(result.networkTransfer).toBeCloseTo(0.0525016);
+    expectEmissionsCloseTo(result, { endUser: 0.5, networkTransfer: 0.05 });
   });
 
   it('should return emissions for e-commerce site', () => {
     const result = estimateDownstreamEmissions(createInput('eCommerce'));
-    expect(result.endUser).toBeCloseTo(3.13888);
-    expect(result.networkTransfer).toBeCloseTo(1.11322);
+    expectEmissionsCloseTo(result, { endUser: 3.13888, networkTransfer: 1.11322 });
   });
 
   it('should return emissions for social media site', () => {
     const result = estimateDownstreamEmissions(createInput('socialMedia'));
-    expect(result.endUser).toBeCloseTo(511.637);
-    expect(result.networkTransfer).toBeCloseTo(298.761);
+    expectEmissionsCloseTo(result, { endUser: 511.55, networkTransfer: 298.71 });
   });
 
   it('should return emissions for streaming site', () => {
     const result = estimateDownstreamEmissions(createInput('streaming'));
-    expect(result.endUser).toBeCloseTo(695.038);
-    expect(result.networkTransfer).toBeCloseTo(698.533);
+    expectEmissionsCloseTo(result, { endUser: 694.93, networkTransfer: 698.42 });
   });
 
   it('should return emissions based on average values', () => {
     const result = estimateDownstreamEmissions(createInput('average'));
-    expect(result.endUser).toBeCloseTo(302.579);
-    expect(result.networkTransfer).toBeCloseTo(249.615);
+    expectEmissionsCloseTo(result, { endUser: 302.53, networkTransfer: 249.57 });
   });
 
   it('should create average equivalent to average of all other purposes', () => {

@@ -10,22 +10,22 @@ const emptyEstimatorValues: EstimatorValues = {
   upstream: {
     headCount: 0,
     desktopPercentage: 0,
-    employeeLocation: 'global',
+    employeeLocation: 'WORLD',
   },
   onPremise: {
     estimateServerCount: false,
-    serverLocation: 'global',
+    serverLocation: 'WORLD',
     numberOfServers: 0,
   },
   cloud: {
     noCloudServices: true,
-    cloudLocation: 'global',
+    cloudLocation: 'WORLD',
     cloudPercentage: 0,
     monthlyCloudBill: { min: 0, max: 200 },
   },
   downstream: {
     noDownstream: true,
-    customerLocation: 'global',
+    customerLocation: 'WORLD',
     monthlyActiveUsers: 0,
     mobilePercentage: 0,
     purposeOfSite: 'streaming',
@@ -62,7 +62,7 @@ describe('CarbonEstimationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('calculateCarbonEstimation', () => {
+  describe('calculateCarbonEstimation()', () => {
     it('should include version and zeroed values in estimation', () => {
       const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
       expect(estimation.version).toBe(version);
@@ -78,7 +78,7 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 1,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
       });
       checkTotalPercentage(estimation);
@@ -100,11 +100,11 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 4,
           desktopPercentage: 50,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: false,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 2,
         },
       };
@@ -123,21 +123,21 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 4,
           desktopPercentage: 50,
-          employeeLocation: 'uk',
+          employeeLocation: 'GBR',
         },
         onPremise: {
           estimateServerCount: false,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 2,
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.74);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.6);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.85);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.92);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.87);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.02);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.72);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.56);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.84);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.99);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.54);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.37);
     });
   });
 
@@ -152,11 +152,11 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: true,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 0,
         },
       };
@@ -169,17 +169,17 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: true,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 0,
         },
         cloud: {
           cloudPercentage: 50,
           noCloudServices: false,
-          cloudLocation: 'global',
+          cloudLocation: 'WORLD',
           monthlyCloudBill: { min: 0, max: 200 },
         },
       };

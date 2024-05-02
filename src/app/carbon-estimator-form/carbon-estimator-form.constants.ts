@@ -19,22 +19,22 @@ export const defaultValues: Required<EstimatorValues> = {
   upstream: {
     headCount: 100,
     desktopPercentage: 50,
-    employeeLocation: 'global',
+    employeeLocation: 'WORLD',
   },
   onPremise: {
     estimateServerCount: false,
-    serverLocation: 'global',
+    serverLocation: 'WORLD',
     numberOfServers: 10,
   },
   cloud: {
     noCloudServices: false,
-    cloudLocation: 'global',
+    cloudLocation: 'WORLD',
     cloudPercentage: 50,
     monthlyCloudBill: costRanges[0],
   },
   downstream: {
     noDownstream: false,
-    customerLocation: 'global',
+    customerLocation: 'WORLD',
     monthlyActiveUsers: 100,
     mobilePercentage: 50,
     purposeOfSite: 'average',

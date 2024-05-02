@@ -5,10 +5,10 @@ import {
   BasePurposeOfSite,
   basePurposeArray,
 } from '../types/carbon-estimator';
-import { estimateEnergyEmissions, getCarbonIntensity } from './estimate-energy-emissions';
+import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
-import { co2 } from '@tgwf/co2';
+import { co2, averageIntensity } from '@tgwf/co2';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
@@ -98,7 +98,7 @@ function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer
   const options = {
     gridIntensity: {
       device: 0,
-      network: getCarbonIntensity(downstream.customerLocation),
+      network: averageIntensity.data[downstream.customerLocation],
       dataCenter: 0,
     },
   };

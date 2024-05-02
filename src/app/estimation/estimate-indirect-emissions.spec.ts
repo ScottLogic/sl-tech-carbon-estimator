@@ -6,7 +6,7 @@ it('should return no emissions if cloud not used', () => {
     noCloudServices: true,
     cloudPercentage: 100,
     monthlyCloudBill: { min: 5000, max: 10000 },
-    cloudLocation: 'global',
+    cloudLocation: 'WORLD',
   };
   const result = estimateIndirectEmissions(input);
   expect(result).toEqual({
@@ -21,10 +21,10 @@ it('should return emissions based on ratio of costs, expanded to a years usage',
     noCloudServices: false,
     cloudPercentage: 50,
     monthlyCloudBill: { min: 0, max: 200 },
-    cloudLocation: 'global',
+    cloudLocation: 'WORLD',
   };
   const result = estimateIndirectEmissions(input);
-  expect(result.cloud).toBeCloseTo(10.733552 * 12);
+  expect(result.cloud).toBeCloseTo(128.78);
   expect(result.saas).toBe(0);
   expect(result.managed).toBe(0);
 });

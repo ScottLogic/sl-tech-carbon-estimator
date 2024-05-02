@@ -90,14 +90,14 @@ export type Downstream = {
 export type DeviceCategory = 'user' | 'server' | 'network';
 
 export const locationArray = [
-  'global',
-  'uk',
-  'europe',
-  'northAmerica',
-  'asia',
-  'africa',
-  'oceania',
-  'latinAmerica',
+  'WORLD',
+  'GBR',
+  'EUROPE',
+  'NORTH AMERICA',
+  'ASIA',
+  'AFRICA',
+  'OCEANIA',
+  'LATIN AMERICA AND CARIBBEAN',
 ] as const;
 export type WorldLocation = (typeof locationArray)[number];
 
