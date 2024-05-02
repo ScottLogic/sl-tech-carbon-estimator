@@ -5,9 +5,11 @@ The tech carbon estimator is a web component that allow you to estimate, at high
 ## Using component
 
 exposed as a web component `tech-carbon-estimator`. The component takes the follow optional input:
+
 - `extra-height` - this is extra height to be added whe calculating the height if the chart. eg a header/footer that will be visible on the page
 
 You will need to import the following files to use the tech-carbon-estimator:
+
 - main.js
 - polyfill.js
 - styles.css
@@ -41,6 +43,14 @@ This project is configured to use Linux/macOS line endings (Line Feed or LF), wh
 ```
 git config core.autocrlf input
 ```
+
+This option can also be set when cloning the repository by running:
+
+```
+git clone REPOSITORY_URL --config core.autocrlf=input
+```
+
+Applying the setting when cloning rather than after cloning may help resolve issues related to line endings when setting up the project in VSCode.
 
 ## Documentation
 
