@@ -109,12 +109,12 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.48);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.01);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.59);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.79);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.45);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.67);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(5.84);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(7.72);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.46);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(2.88);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(58.25);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(21.84);
     });
 
     it('calculates emissions for hardware where servers are in different location to employees', () => {
@@ -132,12 +132,12 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.74);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.6);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.85);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.92);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.87);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.02);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(6.29);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.32);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.73);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.5);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(62.74);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(17.43);
     });
   });
 
