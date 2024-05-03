@@ -1,26 +1,28 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="w-full flex flex-col gap-6">
+<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
   <div formGroupName="upstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
 
-    <div class="flex flex-col gap-4">
-      <div class="flex flex-col gap-2">
-        <label class="text-sm text-slate-600" for="headCount">How many employees are in the organisation? </label>
+    <div class="tce-flex tce-flex-col tce-gap-4">
+      <div class="tce-flex tce-flex-col tce-gap-2">
+        <label class="tce-text-sm tce-text-slate-600" for="headCount"
+          >How many employees are in the organisation?
+        </label>
         <input
           id="headCount"
-          class="border border-slate-400 rounded"
+          class="tce-border tce-border-slate-400 tce-rounded"
           formControlName="headCount"
           name="headCount"
           type="number"
           min="1" />
       </div>
 
-      <div class="flex flex-col gap-2">
-        <label for="desktopPercentage" class="text-sm text-slate-600">
+      <div class="tce-flex tce-flex-col tce-gap-2">
+        <label for="desktopPercentage" class="tce-text-sm tce-text-slate-600">
           What percentage of those employee devices are desktops or laptops?
         </label>
         <input
           id="desktopPercentage"
-          class="cursor-pointer"
+          class="tce-cursor-pointer"
           formControlName="desktopPercentage"
           name="desktopPercentage"
           type="range"
@@ -28,7 +30,7 @@
           max="100"
           step="5"
           [attr.aria-valuetext]="'Desktops ' + desktopPercentage + '%, Laptops ' + laptopPercentage + '%'" />
-        <div class="flex justify-between text-sm text-slate-600">
+        <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
           <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
         </div>
       </div>
@@ -40,16 +42,16 @@
   <div formGroupName="onPremise">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
 
-    <div class="flex flex-col gap-4">
+    <div class="tce-flex tce-flex-col tce-gap-4">
       <p id="on-prem-servers-question">How many on-premise servers do you use?</p>
-      <div class="flex gap-2 items-center">
+      <div class="tce-flex tce-gap-2 tce-items-center">
         <input
           id="estimateServerCount"
           type="checkbox"
-          class="rounded-sm cursor-pointer"
+          class="tce-rounded-sm tce-cursor-pointer"
           formControlName="estimateServerCount"
           aria-describedby="on-prem-servers-question" />
-        <label for="estimateServerCount" class="cursor-pointer select-none">I don't know</label>
+        <label for="estimateServerCount" class="tce-cursor-pointer tce-select-none">I don't know</label>
       </div>
 
       @if (estimateServerCount) {
@@ -63,11 +65,11 @@
         </note>
       }
 
-      <div class="flex flex-col gap-2">
-        <label class="text-sm text-slate-600" for="numberOfServers">Number of Servers:</label>
+      <div class="tce-flex tce-flex-col tce-gap-2">
+        <label class="tce-text-sm tce-text-slate-600" for="numberOfServers">Number of Servers:</label>
         <input
           id="numberOfServers"
-          class="border border-slate-400 rounded disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+          class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed"
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
@@ -81,24 +83,24 @@
   <div formGroupName="cloud">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.cloud"></ng-container>
 
-    <div class="flex flex-col gap-4">
-      <div class="flex gap-2 items-center">
+    <div class="tce-flex tce-flex-col tce-gap-4">
+      <div class="tce-flex tce-gap-2 tce-items-center">
         <input
           id="noCloudServices"
           type="checkbox"
           formControlName="noCloudServices"
-          class="rounded-sm cursor-pointer" />
-        <label for="noCloudServices" class="cursor-pointer select-none">We don't use cloud services</label>
+          class="tce-rounded-sm tce-cursor-pointer" />
+        <label for="noCloudServices" class="tce-cursor-pointer tce-select-none">We don't use cloud services</label>
       </div>
 
       @if (!noCloudServices) {
-        <div class="flex flex-col gap-2">
-          <label for="cloudPercentage" class="text-sm text-slate-600"
+        <div class="tce-flex tce-flex-col tce-gap-2">
+          <label for="cloudPercentage" class="tce-text-sm tce-text-slate-600"
             >What percentage of your servers are cloud services vs on-premise?</label
           >
           <input
             id="cloudPercentage"
-            class="cursor-pointer disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+            class="tce-cursor-pointer disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed"
             formControlName="cloudPercentage"
             name="cloudPercentage"
             type="range"
@@ -106,7 +108,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
-          <div class="flex justify-between text-sm text-slate-600">
+          <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
             <span>Cloud {{ cloudPercentage }}%</span>
             <span>On-premise {{ onPremisePercentage }}%</span>
           </div>
@@ -120,11 +122,11 @@
           </p>
         </div>
 
-        <div class="flex flex-col gap-2">
-          <label for="monthlyCloudBill" class="text-sm text-slate-600">What is your monthly cloud bill?</label>
+        <div class="tce-flex tce-flex-col tce-gap-2">
+          <label for="monthlyCloudBill" class="tce-text-sm tce-text-slate-600">What is your monthly cloud bill?</label>
           <select
             id="monthlyCloudBill"
-            class="border border-slate-400 rounded disabled:bg-gray-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+            class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed tce-px-3 tce-py-2"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
             required>
@@ -139,33 +141,37 @@
 
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
-    <div class="flex flex-col gap-4">
-      <div class="flex gap-2 items-center">
-        <input id="noDownstream" type="checkbox" formControlName="noDownstream" class="rounded-sm cursor-pointer" />
+    <div class="tce-flex tce-flex-col tce-gap-4">
+      <div class="tce-flex tce-gap-2 tce-items-center">
+        <input
+          id="noDownstream"
+          type="checkbox"
+          formControlName="noDownstream"
+          class="tce-rounded-sm tce-cursor-pointer" />
         <label for="noDownstream" class="cursor-pointer select-none"
           >We don't have any external users of our digital services</label
         >
       </div>
 
       @if (!noDownstream) {
-        <div class="flex flex-col gap-2">
-          <div class="flex">
-            <label for="purposeOfSite" class="text-sm text-slate-600"
+        <div class="tce-flex tce-flex-col tce-gap-2">
+          <div class="tce-flex">
+            <label for="purposeOfSite" class="tce-text-sm tce-text-slate-600"
               >What's the primary purpose of your digital services?</label
             >
-            <helper-info class="ml-auto" inputLabel="What's the purpose of your website">
-              <p class="text-sm text-slate-600">
+            <helper-info class="tce-ml-auto" inputLabel="What's the purpose of your website">
+              <p class="tce-text-sm tce-text-slate-600">
                 The purpose of your digital services is used to determine the typical amount of time a user might spend
                 on them and the amount of data that may be transferred.
               </p>
-              <p class="text-sm text-slate-600">
+              <p class="tce-text-sm tce-text-slate-600">
                 This can affect the amount of energy used by end user devices and how much energy from network traffic
                 is attributable to your organisation
               </p>
             </helper-info>
           </div>
           <select
-            class="border border-slate-400 rounded"
+            class="tce-border tce-border-slate-400 tce-rounded"
             formControlName="purposeOfSite"
             name="purposeOfSite"
             id="purposeOfSite">
@@ -178,12 +184,12 @@
         </div>
         <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
-        <div class="flex flex-col gap-2">
-          <label for="monthlyActiveUsers" class="text-sm text-slate-600">
+        <div class="tce-flex tce-flex-col tce-gap-2">
+          <label for="monthlyActiveUsers" class="tce-text-sm tce-text-slate-600">
             How many monthly active users do your digital services have?
           </label>
           <input
-            class="border border-slate-400 rounded"
+            class="tce-border tce-border-slate-400 tce-rounded"
             formControlName="monthlyActiveUsers"
             name="monthlyActiveUsers"
             type="number"
@@ -191,19 +197,19 @@
             min="1" />
         </div>
 
-        <div class="flex flex-col gap-2">
-          <div class="flex">
-            <label for="mobilePercentage" class="text-sm text-slate-600">
+        <div class="tce-flex tce-flex-col tce-gap-2">
+          <div class="tce-flex">
+            <label for="mobilePercentage" class="tce-text-sm tce-text-slate-600">
               What percentage of your end-users are mobile or personal computer users?
             </label>
             <helper-info
-              class="ml-auto"
+              class="tce-ml-auto"
               inputLabel="What percentage of your users are mobile or personal computer users">
-              <p class="text-sm text-slate-600">
+              <p class="tce-text-sm tce-text-slate-600">
                 The percentage of mobile users will affect the energy used by end user devices and network
                 infrastructure.
               </p>
-              <p class="text-sm text-slate-600">
+              <p class="tce-text-sm tce-text-slate-600">
                 While the power demand of mobile devices is often much lower, the use of mobile networks can increase
                 the power used when transferring data.
               </p>
@@ -218,7 +224,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
-          <div class="flex justify-between text-sm text-slate-600">
+          <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
             <span>Mobile {{ mobilePercentage }}%</span>
             <span>Computer {{ computerPercentage }}%</span>
           </div>
@@ -227,15 +233,15 @@
     </div>
   </div>
 
-  <div class="flex gap-4 flex-row-reverse">
+  <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
     <button
-      class="px-3 py-2 !bg-sky-800 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-sky-900"
+      class="tce-px-3 tce-py-2 tce-bg-sky-800 tce-text-white tce-rounded disabled:tce-opacity-50 disabled:tce-cursor-not-allowed hover:tce-bg-sky-900"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
     <button
-      class="px-3 py-2 !bg-slate-200 text-slate-800 rounded hover:bg-slate-300"
+      class="tce-px-3 tce-py-2 tce-bg-slate-200 tce-text-slate-800 tce-rounded hover:tce-bg-slate-300"
       type="button"
       (click)="resetForm()">
       Reset
@@ -249,14 +255,14 @@
     let-hasUnknown="location.hasUnknown"
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
-    <div formGroupName="{{ formGroupName }}" class="flex flex-col gap-2">
-      <div class="flex">
-        <label for="{{ formControlName }}" class="text-sm text-slate-600">{{ label }} </label>
+    <div formGroupName="{{ formGroupName }}" class="tce-flex tce-flex-col tce-gap-2">
+      <div class="tce-flex">
+        <label for="{{ formControlName }}" class="tce-text-sm tce-text-slate-600">{{ label }} </label>
         @if (helperText) {
-          <helper-info class="ml-auto" [inputLabel]="label">
-            <p class="text-sm text-slate-600">
+          <helper-info class="tce-ml-auto" [inputLabel]="label">
+            <p class="tce-text-sm tce-text-slate-600">
               This will affect the average
-              <a class="underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
+              <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
                 >Carbon Intensity</a
               >
               of the energy used by your {{ helperText }}.
@@ -265,7 +271,7 @@
         }
       </div>
       <select
-        class="border border-slate-400 rounded"
+        class="tce-border tce-border-slate-400 tce-rounded tce-px-3 tce-py-2"
         name="{{ formControlName }}"
         formControlName="{{ formControlName }}"
         id="{{ formControlName }}">
@@ -286,9 +292,9 @@
 </form>
 
 <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-  <expansion-panel class="flex justify-between gap-2 flex-col mb-4">
+  <expansion-panel class="tce-flex tce-justify-between tce-gap-2 tce-flex-col tce-mb-4">
     <div header>
-      <h2 class="text-2xl">{{ heading }}</h2>
+      <h2 class="tce-text-2xl">{{ heading }}</h2>
     </div>
     <div content>
       <p>{{ sectionDetails }}</p>
