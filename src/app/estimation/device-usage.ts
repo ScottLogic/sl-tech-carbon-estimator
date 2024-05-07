@@ -1,5 +1,5 @@
-import { DeviceCategory, WorldLocation } from '../types/carbon-estimator';
-import { KgCo2e } from '../types/units';
+import { DeviceCategory } from '../types/carbon-estimator';
+import { KgCo2e, gCo2ePerKwh } from '../types/units';
 import { DeviceType } from './device-type';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 
@@ -12,7 +12,7 @@ export interface DeviceUsage {
 export function createDeviceUsage(
   type: DeviceType,
   category: DeviceCategory,
-  location: WorldLocation,
+  intensity: gCo2ePerKwh,
   count: number,
   pue?: number
 ): DeviceUsage {
@@ -22,7 +22,7 @@ export function createDeviceUsage(
     estimateUpstreamEmissions: () => type.estimateYearlyUpstreamEmissions(count),
     estimateDirectEmissions: () => {
       const energy = type.estimateYearlyEnergy(count) * actualPue;
-      return estimateEnergyEmissions(energy, location);
+      return estimateEnergyEmissions(energy, intensity);
     },
   };
 }

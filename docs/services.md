@@ -6,10 +6,16 @@ This page details the Angular services that are part of the application.
 classDiagram
   class CarbonEstimationService{
     <<service>>
-    -loggingService: LoggingService 
+    -carbonIntensityService: CarbonIntensityService
+    -loggingService: LoggingService
     +calculateCarbonEstimation(formValue: EstimatorValues) CarbonEstimation
     +estimateServerCount(formValue: EstimatorValues) number
     -estimateDeviceUsage(formValue: EstimatorValues) DeviceUsage[]
+  }
+
+  class CarbonIntensityService{
+    <<service>>
+    +getCarbonIntensity(location: WorldLocation) gCo2ePerKwh
   }
 
   class LoggingService{
@@ -17,6 +23,7 @@ classDiagram
     +log(...output: any[])
   }
 
+  CarbonEstimationService --> "-carbonIntensityService" CarbonIntensityService
   CarbonEstimationService --> "-loggingService" LoggingService
 ```
 
@@ -30,6 +37,7 @@ The main service responsible for producing a carbon estimate.
 
 Takes input form values and uses them to calculate a carbon estimation.  
 Uses [LoggingService](#loggingservice) to output intermediate parts of the calculation.  
+Uses [CarbonIntensityService](#carbonintensityservice) to get the carbon intensity of input locations.
 Returns estimation as percentages.  
 Uses functions in other modules to perform the calculation.
 
@@ -57,13 +65,13 @@ classDiagram
 
     class estimate-indirect-emissions{
       <<module>>
-      +estimateIndirectEmissions(Cloud input) IndirectEstimation
+      +estimateIndirectEmissions(input: Cloud, intensity: gCo2ePerKwh) IndirectEstimation
     }
 
     class estimate-downstream-emissions{
       <<module>>
       +Record~PurposeOfSite, SiteInformation~ siteTypeInfo
-      +estimateDownstreamEmissions(Downstream downstream) DownstreamEstimation
+      +estimateDownstreamEmissions(Downstream downstream, intensity: gCo2ePerKwh) DownstreamEstimation
     }
   }
 
@@ -92,6 +100,24 @@ Method is used as part of [`calculateCarbonEstimation()`](#calculatecarbonestima
 ##### Returns
 
 `number` - The estimated server count given the current input.
+
+## CarbonIntensityService
+
+Currently a simple service to wrap the usage of the CO2.js library to reduce dependencies and allow a switch to a different provider in future.
+
+### Public Methods
+
+#### `getCarbonIntensity()`
+
+Gets a carbon intensity figure given a region.
+
+##### Parameters
+
+`location:`[`WorldLocation`](types.md#estimatorvalues) - The location to get the carbon intensity for.
+
+##### Returns
+
+[`gCo2ePerKwh`](types.md#units) - The carbon intensity of the location in grams of CO2 equivalent per Kilowatt hour of energy consumed.
 
 ## LoggingService
 

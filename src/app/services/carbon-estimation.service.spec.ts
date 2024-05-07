@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
+import { CarbonIntensityService } from './carbon-intensity.service';
+import { gCo2ePerKwh } from '../types/units';
 
 const emptyEstimatorValues: EstimatorValues = {
   upstream: {
@@ -48,14 +50,32 @@ function checkTotalPercentage(estimation: CarbonEstimation) {
 describe('CarbonEstimationService', () => {
   let service: CarbonEstimationService;
   let loggingService: jasmine.SpyObj<LoggingService>;
+  let carbonIntensityService: jasmine.SpyObj<CarbonIntensityService>;
+  const mockCarbonIntensities: Record<WorldLocation, gCo2ePerKwh> = {
+    WORLD: 500,
+    GBR: 250,
+    EUROPE: 300,
+    'NORTH AMERICA': 400,
+    ASIA: 600,
+    AFRICA: 550,
+    OCEANIA: 500,
+    'LATIN AMERICA AND CARIBBEAN': 250,
+  };
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('LoggingService', ['log']);
+    const logSpy = jasmine.createSpyObj('LoggingService', ['log']);
+    const intensitySpy = jasmine.createSpyObj('CarbonIntensityService', ['getCarbonIntensity']);
     TestBed.configureTestingModule({
-      providers: [CarbonEstimationService, { provide: LoggingService, useValue: spy }],
+      providers: [
+        CarbonEstimationService,
+        { provide: LoggingService, useValue: logSpy },
+        { provide: CarbonIntensityService, useValue: intensitySpy },
+      ],
     });
     service = TestBed.inject(CarbonEstimationService);
     loggingService = TestBed.inject(LoggingService) as jasmine.SpyObj<LoggingService>;
+    carbonIntensityService = TestBed.inject(CarbonIntensityService) as jasmine.SpyObj<CarbonIntensityService>;
+    carbonIntensityService.getCarbonIntensity.and.callFake(location => mockCarbonIntensities[location]);
   });
 
   it('should be created', () => {
@@ -94,6 +114,42 @@ describe('CarbonEstimationService', () => {
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Downstream Emissions: .*/));
     });
 
+    it('should use service to find relevant carbon intensities', () => {
+      const input: EstimatorValues = {
+        upstream: {
+          employeeLocation: 'GBR',
+          headCount: 0,
+          desktopPercentage: 0,
+        },
+        onPremise: {
+          serverLocation: 'EUROPE',
+          estimateServerCount: false,
+          numberOfServers: 0,
+        },
+        cloud: {
+          cloudLocation: 'NORTH AMERICA',
+          noCloudServices: false,
+          cloudPercentage: 0,
+          monthlyCloudBill: {
+            min: 0,
+            max: 0,
+          },
+        },
+        downstream: {
+          customerLocation: 'WORLD',
+          noDownstream: false,
+          monthlyActiveUsers: 0,
+          mobilePercentage: 0,
+          purposeOfSite: 'streaming',
+        },
+      };
+      service.calculateCarbonEstimation(input);
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('GBR');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('EUROPE');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('NORTH AMERICA');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('WORLD');
+    });
+
     it('calculates emissions for hardware', () => {
       const hardwareInput: EstimatorValues = {
         ...emptyEstimatorValues,
@@ -109,12 +165,12 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.48);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.01);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.59);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.45);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(7.93);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.56);
       expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.79);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.45);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.67);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.56);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.71);
     });
 
     it('calculates emissions for hardware where servers are in different location to employees', () => {
@@ -132,12 +188,12 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.72);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.56);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.84);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.99);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.54);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.37);
+      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.69);
+      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.49);
+      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.81);
+      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.96);
+      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.83);
+      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.23);
     });
   });
 

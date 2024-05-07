@@ -1,7 +1,5 @@
-import { KgCo2e, KilowattHour } from '../types/units';
-import { WorldLocation } from '../types/carbon-estimator';
-import { averageIntensity } from '@tgwf/co2';
+import { KgCo2e, KilowattHour, gCo2ePerKwh } from '../types/units';
 
-export function estimateEnergyEmissions(energy: KilowattHour, location: WorldLocation): KgCo2e {
-  return (averageIntensity.data[location] * energy) / 1000;
+export function estimateEnergyEmissions(energy: KilowattHour, intensity: gCo2ePerKwh): KgCo2e {
+  return (intensity * energy) / 1000;
 }

@@ -6,7 +6,7 @@ import {
   basePurposeArray,
 } from '../types/carbon-estimator';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
-import { Gb, Hour, KilowattHour } from '../types/units';
+import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { co2 } from '@tgwf/co2';
 
@@ -54,7 +54,10 @@ export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
   },
 });
 
-export function estimateDownstreamEmissions(downstream: Downstream): DownstreamEstimation {
+export function estimateDownstreamEmissions(
+  downstream: Downstream,
+  downstreamIntensity: gCo2ePerKwh
+): DownstreamEstimation {
   if (downstream.noDownstream) {
     return { endUser: 0, networkTransfer: 0 };
   }
@@ -63,7 +66,7 @@ export function estimateDownstreamEmissions(downstream: Downstream): DownstreamE
     downstream.monthlyActiveUsers,
     downstream.purposeOfSite
   );
-  const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer);
+  const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
   const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
   return { endUser: endUserEmissions, networkTransfer: networkEmissions };
 }
@@ -72,10 +75,14 @@ function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSit
   return siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
 }
 
-function estimateEndUserEmissions(downstream: Downstream, downstreamDataTransfer: number) {
+function estimateEndUserEmissions(
+  downstream: Downstream,
+  downstreamDataTransfer: number,
+  downstreamIntensity: gCo2ePerKwh
+) {
   const endUserTime = estimateEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
   const endUserEnergy = estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
-  return estimateEnergyEmissions(endUserEnergy, downstream.customerLocation);
+  return estimateEnergyEmissions(endUserEnergy, downstreamIntensity);
 }
 
 function estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
