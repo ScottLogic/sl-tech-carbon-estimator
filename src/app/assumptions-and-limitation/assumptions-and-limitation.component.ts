@@ -3,7 +3,7 @@ import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constan
 import { siteTypeInfo } from '../estimation/estimate-downstream-emissions';
 import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
 import { DecimalPipe } from '@angular/common';
-import { averageIntensity } from '@tgwf/co2';
+import { CarbonIntensityService } from '../services/carbon-intensity.service';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
@@ -39,12 +39,16 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
     time: siteTypeInfo[purpose].averageMonthlyUserTime,
     data: siteTypeInfo[purpose].averageMonthlyUserData,
   }));
-  readonly locationCarbonInfo = locationArray.map(location => ({
-    location: locationDescriptions[location],
-    carbonIntensity: averageIntensity.data[location],
-  }));
+  readonly locationCarbonInfo;
 
   @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;
+
+  constructor(private intensityService: CarbonIntensityService) {
+    this.locationCarbonInfo = locationArray.map(location => ({
+      location: locationDescriptions[location],
+      carbonIntensity: this.intensityService.getCarbonIntensity(location),
+    }));
+  }
 
   public ngAfterContentInit(): void {
     this.assumptionsLimitation.nativeElement.focus();
