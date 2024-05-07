@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { CarbonEstimationService } from './carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
-import { sumValues } from '../utils/number-object';
+import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
 import { CarbonIntensityService } from './carbon-intensity.service';
 import { gCo2ePerKwh } from '../types/units';
@@ -45,6 +45,27 @@ function checkTotalPercentage(estimation: CarbonEstimation) {
     sumValues(estimation.indirectEmissions) +
     sumValues(estimation.downstreamEmissions);
   expect(total).toBeCloseTo(100);
+}
+
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject, context: string) {
+  for (const [key, value] of Object.entries(expected)) {
+    expect(actual[key]).withContext(`${context}.${key}`).toBeCloseTo(value);
+  }
+}
+
+function expectPartialEstimationCloseTo(actual: CarbonEstimation, expected: RecursivePartial<CarbonEstimation>) {
+  for (const [key, value] of Object.entries(expected)) {
+    const trueKey = key as keyof CarbonEstimation;
+    if (trueKey === 'version' || typeof value === 'string') {
+      expect(actual[trueKey]).toBe(value as string);
+      continue;
+    }
+    expectPartialNumberCloseTo(actual[trueKey], value, key);
+  }
 }
 
 describe('CarbonEstimationService', () => {
@@ -165,12 +186,18 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.45);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(7.93);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.56);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(1.79);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(60.56);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(22.71);
+      expectPartialEstimationCloseTo(result, {
+        upstreamEmissions: {
+          user: 5.78,
+          server: 7.64,
+          network: 3.43,
+        },
+        directEmissions: {
+          user: 2.89,
+          server: 58.37,
+          network: 21.89,
+        },
+      });
     });
 
     it('calculates emissions for hardware where servers are in different location to employees', () => {
@@ -188,12 +215,18 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expect(result.upstreamEmissions.user).withContext('upstreamEmissions.user').toBeCloseTo(3.69);
-      expect(result.upstreamEmissions.server).withContext('upstreamEmissions.server').toBeCloseTo(8.49);
-      expect(result.upstreamEmissions.network).withContext('upstreamEmissions.network').toBeCloseTo(3.81);
-      expect(result.directEmissions.user).withContext('directEmissions.user').toBeCloseTo(0.96);
-      expect(result.directEmissions.server).withContext('directEmissions.server').toBeCloseTo(64.83);
-      expect(result.directEmissions.network).withContext('directEmissions.network').toBeCloseTo(18.23);
+      expectPartialEstimationCloseTo(result, {
+        upstreamEmissions: {
+          user: 6.21,
+          server: 8.21,
+          network: 3.68,
+        },
+        directEmissions: {
+          user: 1.55,
+          server: 62.71,
+          network: 17.64,
+        },
+      });
     });
   });
 

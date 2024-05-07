@@ -7,7 +7,7 @@ import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emiss
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
 import { version } from '../../../package.json';
-import { desktop, laptop, network, server } from '../estimation/device-type';
+import { desktop, laptop, monitor, network, server } from '../estimation/device-type';
 import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
@@ -64,9 +64,10 @@ export class CarbonEstimationService {
     const serverCount = this.estimateServerCount(formValue);
     const employeeNetworkCount = estimateNetworkDeviceCount(desktopCount);
     const serverNetworkCount = estimateNetworkDeviceCount(serverCount);
+    const monitorCount = headCount;
 
     this.loggingService.log(
-      `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, employeeNetworkCount, serverNetworkCount })}`
+      `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, employeeNetworkCount, serverNetworkCount, monitorCount })}`
     );
 
     const employeeIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.upstream.employeeLocation);
@@ -77,6 +78,7 @@ export class CarbonEstimationService {
       createDeviceUsage(network, 'network', employeeIntensity, employeeNetworkCount, ON_PREMISE_AVERAGE_PUE),
       createDeviceUsage(server, 'server', onPremIntensity, serverCount, ON_PREMISE_AVERAGE_PUE),
       createDeviceUsage(network, 'network', onPremIntensity, serverNetworkCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(monitor, 'user', employeeIntensity, monitorCount),
     ];
   }
 }
