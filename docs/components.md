@@ -4,7 +4,7 @@ This page details the Angular components that are part of the application and ho
 
 ```mermaid
 flowchart TB
-  subgraph components
+  subgraph Components
     CarbonEstimator["`CarbonEstimatorComponent
     carbon-estimator`"]
     CarbonEstimatorForm["`CarbonEstimatorFormComponent
@@ -20,10 +20,11 @@ flowchart TB
     ExpansionPanel["`ExpansionPanelComponent
     expansion-panel`"]
   end
-  subgraph services
+  subgraph Services
     CarbonEstimationService
+    CarbonIntensityService
   end
-  subgraph pipes
+  subgraph Pipes
     FormatCostRangePipe
   end
 
@@ -32,6 +33,7 @@ flowchart TB
   CarbonEstimatorForm --> HelperInfo & Note
   CarbonEstimator & CarbonEstimatorForm ---> CarbonEstimationService
   CarbonEstimatorForm & CarbonEstimation --> ExpansionPanel
+  CarbonEstimationService & Assumptions --> CarbonIntensityService
 ```
 
 ## CarbonEstimatorComponent
@@ -52,7 +54,8 @@ Visualises the Carbon Estimation result.
 
 ## AssumptionsAndLimitationComponent
 
-Provides information on the Assumptions and Limitations of the estimation.
+Provides information on the Assumptions and Limitations of the estimation.  
+Uses the [CarbonIntensityService](services.md#carbonintensityservice) to get the latest carbon intensity figures to display.
 
 ## HelperInfoComponent
 
