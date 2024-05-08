@@ -52,14 +52,14 @@ classDiagram
 
   class WorldLocation{
     <<union>>
-    'global'
-    'uk'
-    'europe'
-    'northAmerica'
-    'asia'
-    'africa'
-    'oceania'
-    'latinAmerica'
+    'WORLD'
+    'GBR'
+    'EUROPE'
+    'NORTH AMERICA'
+    'ASIA'
+    'AFRICA'
+    'OCEANIA'
+    'LATIN AMERICA AND CARIBBEAN'
   }
 
   class CostRange {
@@ -172,9 +172,8 @@ export type Watt = number;
 export type Hour = number;
 export type Year = number;
 export type KilowattHour = number;
-export type KgCo2ePerKwh = number;
-export type gCo2ePerKwh = number;
 export type KgCo2e = number;
+export type gCo2ePerKwh = number;
 export type Gb = number;
 ```
 

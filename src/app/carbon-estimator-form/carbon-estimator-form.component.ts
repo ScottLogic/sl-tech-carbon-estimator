@@ -10,14 +10,14 @@ import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { HelperInfoComponent } from '../helper-info/helper-info.component';
 
 const locationDescriptions: Record<WorldLocation, string> = {
-  global: 'Globally',
-  northAmerica: 'in North America',
-  europe: 'in Europe',
-  uk: 'in the UK',
-  asia: 'in Asia',
-  africa: 'in Africa',
-  oceania: 'in Oceania',
-  latinAmerica: 'in Latin America or the Caribbean',
+  WORLD: 'Globally',
+  'NORTH AMERICA': 'in North America',
+  EUROPE: 'in Europe',
+  GBR: 'in the UK',
+  ASIA: 'in Asia',
+  AFRICA: 'in Africa',
+  OCEANIA: 'in Oceania',
+  'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
 };
 
 @Component({
@@ -150,10 +150,10 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public handleSubmit() {
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
-      formValue.onPremise.serverLocation = 'global';
+      formValue.onPremise.serverLocation = 'WORLD';
     }
     if (formValue.cloud.cloudLocation === 'unknown') {
-      formValue.cloud.cloudLocation = 'global';
+      formValue.cloud.cloudLocation = 'WORLD';
     }
     this.formSubmit.emit(formValue as EstimatorValues);
   }

@@ -18,13 +18,13 @@ classDiagram
 
     class estimate-indirect-emissions{
       <<module>>
-      +estimateIndirectEmissions(input: Cloud) IndirectEstimation
+      +estimateIndirectEmissions(input: Cloud, intensity: gCo2ePerKwh) IndirectEstimation
     }
 
     class estimate-downstream-emissions{
       <<module>>
       +siteTypeInfo: Record~PurposeOfSite, SiteInformation~
-      +estimateDownstreamEmissions(downstream: Downstream) DownstreamEstimation
+      +estimateDownstreamEmissions(downstream: Downstream, ...) DownstreamEstimation
     }
   }
 
@@ -51,9 +51,7 @@ classDiagram
 
     class estimate-energy-emissions {
       <<module>>
-      +locationIntensityMap: Record~WorldLocation, KgCo2ePerKwh~
       +estimateEnergyEmissions(...) KgCo2e
-      +getCarbonIntensity(...) gCo2ePerKwh
     }
   }
 
@@ -109,6 +107,7 @@ Estimate emissions from Indirect categories
 ##### Parameters
 
 `input:`[`Cloud`](types.md#estimatorvalues) - The inputs relevant to cloud.
+`intensity:`[`gCo2ePerKwh`](types.md#units) - The Carbon intensity of the cloud region.
 
 ##### Returns
 
@@ -140,6 +139,7 @@ Estimate emissions from Downstream categories
 ##### Parameters
 
 `downstream:`[`Downstream`](types.md#estimatorvalues) - The inputs relevant to downstream emissions.
+`intensity:`[`gCo2ePerKwh`](types.md#units) - The Carbon intensity of the downstream region.
 
 ##### Returns
 
@@ -290,7 +290,7 @@ Creates device usage without exposing the exact method of calculation.
 
 `type:`[`DeviceType`](#devicetype) - The type of device being used.  
 `category:`[`DeviceCategory`](types#devicecategory) - The category the device usage falls under.  
-`location:`[`WorldLocation`](types#estimatorvalues) - The location the devices are being used in.  
+`intensity:`[`gCo2ePerKwh`](types#units) - The carbon intensity of the region the devices are being used in.  
 `count: number` - The number of devices being used.  
 `pue?: number` - The Power Usage Effectiveness of the device usage (optional, defaults to 1).  
 
@@ -309,26 +309,8 @@ Estimate emissions from energy used in a location.
 ##### Parameters
 
 `energy:`[`KilowattHour`](types.md#units) - Amount of energy used.  
-`location:`[`WorldLocation`](types.md#estimatorvalues) - The World Location where the energy was used for Carbon Intensity.
+`intensity:`[`gCo2ePerKwh`](types.md#units) - The Carbon Intensity of the region where the energy was used.
 
 ##### Returns
 
 [`KgCo2e`](types.md#units) - Kg of CO2e emitted via energy use.
-
-#### `getCarbonIntensity()`
-
-Exported to get Carbon Intensity in unit that [CO2.js](https://www.thegreenwebfoundation.org/co2-js/) library requires.
-
-##### Parameters
-
-`location:`[`WorldLocation`](types.md#estimatorvalues) - The World Location for Carbon Intensity.
-
-##### Returns
-
-[`gCo2ePerKwh`](types.md#units) - g of CO2e emitted per kWh of energy used.
-
-### Exported variables
-
-#### `locationIntensityMap: Record<WorldLocation, KgCo2ePerKwh>`
-
-Exported to allow use in assumptions component.

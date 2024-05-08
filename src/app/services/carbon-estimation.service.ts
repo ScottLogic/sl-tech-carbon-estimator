@@ -10,12 +10,16 @@ import { version } from '../../../package.json';
 import { desktop, laptop, monitor, network, server } from '../estimation/device-type';
 import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
+import { CarbonIntensityService } from './carbon-intensity.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarbonEstimationService {
-  constructor(private loggingService: LoggingService) {}
+  constructor(
+    private carbonIntensityService: CarbonIntensityService,
+    private loggingService: LoggingService
+  ) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${formatObject(formValue)}`);
@@ -26,9 +30,11 @@ export class CarbonEstimationService {
     this.loggingService.log(`Estimated Upstream Emissions: ${formatCarbonEstimate(upstreamEmissions)}`);
     const directEmissions = estimateDirectEmissions(deviceUsage);
     this.loggingService.log(`Estimated Direct Emissions: ${formatCarbonEstimate(directEmissions)}`);
-    const indirectEmissions = estimateIndirectEmissions(formValue.cloud);
+    const indirectIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.cloud.cloudLocation);
+    const indirectEmissions = estimateIndirectEmissions(formValue.cloud, indirectIntensity);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
-    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream);
+    const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
+    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity);
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     return toPercentages({
@@ -64,15 +70,15 @@ export class CarbonEstimationService {
       `Estimated Device Counts: ${formatObject({ desktopCount, laptopCount, serverCount, employeeNetworkCount, serverNetworkCount, monitorCount })}`
     );
 
-    const employeeLocation = formValue.upstream.employeeLocation;
-    const onPremLocation = formValue.onPremise.serverLocation;
+    const employeeIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.upstream.employeeLocation);
+    const onPremIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.onPremise.serverLocation);
     return [
-      createDeviceUsage(desktop, 'user', employeeLocation, desktopCount),
-      createDeviceUsage(laptop, 'user', employeeLocation, laptopCount),
-      createDeviceUsage(network, 'network', employeeLocation, employeeNetworkCount, ON_PREMISE_AVERAGE_PUE),
-      createDeviceUsage(server, 'server', onPremLocation, serverCount, ON_PREMISE_AVERAGE_PUE),
-      createDeviceUsage(network, 'network', onPremLocation, serverNetworkCount, ON_PREMISE_AVERAGE_PUE),
-      createDeviceUsage(monitor, 'user', employeeLocation, monitorCount),
+      createDeviceUsage(desktop, 'user', employeeIntensity, desktopCount),
+      createDeviceUsage(laptop, 'user', employeeIntensity, laptopCount),
+      createDeviceUsage(network, 'network', employeeIntensity, employeeNetworkCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(server, 'server', onPremIntensity, serverCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(network, 'network', onPremIntensity, serverNetworkCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(monitor, 'user', employeeIntensity, monitorCount),
     ];
   }
 }

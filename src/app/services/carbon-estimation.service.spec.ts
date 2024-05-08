@@ -1,31 +1,33 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
+import { CarbonIntensityService } from './carbon-intensity.service';
+import { gCo2ePerKwh } from '../types/units';
 
 const emptyEstimatorValues: EstimatorValues = {
   upstream: {
     headCount: 0,
     desktopPercentage: 0,
-    employeeLocation: 'global',
+    employeeLocation: 'WORLD',
   },
   onPremise: {
     estimateServerCount: false,
-    serverLocation: 'global',
+    serverLocation: 'WORLD',
     numberOfServers: 0,
   },
   cloud: {
     noCloudServices: true,
-    cloudLocation: 'global',
+    cloudLocation: 'WORLD',
     cloudPercentage: 0,
     monthlyCloudBill: { min: 0, max: 200 },
   },
   downstream: {
     noDownstream: true,
-    customerLocation: 'global',
+    customerLocation: 'WORLD',
     monthlyActiveUsers: 0,
     mobilePercentage: 0,
     purposeOfSite: 'streaming',
@@ -69,21 +71,39 @@ function expectPartialEstimationCloseTo(actual: CarbonEstimation, expected: Recu
 describe('CarbonEstimationService', () => {
   let service: CarbonEstimationService;
   let loggingService: jasmine.SpyObj<LoggingService>;
+  let carbonIntensityService: jasmine.SpyObj<CarbonIntensityService>;
+  const mockCarbonIntensities: Record<WorldLocation, gCo2ePerKwh> = {
+    WORLD: 500,
+    GBR: 250,
+    EUROPE: 300,
+    'NORTH AMERICA': 400,
+    ASIA: 600,
+    AFRICA: 550,
+    OCEANIA: 500,
+    'LATIN AMERICA AND CARIBBEAN': 250,
+  };
 
   beforeEach(() => {
-    const spy = jasmine.createSpyObj('LoggingService', ['log']);
+    const logSpy = jasmine.createSpyObj('LoggingService', ['log']);
+    const intensitySpy = jasmine.createSpyObj('CarbonIntensityService', ['getCarbonIntensity']);
     TestBed.configureTestingModule({
-      providers: [CarbonEstimationService, { provide: LoggingService, useValue: spy }],
+      providers: [
+        CarbonEstimationService,
+        { provide: LoggingService, useValue: logSpy },
+        { provide: CarbonIntensityService, useValue: intensitySpy },
+      ],
     });
     service = TestBed.inject(CarbonEstimationService);
     loggingService = TestBed.inject(LoggingService) as jasmine.SpyObj<LoggingService>;
+    carbonIntensityService = TestBed.inject(CarbonIntensityService) as jasmine.SpyObj<CarbonIntensityService>;
+    carbonIntensityService.getCarbonIntensity.and.callFake(location => mockCarbonIntensities[location]);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('calculateCarbonEstimation', () => {
+  describe('calculateCarbonEstimation()', () => {
     it('should include version and zeroed values in estimation', () => {
       const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
       expect(estimation.version).toBe(version);
@@ -99,7 +119,7 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 1,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
       });
       checkTotalPercentage(estimation);
@@ -115,31 +135,67 @@ describe('CarbonEstimationService', () => {
       expect(loggingService.log).toHaveBeenCalledWith(jasmine.stringMatching(/^Estimated Downstream Emissions: .*/));
     });
 
+    it('should use service to find relevant carbon intensities', () => {
+      const input: EstimatorValues = {
+        upstream: {
+          employeeLocation: 'GBR',
+          headCount: 0,
+          desktopPercentage: 0,
+        },
+        onPremise: {
+          serverLocation: 'EUROPE',
+          estimateServerCount: false,
+          numberOfServers: 0,
+        },
+        cloud: {
+          cloudLocation: 'NORTH AMERICA',
+          noCloudServices: false,
+          cloudPercentage: 0,
+          monthlyCloudBill: {
+            min: 0,
+            max: 0,
+          },
+        },
+        downstream: {
+          customerLocation: 'WORLD',
+          noDownstream: false,
+          monthlyActiveUsers: 0,
+          mobilePercentage: 0,
+          purposeOfSite: 'streaming',
+        },
+      };
+      service.calculateCarbonEstimation(input);
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('GBR');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('EUROPE');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('NORTH AMERICA');
+      expect(carbonIntensityService.getCarbonIntensity).toHaveBeenCalledWith('WORLD');
+    });
+
     it('calculates emissions for hardware', () => {
       const hardwareInput: EstimatorValues = {
         ...emptyEstimatorValues,
         upstream: {
           headCount: 4,
           desktopPercentage: 50,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: false,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 2,
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
       expectPartialEstimationCloseTo(result, {
         upstreamEmissions: {
-          user: 5.84,
-          server: 7.72,
-          network: 3.46,
+          user: 5.78,
+          server: 7.64,
+          network: 3.43,
         },
         directEmissions: {
-          user: 2.88,
-          server: 58.25,
-          network: 21.84,
+          user: 2.89,
+          server: 58.37,
+          network: 21.89,
         },
       });
     });
@@ -150,25 +206,25 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 4,
           desktopPercentage: 50,
-          employeeLocation: 'uk',
+          employeeLocation: 'GBR',
         },
         onPremise: {
           estimateServerCount: false,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 2,
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
       expectPartialEstimationCloseTo(result, {
         upstreamEmissions: {
-          user: 6.29,
-          server: 8.32,
-          network: 3.73,
+          user: 6.21,
+          server: 8.21,
+          network: 3.68,
         },
         directEmissions: {
-          user: 1.5,
-          server: 62.74,
-          network: 17.43,
+          user: 1.55,
+          server: 62.71,
+          network: 17.64,
         },
       });
     });
@@ -185,11 +241,11 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: true,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 0,
         },
       };
@@ -202,17 +258,17 @@ describe('CarbonEstimationService', () => {
         upstream: {
           headCount: 100,
           desktopPercentage: 0,
-          employeeLocation: 'global',
+          employeeLocation: 'WORLD',
         },
         onPremise: {
           estimateServerCount: true,
-          serverLocation: 'global',
+          serverLocation: 'WORLD',
           numberOfServers: 0,
         },
         cloud: {
           cloudPercentage: 50,
           noCloudServices: false,
-          cloudLocation: 'global',
+          cloudLocation: 'WORLD',
           monthlyCloudBill: { min: 0, max: 200 },
         },
       };
