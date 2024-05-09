@@ -155,21 +155,22 @@
 
       @if (!noDownstream) {
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <div class="tce-flex">
-            <label for="purposeOfSite" class="tce-text-sm tce-text-slate-600"
-              >What's the primary purpose of your digital services?</label
-            >
-            <helper-info class="tce-ml-auto" inputLabel="What's the purpose of your website">
+          <expansion-panel [helperPanel]="true">
+            <div header>
+              <div class="tce-flex">
+                <label for="purposeOfSite" class="tce-text-sm tce-text-slate-600"
+                  >What's the primary purpose of your digital services?</label
+                >
+              </div>
+            </div>
+            <div content>
               <p class="tce-text-sm tce-text-slate-600">
                 The purpose of your digital services is used to determine the typical amount of time a user might spend
-                on them and the amount of data that may be transferred.
+                on them and the amount of data that may be transferred. This can affect the amount of energy used by end
+                user devices and how much energy from network traffic is attributable to your organisation
               </p>
-              <p class="tce-text-sm tce-text-slate-600">
-                This can affect the amount of energy used by end user devices and how much energy from network traffic
-                is attributable to your organisation
-              </p>
-            </helper-info>
-          </div>
+            </div>
+          </expansion-panel>
           <select
             class="tce-border tce-border-slate-400 tce-rounded"
             formControlName="purposeOfSite"
@@ -198,23 +199,22 @@
         </div>
 
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <div class="tce-flex">
-            <label for="mobilePercentage" class="tce-text-sm tce-text-slate-600">
-              What percentage of your end-users are mobile or personal computer users?
-            </label>
-            <helper-info
-              class="tce-ml-auto"
-              inputLabel="What percentage of your users are mobile or personal computer users">
+          <expansion-panel [helperPanel]="true">
+            <div header>
+              <div class="tce-flex">
+                <label for="mobilePercentage" class="tce-text-sm tce-text-slate-600">
+                  What percentage of your end-users are mobile or personal computer users?
+                </label>
+              </div>
+            </div>
+            <div content>
               <p class="tce-text-sm tce-text-slate-600">
                 The percentage of mobile users will affect the energy used by end user devices and network
-                infrastructure.
+                infrastructure. While the power demand of mobile devices is often much lower, the use of mobile networks
+                can increase the power used when transferring data.
               </p>
-              <p class="tce-text-sm tce-text-slate-600">
-                While the power demand of mobile devices is often much lower, the use of mobile networks can increase
-                the power used when transferring data.
-              </p>
-            </helper-info>
-          </div>
+            </div>
+          </expansion-panel>
           <input
             id="mobilePercentage"
             formControlName="mobilePercentage"
@@ -256,20 +256,22 @@
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
     <div formGroupName="{{ formGroupName }}" class="tce-flex tce-flex-col tce-gap-2">
-      <div class="tce-flex">
-        <label for="{{ formControlName }}" class="tce-text-sm tce-text-slate-600">{{ label }} </label>
-        @if (helperText) {
-          <helper-info class="tce-ml-auto" [inputLabel]="label">
-            <p class="tce-text-sm tce-text-slate-600">
-              This will affect the average
-              <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
-                >Carbon Intensity</a
-              >
-              of the energy used by your {{ helperText }}.
-            </p>
-          </helper-info>
-        }
-      </div>
+      <expansion-panel [helperPanel]="true">
+        <div header>
+          <div class="tce-flex">
+            <label for="{{ formControlName }}" class="tce-text-sm tce-text-slate-600">{{ label }} </label>
+          </div>
+        </div>
+        <div content>
+          <p class="tce-text-sm tce-text-slate-600">
+            This will affect the average
+            <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
+              >Carbon Intensity</a
+            >
+            of the energy used by your {{ helperText }}.
+          </p>
+        </div>
+      </expansion-panel>
       <select
         class="tce-border tce-border-slate-400 tce-rounded tce-px-3 tce-py-2"
         name="{{ formControlName }}"
