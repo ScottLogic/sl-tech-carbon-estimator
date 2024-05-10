@@ -28,7 +28,7 @@ flowchart TB
 
   CarbonEstimator --> CarbonEstimatorForm & CarbonEstimation & Assumptions
   CarbonEstimatorForm ---> FormatCostRangePipe
-  CarbonEstimatorForm --> HelperInfo & Note
+  CarbonEstimatorForm --> Note
   CarbonEstimator & CarbonEstimatorForm ---> CarbonEstimationService
   CarbonEstimatorForm & CarbonEstimation --> ExpansionPanel
   CarbonEstimationService & Assumptions --> CarbonIntensityService
@@ -54,10 +54,6 @@ Visualises the Carbon Estimation result.
 
 Provides information on the Assumptions and Limitations of the estimation.  
 Uses the [CarbonIntensityService](services.md#carbonintensityservice) to get the latest carbon intensity figures to display.
-
-## HelperInfoComponent
-
-Displays a help button which can be clicked to show extra details on how the form inputs are used.
 
 ## NoteComponent
 
