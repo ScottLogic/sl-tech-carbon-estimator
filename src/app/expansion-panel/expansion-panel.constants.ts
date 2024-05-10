@@ -1,7 +1,7 @@
 export type ExpansionPanelConfig = {
-  startsExpanded: boolean;
-  buttonStyles: string;
-  contentContainerStyles: string;
+  readonly startsExpanded: boolean;
+  readonly buttonStyles: string;
+  readonly contentContainerStyles: string;
 };
 
 export const defaultConfig: ExpansionPanelConfig = {
