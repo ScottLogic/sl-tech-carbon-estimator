@@ -155,7 +155,7 @@
 
       @if (!noDownstream) {
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <expansion-panel [questionPanel]="true">
+          <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
               <div class="tce-flex">
                 <label for="purposeOfSite" class="tce-text-sm tce-text-slate-600"
@@ -199,7 +199,7 @@
         </div>
 
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <expansion-panel [questionPanel]="true">
+          <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
               <div class="tce-flex">
                 <label for="mobilePercentage" class="tce-text-sm tce-text-slate-600">
@@ -256,7 +256,7 @@
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
     <div formGroupName="{{ formGroupName }}" class="tce-flex tce-flex-col tce-gap-2">
-      <expansion-panel [questionPanel]="true">
+      <expansion-panel [configOverride]="questionPanelConfig">
         <div header>
           <div class="tce-flex">
             <label for="{{ formControlName }}" class="tce-text-sm tce-text-slate-600">{{ label }} </label>

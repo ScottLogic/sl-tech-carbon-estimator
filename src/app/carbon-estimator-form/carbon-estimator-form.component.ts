@@ -2,7 +2,7 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
-import { costRanges, defaultValues, formContext } from './carbon-estimator-form.constants';
+import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
@@ -64,6 +64,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
     value: location,
     description: locationDescriptions[location],
   }));
+
+  public questionPanelConfig = questionPanelConfig;
 
   constructor(
     private formBuilder: FormBuilder,

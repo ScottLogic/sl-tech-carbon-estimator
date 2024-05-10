@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { defaultConfig, questionPanelConfig } from './expansion-panel.constants';
+import { ExpansionPanelConfig, defaultConfig } from './expansion-panel.constants';
 
 @Component({
   selector: 'expansion-panel',
@@ -10,11 +10,10 @@ import { defaultConfig, questionPanelConfig } from './expansion-panel.constants'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpansionPanelComponent implements OnInit {
-  @Input() questionPanel?: boolean = false;
+  @Input() configOverride?: Partial<ExpansionPanelConfig> = {};
   @Output() expandedChanged = new EventEmitter<void>();
+  public config: ExpansionPanelConfig = defaultConfig;
   public expanded: boolean = defaultConfig.startsExpanded;
-  public buttonStyles: string = defaultConfig.buttonStyles;
-  public contentContainerStyles: string = defaultConfig.contentContainerStyles;
 
   toggle() {
     this.expanded = !this.expanded;
@@ -22,10 +21,10 @@ export class ExpansionPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.questionPanel) {
-      this.expanded = questionPanelConfig.startsExpanded;
-      this.buttonStyles = questionPanelConfig.buttonStyles;
-      this.contentContainerStyles = questionPanelConfig.contentContainerStyles;
-    }
+    this.config = {
+      ...this.config,
+      ...this.configOverride,
+    };
+    this.expanded = this.config.startsExpanded;
   }
 }
