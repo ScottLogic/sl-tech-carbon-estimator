@@ -12,8 +12,8 @@ import { ExpansionPanelConfig, defaultConfig } from './expansion-panel.constants
 export class ExpansionPanelComponent implements OnInit {
   @Input() configOverride?: Partial<ExpansionPanelConfig> = {};
   @Output() expandedChanged = new EventEmitter<void>();
-  public config: ExpansionPanelConfig = defaultConfig;
-  public expanded: boolean = defaultConfig.startsExpanded;
+  public config!: ExpansionPanelConfig;
+  public expanded!: boolean;
 
   toggle() {
     this.expanded = !this.expanded;
@@ -22,7 +22,7 @@ export class ExpansionPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.config = {
-      ...this.config,
+      ...defaultConfig,
       ...this.configOverride,
     };
     this.expanded = this.config.startsExpanded;
