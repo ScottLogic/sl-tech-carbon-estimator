@@ -2,10 +2,5 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "editor.tabSize": 2,
   "files.eol": "\n",
-  "cSpell.words": [
-    "apexcharts",
-    "ncstate",
-    "popover",
-    "treemap"
-  ]
+  "cSpell.words": ["apexcharts", "treemap"]
 }

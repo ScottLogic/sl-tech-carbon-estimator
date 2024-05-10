@@ -7,7 +7,6 @@ import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
-import { HelperInfoComponent } from '../helper-info/helper-info.component';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -31,7 +30,6 @@ const locationDescriptions: Record<WorldLocation, string> = {
     JsonPipe,
     FormsModule,
     CommonModule,
-    HelperInfoComponent,
     NoteComponent,
     ExpansionPanelComponent,
     FormatCostRangePipe,

@@ -13,8 +13,6 @@ flowchart TB
     carbon-estimation`"]
     Assumptions["`AssumptionsAndLimitationComponent
     assumptions-and-limitation`"]
-    HelperInfo["`HelperInfoComponent
-    helper-info`"]
     Note["`NoteComponent
     note`"]
     ExpansionPanel["`ExpansionPanelComponent
