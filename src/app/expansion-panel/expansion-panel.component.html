@@ -4,11 +4,11 @@
     type="button"
     (click)="toggle()"
     (keydown.enter)="toggle()"
-    class="material-icons-outlined tce-text tce-text-slate-600 hover:tce-bg-slate-200 hover:tce-rounded"
+    [class]="config.buttonStyles"
     [attr.aria-label]="expanded ? 'Hide details' : 'Show details'">
     {{ expanded ? 'expand_less' : 'expand_more' }}
   </button>
 </div>
-<div [ngClass]="{ 'tce-hidden': !expanded }" role="region">
+<div [ngClass]="{ 'tce-hidden': !expanded }" [class]="config.contentContainerStyles" role="region">
   <ng-content select="[content]"></ng-content>
 </div>
