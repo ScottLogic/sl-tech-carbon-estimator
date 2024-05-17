@@ -94,7 +94,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       downstream: this.formBuilder.nonNullable.group({
         noDownstream: [false],
         customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers],
+        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, Validators.required],
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
