@@ -161,6 +161,9 @@ export class CarbonEstimatorFormComponent implements OnInit {
     if (formValue.cloud.cloudLocation === 'unknown') {
       formValue.cloud.cloudLocation = 'WORLD';
     }
+    if (!formValue.downstream.monthlyActiveUsers) {
+      formValue.downstream.monthlyActiveUsers = 0;
+    }
     this.formSubmit.emit(formValue as EstimatorValues);
   }
 
