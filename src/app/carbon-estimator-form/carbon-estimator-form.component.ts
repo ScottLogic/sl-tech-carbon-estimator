@@ -126,9 +126,15 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.changeDetector.detectChanges();
     });
 
-    this.estimatorForm
-      .get('downstream.noDownstream')
-      ?.valueChanges.subscribe(noDownstream => (this.noDownstream = noDownstream));
+    this.estimatorForm.get('downstream.noDownstream')?.valueChanges.subscribe(noDownstream => {
+      const monthlyActiveUsers = this.estimatorForm.get('downstream.monthlyActiveUsers');
+      if (noDownstream) {
+        monthlyActiveUsers?.disable();
+      } else {
+        monthlyActiveUsers?.enable();
+      }
+      this.noDownstream = noDownstream;
+    });
 
     this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
       this.cloudPercentage = cloudPercentage;
