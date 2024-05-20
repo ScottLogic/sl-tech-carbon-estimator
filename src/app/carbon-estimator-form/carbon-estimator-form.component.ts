@@ -134,6 +134,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
         monthlyActiveUsers?.enable();
       }
       this.noDownstream = noDownstream;
+      this.changeDetector.detectChanges();
     });
 
     this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
