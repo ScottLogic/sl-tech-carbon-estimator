@@ -1,13 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-  effect,
-  input,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, effect, input } from '@angular/core';
 import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
@@ -22,6 +13,7 @@ import {
   tooltipFormatter,
 } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
+import { Subscription, debounceTime, fromEvent } from 'rxjs';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
 
@@ -38,7 +30,7 @@ type ApexChartSeries = {
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
 })
-export class CarbonEstimationComponent implements OnInit {
+export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input.required<CarbonEstimation>();
   public extraHeight = input<string>();
 
@@ -48,6 +40,8 @@ export class CarbonEstimationComponent implements OnInit {
   public chartOptions: ChartOptions = chartOptions;
   private tooltipFormatter = tooltipFormatter;
   private estimatorBaseHeight = sumValues(estimatorHeights);
+
+  private resizeSubscription!: Subscription;
 
   @ViewChild('chart') chart: ChartComponent | undefined;
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
@@ -64,6 +58,14 @@ export class CarbonEstimationComponent implements OnInit {
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
     }
+
+    this.resizeSubscription = fromEvent(window, 'resize')
+      .pipe(debounceTime(500))
+      .subscribe(() => this.onResize(window.innerHeight, window.innerWidth));
+  }
+
+  public ngOnDestroy(): void {
+    this.resizeSubscription.unsubscribe();
   }
 
   public onExpanded(): void {
@@ -71,7 +73,6 @@ export class CarbonEstimationComponent implements OnInit {
     this.onResize(window.innerHeight, window.innerWidth);
   }
 
-  @HostListener('window:resize', ['$event.target.innerHeight', '$event.target.innerWidth'])
   onResize(innerHeight: number, innerWidth: number): void {
     const chartHeight = this.getChartHeight(innerHeight, innerWidth);
     if (chartHeight > 0) {
