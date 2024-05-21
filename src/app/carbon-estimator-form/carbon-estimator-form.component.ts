@@ -94,7 +94,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       downstream: this.formBuilder.nonNullable.group({
         noDownstream: [false],
         customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers],
+        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, Validators.required],
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
@@ -126,9 +126,16 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.changeDetector.detectChanges();
     });
 
-    this.estimatorForm
-      .get('downstream.noDownstream')
-      ?.valueChanges.subscribe(noDownstream => (this.noDownstream = noDownstream));
+    this.estimatorForm.get('downstream.noDownstream')?.valueChanges.subscribe(noDownstream => {
+      const monthlyActiveUsers = this.estimatorForm.get('downstream.monthlyActiveUsers');
+      if (noDownstream) {
+        monthlyActiveUsers?.disable();
+      } else {
+        monthlyActiveUsers?.enable();
+      }
+      this.noDownstream = noDownstream;
+      this.changeDetector.detectChanges();
+    });
 
     this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
       this.cloudPercentage = cloudPercentage;
@@ -154,6 +161,9 @@ export class CarbonEstimatorFormComponent implements OnInit {
     }
     if (formValue.cloud.cloudLocation === 'unknown') {
       formValue.cloud.cloudLocation = 'WORLD';
+    }
+    if (!formValue.downstream.monthlyActiveUsers) {
+      formValue.downstream.monthlyActiveUsers = 0;
     }
     this.formSubmit.emit(formValue as EstimatorValues);
   }
