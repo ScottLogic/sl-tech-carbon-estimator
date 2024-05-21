@@ -16,6 +16,7 @@ jobs:
       - name: Build app
         run: npm run build
   unit_tests:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
