@@ -36,12 +36,23 @@ jobs:
         with:
           path: ./dist/tech-carbon-estimator
 
+  unit_tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Run tests
+        run: npm test
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: unit_tests
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
