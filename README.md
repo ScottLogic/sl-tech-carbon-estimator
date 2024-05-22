@@ -16,9 +16,19 @@ You will need to import the following files to use the tech-carbon-estimator:
 
 These files can be found under dist/tech-carbon-estimator when developing locally.
 
+## Installing Dependencies
+
+To run the following `ng` commands, you will need to have the Angular CLI installed globally. This requires that you have [Node.js](https://nodejs.org) installed and then run the following command from any directory:
+
+```bash
+npm install -g @angular/cli
+```
+
+You will also need to run `npm install` from the root directory of this repository.
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files. You can also run `ng serve --open` to automatically open the application in a browser tab.
 
 ## Code scaffolding
 
