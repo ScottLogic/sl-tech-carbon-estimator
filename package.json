@@ -65,6 +65,11 @@
     "tailwindcss": "^3.4.1",
     "typescript": "~5.3.3"
   },
+  "files": [
+    "README.md",
+    "package.json",
+    "dist/**"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ScottLogic/sl-tech-carbon-estimator.git"
