@@ -23,7 +23,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
   selector: 'carbon-estimator-form',
   standalone: true,
   templateUrl: './carbon-estimator-form.component.html',
-  styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
+  styles: ['input.ng-touched.ng-invalid { border-color: theme("colors.error-red"); }'],
   imports: [
     ReactiveFormsModule,
     FormsModule,
