@@ -197,10 +197,10 @@
             id="monthlyActiveUsers"
             min="1" />
           <div
-            *ngIf="monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)"
+            *ngIf="true || (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched))"
             class="tce-text-red-600 tce-flex tce-gap-1">
             <span class="material-icons-outlined tce-flex">error</span>Must be greater than 0. To specify no external
-            users, use the checkbox above.
+            users, use the <a class="tce-underline" href="#noDownstream">checkbox</a> above.
           </div>
         </div>
 
