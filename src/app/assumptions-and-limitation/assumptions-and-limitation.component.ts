@@ -4,6 +4,7 @@ import { siteTypeInfo } from '../estimation/estimate-downstream-emissions';
 import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
 import { DecimalPipe } from '@angular/common';
 import { CarbonIntensityService } from '../services/carbon-intensity.service';
+import { desktop, laptop, mobile, monitor, network, server, tablet } from '../estimation/device-type';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
@@ -40,6 +41,36 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
     data: siteTypeInfo[purpose].averageMonthlyUserData,
   }));
   readonly locationCarbonInfo;
+  readonly deviceInfo = [
+    {
+      name: 'Laptop',
+      info: laptop,
+    },
+    {
+      name: 'Desktop',
+      info: desktop,
+    },
+    {
+      name: 'Server',
+      info: server,
+    },
+    {
+      name: 'Network',
+      info: network,
+    },
+    {
+      name: 'Mobile',
+      info: mobile,
+    },
+    {
+      name: 'Tablet',
+      info: tablet,
+    },
+    {
+      name: 'Monitor',
+      info: monitor,
+    },
+  ];
 
   @ViewChild('assumptionsLimitation', { static: true }) public assumptionsLimitation!: ElementRef<HTMLDivElement>;
 
