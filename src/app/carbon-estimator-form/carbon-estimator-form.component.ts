@@ -172,6 +172,10 @@ export class CarbonEstimatorFormComponent implements OnInit {
     this.estimatorForm.reset();
   }
 
+  public get monthlyActiveUsers() {
+    return this.estimatorForm.get('downstream.monthlyActiveUsers');
+  }
+
   private refreshPreviewServerCount() {
     if (this.estimateServerCount) {
       this.previewServerCount = this.estimationService.estimateServerCount(
