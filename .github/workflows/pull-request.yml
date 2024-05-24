@@ -1,0 +1,23 @@
+name: PR Workflow
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Build app
+        run: npm run build
+  unit_tests:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Run tests
+        run: npm test
