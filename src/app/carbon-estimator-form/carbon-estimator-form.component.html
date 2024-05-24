@@ -197,14 +197,12 @@
             id="monthlyActiveUsers"
             min="1"
             aria-describedby="monthlyActiveUsersError" />
-          <p
-            *ngIf="monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)"
-            class="tce-text-error-red tce-flex tce-gap-1"
-            aria-live="polite"
-            id="monthlyActiveUsersError">
-            <span class="material-icons-outlined tce-flex">error</span>Must be greater than 0. To specify no external
-            users, use the <a class="tce-underline" href="#noDownstream">checkbox</a> above.
-          </p>
+          @if (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)) {
+            <p class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
+              <span class="material-icons-outlined tce-flex">error</span>Must be greater than 0. To specify no external
+              users, use the <a class="tce-underline" href="#noDownstream">checkbox</a> above.
+            </p>
+          }
         </div>
 
         <div class="tce-flex tce-flex-col tce-gap-2">
