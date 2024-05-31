@@ -22,12 +22,12 @@ describe('CarbonEstimationComponent', () => {
       version: '1.0',
       upstreamEmissions: {
         software: 7,
-        user: 6,
+        employee: 6,
         network: 6,
         server: 6,
       },
       directEmissions: {
-        user: 9,
+        employee: 9,
         network: 8,
         server: 8,
       },
@@ -118,7 +118,7 @@ describe('CarbonEstimationComponent', () => {
             meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
           },
           {
-            x: 'User Hardware',
+            x: 'Employee Hardware',
             y: 6,
             meta: { svg: 'devices-logo', parent: 'Upstream Emissions' },
           },
@@ -139,7 +139,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'User Devices',
+            x: 'Employee Devices',
             y: 9,
             meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },
@@ -206,12 +206,12 @@ describe('CarbonEstimationComponent', () => {
       version: '1.0',
       upstreamEmissions: {
         software: 0.2,
-        user: 0.1,
+        employee: 0.1,
         network: 0.1,
         server: 0.1,
       },
       directEmissions: {
-        user: 34.5,
+        employee: 34.5,
         network: 8,
         server: 8,
       },
@@ -237,12 +237,12 @@ describe('CarbonEstimationComponent', () => {
       version: '1.0',
       upstreamEmissions: {
         software: 25,
-        user: 0,
+        employee: 0,
         network: 0,
         server: 0,
       },
       directEmissions: {
-        user: 25,
+        employee: 25,
         network: 0,
         server: 0,
       },
@@ -277,7 +277,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'User Devices',
+            x: 'Employee Devices',
             y: 25,
             meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },
@@ -315,12 +315,12 @@ describe('CarbonEstimationComponent', () => {
       version: '1.0',
       upstreamEmissions: {
         software: 50,
-        user: 0,
+        employee: 0,
         network: 0,
         server: 0,
       },
       directEmissions: {
-        user: 50,
+        employee: 50,
         network: 0,
         server: 0,
       },
@@ -355,7 +355,7 @@ describe('CarbonEstimationComponent', () => {
         color: '#CB3775',
         data: [
           {
-            x: 'User Devices',
+            x: 'Employee Devices',
             y: 50,
             meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
           },

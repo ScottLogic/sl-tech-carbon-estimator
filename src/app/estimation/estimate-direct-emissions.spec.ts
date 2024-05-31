@@ -14,7 +14,7 @@ describe('estimateDirectEmissions', () => {
 
   it('should return no emissions for an empty list', () => {
     expect(estimateDirectEmissions([])).toEqual({
-      user: 0,
+      employee: 0,
       server: 0,
       network: 0,
     });
@@ -22,13 +22,13 @@ describe('estimateDirectEmissions', () => {
 
   it('should allocate emissions to relevant category', () => {
     const deviceUsage: DeviceUsage[] = [
-      createDirectDeviceUsageStub('user', 1),
+      createDirectDeviceUsageStub('employee', 1),
       createDirectDeviceUsageStub('server', 2),
       createDirectDeviceUsageStub('network', 3),
     ];
 
     expect(estimateDirectEmissions(deviceUsage)).toEqual({
-      user: 1,
+      employee: 1,
       server: 2,
       network: 3,
     });
@@ -36,12 +36,12 @@ describe('estimateDirectEmissions', () => {
 
   it('should total multiple emissions in the same category', () => {
     const deviceUsage: DeviceUsage[] = [
-      createDirectDeviceUsageStub('user', 1),
-      createDirectDeviceUsageStub('user', 2),
-      createDirectDeviceUsageStub('user', 3),
+      createDirectDeviceUsageStub('employee', 1),
+      createDirectDeviceUsageStub('employee', 2),
+      createDirectDeviceUsageStub('employee', 3),
     ];
     expect(estimateDirectEmissions(deviceUsage)).toEqual({
-      user: 6,
+      employee: 6,
       server: 0,
       network: 0,
     });

@@ -15,7 +15,7 @@ describe('TechCarbonEstimatorComponent', () => {
         version: '0.0.0',
         upstreamEmissions: {
           software: 0,
-          user: 10,
+          employee: 10,
           network: 10,
           server: 5,
         },
@@ -25,7 +25,7 @@ describe('TechCarbonEstimatorComponent', () => {
           cloud: 25,
         },
         directEmissions: {
-          user: 10,
+          employee: 10,
           network: 10,
           server: 5,
         },
