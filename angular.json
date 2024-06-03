@@ -40,6 +40,8 @@
               ],
               "baseHref": "/sl-tech-carbon-estimator/"
             },
+            "npm-package": {
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -53,6 +55,9 @@
           "configurations": {
             "production": {
               "buildTarget": "tech-carbon-estimator:build:production"
+            },
+            "npm-package": {
+              "buildTarget": "tech-carbon-estimator:build:npm-package"
             },
             "development": {
               "buildTarget": "tech-carbon-estimator:build:development"

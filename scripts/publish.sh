@@ -34,7 +34,7 @@ fi
 rm -rf /dist/tech-carbon-estimator
 
 # Build and test
-npm run build
+npm run prepare
 
 npm run test
 
