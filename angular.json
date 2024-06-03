@@ -21,7 +21,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico"],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.css", "src/sl-styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -41,6 +41,8 @@
               "baseHref": "/sl-tech-carbon-estimator/"
             },
             "npm-package": {
+              "assets": [],
+              "styles": ["src/styles.css"]
             },
             "development": {
               "optimization": false,
