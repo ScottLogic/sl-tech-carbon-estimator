@@ -22,3 +22,14 @@
 input {
   accent-color: var(--primary-turquoise);
 }
+
+.tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
+  color: var(--primary-charcoal);
+  border-color: var(--primary-turquoise);
+  @apply tce-rounded-none tce-border-b-4 tce-bg-transparent
+}
+
+.tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {
+  background-color: var(--primary-turquoise);
+  @apply tce-text-white
+}

@@ -5,3 +5,11 @@
 .tce-note {
   @apply tce-bg-sky-200 tce-border-sky-400 tce-text-slate-800
 }
+
+.tce-button-calculate, .tce-button-close {
+  @apply tce-bg-sky-800 tce-text-white hover:tce-bg-sky-900 tce-rounded
+}
+
+.tce-button-reset, .tce-button-assumptions {
+  @apply tce-bg-slate-200 tce-text-slate-800 hover:tce-bg-slate-300 tce-rounded
+}
