@@ -15,7 +15,7 @@ describe('estimateUpstreamEmissions', () => {
   it('should return no emissions for an empty list', () => {
     expect(estimateUpstreamEmissions([])).toEqual({
       software: 0,
-      user: 0,
+      employee: 0,
       server: 0,
       network: 0,
     });
@@ -23,14 +23,14 @@ describe('estimateUpstreamEmissions', () => {
 
   it('should allocate emissions to relevant category', () => {
     const deviceUsage: DeviceUsage[] = [
-      createUpstreamDeviceUsageStub('user', 1),
+      createUpstreamDeviceUsageStub('employee', 1),
       createUpstreamDeviceUsageStub('server', 2),
       createUpstreamDeviceUsageStub('network', 3),
     ];
 
     expect(estimateUpstreamEmissions(deviceUsage)).toEqual({
       software: 0,
-      user: 1,
+      employee: 1,
       server: 2,
       network: 3,
     });
@@ -38,13 +38,13 @@ describe('estimateUpstreamEmissions', () => {
 
   it('should total multiple emissions in the same category', () => {
     const deviceUsage: DeviceUsage[] = [
-      createUpstreamDeviceUsageStub('user', 1),
-      createUpstreamDeviceUsageStub('user', 2),
-      createUpstreamDeviceUsageStub('user', 3),
+      createUpstreamDeviceUsageStub('employee', 1),
+      createUpstreamDeviceUsageStub('employee', 2),
+      createUpstreamDeviceUsageStub('employee', 3),
     ];
     expect(estimateUpstreamEmissions(deviceUsage)).toEqual({
       software: 0,
-      user: 6,
+      employee: 6,
       server: 0,
       network: 0,
     });

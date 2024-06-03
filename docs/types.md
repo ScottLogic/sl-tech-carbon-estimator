@@ -98,7 +98,7 @@ This contains the data as entered on the main form, which uses Angular FormGroup
 classDiagram
   class DeviceCategory {
     <<union>>
-    'user'
+    'employee'
     'server'
     'network'
   }
@@ -125,7 +125,7 @@ classDiagram
 
   class UpstreamEstimation {
     software: number
-    user: number
+    employee: number
     network: number
     server: number
   }
@@ -135,7 +135,7 @@ classDiagram
     managed: number
   }
   class DirectEstimation {
-    user: number
+    employee: number
     network: number
     server: number
   }
