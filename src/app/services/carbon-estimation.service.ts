@@ -62,7 +62,7 @@ export class CarbonEstimationService {
     const desktopCount = calculateCeilingPercentage(desktopPercent, headCount);
     const laptopCount = calculateCeilingPercentage(laptopPercent, headCount);
     const serverCount = this.estimateServerCount(formValue);
-    const employeeNetworkCount = estimateNetworkDeviceCount(desktopCount);
+    const employeeNetworkCount = estimateNetworkDeviceCount(desktopCount + laptopCount);
     const serverNetworkCount = estimateNetworkDeviceCount(serverCount);
     const monitorCount = headCount;
 
@@ -75,7 +75,7 @@ export class CarbonEstimationService {
     return [
       createDeviceUsage(desktop, 'employee', employeeIntensity, desktopCount),
       createDeviceUsage(laptop, 'employee', employeeIntensity, laptopCount),
-      createDeviceUsage(network, 'network', employeeIntensity, employeeNetworkCount, ON_PREMISE_AVERAGE_PUE),
+      createDeviceUsage(network, 'network', employeeIntensity, employeeNetworkCount),
       createDeviceUsage(server, 'server', onPremIntensity, serverCount, ON_PREMISE_AVERAGE_PUE),
       createDeviceUsage(network, 'network', onPremIntensity, serverNetworkCount, ON_PREMISE_AVERAGE_PUE),
       createDeviceUsage(monitor, 'employee', employeeIntensity, monitorCount),
@@ -107,7 +107,7 @@ function calculateCeilingPercentage(percentage: number, value: number) {
 }
 
 function estimateNetworkDeviceCount(deviceCount: number) {
-  return Math.ceil(deviceCount / 2);
+  return Math.ceil(deviceCount / 16);
 }
 
 function formatObject(input: unknown): string {

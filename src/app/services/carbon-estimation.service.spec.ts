@@ -188,14 +188,14 @@ describe('CarbonEstimationService', () => {
       const result = service.calculateCarbonEstimation(hardwareInput);
       expectPartialEstimationCloseTo(result, {
         upstreamEmissions: {
-          employee: 5.78,
-          server: 7.64,
-          network: 3.43,
+          employee: 6.53,
+          server: 8.64,
+          network: 3.87,
         },
         directEmissions: {
-          employee: 2.89,
-          server: 58.37,
-          network: 21.89,
+          employee: 3.27,
+          server: 65.97,
+          network: 11.72,
         },
       });
     });
@@ -217,14 +217,14 @@ describe('CarbonEstimationService', () => {
       const result = service.calculateCarbonEstimation(hardwareInput);
       expectPartialEstimationCloseTo(result, {
         upstreamEmissions: {
-          employee: 6.21,
-          server: 8.21,
-          network: 3.68,
+          employee: 6.8,
+          server: 8.99,
+          network: 4.03,
         },
         directEmissions: {
-          employee: 1.55,
-          server: 62.71,
-          network: 17.64,
+          employee: 1.7,
+          server: 68.65,
+          network: 9.83,
         },
       });
     });
