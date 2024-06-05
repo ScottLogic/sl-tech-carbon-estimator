@@ -33,8 +33,10 @@ def test_example(page: Page) -> None:
     # Enter number into “Number of Servers” 
     page.get_by_label("Number of Servers:").fill("555")
     # Then keep all remaining input at default 
-    expect(page.get_by_label("Where are they primarily")).to_have_value("global");
-    
+    page.get_by_label("Where are they primarily").select_option("GBR")
+    page.get_by_label("Where are they primarily").select_option("WORLD")
+
+
     # Cloud
     expect(page.get_by_role("heading", name="Cloud Services")).to_be_visible()
     expect(page.get_by_text("Tell us about your cloud")).to_be_visible()
@@ -42,46 +44,51 @@ def test_example(page: Page) -> None:
     expect(page.get_by_label("We don't use cloud services")).not_to_be_checked()
     expect(page.get_by_text("What percentage of your servers are cloud services vs on-premise?")).to_be_visible()
     expect(page.get_by_text("Cloud 50%")).to_be_visible()
-    expect(page.get_by_text("On-prem 50%")).to_be_visible()
-    expect(page.get_by_text("Where are your cloud servers")).to_be_visible()
-    expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
+    expect(page.get_by_text("On-premise 50%")).to_be_visible()
+    expect(page.get_by_label("Where are your cloud servers")).to_be_visible()
+    page.get_by_label("Where are your cloud servers").select_option("GBR")
+    page.get_by_label("Where are your cloud servers").select_option("WORLD")
     expect(page.get_by_text("We have derived a rough")).to_be_visible()
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
     expect(page.get_by_label("What is your monthly cloud")).to_have_value("0: Object");
     
     # Users
-    expect(page.get_by_role("heading", name="Users")).to_be_visible()
-    expect(page.get_by_text("Tell us about your users. At")).to_be_visible()
-    expect(page.get_by_text("Where are your users")).to_be_visible()
-    expect(page.get_by_label("Where are your users")).to_have_value("global");
+    expect(page.get_by_role("heading", name="End-Users")).to_be_visible()
+    expect(page.get_by_text("Tell us about your end-users -")).to_be_visible()
+    expect(page.get_by_text("Where are your end-users")).to_be_visible()
+    page.get_by_label("Where are your end-users primarily located?", exact=True).select_option("Globally")
     expect(page.get_by_text("How many monthly active users")).to_be_visible()
     expect(page.get_by_label("How many monthly active users")).to_have_value("100");
-    expect(page.get_by_text("What percentage of your users")).to_be_visible()
+    expect(page.get_by_text("What percentage of your end-users")).to_be_visible()
     expect(page.get_by_text("Mobile 50%")).to_be_visible()
     expect(page.get_by_text("Computer 50%")).to_be_visible()
-    expect(page.get_by_text("What's the purpose of your")).to_be_visible()
-    expect(page.get_by_label("What's the purpose of your")).to_have_value("average");
+    expect(page.get_by_text("What's the primary purpose of")).to_be_visible()
+    page.get_by_label("What's the primary purpose of").select_option("socialMedia")
+    page.get_by_label("What's the primary purpose of").select_option("average")
     
     # Calculate
     # Calculate outcome and make sure it matches spreadsheet
     page.get_by_role("button", name="Calculate").click()
-    expect(page.get_by_text("Upstream Emissions:")).to_be_visible()
-    expect(page.get_by_text("18%")).to_be_visible()
-    expect(page.get_by_text("Indirect Emissions:")).to_be_visible()
-    expect(page.get_by_text("0%", exact=True).first).to_be_visible()
-    expect(page.get_by_text("Direct Emissions:", exact=True)).to_be_visible()
-    expect(page.get_by_text("82%")).to_be_visible()
-    expect(page.get_by_text("Downstream Emissions:")).to_be_visible()
-    expect(page.get_by_text("0%", exact=True).last).to_be_visible() #####
+    expect(page.locator("foreignobject")).to_contain_text("Upstream Emissions - 13%")
+    expect(page.locator("foreignobject")).to_contain_text("Direct Emissions - 87%")
+    expect(page.locator("foreignobject")).to_contain_text("Indirect Emissions - <1%")
+    expect(page.locator("foreignobject")).to_contain_text("Downstream Emissions - <1%")
+    
+
+    
+    ##############################################################################
     
     # On Prem
     # Then for "Number of Servers:" click “I don’t know”
-    expect(page.get_by_label("I don't know")).not_to_be_checked()
     page.get_by_label("I don't know").check()
-    expect(page.locator("sl-note")).to_contain_text("We'll make an assumption about the number of servers based on your number of employees and cloud usage (~5 on-prem servers).")
+    expect(page.get_by_text("info", exact=True)).to_be_visible()
+    expect(page.get_by_text("We'll make an assumption")).to_be_visible()
     expect(page.get_by_text("Number of Servers:")).to_be_visible()
     expect(page.get_by_label("Number of Servers:")).to_be_disabled()
-    expect(page.get_by_label("Where are they primarily")).to_have_value("global");
+    expect(page.get_by_text("Where are they primarily")).to_be_visible()
+    page.get_by_label("Where are they primarily located?", exact=True).press("Enter")
+    page.get_by_label("Where are they primarily located?", exact=True).select_option("in the UK")
+    page.get_by_label("Where are they primarily located?", exact=True).select_option("Globally")    
     
     # Cloud
     expect(page.get_by_role("heading", name="Cloud Services")).to_be_visible()
@@ -90,35 +97,36 @@ def test_example(page: Page) -> None:
     expect(page.get_by_label("We don't use cloud services")).not_to_be_checked()
     expect(page.get_by_text("What percentage of your servers are cloud services vs on-premise?")).to_be_visible()
     expect(page.get_by_text("Cloud 50%")).to_be_visible()
-    expect(page.get_by_text("On-prem 50%")).to_be_visible()
+    expect(page.get_by_text("On-premise 50%")).to_be_visible()
     expect(page.get_by_text("Where are your cloud servers")).to_be_visible()
-    expect(page.get_by_label("Where are your cloud servers")).to_have_value("global");
+    expect(page.get_by_label("Where are your cloud servers")).to_have_value("WORLD");
     expect(page.get_by_text("We have derived a rough")).to_be_visible()
     expect(page.get_by_text("What is your monthly cloud")).to_be_visible()
     expect(page.get_by_label("What is your monthly cloud")).to_have_value("0: Object");
     
     # Users
-    expect(page.get_by_role("heading", name="Users")).to_be_visible()
-    expect(page.get_by_text("Tell us about your users. At")).to_be_visible()
-    expect(page.get_by_text("Where are your users")).to_be_visible()
-    expect(page.get_by_label("Where are your users")).to_have_value("global");
+    expect(page.get_by_role("heading", name="End-Users")).to_be_visible()
+    expect(page.get_by_text("Tell us about your end-users -")).to_be_visible()
+    expect(page.get_by_text("Where are your end-users")).to_be_visible()
+    page.get_by_label("Where are your end-users primarily located?", exact=True).select_option("Globally")
     expect(page.get_by_text("How many monthly active users")).to_be_visible()
     expect(page.get_by_label("How many monthly active users")).to_have_value("100");
-    expect(page.get_by_text("What percentage of your users")).to_be_visible()
+    expect(page.get_by_text("What percentage of your end-users")).to_be_visible()
     expect(page.get_by_text("Mobile 50%")).to_be_visible()
     expect(page.get_by_text("Computer 50%")).to_be_visible()
-    expect(page.get_by_text("What's the purpose of your")).to_be_visible()
-    expect(page.get_by_label("What's the purpose of your")).to_have_value("average");
+    expect(page.get_by_text("What's the primary purpose of")).to_be_visible()
+    page.get_by_label("What's the primary purpose of").select_option("information")
+    page.get_by_label("What's the primary purpose of").select_option("average")
     
-    # Organisation
+    # Calculate
     # Calculate outcome and make sure it matches spreadsheet
     page.get_by_role("button", name="Calculate").click()
-    expect(page.get_by_text("Upstream Emissions:")).to_be_visible()
-    expect(page.get_by_text("31%")).to_be_visible()
-    expect(page.get_by_text("Indirect Emissions:")).to_be_visible()
-    expect(page.get_by_text("0%", exact=True).first).to_be_visible()
-    expect(page.get_by_text("Direct Emissions:", exact=True)).to_be_visible()
-    expect(page.get_by_text("68%")).to_be_visible()
-    expect(page.get_by_text("Downstream Emissions:")).to_be_visible()
-    expect(page.get_by_text("1%", exact=True)).to_be_visible()
+    expect(page.locator("foreignobject")).to_contain_text("Upstream Emissions - 29%")
+    expect(page.locator("foreignobject")).to_contain_text("Direct Emissions - 70%")
+    expect(page.locator("foreignobject")).to_contain_text("Indirect Emissions - <1%")
+    expect(page.locator("foreignobject")).to_contain_text("Downstream Emissions - <1%")
+    
+
+    
+    ##############################################################################
 
