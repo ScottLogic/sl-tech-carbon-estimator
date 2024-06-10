@@ -1,4 +1,4 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
+<form [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
   <div formGroupName="upstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
 
@@ -235,9 +235,13 @@
 
   <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
     <button
-      class="tce-button-calculate tce-px-3 tce-py-2 disabled:tce-opacity-50 disabled:tce-cursor-not-allowed"
-      type="submit"
-      [disabled]="!estimatorForm.valid">
+      class="{{
+        'tce-button-calculate tce-px-3 tce-py-2' +
+          (!estimatorForm.valid ? ' tce-opacity-50 tce-cursor-not-allowed' : '')
+      }}"
+      type="button"
+      [attr.aria-disabled]="!estimatorForm.valid"
+      (click)="handleSubmit()">
       Calculate
     </button>
     <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
