@@ -248,17 +248,12 @@
 
   <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
     <button
-      class="tce-px-3 tce-py-2 tce-bg-sky-800 tce-text-white tce-rounded disabled:tce-opacity-50 disabled:tce-cursor-not-allowed hover:tce-bg-sky-900"
+      class="tce-button-calculate tce-px-3 tce-py-2 disabled:tce-opacity-50 disabled:tce-cursor-not-allowed"
       type="submit"
       [disabled]="!estimatorForm.valid">
       Calculate
     </button>
-    <button
-      class="tce-px-3 tce-py-2 tce-bg-slate-200 tce-text-slate-800 tce-rounded hover:tce-bg-slate-300"
-      type="button"
-      (click)="resetForm()">
-      Reset
-    </button>
+    <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
   </div>
 
   <ng-template

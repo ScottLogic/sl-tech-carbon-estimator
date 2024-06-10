@@ -11,7 +11,7 @@ export type CarbonEstimation = {
 
 export type UpstreamEstimation = {
   software: number;
-  user: number;
+  employee: number;
   network: number;
   server: number;
 };
@@ -21,7 +21,7 @@ export type IndirectEstimation = {
   managed: number;
 };
 export type DirectEstimation = {
-  user: number;
+  employee: number;
   network: number;
   server: number;
 };
@@ -87,7 +87,7 @@ export type Downstream = {
   purposeOfSite: PurposeOfSite;
 };
 
-export type DeviceCategory = 'user' | 'server' | 'network';
+export type DeviceCategory = 'employee' | 'server' | 'network';
 
 export const locationArray = [
   'WORLD',

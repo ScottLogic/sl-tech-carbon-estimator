@@ -3,7 +3,7 @@ import { DeviceUsage } from './device-usage';
 
 export function estimateUpstreamEmissions(deviceUsage: DeviceUsage[]): UpstreamEstimation {
   const result: Record<DeviceCategory, number> = {
-    user: 0,
+    employee: 0,
     server: 0,
     network: 0,
   };

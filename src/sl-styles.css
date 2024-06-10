@@ -1,0 +1,35 @@
+:root {
+  --primary-charcoal: #252525;
+  --primary-turquoise: #2bb3bb;
+  --primary-pink: #c41565;
+  --primary-orange: #ef8547;
+  --secondary-yellow: #f8be4f;
+  --secondary-green: #7fc45f;
+  --secondary-turquoise: #dff0f3;
+  --secondary-pink: #f9eaf1;
+  --secondary-orange: #fdede4;
+  --secondary-light-yellow: #fef9ef;
+  --secondary-light-green: #f2faef;
+  color: var(--primary-charcoal);
+}
+
+.tce-note {
+  background-color: var(--secondary-turquoise);
+  border-color: var(--primary-turquoise);
+  color: var(--primary-charcoal);
+}
+
+input {
+  accent-color: var(--primary-turquoise);
+}
+
+.tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
+  color: var(--primary-charcoal);
+  border-color: var(--primary-turquoise);
+  @apply tce-rounded-none tce-border-b-[3px] tce-bg-transparent tce-p-0.5
+}
+
+.tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {
+  background-color: var(--primary-turquoise);
+  @apply tce-text-white
+}
