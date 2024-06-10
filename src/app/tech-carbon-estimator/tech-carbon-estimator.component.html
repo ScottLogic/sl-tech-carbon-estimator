@@ -11,6 +11,7 @@
       <carbon-estimator-form
         [formValue]="formValue"
         (formSubmit)="handleFormSubmit($event)"
+        (formReset)="handleFormReset()"
         class="tce-w-full md:tce-w-1/2 tce-pb-4 md:tce-pb-0 md:tce-pr-4"></carbon-estimator-form>
     }
     @if (showEstimation) {
