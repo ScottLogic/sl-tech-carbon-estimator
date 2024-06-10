@@ -23,7 +23,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
   selector: 'carbon-estimator-form',
   standalone: true,
   templateUrl: './carbon-estimator-form.component.html',
-  styles: ['input.ng-touched.ng-invalid { border-color: red; }'],
+  styles: ['input.ng-touched.ng-invalid { border-color: theme("colors.error-red"); }'],
   imports: [
     ReactiveFormsModule,
     FormsModule,
@@ -170,6 +170,14 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
+  }
+
+  public get headCount() {
+    return this.estimatorForm.get('upstream.headCount');
+  }
+
+  public get monthlyActiveUsers() {
+    return this.estimatorForm.get('downstream.monthlyActiveUsers');
   }
 
   private refreshPreviewServerCount() {

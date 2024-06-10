@@ -13,7 +13,13 @@
           formControlName="headCount"
           name="headCount"
           type="number"
-          min="1" />
+          min="1"
+          aria-describedby="headCountError" />
+        @if (headCount?.invalid && (headCount?.dirty || headCount?.touched)) {
+          <p class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
+            <span class="material-icons-outlined tce-flex">error</span>The number of employees must be greater than 0.
+          </p>
+        }
       </div>
 
       <div class="tce-flex tce-flex-col tce-gap-2">
@@ -195,7 +201,14 @@
             name="monthlyActiveUsers"
             type="number"
             id="monthlyActiveUsers"
-            min="1" />
+            min="1"
+            aria-describedby="monthlyActiveUsersError" />
+          @if (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)) {
+            <p class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
+              <span class="material-icons-outlined tce-flex">error</span>Monthly active users must be greater than 0. To
+              specify no external users, use the <a class="tce-underline" href="#noDownstream">checkbox</a> above.
+            </p>
+          }
         </div>
 
         <div class="tce-flex tce-flex-col tce-gap-2">

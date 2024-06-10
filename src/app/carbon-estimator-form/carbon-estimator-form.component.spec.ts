@@ -38,4 +38,18 @@ describe('CarbonEstimatorFormComponent', () => {
       expect(component.estimatorForm.valid).toBeTruthy();
     });
   });
+
+  describe('headCount()', () => {
+    it('should not return null once the component is initialized', () => {
+      component.ngOnInit();
+      expect(component.headCount).not.toBe(null);
+    });
+  });
+
+  describe('monthlyActiveUsers()', () => {
+    it('should not return null once the component is initialized', () => {
+      component.ngOnInit();
+      expect(component.monthlyActiveUsers).not.toBe(null);
+    });
+  });
 });
