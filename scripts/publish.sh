@@ -57,9 +57,9 @@ npm pack
 publishFile=scottlogic-tech-carbon-estimator-"${version}".tgz
 
 if [ "$dryRun" = 'true' ]; then
-  npm publish $publishFile --dry-run
+  npm publish $publishFile --access public --dry-run
 else
-  npm publish $publishFile
+  npm publish $publishFile --access public
 fi
 
 echo "Published version $version to npm, run git push --follow-tags to push version update to git"
