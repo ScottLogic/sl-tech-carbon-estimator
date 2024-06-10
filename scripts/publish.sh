@@ -54,7 +54,7 @@ npm pkg set main=main.js
 
 npm pack
 
-publishFile=tech-carbon-estimator-"${version}".tgz
+publishFile=scottlogic-tech-carbon-estimator-"${version}".tgz
 
 if [ "$dryRun" = 'true' ]; then
   npm publish $publishFile --dry-run
