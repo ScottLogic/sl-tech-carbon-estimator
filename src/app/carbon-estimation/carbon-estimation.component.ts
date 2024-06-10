@@ -154,8 +154,8 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
         return this.getDataItemObject('Software - Off the Shelf', value, SVG.WEB, parent);
       case 'saas':
         return this.getDataItemObject('SaaS', value, SVG.WEB, parent);
-      case 'user':
-        return this.getDataItemObject(this.getUserLabel(parent), value, SVG.DEVICES, parent);
+      case 'employee':
+        return this.getDataItemObject(this.getEmployeeLabel(parent), value, SVG.DEVICES, parent);
       case 'endUser':
         return this.getDataItemObject('End-User Devices', value, SVG.DEVICES, parent);
       case 'network':
@@ -184,12 +184,12 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     };
   }
 
-  private getUserLabel(key: string): string {
+  private getEmployeeLabel(key: string): string {
     switch (key) {
       case 'Upstream Emissions':
-        return 'User Hardware';
+        return 'Employee Hardware';
       case 'Direct Emissions':
-        return 'User Devices';
+        return 'Employee Devices';
       default:
         return startCase(key);
     }

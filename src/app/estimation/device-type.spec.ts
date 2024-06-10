@@ -44,11 +44,11 @@ describe('Device type of server', () => {
 
 describe('Device type of network', () => {
   it('Estimates kWh of 1 network device', () => {
-    expect(network.estimateYearlyEnergy(1)).toBeCloseTo(1314);
+    expect(network.estimateYearlyEnergy(1)).toBeCloseTo(762.12);
   });
 
-  it('Estimates kWh of 30 desktops', () => {
-    expect(network.estimateYearlyEnergy(30)).toBeCloseTo(39420);
+  it('Estimates kWh of 30 network devices', () => {
+    expect(network.estimateYearlyEnergy(30)).toBeCloseTo(22863.6);
   });
 
   it('Estimates upstream emissions of 1 network device', () => {

@@ -34,7 +34,7 @@ fi
 rm -rf /dist/tech-carbon-estimator
 
 # Build and test
-npm run build
+npm run prepare
 
 npm run test
 
@@ -48,7 +48,7 @@ cp README.md package.json ./dist/tech-carbon-estimator/
 
 cd dist/tech-carbon-estimator
 
-npm pkg delete scripts private devDependencies
+npm pkg delete scripts private devDependencies files
 
 npm pkg set main=main.js
 

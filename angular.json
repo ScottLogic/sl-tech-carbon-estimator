@@ -20,8 +20,8 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [],
-            "styles": ["src/styles.css"],
+            "assets": ["src/favicon.ico"],
+            "styles": ["src/styles.css", "src/sl-styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -40,6 +40,10 @@
               ],
               "baseHref": "/sl-tech-carbon-estimator/"
             },
+            "npm-package": {
+              "assets": [],
+              "styles": ["src/styles.css"]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -53,6 +57,9 @@
           "configurations": {
             "production": {
               "buildTarget": "tech-carbon-estimator:build:production"
+            },
+            "npm-package": {
+              "buildTarget": "tech-carbon-estimator:build:npm-package"
             },
             "development": {
               "buildTarget": "tech-carbon-estimator:build:development"

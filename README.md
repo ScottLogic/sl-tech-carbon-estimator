@@ -16,9 +16,19 @@ You will need to import the following files to use the tech-carbon-estimator:
 
 These files can be found under dist/tech-carbon-estimator when developing locally.
 
+## Installing Dependencies
+
+To run the following `ng` commands, you will need to have the Angular CLI installed globally. This requires that you have [Node.js](https://nodejs.org) installed and then run the following command from any directory:
+
+```bash
+npm install -g @angular/cli
+```
+
+You will also need to run `npm install` from the root directory of this repository.
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files. You can also run `ng serve --open` to automatically open the application in a browser tab.
 
 ## Code scaffolding
 
@@ -30,7 +40,11 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
+
+## GitHub Actions
+
+The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. If you would like to skip running the workflow for a given push to a PR branch there are [various ways](https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs) this can be achieved. For example, adding `[skip ci]` to the end of the commit message in the push (e.g. `git commit -m "My message [skip ci]"`) will skip running the workflow for that push.
 
 ## Further help
 
