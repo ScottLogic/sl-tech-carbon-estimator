@@ -17,7 +17,7 @@
           aria-describedby="headCountError" />
         @if (headCount?.invalid && (headCount?.dirty || headCount?.touched)) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
-            <span class="material-icons-outlined tce-flex">error</span>
+            <span class="material-icons-outlined">error</span>
             <p>The number of employees must be greater than 0.</p>
           </div>
         }
@@ -206,7 +206,7 @@
             aria-describedby="monthlyActiveUsersError" />
           @if (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)) {
             <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
-              <span class="material-icons-outlined tce-flex">error</span>
+              <span class="material-icons-outlined">error</span>
               <p>
                 Monthly active users must be greater than 0. To specify no external users, use the
                 <a class="tce-underline" href="#noDownstream">checkbox</a> above.
