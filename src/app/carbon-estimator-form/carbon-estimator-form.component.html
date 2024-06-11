@@ -235,10 +235,8 @@
 
   <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
     <button
-      class="{{
-        'tce-button-calculate tce-px-3 tce-py-2' +
-          (!estimatorForm.valid ? ' tce-opacity-50 tce-cursor-not-allowed' : '')
-      }}"
+      class="tce-button-calculate tce-px-3 tce-py-2"
+      [ngClass]="!estimatorForm.valid ? 'tce-opacity-50 tce-cursor-not-allowed' : ''"
       type="submit"
       [attr.aria-disabled]="!estimatorForm.valid">
       Calculate
