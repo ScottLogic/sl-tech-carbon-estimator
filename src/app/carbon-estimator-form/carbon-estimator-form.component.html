@@ -16,9 +16,10 @@
           min="1"
           aria-describedby="headCountError" />
         @if (headCount?.invalid && (headCount?.dirty || headCount?.touched)) {
-          <p class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
-            <span class="material-icons-outlined tce-flex">error</span>The number of employees must be greater than 0.
-          </p>
+          <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
+            <span class="material-icons-outlined tce-flex">error</span>
+            <p>The number of employees must be greater than 0.</p>
+          </div>
         }
       </div>
 
