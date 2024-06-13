@@ -65,7 +65,7 @@ Tests can be run in different browsers (Use `chromium` for Chrome, `firefox` for
 Example: `pytest test_2_EstTool_HappyPath_Default.py --browser=firefox --headed`
 
 Note: All tests are pointing to `http://localhost:4200/`, if there is an issue with this (possibly 4200 may already be in use) then you may be directed to a different url, example `http://localhost:5600/`
-If this is the case then then the code within each individual test to be run may need updated to match with localhost address otherwise the test(s) will fail. No global file was available to cover this scenario.
+If this is the case then then the code within each individual test to be run may need to be updated to match the localhost address otherwise the test(s) will fail. No global file was available to cover this scenario.
 
 # Running Carbon Estimator Tool
 
