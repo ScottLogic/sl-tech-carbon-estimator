@@ -69,10 +69,10 @@ describe('CarbonEstimationComponent', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(2000, 1000);
+    component.onResize(2000, 1000, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 2000 - estimatorBaseHeight - 200 },
+      chart: { height: 2000 * 0.7 }, // Height will be capped at screenHeight * 0.7
     });
   });
 
@@ -80,7 +80,7 @@ describe('CarbonEstimationComponent', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(1000, 500);
+    component.onResize(1000, 500, 1000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: 1000 - estimatorBaseHeight - 200 + estimatorHeights.title },
