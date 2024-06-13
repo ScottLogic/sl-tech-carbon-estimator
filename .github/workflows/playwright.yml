@@ -1,0 +1,28 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+    - name: Set up environment
+      uses: ./.github/actions/set-up-environment
+    - name: Setup Python
+      uses: actions/setup-python@v5.1.0
+      with:
+        python-version: '3.11'
+    - name: Install Playwright Dependencies
+      run: npm run playwright-install
+    - name: Run Playwright tests
+      run: npm run playwright-test
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright/playwright-report/
+        retention-days: 30
