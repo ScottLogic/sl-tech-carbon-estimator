@@ -145,10 +145,14 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
     const extraHeightString = this.extraHeight();
     const extraHeight = Number(extraHeightString) || 0;
+    const maxScreenHeightRatio = 0.7;
 
     // Cap height based on screen height to prevent issues with chart becoming
     // stretched when the component is displayed in a tall iFrame
-    return Math.min(innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight, screenHeight * 0.7);
+    return Math.min(
+      innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight,
+      screenHeight * maxScreenHeightRatio
+    );
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {

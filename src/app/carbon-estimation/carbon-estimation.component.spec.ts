@@ -72,7 +72,7 @@ describe('CarbonEstimationComponent', () => {
     component.onResize(2000, 1000, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 2000 * 0.7 }, // Height will be capped at screenHeight * 0.7
+      chart: { height: 1400 }, // Height will be capped at a percentage of the screen height
     });
   });
 
