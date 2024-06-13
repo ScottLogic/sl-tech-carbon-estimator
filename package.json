@@ -1,6 +1,6 @@
 {
-  "name": "tech-carbon-estimator",
-  "version": "0.0.0",
+  "name": "@scottlogic/tech-carbon-estimator",
+  "version": "0.0.1",
   "keywords": [
     "sustainability",
     "carbon",
