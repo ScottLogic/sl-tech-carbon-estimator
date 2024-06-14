@@ -1,4 +1,5 @@
 import pytest
+import shutil
 from xprocess import ProcessStarter
 
 @pytest.fixture(autouse=True, scope="session")
@@ -8,7 +9,9 @@ def estimator_server(xprocess):
         pattern = "Application bundle generation complete."
 
         # command to start process
-        args = ['sh', 'npm', 'start']
+        args = [shutil.which('npm'), 'start']
+
+        terminate_on_interrupt = True
 
     # ensure process is running and return its logfile
     logfile = xprocess.ensure("estimator", Starter)
