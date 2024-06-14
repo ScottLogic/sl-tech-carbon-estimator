@@ -156,6 +156,9 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   public handleSubmit() {
+    if (!this.estimatorForm.valid) {
+      return;
+    }
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
       formValue.onPremise.serverLocation = 'WORLD';

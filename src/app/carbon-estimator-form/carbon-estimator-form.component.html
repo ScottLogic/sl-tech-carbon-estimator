@@ -252,9 +252,10 @@
 
   <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
     <button
-      class="tce-button-calculate tce-px-3 tce-py-2 disabled:tce-opacity-50 disabled:tce-cursor-not-allowed"
+      class="tce-button-calculate tce-px-3 tce-py-2"
+      [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': !estimatorForm.valid }"
       type="submit"
-      [disabled]="!estimatorForm.valid">
+      [attr.aria-disabled]="!estimatorForm.valid">
       Calculate
     </button>
     <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
