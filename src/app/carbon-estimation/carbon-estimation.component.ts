@@ -138,22 +138,23 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
-    let calculatedHeight: number;
-
-    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
-    if (innerWidth < 768) {
-      calculatedHeight = innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title;
-    } else {
-      const extraHeightString = this.extraHeight();
-      const extraHeight = Number(extraHeightString) || 0;
-      calculatedHeight = innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
-    }
+    const calculatedHeight = this.calculateChartHeight(innerHeight, innerWidth, expansionPanelHeight);
 
     const maxScreenHeightRatio = 0.75;
 
     // Cap chart height based on screen height to prevent issues with the chart
     // becoming stretched when the component is displayed in a tall iFrame
     return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
+  }
+
+  private calculateChartHeight(innerHeight: number, innerWidth: number, expansionPanelHeight: number) {
+    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
+    if (innerWidth < 768) {
+      return innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title;
+    }
+    const extraHeightString = this.extraHeight();
+    const extraHeight = Number(extraHeightString) || 0;
+    return innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
