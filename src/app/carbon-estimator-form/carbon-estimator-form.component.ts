@@ -39,6 +39,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
+  @Output() public formReset: EventEmitter<void> = new EventEmitter();
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
@@ -170,6 +171,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.formReset.emit();
   }
 
   public get headCount() {

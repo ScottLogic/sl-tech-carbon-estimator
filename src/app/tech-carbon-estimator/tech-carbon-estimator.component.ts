@@ -43,6 +43,10 @@ export class TechCarbonEstimatorComponent {
     this.estimations.nativeElement.scrollIntoView();
   }
 
+  public handleFormReset() {
+    this.showEstimation = false;
+  }
+
   public showAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = true;
     this.changeDetector.detectChanges();

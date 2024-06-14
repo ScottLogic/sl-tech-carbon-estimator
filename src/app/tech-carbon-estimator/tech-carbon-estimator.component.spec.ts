@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TechCarbonEstimatorComponent } from './tech-carbon-estimator.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { EstimatorValues } from '../types/carbon-estimator';
+import { By } from '@angular/platform-browser';
 
 describe('TechCarbonEstimatorComponent', () => {
   let component: TechCarbonEstimatorComponent;
@@ -91,6 +92,15 @@ describe('TechCarbonEstimatorComponent', () => {
     component.handleFormSubmit(formValue);
     expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
     expect(component.showEstimation).toBeTrue();
+  });
+
+  it('should hide estimation if form is reset', () => {
+    component.showEstimation = true;
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
+
+    expect(component.showEstimation).toBeFalse();
   });
 
   it('should scroll to top of assumptions and limitation when showAssumptionsAndLimitation is called', () => {

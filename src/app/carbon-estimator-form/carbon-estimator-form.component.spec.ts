@@ -22,6 +22,14 @@ describe('CarbonEstimatorFormComponent', () => {
     expect(component.estimatorForm.valid).toBeTruthy();
   });
 
+  it('should emit an event when reset is clicked', () => {
+    spyOn(component.formReset, 'emit');
+
+    fixture.nativeElement.querySelector('button.tce-button-reset').click();
+
+    expect(component.formReset.emit).toHaveBeenCalledTimes(1);
+  });
+
   describe('Downstream', () => {
     it('should invalidate form when monthly active users are zero', () => {
       component.ngOnInit();
