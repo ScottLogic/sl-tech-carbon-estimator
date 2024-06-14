@@ -149,10 +149,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       calculatedHeight = innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
     }
 
-    const maxScreenHeightRatio = 0.7;
+    const maxScreenHeightRatio = 0.75;
 
-    // Cap height based on screen height to prevent issues with chart becoming
-    // stretched when the component is displayed in a tall iFrame
+    // Cap chart height based on screen height to prevent issues with the chart
+    // becoming stretched when the component is displayed in a tall iFrame
     return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
   }
 
