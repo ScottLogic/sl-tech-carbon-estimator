@@ -40,8 +40,9 @@
   </p>
   <h4 class="tce-text-lg">Number of Networking Devices</h4>
   <p class="tce-text-sm">
-    At present, we estimate a number of large networking devices based on the combined number of desktop devices and
-    servers, applying a 50% ratio.
+    At present, we estimate a number of average networking devices based on the total number of devices divided by 16
+    (using this as an average number of devices supported by one network device). We calculate one count for employee
+    devices and another for servers, to account for their potentially different locations.
   </p>
   <h4 class="tce-text-lg">Power consumption</h4>
   <p class="tce-text-sm">
@@ -67,8 +68,9 @@
     </tbody>
   </table>
   <p class="tce-text-sm">
-    In the case of servers and network devices, we also apply an on-premises PUE factor of {{ ON_PREMISE_AVERAGE_PUE }},
-    based on an average across all data centers.
+    In the case of servers and their supporting network devices, we also apply an on-premises
+    <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#power-usage-effectiveness-pue">PUE</a>
+    factor of {{ ON_PREMISE_AVERAGE_PUE }}, based on an average across all data centers.
   </p>
   <h4 class="tce-text-lg">Carbon Intensity</h4>
   <p class="tce-text-sm">
@@ -129,6 +131,11 @@
   <p class="tce-text-sm tce-italic">
     * The network device figure is reverse engineered from typical yearly energy and embodied carbon ratios as published
     values are difficult to find
+  </p>
+  <p class="tce-text-sm">
+    We use the total Embodied Carbon and the lifespan to give an
+    <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#amortisation">amortised</a> yearly amount
+    of carbon.
   </p>
   <h4 class="tce-text-lg">Cloud Services</h4>
   <p class="tce-text-sm">
