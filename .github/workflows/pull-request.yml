@@ -22,7 +22,7 @@ jobs:
       - name: Run tests
         run: npm test
   playwright_tests:
-    needs: unit_tests
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
