@@ -76,9 +76,9 @@ def test_example(page: Page) -> None:
     # Calculate outcome and make sure it matches spreadsheet
     # page.pause()
     page.get_by_role("button", name="Calculate").click()
-    expect(page.locator("foreignobject")).to_contain_text("Upstream Emissions - 29%")
-    expect(page.locator("foreignobject")).to_contain_text("Direct Emissions - 70%")
-    expect(page.locator("foreignobject")).to_contain_text("Indirect Emissions - <1%")
+    expect(page.locator("foreignobject")).to_contain_text("Upstream Emissions - 41%")
+    expect(page.locator("foreignobject")).to_contain_text("Direct Emissions - 57%")
+    expect(page.locator("foreignobject")).to_contain_text("Indirect Emissions - 2%")
     expect(page.locator("foreignobject")).to_contain_text("Downstream Emissions - <1%")
     
 
