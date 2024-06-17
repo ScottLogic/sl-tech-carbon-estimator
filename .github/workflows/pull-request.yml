@@ -21,3 +21,13 @@ jobs:
         uses: ./.github/actions/set-up-environment
       - name: Run tests
         run: npm test
+  playwright_tests:
+    needs: unit_tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Run Playwright
+        uses: ./.github/actions/run-playwright
