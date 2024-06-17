@@ -13,6 +13,8 @@ def estimator_server(xprocess):
 
         terminate_on_interrupt = True
 
+        timeout = 20
+
     # ensure process is running and return its logfile
     logfile = xprocess.ensure("estimator", Starter)
 
