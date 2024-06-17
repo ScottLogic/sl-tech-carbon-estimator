@@ -2,11 +2,15 @@ name: Playwright Tests
 on:
   push:
     branches: [ main ]
-  pull_request:
+  workflow_run:
+    workflows: ['PR Workflow']
+    types: [completed]
+  workflow_dispatch:
 jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run == null || github.event.workflow_run.conclusion != 'failure' }}
     steps:
     - name: Check out code
       uses: actions/checkout@v4
