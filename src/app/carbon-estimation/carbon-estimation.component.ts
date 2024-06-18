@@ -54,14 +54,14 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth);
+    const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
     }
 
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(500))
-      .subscribe(() => this.onResize(window.innerHeight, window.innerWidth));
+      .subscribe(() => this.onResize(window.innerHeight, window.innerWidth, window.screen.height));
   }
 
   public ngOnDestroy(): void {
@@ -70,11 +70,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public onExpanded(): void {
     this.changeDetectorRef.detectChanges();
-    this.onResize(window.innerHeight, window.innerWidth);
+    this.onResize(window.innerHeight, window.innerWidth, window.screen.height);
   }
 
-  onResize(innerHeight: number, innerWidth: number): void {
-    const chartHeight = this.getChartHeight(innerHeight, innerWidth);
+  onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
+    const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
     if (chartHeight > 0) {
       this.chart?.updateOptions({ chart: { height: chartHeight } });
     }
@@ -135,14 +135,23 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getChartHeight(innerHeight: number, innerWidth: number): number {
+  private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
+    const calculatedHeight = this.calculateChartHeight(innerHeight, innerWidth, expansionPanelHeight);
+
+    const maxScreenHeightRatio = 0.75;
+
+    // Cap chart height based on screen height to prevent issues with the chart
+    // becoming stretched when the component is displayed in a tall iFrame
+    return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
+  }
+
+  private calculateChartHeight(innerHeight: number, innerWidth: number, expansionPanelHeight: number) {
     // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
     if (innerWidth < 768) {
       return innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title;
     }
-
     const extraHeightString = this.extraHeight();
     const extraHeight = Number(extraHeightString) || 0;
     return innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
