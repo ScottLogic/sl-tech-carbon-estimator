@@ -52,7 +52,7 @@ describe('CarbonEstimationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200);
+    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 2);
   });
 
   it('should set chart height to value if inner height more than base height plus extra height', () => {
