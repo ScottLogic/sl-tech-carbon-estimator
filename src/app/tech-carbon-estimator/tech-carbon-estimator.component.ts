@@ -6,6 +6,7 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
+import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 
 @Component({
   selector: 'tech-carbon-estimator',
@@ -16,6 +17,7 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
     FormsModule,
     CommonModule,
     AssumptionsAndLimitationComponent,
+    DisclaimerComponent,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
 })
