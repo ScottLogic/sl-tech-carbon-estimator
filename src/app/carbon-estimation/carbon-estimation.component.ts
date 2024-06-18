@@ -54,14 +54,21 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
+    const chartHeight = this.getChartHeight(
+      window.innerHeight,
+      window.innerWidth,
+      window.screen.height,
+      window.devicePixelRatio
+    );
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
     }
 
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(500))
-      .subscribe(() => this.onResize(window.innerHeight, window.innerWidth, window.screen.height));
+      .subscribe(() =>
+        this.onResize(window.innerHeight, window.innerWidth, window.screen.height, window.devicePixelRatio)
+      );
   }
 
   public ngOnDestroy(): void {
@@ -70,11 +77,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public onExpanded(): void {
     this.changeDetectorRef.detectChanges();
-    this.onResize(window.innerHeight, window.innerWidth, window.screen.height);
+    this.onResize(window.innerHeight, window.innerWidth, window.screen.height, window.devicePixelRatio);
   }
 
-  onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
-    const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
+  onResize(innerHeight: number, innerWidth: number, screenHeight: number, browserZoomFactor: number): void {
+    const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight, browserZoomFactor);
     if (chartHeight > 0) {
       this.chart?.updateOptions({ chart: { height: chartHeight } });
     }
@@ -135,7 +142,12 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
+  private getChartHeight(
+    innerHeight: number,
+    innerWidth: number,
+    screenHeight: number,
+    browserZoomFactor: number // 1 = 100% zoom
+  ): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
     const calculatedHeight = this.calculateChartHeight(innerHeight, innerWidth, expansionPanelHeight);
@@ -144,7 +156,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
     // Cap chart height based on screen height to prevent issues with the chart
     // becoming stretched when the component is displayed in a tall iFrame
-    return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
+    return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio) * browserZoomFactor;
   }
 
   private calculateChartHeight(innerHeight: number, innerWidth: number, expansionPanelHeight: number) {
