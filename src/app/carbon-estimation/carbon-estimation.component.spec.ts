@@ -87,6 +87,17 @@ describe('CarbonEstimationComponent', () => {
     });
   });
 
+  it('should scale chart height according to browser zoom factor', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    component.onResize(1500, 1000, 2000, 2);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: (1500 - estimatorBaseHeight - 200) * 2 },
+    });
+  });
+
   it('should call onResize when onExpansion is called', () => {
     spyOn(component, 'onResize');
 
