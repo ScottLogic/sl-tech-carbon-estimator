@@ -65,30 +65,8 @@ describe('CarbonEstimationComponent', () => {
     expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200 - 100);
   });
 
-  it('should recalculate chart height on window resize, for laptop screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
-    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
-
-    component.onResize(2000, 1000, 2000, 1);
-
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1500 }, // Height will be capped at a percentage of the screen height
-    });
-  });
-
-  it('should recalculate chart height on window resize, for mobile screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
-    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
-
-    component.onResize(1000, 500, 1000, 1);
-
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1000 - estimatorBaseHeight - 200 + estimatorHeights.title },
-    });
-  });
-
   [0.5, 1, 2, 5].forEach(browserZoomFactor => {
-    it(`should scale chart height appropriately if the browser zoom factor is ${browserZoomFactor}`, () => {
+    it(`should recalculate chart height on window resize, for laptop screen (zoom factor: ${browserZoomFactor})`, () => {
       spyOn(component.chart as ChartComponent, 'updateOptions');
       spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
@@ -97,6 +75,43 @@ describe('CarbonEstimationComponent', () => {
       expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
         chart: { height: (1500 - estimatorBaseHeight - 200) * browserZoomFactor },
       });
+    });
+  });
+
+  [0.5, 1, 2, 5].forEach(browserZoomFactor => {
+    it(`should recalculate chart height on window resize, for mobile screen (zoom factor: ${browserZoomFactor})`, () => {
+      spyOn(component.chart as ChartComponent, 'updateOptions');
+      spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+      component.onResize(1000, 500, 1000, browserZoomFactor);
+
+      expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+        chart: { height: (1000 - estimatorBaseHeight - 200 + estimatorHeights.title) * browserZoomFactor },
+      });
+    });
+  });
+
+  it('should cap chart height as a percentage of screen height for laptop screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 2000;
+    component.onResize(2000, 1000, screenHeight, 1);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
+    });
+  });
+
+  it('should cap chart height as a percentage of screen height for mobile screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 1000;
+    component.onResize(1100, 500, screenHeight, 1);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
     });
   });
 
