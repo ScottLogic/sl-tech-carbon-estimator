@@ -58,7 +58,7 @@ The project uses [GitHub Actions](https://docs.github.com/en/actions) to automat
 
 If you would like to skip running the workflow for a given push to a PR branch there are [various ways](https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs) this can be achieved. For example, adding `[skip ci]` to the end of the commit message in the push (e.g. `git commit -m "My message [skip ci]"`) will skip running the workflow for that push. However, you should be aware that this will also mark the status checks in the PR as pending, which will still block it from being merged.
 
-Unfortunately Github does not recognise manually triggered runs of this workflow, so if you end up in this state you will either need to push additional changes without `[skip ci]` or amend the original commit to remove it from the description (e.g. `git commit --amend -m "My message"`), and then force push the branch (`git push --force` - not recommended if anyone else has pulled down the branch), if there are no more legitimate changes to make.
+Unfortunately Github does not recognise manually triggered runs of this workflow, so if you end up in this state you will either need to push additional changes without `[skip ci]` or amend the original commit to remove it from the description (e.g. `git commit --amend -m "My message"`), and then force push the branch (`git push --force-with-lease` - not recommended if anyone else has pulled down the branch), if there are no more legitimate changes to make.
 
 ## Further help
 
