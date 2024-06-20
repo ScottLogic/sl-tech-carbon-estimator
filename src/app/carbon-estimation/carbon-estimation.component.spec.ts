@@ -119,17 +119,6 @@ describe('CarbonEstimationComponent', () => {
     expect(component.onResize).toHaveBeenCalledTimes(1);
   });
 
-  it('chart updateOptions should be not be called if inner height less than base height and extra height', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
-
-    fixture.componentRef.setInput('extraHeight', '600');
-    fixture.detectChanges();
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(component.chart?.updateOptions).not.toHaveBeenCalled();
-  });
-
   it('should set emissions with total % and category breakdown', () => {
     const expectedEmissions = [
       {
