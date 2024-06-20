@@ -54,7 +54,6 @@ describe('CarbonEstimationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    console.log(`window.innerHeight: ${window.innerHeight}`);
     expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
   });
 
@@ -113,6 +112,17 @@ describe('CarbonEstimationComponent', () => {
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: screenHeight * 0.75 },
+    });
+  });
+
+  it('should have a chart height of 300 for small innerHeight values (if screen height is large enough)', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    component.onResize(100, 1000, 2000);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 300 },
     });
   });
 
