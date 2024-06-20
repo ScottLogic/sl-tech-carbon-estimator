@@ -75,9 +75,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
     const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
-    if (chartHeight > 0) {
-      this.chart?.updateOptions({ chart: { height: chartHeight } });
-    }
+    this.chart?.updateOptions({ chart: { height: chartHeight } });
   }
 
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
