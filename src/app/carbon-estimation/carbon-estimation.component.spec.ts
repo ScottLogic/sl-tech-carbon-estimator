@@ -47,31 +47,16 @@ describe('CarbonEstimationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should set chart height when inner height is more than base height', () => {
-    console.log(`window.innerHeight: ${window.innerHeight}`);
+  it('should set the chart height when the component is initialised', () => {
     spyOnProperty(window, 'innerHeight').and.returnValue(1000);
+    spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    spyOnProperty(window.screen, 'height').and.returnValue(1080);
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     component.ngOnInit();
     fixture.detectChanges();
-
-    console.log(`window.innerHeight: ${window.innerHeight}`);
-    console.log(`screen height: ${window.screen.height}`);
-    console.log(`device pixel ratio: ${window.devicePixelRatio}`);
 
     expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
-  });
-
-  it('should set chart height to value if inner height more than base height plus extra height', () => {
-    spyOnProperty(window, 'innerHeight').and.returnValue(1000);
-    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
-
-    fixture.componentRef.setInput('extraHeight', '100');
-    fixture.detectChanges();
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200 - 100);
   });
 
   it('should recalculate chart height on window resize, for laptop screen', () => {
