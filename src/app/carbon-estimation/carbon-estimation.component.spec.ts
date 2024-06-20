@@ -69,10 +69,10 @@ describe('CarbonEstimationComponent', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(2000, 1000, 2000);
+    component.onResize(1500, 1000, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1500 }, // Height will be capped at a percentage of the screen height
+      chart: { height: 1500 - estimatorBaseHeight - 200 },
     });
   });
 
@@ -84,6 +84,30 @@ describe('CarbonEstimationComponent', () => {
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: 1000 - estimatorBaseHeight - 200 + estimatorHeights.title },
+    });
+  });
+
+  it('should cap chart height as a percentage of screen height, for laptop screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 2000;
+    component.onResize(2000, 1000, screenHeight);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
+    });
+  });
+
+  it('should cap chart height as a percentage of screen height, for mobile screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 1200;
+    component.onResize(1200, 500, screenHeight);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
     });
   });
 
