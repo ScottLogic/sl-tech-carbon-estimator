@@ -48,11 +48,16 @@ describe('CarbonEstimationComponent', () => {
   });
 
   it('should set chart height when inner height is more than base height', () => {
+    console.log(`window.innerHeight: ${window.innerHeight}`);
     spyOnProperty(window, 'innerHeight').and.returnValue(1000);
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     component.ngOnInit();
     fixture.detectChanges();
+
+    console.log(`window.innerHeight: ${window.innerHeight}`);
+    console.log(`screen height: ${window.screen.height}`);
+    console.log(`device pixel ratio: ${window.devicePixelRatio}`);
 
     expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
   });
