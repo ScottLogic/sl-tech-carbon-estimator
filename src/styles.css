@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-input, select {
-  @apply dark:tce-text-slate-600
-}
-
 .tce-note {
   @apply tce-bg-sky-200 tce-border-sky-400 tce-text-slate-800
 }

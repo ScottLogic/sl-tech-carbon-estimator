@@ -1,0 +1,9 @@
+input, select {
+  @apply dark:tce-text-slate-600
+}
+
+@media (prefers-color-scheme: dark) {
+  .apexcharts-legend-text {
+    @apply !tce-text-slate-50
+  }
+}
