@@ -13,7 +13,7 @@
           formControlName="headCount"
           name="headCount"
           type="number"
-          min="1"
+          required
           aria-describedby="headCountError" />
         @if (headCount?.invalid && (headCount?.dirty || headCount?.touched)) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
@@ -80,7 +80,7 @@
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
-          min="0" />
+          required />
       </div>
 
       <ng-container *ngTemplateOutlet="locationInput; context: formContext.onPremise"></ng-container>
@@ -202,7 +202,7 @@
             name="monthlyActiveUsers"
             type="number"
             id="monthlyActiveUsers"
-            min="1"
+            required
             aria-describedby="monthlyActiveUsersError" />
           @if (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)) {
             <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
