@@ -59,6 +59,18 @@ describe('CarbonEstimationComponent', () => {
     expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
   });
 
+  it('should subtract the extraHeight input from the chart height on laptop screens', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+    fixture.componentRef.setInput('extraHeight', '100');
+
+    component.onResize(1500, 1000, 2000);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 1500 - estimatorBaseHeight - 200 - 100 },
+    });
+  });
+
   it('should recalculate chart height on window resize, for laptop screen', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
