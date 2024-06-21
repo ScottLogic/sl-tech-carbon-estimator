@@ -41,6 +41,7 @@
               "baseHref": "/sl-tech-carbon-estimator/"
             },
             "npm-package": {
+              "index": {"input": "src/package-index.html", "output": "index.html"},
               "assets": [],
               "styles": ["src/styles.css"]
             },
