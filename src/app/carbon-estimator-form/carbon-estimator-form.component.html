@@ -4,9 +4,7 @@
 
     <div class="tce-flex tce-flex-col tce-gap-4">
       <div class="tce-flex tce-flex-col tce-gap-2">
-        <label class="tce-text-sm tce-text-slate-600" for="headCount"
-          >How many employees are in the organisation?
-        </label>
+        <label class="tce-text-sm" for="headCount">How many employees are in the organisation? </label>
         <input
           id="headCount"
           class="tce-border tce-border-slate-400 tce-rounded"
@@ -24,7 +22,7 @@
       </div>
 
       <div class="tce-flex tce-flex-col tce-gap-2">
-        <label for="desktopPercentage" class="tce-text-sm tce-text-slate-600">
+        <label for="desktopPercentage" class="tce-text-sm">
           What percentage of those employee devices are desktops or laptops?
         </label>
         <input
@@ -37,7 +35,7 @@
           max="100"
           step="5"
           [attr.aria-valuetext]="'Desktops ' + desktopPercentage + '%, Laptops ' + laptopPercentage + '%'" />
-        <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
+        <div class="tce-flex tce-justify-between tce-text-sm">
           <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
         </div>
       </div>
@@ -73,7 +71,7 @@
       }
 
       <div class="tce-flex tce-flex-col tce-gap-2">
-        <label class="tce-text-sm tce-text-slate-600" for="numberOfServers">Number of Servers:</label>
+        <label class="tce-text-sm" for="numberOfServers">Number of Servers:</label>
         <input
           id="numberOfServers"
           class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed"
@@ -102,7 +100,7 @@
 
       @if (!noCloudServices) {
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="cloudPercentage" class="tce-text-sm tce-text-slate-600"
+          <label for="cloudPercentage" class="tce-text-sm"
             >What percentage of your servers are cloud services vs on-premise?</label
           >
           <input
@@ -115,7 +113,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
-          <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
+          <div class="tce-flex tce-justify-between tce-text-sm">
             <span>Cloud {{ cloudPercentage }}%</span>
             <span>On-premise {{ onPremisePercentage }}%</span>
           </div>
@@ -130,7 +128,7 @@
         </div>
 
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="monthlyCloudBill" class="tce-text-sm tce-text-slate-600">What is your monthly cloud bill?</label>
+          <label for="monthlyCloudBill" class="tce-text-sm">What is your monthly cloud bill?</label>
           <select
             id="monthlyCloudBill"
             class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed tce-px-3 tce-py-2"
@@ -165,13 +163,13 @@
           <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
               <div class="tce-flex">
-                <label for="purposeOfSite" class="tce-text-sm tce-text-slate-600"
+                <label for="purposeOfSite" class="tce-text-sm"
                   >What's the primary purpose of your digital services?</label
                 >
               </div>
             </div>
             <div content>
-              <p class="tce-text-sm tce-text-slate-600">
+              <p class="tce-text-sm">
                 The purpose of your digital services is used to determine the typical amount of time a user might spend
                 on them and the amount of data that may be transferred. This can affect the amount of energy used by end
                 user devices and how much energy from network traffic is attributable to your organisation
@@ -193,7 +191,7 @@
         <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
         <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="monthlyActiveUsers" class="tce-text-sm tce-text-slate-600">
+          <label for="monthlyActiveUsers" class="tce-text-sm">
             How many monthly active users do your digital services have?
           </label>
           <input
@@ -219,13 +217,13 @@
           <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
               <div class="tce-flex">
-                <label for="mobilePercentage" class="tce-text-sm tce-text-slate-600">
+                <label for="mobilePercentage" class="tce-text-sm">
                   What percentage of your end-users are mobile or personal computer users?
                 </label>
               </div>
             </div>
             <div content>
-              <p class="tce-text-sm tce-text-slate-600">
+              <p class="tce-text-sm">
                 The percentage of mobile users will affect the energy used by end user devices and network
                 infrastructure. While the power demand of mobile devices is often much lower, the use of mobile networks
                 can increase the power used when transferring data.
@@ -241,7 +239,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
-          <div class="tce-flex tce-justify-between tce-text-sm tce-text-slate-600">
+          <div class="tce-flex tce-justify-between tce-text-sm">
             <span>Mobile {{ mobilePercentage }}%</span>
             <span>Computer {{ computerPercentage }}%</span>
           </div>
@@ -272,11 +270,11 @@
       <expansion-panel [configOverride]="questionPanelConfig">
         <div header>
           <div class="tce-flex">
-            <label for="{{ formControlName }}" class="tce-text-sm tce-text-slate-600">{{ label }} </label>
+            <label for="{{ formControlName }}" class="tce-text-sm">{{ label }} </label>
           </div>
         </div>
         <div content>
-          <p class="tce-text-sm tce-text-slate-600">
+          <p class="tce-text-sm">
             This will affect the average
             <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
               >Carbon Intensity</a
