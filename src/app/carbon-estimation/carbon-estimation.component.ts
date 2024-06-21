@@ -136,16 +136,6 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
-    const calculatedHeight = this.calculateChartHeight(innerHeight, innerWidth, expansionPanelHeight);
-
-    const maxScreenHeightRatio = 0.75;
-
-    // Cap chart height based on screen height to prevent issues with the chart
-    // becoming stretched when the component is displayed in a tall iFrame
-    return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
-  }
-
-  private calculateChartHeight(innerHeight: number, innerWidth: number, expansionPanelHeight: number) {
     // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
     const responsiveBreakpoint = 768;
 
@@ -157,13 +147,18 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
         innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title
       : innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
 
-    // Cap on the mininum height of the chart to prevent the chart becoming squashed when zooming
-    // in on desktop browsers. (Zooming in results in window.innerHeight decreasing proportionally
-    // on most desktop browsers which can result in the calculatedHeight above becoming too small
-    // or even negative. N.B. Mobile browsers behave differently.)
+    // Bound smallest chart height to prevent it becoming squashed when zooming
+    // on desktop (zooming decreases innerHeight on most desktop browsers)
     const minChartHeight = 300;
 
-    return Math.max(calculatedHeight, minChartHeight);
+    // Cap chart height based on screen height to prevent issues with the chart
+    // becoming stretched when the component is displayed in a tall iFrame
+    const maxScreenHeightRatio = 0.75;
+
+    const heightBoundedAbove = Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
+    const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
+
+    return heightBoundedAboveAndBelow;
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
