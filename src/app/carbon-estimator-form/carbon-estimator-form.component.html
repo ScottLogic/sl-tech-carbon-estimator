@@ -262,9 +262,9 @@
     <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
       <button
         class="tce-button-calculate tce-px-3 tce-py-2"
-        [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': !estimatorForm.valid }"
+        [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': estimatorForm.invalid }"
         type="submit"
-        [attr.aria-disabled]="!estimatorForm.valid"
+        [attr.aria-disabled]="estimatorForm.invalid"
         aria-describedby="calculateDisabledMessage">
         Calculate
       </button>
