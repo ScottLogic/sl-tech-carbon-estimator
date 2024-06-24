@@ -11,5 +11,10 @@ runs:
       run: npm run playwright-install
       shell: bash
     - name: Run Playwright tests
-      run: npm run playwright-test
+      run: npm run playwright-test -- --tracing=retain-on-failure
       shell: bash
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-traces
+        path: playwright/tests/test-results/
