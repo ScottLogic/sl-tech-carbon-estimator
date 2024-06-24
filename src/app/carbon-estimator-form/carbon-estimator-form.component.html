@@ -9,6 +9,7 @@
         </label>
         <input
           id="headCount"
+          #headCountInput
           class="tce-border tce-border-slate-400 tce-rounded"
           formControlName="headCount"
           name="headCount"
@@ -257,15 +258,38 @@
     </div>
   </div>
 
-  <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
-    <button
-      class="tce-button-calculate tce-px-3 tce-py-2"
-      [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': !estimatorForm.valid }"
-      type="submit"
-      [attr.aria-disabled]="!estimatorForm.valid">
-      Calculate
-    </button>
-    <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
+  <div>
+    <div class="tce-flex tce-gap-4 tce-flex-row-reverse">
+      <button
+        class="tce-button-calculate tce-px-3 tce-py-2"
+        [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': !estimatorForm.valid }"
+        type="submit"
+        [attr.aria-disabled]="!estimatorForm.valid"
+        aria-describedby="calculateDisabledMessage">
+        Calculate
+      </button>
+      <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
+    </div>
+    @if (estimatorForm.invalid && (estimatorForm.dirty || estimatorForm.touched)) {
+      <div
+        class="tce-text-error-red tce-flex tce-gap-1 tce-justify-end tce-mt-2"
+        aria-live="polite"
+        id="calculateDisabledMessage">
+        <span class="material-icons-outlined">error</span>
+        <p>
+          Unable to calculate emissions because the following fields are invalid:
+          @if (headCount?.invalid) {
+            <a class="tce-underline" href="#headCount">number of employees</a>&nbsp;
+          }
+          @if (numberOfServers?.invalid) {
+            <a class="tce-underline" href="#numberOfServers">number of servers</a>&nbsp;
+          }
+          @if (monthlyActiveUsers?.invalid) {
+            <a class="tce-underline" href="#monthlyActiveUsers">monthly active users</a>
+          }
+        </p>
+      </div>
+    }
   </div>
 
   <ng-template
