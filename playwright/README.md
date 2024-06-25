@@ -1,12 +1,14 @@
 # Testing of Carbon Estimator using Playwright and Python
 
-
-
 ## Python
+
 Python homepage
 https://www.python.org/downloads/release/python-3110/
 
+You may wish to set up a [virtual environment](https://docs.python.org/3/library/venv.html) for the purpose of installing the Python dependencies for the Playwright tests. This can be done using [VSCode](https://code.visualstudio.com/docs/python/environments) or with the Python [venv module](https://docs.python.org/3/library/venv.html#creating-virtual-environments) for example. If you do set one up, naming the directory `.venv` will ensure that it is ignored by git.
+
 ## Playwright
+
 Installation of Playwright: https://playwright.dev/python/docs/intro
 
 Install the Pytest plugin:
@@ -15,11 +17,10 @@ Install the Pytest plugin:
 Install the required browsers:
 `playwright install`
 
-
 Playwright demo tests: https://playwright.dev/python/docs/writing-tests
 
-
 ## Playwright - Run tests
+
 Running tests: https://playwright.dev/python/docs/running-tests
 
 To run a test:
@@ -29,7 +30,7 @@ Visual Studio Code download:
 https://code.visualstudio.com/
 
 Ensure you are pointing to the folder containing the test cases.
-Example: `C:\Development\Technology-Carbon-Standard\tests_tcs>` 
+Example: `C:\Development\Technology-Carbon-Standard\tests_tcs>`
 
 To run a test in `C:\Development\Technology-Carbon-Standard\tests_tcs>`:
 
@@ -37,7 +38,7 @@ Test name must begin with `test`, must be prefixed by the command `pytest` and m
 
 Example command: `pytest test_2_EstTool_HappyPath_Default.py`
 
-Line should look like: `C:\Development\Technology-Carbon-Standard\tests_tcs>pytest test_2_EstTool_HappyPath_Default.py` 
+Line should look like: `C:\Development\Technology-Carbon-Standard\tests_tcs>pytest test_2_EstTool_HappyPath_Default.py`
 
 If successful, output in terminal window will be along lines of `1 passed in 4.23s`
 
@@ -75,10 +76,8 @@ Run `npm install` to get the most recent dependencies
 
 ## Development server
 
-Run `ng serve` or `npm run start` for a dev server. 
+Run `ng serve` or `npm run start` for a dev server.
 
 Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 As mentioned previously, if directed to `http://localhost:5600/` instead of `http://localhost:4200/` then will have to update tests to match
-
-
