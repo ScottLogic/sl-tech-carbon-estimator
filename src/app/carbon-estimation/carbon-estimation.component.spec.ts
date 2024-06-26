@@ -47,32 +47,38 @@ describe('CarbonEstimationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should set chart height when inner height is more than base height', () => {
+  it('should set the chart height when the component is initialised', () => {
+    spyOnProperty(window, 'innerHeight').and.returnValue(1000);
+    spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    spyOnProperty(window.screen, 'height').and.returnValue(1080);
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200);
+    expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
   });
 
-  it('should set chart height to value if inner height more than base height plus extra height', () => {
+  it('should subtract the extraHeight input from the chart height on laptop screens', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
     fixture.componentRef.setInput('extraHeight', '100');
-    fixture.detectChanges();
-    component.ngOnInit();
-    fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(600 - estimatorBaseHeight - 200 - 100);
+    component.onResize(1500, 1000, 2000);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 1500 - estimatorBaseHeight - 200 - 100 },
+    });
   });
 
   it('should recalculate chart height on window resize, for laptop screen', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(2000, 1000, 2000);
+    component.onResize(1500, 1000, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1500 }, // Height will be capped at a percentage of the screen height
+      chart: { height: 1500 - estimatorBaseHeight - 200 },
     });
   });
 
@@ -87,23 +93,47 @@ describe('CarbonEstimationComponent', () => {
     });
   });
 
+  it('should cap chart height as a percentage of screen height, for laptop screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 2000;
+    component.onResize(2000, 1000, screenHeight);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
+    });
+  });
+
+  it('should cap chart height as a percentage of screen height, for mobile screen', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    const screenHeight = 1200;
+    component.onResize(1200, 500, screenHeight);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: screenHeight * 0.75 },
+    });
+  });
+
+  it('should have a chart height of 300 for small innerHeight values (if screen height is large enough)', () => {
+    spyOn(component.chart as ChartComponent, 'updateOptions');
+    spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
+
+    component.onResize(100, 1000, 2000);
+
+    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
+      chart: { height: 300 },
+    });
+  });
+
   it('should call onResize when onExpansion is called', () => {
     spyOn(component, 'onResize');
 
     component.onExpanded();
 
     expect(component.onResize).toHaveBeenCalledTimes(1);
-  });
-
-  it('chart updateOptions should be not be called if inner height less than base height and extra height', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
-
-    fixture.componentRef.setInput('extraHeight', '600');
-    fixture.detectChanges();
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(component.chart?.updateOptions).not.toHaveBeenCalled();
   });
 
   it('should set emissions with total % and category breakdown', () => {

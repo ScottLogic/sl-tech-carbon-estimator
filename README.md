@@ -16,7 +16,7 @@ For more information on why this is necessary, see the section on [Line Endings]
 
 exposed as a web component `tech-carbon-estimator`. The component takes the follow optional input:
 
-- `extra-height` - this is extra height to be added whe calculating the height if the chart. eg a header/footer that will be visible on the page
+- `extra-height` - this is extra height to be taken into account when calculating the height of the chart. E.g. the height of a header/footer that will be visible on the page.
 
 You will need to import the following files to use the tech-carbon-estimator:
 

@@ -75,9 +75,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
     const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
-    if (chartHeight > 0) {
-      this.chart?.updateOptions({ chart: { height: chartHeight } });
-    }
+    this.chart?.updateOptions({ chart: { height: chartHeight } });
   }
 
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
@@ -138,23 +136,29 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
-    const calculatedHeight = this.calculateChartHeight(innerHeight, innerWidth, expansionPanelHeight);
+    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
+    const responsiveBreakpoint = 768;
 
-    const maxScreenHeightRatio = 0.75;
+    const extraHeightString = this.extraHeight();
+    const extraHeight = Number(extraHeightString) || 0;
+
+    const calculatedHeight =
+      innerWidth < responsiveBreakpoint ?
+        innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title
+      : innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
+
+    // Bound smallest chart height to prevent it becoming squashed when zooming
+    // on desktop (zooming decreases innerHeight on most desktop browsers)
+    const minChartHeight = 300;
 
     // Cap chart height based on screen height to prevent issues with the chart
     // becoming stretched when the component is displayed in a tall iFrame
-    return Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
-  }
+    const maxScreenHeightRatio = 0.75;
 
-  private calculateChartHeight(innerHeight: number, innerWidth: number, expansionPanelHeight: number) {
-    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
-    if (innerWidth < 768) {
-      return innerHeight - this.estimatorBaseHeight - expansionPanelHeight + estimatorHeights.title;
-    }
-    const extraHeightString = this.extraHeight();
-    const extraHeight = Number(extraHeightString) || 0;
-    return innerHeight - this.estimatorBaseHeight - extraHeight - expansionPanelHeight;
+    const heightBoundedAbove = Math.min(calculatedHeight, screenHeight * maxScreenHeightRatio);
+    const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
+
+    return heightBoundedAboveAndBelow;
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
