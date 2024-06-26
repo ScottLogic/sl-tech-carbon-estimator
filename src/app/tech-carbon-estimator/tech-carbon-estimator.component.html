@@ -1,19 +1,20 @@
 <div id="techCarbonEstimator" class="tce-flex tce-flex-col tce-px-4 tce-pt-4 md:tce-pb-4 tce-h-full">
   <h1 class="tce-text-3xl tce-mb-6">Technology Carbon Estimator</h1>
   <div class="tce-flex tce-w-full tce-grow tce-flex-wrap md:tce-flex-nowrap">
-    @if (showAssumptionsAndLimitationView) {
-      <assumptions-and-limitation
-        #assumptionsLimitation
-        aria-live="polite"
-        (closeEvent)="closeAssumptionsAndLimitation($event)"
-        class="tce-w-full md:tce-w-1/2 tce-pb-4 md:tce-pb-0 md:tce-pr-4"></assumptions-and-limitation>
-    } @else {
-      <carbon-estimator-form
-        [formValue]="formValue"
-        (formSubmit)="handleFormSubmit($event)"
-        (formReset)="handleFormReset()"
-        class="tce-w-full md:tce-w-1/2 tce-pb-4 md:tce-pb-0 md:tce-pr-4"></carbon-estimator-form>
-    }
+    <div class="tce-w-full md:tce-w-1/2 tce-pb-4 md:tce-pb-0 md:tce-pr-4">
+      <disclaimer></disclaimer>
+      @if (showAssumptionsAndLimitationView) {
+        <assumptions-and-limitation
+          #assumptionsLimitation
+          aria-live="polite"
+          (closeEvent)="closeAssumptionsAndLimitation($event)"></assumptions-and-limitation>
+      } @else {
+        <carbon-estimator-form
+          [formValue]="formValue"
+          (formSubmit)="handleFormSubmit($event)"
+          (formReset)="handleFormReset()"></carbon-estimator-form>
+      }
+    </div>
     @if (showEstimation) {
       <div
         #estimations

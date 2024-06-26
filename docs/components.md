@@ -15,6 +15,8 @@ flowchart TB
     assumptions-and-limitation`"]
     Note["`NoteComponent
     note`"]
+    Disclaimer["`DisclaimerComponent
+    disclaimer`"]
     ExpansionPanel["`ExpansionPanelComponent
     expansion-panel`"]
   end
@@ -26,11 +28,11 @@ flowchart TB
     FormatCostRangePipe
   end
 
-  CarbonEstimator --> CarbonEstimatorForm & CarbonEstimation & Assumptions
+  CarbonEstimator --> CarbonEstimatorForm & CarbonEstimation & Assumptions & Disclaimer
   CarbonEstimatorForm ---> FormatCostRangePipe
   CarbonEstimatorForm --> Note
   CarbonEstimator & CarbonEstimatorForm ---> CarbonEstimationService
-  CarbonEstimatorForm & CarbonEstimation --> ExpansionPanel
+  CarbonEstimatorForm & CarbonEstimation & Disclaimer --> ExpansionPanel
   CarbonEstimationService & Assumptions --> CarbonIntensityService
 ```
 
@@ -58,6 +60,10 @@ Uses the [CarbonIntensityService](services.md#carbonintensityservice) to get the
 ## NoteComponent
 
 Highlights assumptions that will be made when certain options are selected.
+
+## DisclaimerComponent
+
+Displays disclaimer about how the tool should be used.
 
 ## ExpansionPanelComponent
 
