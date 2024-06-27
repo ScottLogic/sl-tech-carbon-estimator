@@ -81,18 +81,7 @@
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
-          required
-          [attr.aria-describedby]="
-            numberOfServers?.invalid && (numberOfServers?.dirty || numberOfServers?.touched) ?
-              'numberOfServersError'
-            : null
-          " />
-        @if (numberOfServers?.invalid && (numberOfServers?.dirty || numberOfServers?.touched)) {
-          <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
-            <span class="material-icons-outlined">error</span>
-            <p>The number of servers must be greater than or equal to 0.</p>
-          </div>
-        }
+          required />
       </div>
 
       <ng-container *ngTemplateOutlet="locationInput; context: formContext.onPremise"></ng-container>
