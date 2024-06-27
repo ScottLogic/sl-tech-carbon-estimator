@@ -82,7 +82,11 @@
           name="numberOfServers"
           type="number"
           required
-          aria-describedby="numberOfServersError" />
+          [attr.aria-describedby]="
+            numberOfServers?.invalid && (numberOfServers?.dirty || numberOfServers?.touched) ?
+              'numberOfServersError'
+            : null
+          " />
         @if (numberOfServers?.invalid && (numberOfServers?.dirty || numberOfServers?.touched)) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
