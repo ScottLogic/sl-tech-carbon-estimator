@@ -4,7 +4,7 @@
     <button
       type="button"
       class="material-icons-outlined tce-text hover:tce-bg-slate-200 hover:tce-rounded"
-      (click)="onClose()"
+      (click)="onClose(true, false)"
       aria-label="Close assumptions and limitations">
       close
     </button>
@@ -311,7 +311,7 @@
   </p>
   <button
     class="tce-button-close tce-px-3 tce-py-2 tce-self-end"
-    (click)="onClose()"
+    (click)="onClose(true, true)"
     aria-label="Close assumptions and limitations">
     Close
   </button>
