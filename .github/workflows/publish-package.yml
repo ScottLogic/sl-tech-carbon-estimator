@@ -78,6 +78,7 @@ jobs:
         run: |
           gh release create "v${VERSION}" \
               ${PACKAGE_PREFIX}${VERSION}.tgz \
+              --repo="$GITHUB_REPOSITORY" \
               --draft \
               --prerelease \
               --generate-notes
