@@ -5,7 +5,10 @@ import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
+import {
+  AssumptionsAndLimitationComponent,
+  AssumptionsLimitationCloseEvent,
+} from '../assumptions-and-limitation/assumptions-and-limitation.component';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 
 @Component({
@@ -31,6 +34,7 @@ export class TechCarbonEstimatorComponent {
 
   @ViewChild('assumptionsLimitation', { read: ElementRef }) assumptionsLimitation!: ElementRef;
   @ViewChild('estimations') estimations!: ElementRef;
+  @ViewChild('showAssumptionsLimitationButton') showAssumptionsLimitationButton!: ElementRef<HTMLButtonElement>;
 
   constructor(
     private estimationService: CarbonEstimationService,
@@ -55,12 +59,15 @@ export class TechCarbonEstimatorComponent {
     this.assumptionsLimitation.nativeElement.scrollIntoView();
   }
 
-  public closeAssumptionsAndLimitation(hasFocus: boolean): void {
+  public closeAssumptionsAndLimitation(event: AssumptionsLimitationCloseEvent): void {
     this.showAssumptionsAndLimitationView = false;
-    this.estimations.nativeElement.scrollIntoView();
-    if (hasFocus) {
-      this.changeDetector.detectChanges();
-      this.estimations.nativeElement.querySelector('button#showAssumptionsAndLimitationButton')?.focus();
+    this.changeDetector.detectChanges();
+    const openButton = this.showAssumptionsLimitationButton.nativeElement;
+    if (event.focusOpenButton) {
+      openButton.focus();
+    }
+    if (event.scrollToOpenButton) {
+      openButton.scrollIntoView();
     }
   }
 }
