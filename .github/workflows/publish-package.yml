@@ -45,10 +45,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          registry-url: 'https://registry.npmjs.org'
       - name: Download package
         uses: actions/download-artifact@v4
         with:
           name: ${{env.PACKAGE_PREFIX}}${{env.VERSION}}
       - name: Publish to NPM registry
+        env:
+          NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
-          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --access public
+          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --provenance --access public
