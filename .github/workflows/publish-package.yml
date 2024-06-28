@@ -22,5 +22,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
-          path: scottlogic-tech-carbon-estimator-*.tgz
+          path: ./dist/tech-carbon-estimator/scottlogic-tech-carbon-estimator-*.tgz
           overwrite: true #TODO - For testing, remove before final merge
