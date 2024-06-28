@@ -1,0 +1,26 @@
+name: Publish new package
+on:
+  workflow_dispatch:
+  pull_request: #TODO - For testing, remove before final merge
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Create package
+        run: |
+          npm run prepare
+          cp README.md package.json ./dist/tech-carbon-estimator/
+          cd dist/tech-carbon-estimator
+          npm pkg delete scripts private devDependencies files
+          npm pkg set main=main.js
+          npm pack
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: error
+          path: scottlogic-tech-carbon-estimator-*.tgz
+          overwrite: true #TODO - For testing, remove before final merge
