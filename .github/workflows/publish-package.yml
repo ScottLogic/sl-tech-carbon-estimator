@@ -57,3 +57,25 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
           npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --provenance --access public
+
+  release:
+    runs-on: ubuntu-latest
+    needs: 
+      - package
+      #- publish #TODO - include once publish passes
+    env:
+      VERSION: ${{needs.package.outputs.version}}
+    permissions:
+      contents: write
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{env.PACKAGE_PREFIX}}${{env.VERSION}}
+      - name: Create Github Release
+        run: |
+          gh release create "v${VERSION}" \
+              ${PACKAGE_PREFIX}${VERSION}.tgz \
+              --draft \
+              --pre-release \
+              --generate-notes
