@@ -62,7 +62,9 @@ def test_example(page: Page) -> None:
     expect(page.get_by_role("button", name="Assumptions and limitations")).to_be_visible()
     page.get_by_role("button", name="Assumptions and limitations").click()
     expect(page.get_by_role("heading", name="Assumptions and Limitations")).to_be_visible()
-    expect(page.get_by_text("The Technology Carbon")).to_be_visible()
+    expect(page.get_by_label("Close assumptions and").filter(has_not_text=re.compile("Close"))).to_be_visible() # 'X' close button
+    # Need regex because has_text="Close" is case insensitive and 'X' button has the text 'close'
+    expect(page.get_by_text("The Technology Carbon Estimator tool is designed to")).to_be_visible()
     expect(page.get_by_role("heading", name="Assumptions", exact=True)).to_be_visible()
     expect(page.get_by_role("heading", name="Time period")).to_be_visible()
     expect(page.get_by_text("The estimation is based on a")).to_be_visible()
@@ -96,7 +98,6 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("These figures are combined")).to_be_visible()
     expect(page.get_by_role("heading", name="Network Data Transfer")).to_be_visible()
     expect(page.get_by_text("Our outgoing network data")).to_be_visible()
-    expect(page.get_by_text("Assumptions and Limitations The Technology Carbon Estimator tool is designed to")).to_be_visible()
     page.get_by_role("heading", name="End-User Devices").click()
     expect(page.get_by_text("We combine device information")).to_be_visible()
     expect(page.get_by_role("heading", name="Limitations", exact=True)).to_be_visible()
@@ -113,8 +114,8 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("Like Off the shelf and open")).to_be_visible()
     expect(page.get_by_role("heading", name="Managed Services")).to_be_visible()
     expect(page.get_by_text("We currently do not make a")).to_be_visible()
-    expect(page.get_by_label("Close assumptions and")).to_be_visible()
-    page.get_by_label("Close assumptions and").click()
+    expect(page.get_by_label("Close assumptions and").filter(has_text=re.compile("Close"))).to_be_visible()
+    page.get_by_label("Close assumptions and").filter(has_text=re.compile("Close")).click()
     expect(page.get_by_role("heading", name="Technology Carbon Estimator")).to_be_visible()
     expect(page.get_by_role("heading", name="Organisation")).to_be_visible()
 
