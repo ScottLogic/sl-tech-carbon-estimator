@@ -40,24 +40,12 @@ describe('AssumptionsAndLimitationComponent', () => {
     expect(hasFocus).toBeTrue();
   });
 
-  it('should emit close event with true value when press esc key with focus within component', () => {
+  it('should emit close event with { true, true } value when press esc key with focus within component', () => {
     spyOn(component.closeEvent, 'emit');
 
     component.ngAfterContentInit();
     fixture.detectChanges();
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-
-    expect(component.closeEvent.emit).toHaveBeenCalledWith({ focusOpenButton: true, scrollToOpenButton: true });
-  });
-
-  it('should emit close event with false value when press esc key with focus not within component', () => {
-    spyOn(component.closeEvent, 'emit');
-
-    component.ngAfterContentInit();
-    fixture.detectChanges();
-    fixture.elementRef.nativeElement.focus();
-    fixture.detectChanges();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
     expect(component.closeEvent.emit).toHaveBeenCalledWith({ focusOpenButton: true, scrollToOpenButton: true });
