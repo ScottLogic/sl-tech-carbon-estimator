@@ -55,8 +55,6 @@ export class TechCarbonEstimatorComponent {
 
   public showAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = true;
-    this.changeDetector.detectChanges();
-    this.assumptionsLimitation.nativeElement.scrollIntoView();
   }
 
   public closeAssumptionsAndLimitation(event: AssumptionsLimitationCloseEvent): void {
