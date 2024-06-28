@@ -7,6 +7,8 @@ env:
 jobs:
   package:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.output.outputs.version}}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -29,10 +31,15 @@ jobs:
           name: ${{env.PACKAGE_PREFIX}}${{env.VERSION}}
           path: ./dist/tech-carbon-estimator/${{env.PACKAGE_PREFIX}}${{env.VERSION}}.tgz
           overwrite: true #TODO - For testing, remove before final merge
+      - name: Output version
+        id: output
+        run: echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   publish:
     runs-on: ubuntu-latest
     needs: package
+    env:
+      VERSION: ${{needs.package.outputs.version}}
     steps:
       - name: Set up Node
         uses: actions/setup-node@v4
