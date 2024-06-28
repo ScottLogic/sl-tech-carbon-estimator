@@ -40,6 +40,8 @@ jobs:
     needs: package
     env:
       VERSION: ${{needs.package.outputs.version}}
+    permissions:
+      id-token: write
     steps:
       - name: Set up Node
         uses: actions/setup-node@v4
