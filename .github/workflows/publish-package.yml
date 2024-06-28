@@ -18,9 +18,12 @@ jobs:
           npm pkg delete scripts private devDependencies files
           npm pkg set main=main.js
           npm pack
+          VERSION=$(npm pkg get version --workspaces=false | tr -d \")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
-          path: ./dist/tech-carbon-estimator/scottlogic-tech-carbon-estimator-*.tgz
+          name: scottlogic-tech-carbon-estimator-${{env.VERSION}}
+          path: ./dist/tech-carbon-estimator/scottlogic-tech-carbon-estimator-${{env.VERSION}}.tgz
           overwrite: true #TODO - For testing, remove before final merge
