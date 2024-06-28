@@ -4,6 +4,9 @@ on:
   pull_request: #TODO - For testing, remove before final merge
 env:
   PACKAGE_PREFIX: scottlogic-tech-carbon-estimator-
+concurrency:
+  group: 'publish'
+  cancel-in-progress: false
 jobs:
   package:
     runs-on: ubuntu-latest
