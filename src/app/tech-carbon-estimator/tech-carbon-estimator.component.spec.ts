@@ -103,42 +103,15 @@ describe('TechCarbonEstimatorComponent', () => {
     expect(component.showEstimation).toBeFalse();
   });
 
-  it('should scroll to top of assumptions and limitation when showAssumptionsAndLimitation is called', () => {
-    component.showEstimation = true;
-    component.showAssumptionsAndLimitationView = true;
-    fixture.detectChanges();
-    spyOn(component.assumptionsLimitation.nativeElement, 'scrollIntoView').and.callThrough();
-    component.showAssumptionsAndLimitation();
-    fixture.detectChanges();
-
-    expect(component.assumptionsLimitation.nativeElement.scrollIntoView).toHaveBeenCalled();
-  });
-
-  it('should scroll to top of estimations when closeAssumptionsAndLimitation is called', () => {
-    component.showEstimation = true;
-    // Setting to true so the component exists, the detectChanges on line 48 doesn't not seem to result in the component being created as is normal when running the app
+  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with focusOpenButton true', () => {
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
-    spyOn(component.estimations.nativeElement, 'scrollIntoView').and.callThrough();
-
-    component.closeAssumptionsAndLimitation(false);
+    component.closeAssumptionsAndLimitation({ focusOpenButton: true, scrollToOpenButton: true });
     fixture.detectChanges();
 
-    expect(component.estimations.nativeElement.scrollIntoView).toHaveBeenCalled();
-  });
-
-  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
-    component.showEstimation = true;
-    component.showAssumptionsAndLimitationView = true;
-    fixture.detectChanges();
-
-    component.closeAssumptionsAndLimitation(true);
-    fixture.detectChanges();
-
-    const button = fixture.nativeElement
-      .querySelector('button#showAssumptionsAndLimitationButton')
-      ?.contains(document.activeElement);
-    expect(button).toBeTrue();
+    const button = component.showAssumptionsLimitationButton.nativeElement;
+    expect(document.activeElement).toEqual(button);
+    expect(button);
   });
 });

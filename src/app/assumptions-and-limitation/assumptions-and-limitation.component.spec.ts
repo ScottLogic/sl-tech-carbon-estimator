@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssumptionsAndLimitationComponent } from './assumptions-and-limitation.component';
-import { By } from '@angular/platform-browser';
 
 describe('AssumptionsAndLimitationComponent', () => {
   let component: AssumptionsAndLimitationComponent;
@@ -49,7 +48,7 @@ describe('AssumptionsAndLimitationComponent', () => {
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
-    expect(component.closeEvent.emit).toHaveBeenCalledWith(true);
+    expect(component.closeEvent.emit).toHaveBeenCalledWith({ focusOpenButton: true, scrollToOpenButton: true });
   });
 
   it('should emit close event with false value when press esc key with focus not within component', () => {
@@ -61,6 +60,6 @@ describe('AssumptionsAndLimitationComponent', () => {
     fixture.detectChanges();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
 
-    expect(component.closeEvent.emit).toHaveBeenCalledWith(true);
+    expect(component.closeEvent.emit).toHaveBeenCalledWith({ focusOpenButton: true, scrollToOpenButton: true });
   });
 });
