@@ -2,6 +2,8 @@ name: Publish new package
 on:
   workflow_dispatch:
   pull_request: #TODO - For testing, remove before final merge
+env:
+  PACKAGE_PREFIX: scottlogic-tech-carbon-estimator-
 jobs:
   package:
     runs-on: ubuntu-latest
@@ -24,6 +26,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
-          name: scottlogic-tech-carbon-estimator-${{env.VERSION}}
-          path: ./dist/tech-carbon-estimator/scottlogic-tech-carbon-estimator-${{env.VERSION}}.tgz
+          name: ${{env.PACKAGE_PREFIX}}${{env.VERSION}}
+          path: ./dist/tech-carbon-estimator/${{env.PACKAGE_PREFIX}}${{env.VERSION}}.tgz
           overwrite: true #TODO - For testing, remove before final merge
