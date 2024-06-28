@@ -51,4 +51,4 @@ jobs:
           name: ${{env.PACKAGE_PREFIX}}${{env.VERSION}}
       - name: Publish to NPM registry
         run: |
-          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --access public --dry-run
+          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --access public
