@@ -10,7 +10,7 @@ def test_example(page: Page) -> None:
 
     # page.pause()
     expect(page.get_by_role("heading", name="Carbon Estimator")).to_be_visible()
-    expect(page.get_by_label("How many employees are in the")).to_have_value("100");
+    expect(page.get_by_label("How many employees are in the")).to_have_value("1000");
     expect(page.get_by_text("Desktops 50%")).to_be_visible()
     page.get_by_text("Laptops 50%").click()
     expect(page.get_by_role("heading", name="On-Premise Servers")).to_be_visible()
