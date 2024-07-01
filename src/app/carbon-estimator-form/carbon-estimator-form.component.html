@@ -12,8 +12,8 @@
           name="headCount"
           type="number"
           min="1"
-          aria-describedby="headCountError" />
-        @if (headCount?.invalid && (headCount?.dirty || headCount?.touched)) {
+          [attr.aria-describedby]="(headCount | invalidAndInteraction) ? 'headCountError' : null" />
+        @if (headCount | invalidAndInteraction) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
             <p>The number of employees must be greater than 0.</p>
@@ -78,7 +78,14 @@
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
-          min="0" />
+          min="0"
+          [attr.aria-describedby]="(numberOfServers | invalidAndInteraction) ? 'numberOfServersError' : null" />
+        @if (numberOfServers | invalidAndInteraction) {
+          <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
+            <span class="material-icons-outlined">error</span>
+            <p>The number of servers must be greater than or equal to 0.</p>
+          </div>
+        }
       </div>
 
       <ng-container *ngTemplateOutlet="locationInput; context: formContext.onPremise"></ng-container>
@@ -201,8 +208,8 @@
             type="number"
             id="monthlyActiveUsers"
             min="1"
-            aria-describedby="monthlyActiveUsersError" />
-          @if (monthlyActiveUsers?.invalid && (monthlyActiveUsers?.dirty || monthlyActiveUsers?.touched)) {
+            [attr.aria-describedby]="(monthlyActiveUsers | invalidAndInteraction) ? 'monthlyActiveUsersError' : null" />
+          @if (monthlyActiveUsers | invalidAndInteraction) {
             <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
               <p>

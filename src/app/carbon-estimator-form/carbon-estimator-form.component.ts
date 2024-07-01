@@ -7,6 +7,7 @@ import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
+import { InvalidAndInteractionPipe } from '../pipes/invalid-and-interaction.pipe';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -33,6 +34,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
     NoteComponent,
     ExpansionPanelComponent,
     FormatCostRangePipe,
+    InvalidAndInteractionPipe,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit {
@@ -178,11 +180,15 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   public get headCount() {
-    return this.estimatorForm.get('upstream.headCount');
+    return this.estimatorForm.get('upstream.headCount')!;
+  }
+
+  public get numberOfServers() {
+    return this.estimatorForm.get('onPremise.numberOfServers')!;
   }
 
   public get monthlyActiveUsers() {
-    return this.estimatorForm.get('downstream.monthlyActiveUsers');
+    return this.estimatorForm.get('downstream.monthlyActiveUsers')!;
   }
 
   private refreshPreviewServerCount() {
