@@ -178,15 +178,15 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   public get headCount() {
-    return this.estimatorForm.get('upstream.headCount');
+    return this.estimatorForm.get('upstream.headCount')!;
   }
 
   public get numberOfServers() {
-    return this.estimatorForm.get('onPremise.numberOfServers');
+    return this.estimatorForm.get('onPremise.numberOfServers')!;
   }
 
   public get monthlyActiveUsers() {
-    return this.estimatorForm.get('downstream.monthlyActiveUsers');
+    return this.estimatorForm.get('downstream.monthlyActiveUsers')!;
   }
 
   private refreshPreviewServerCount() {
