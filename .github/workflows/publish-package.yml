@@ -1,7 +1,6 @@
 name: Publish new package
 on:
   workflow_dispatch:
-  pull_request:
 env:
   PACKAGE_PREFIX: scottlogic-tech-carbon-estimator-
 concurrency:
@@ -62,7 +61,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         run: |
-          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --provenance --access public --dry-run
+          npm publish ${PACKAGE_PREFIX}${VERSION}.tgz --provenance --access public
 
   release:
     runs-on: ubuntu-latest
@@ -86,5 +85,4 @@ jobs:
               ${PACKAGE_PREFIX}${VERSION}.tgz \
               --repo="$GITHUB_REPOSITORY" \
               --prerelease \
-              --draft \
               --generate-notes
