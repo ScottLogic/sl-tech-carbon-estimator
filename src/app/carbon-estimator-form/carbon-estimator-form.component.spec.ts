@@ -50,21 +50,21 @@ describe('CarbonEstimatorFormComponent', () => {
   describe('headCount()', () => {
     it('should not return null once the component is initialized', () => {
       component.ngOnInit();
-      expect(component.headCount === null).toBeFalse();
+      expect(component.headCount).not.toBeNull();
     });
   });
 
   describe('numberOfServers()', () => {
     it('should not return null once the component is initialized', () => {
       component.ngOnInit();
-      expect(component.numberOfServers === null).toBeFalse();
+      expect(component.numberOfServers).not.toBeNull();
     });
   });
 
   describe('monthlyActiveUsers()', () => {
     it('should not return null once the component is initialized', () => {
       component.ngOnInit();
-      expect(component.monthlyActiveUsers === null).toBeFalse();
+      expect(component.monthlyActiveUsers).not.toBeNull();
     });
   });
 });
