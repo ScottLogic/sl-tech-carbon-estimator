@@ -1,4 +1,3 @@
-import { FormControl, Validators } from '@angular/forms';
 import { InvalidatedPipe } from './invalidated.pipe';
 
 describe('InvalidatedPipe', () => {
@@ -7,39 +6,51 @@ describe('InvalidatedPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should return false if the control is valid and there has been no interaction', () => {
-    const formControl = new FormControl('hello', Validators.required);
-    const pipe = new InvalidatedPipe();
+  const inputTestCases = [
+    {
+      testDescription: 'should return false if the control is valid and there has been no interaction',
+      control: { valid: true, dirty: false, touched: false },
+      expectedValue: false,
+    },
+    {
+      testDescription: 'should return false if the control is valid and there has been interaction',
+      control: { valid: true, dirty: true, touched: true },
+      expectedValue: false,
+    },
+    {
+      testDescription: 'should return false if the control is invalid and there has been no interaction',
+      control: { valid: false, dirty: false, touched: false },
+      expectedValue: false,
+    },
+    {
+      testDescription: 'should return true if the control is invalid and is dirty',
+      control: { valid: false, dirty: true, touched: false },
+      expectedValue: true,
+    },
+    {
+      testDescription: 'should return true if the control is invalid and has been touched',
+      control: { valid: false, dirty: false, touched: true },
+      expectedValue: true,
+    },
+  ];
 
-    const transformed = pipe.transform(formControl);
-    expect(transformed).toBeFalse();
-  });
+  inputTestCases.forEach(testCase => {
+    it(testCase.testDescription, () => {
+      const control = jasmine.createSpyObj(
+        'control',
+        {},
+        {
+          valid: testCase.control.valid,
+          invalid: !testCase.control.valid,
+          pristine: !testCase.control.dirty,
+          dirty: testCase.control.dirty,
+          touched: testCase.control.touched,
+        }
+      );
+      const pipe = new InvalidatedPipe();
 
-  it('should return false if the control is valid and there has been interaction', () => {
-    const formControl = new FormControl('hello', Validators.required);
-    const pipe = new InvalidatedPipe();
-    formControl.markAsDirty();
-    formControl.markAsTouched();
-
-    const transformed = pipe.transform(formControl);
-    expect(transformed).toBeFalse();
-  });
-
-  it('should return false if the control is invalid and there has been no interaction', () => {
-    const formControl = new FormControl('', Validators.required);
-    const pipe = new InvalidatedPipe();
-
-    const transformed = pipe.transform(formControl);
-    expect(transformed).toBeFalse();
-  });
-
-  it('should return true if the control is invalid and there has been interaction', () => {
-    const formControl = new FormControl('', Validators.required);
-    const pipe = new InvalidatedPipe();
-    formControl.markAsDirty();
-    formControl.markAsTouched();
-
-    const transformed = pipe.transform(formControl);
-    expect(transformed).toBeTrue();
+      const transformed = pipe.transform(control);
+      expect(transformed).toBe(testCase.expectedValue);
+    });
   });
 });
