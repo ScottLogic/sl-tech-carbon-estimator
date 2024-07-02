@@ -117,6 +117,7 @@ jobs:
               --generate-notes
 
   publish_pages:
+    needs: release
     permissions:
       pages: write
       id-token: write
