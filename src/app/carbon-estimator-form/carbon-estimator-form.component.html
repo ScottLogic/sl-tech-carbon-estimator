@@ -12,8 +12,8 @@
           name="headCount"
           type="number"
           min="1"
-          [attr.aria-describedby]="(headCount | invalidAndInteraction) ? 'headCountError' : null" />
-        @if (headCount | invalidAndInteraction) {
+          [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
+        @if (headCount | invalidated) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
             <p>The number of employees must be greater than 0.</p>
@@ -79,8 +79,8 @@
           name="numberOfServers"
           type="number"
           min="0"
-          [attr.aria-describedby]="(numberOfServers | invalidAndInteraction) ? 'numberOfServersError' : null" />
-        @if (numberOfServers | invalidAndInteraction) {
+          [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
+        @if (numberOfServers | invalidated) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
             <p>The number of servers must be greater than or equal to 0.</p>
@@ -208,8 +208,8 @@
             type="number"
             id="monthlyActiveUsers"
             min="1"
-            [attr.aria-describedby]="(monthlyActiveUsers | invalidAndInteraction) ? 'monthlyActiveUsersError' : null" />
-          @if (monthlyActiveUsers | invalidAndInteraction) {
+            [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
+          @if (monthlyActiveUsers | invalidated) {
             <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
               <p>

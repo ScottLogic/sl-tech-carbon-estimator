@@ -7,7 +7,7 @@ import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
-import { InvalidAndInteractionPipe } from '../pipes/invalid-and-interaction.pipe';
+import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -34,7 +34,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
     NoteComponent,
     ExpansionPanelComponent,
     FormatCostRangePipe,
-    InvalidAndInteractionPipe,
+    InvalidatedPipe,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit {

@@ -2,11 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Pipe({
-  name: 'invalidAndInteraction',
+  name: 'invalidated',
   standalone: true,
   pure: false,
 })
-export class InvalidAndInteractionPipe implements PipeTransform {
+export class InvalidatedPipe implements PipeTransform {
   transform(control: AbstractControl): boolean {
     return control.invalid && (control.dirty || control.touched);
   }
