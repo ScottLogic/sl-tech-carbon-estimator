@@ -117,4 +117,7 @@ jobs:
               --generate-notes
 
   publish_pages:
+    permissions:
+      pages: write
+      id-token: write
     uses: ./.github/workflows/pages.yml
