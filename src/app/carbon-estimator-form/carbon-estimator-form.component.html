@@ -11,7 +11,7 @@
           formControlName="headCount"
           name="headCount"
           type="number"
-          min="1"
+          required
           [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
         @if (headCount | invalidated) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
@@ -78,7 +78,7 @@
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
-          min="0"
+          required
           [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
         @if (numberOfServers | invalidated) {
           <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
@@ -207,7 +207,7 @@
             name="monthlyActiveUsers"
             type="number"
             id="monthlyActiveUsers"
-            min="1"
+            required
             [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
           @if (monthlyActiveUsers | invalidated) {
             <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
@@ -255,15 +255,38 @@
     </div>
   </div>
 
-  <div class="tce-flex tce-gap-4 tce-justify-end">
-    <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
-    <button
-      class="tce-button-calculate tce-px-3 tce-py-2"
-      [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': !estimatorForm.valid }"
-      type="submit"
-      [attr.aria-disabled]="!estimatorForm.valid">
-      Calculate
-    </button>
+  <div>
+    <div class="tce-flex tce-gap-4 tce-justify-end">
+      <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
+      <button
+        class="tce-button-calculate tce-px-3 tce-py-2"
+        [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': estimatorForm.invalid }"
+        type="submit"
+        [attr.aria-disabled]="estimatorForm.invalid"
+        aria-describedby="calculateDisabledMessage">
+        Calculate
+      </button>
+    </div>
+    @if (estimatorForm.invalid && (estimatorForm.dirty || estimatorForm.touched)) {
+      <div
+        class="tce-text-error-red tce-flex tce-gap-1 tce-justify-end tce-mt-2"
+        aria-live="polite"
+        id="calculateDisabledMessage">
+        <span class="material-icons-outlined">error</span>
+        <p>
+          Unable to calculate emissions because the following fields are invalid:
+          @if (headCount?.invalid) {
+            <a class="tce-underline" href="#headCount">number of employees</a>&nbsp;
+          }
+          @if (numberOfServers?.invalid) {
+            <a class="tce-underline" href="#numberOfServers">number of servers</a>&nbsp;
+          }
+          @if (monthlyActiveUsers?.invalid) {
+            <a class="tce-underline" href="#monthlyActiveUsers">monthly active users</a>
+          }
+        </p>
+      </div>
+    }
   </div>
 
   <ng-template

@@ -79,14 +79,14 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public ngOnInit() {
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
-        headCount: [defaultValues.upstream.headCount, Validators.required],
+        headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
         desktopPercentage: [defaultValues.upstream.desktopPercentage],
         employeeLocation: [defaultValues.upstream.employeeLocation],
       }),
       onPremise: this.formBuilder.nonNullable.group({
         estimateServerCount: [defaultValues.onPremise.estimateServerCount],
         serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
-        numberOfServers: [defaultValues.onPremise.numberOfServers, Validators.required],
+        numberOfServers: [defaultValues.onPremise.numberOfServers, [Validators.required, Validators.min(0)]],
       }),
       cloud: this.formBuilder.nonNullable.group({
         noCloudServices: [false],
@@ -97,7 +97,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       downstream: this.formBuilder.nonNullable.group({
         noDownstream: [false],
         customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, Validators.required],
+        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, [Validators.required, Validators.min(1)]],
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
