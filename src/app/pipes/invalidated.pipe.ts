@@ -7,7 +7,10 @@ import { AbstractControl } from '@angular/forms';
   pure: false,
 })
 export class InvalidatedPipe implements PipeTransform {
-  transform(control: AbstractControl): boolean {
+  transform(control: AbstractControl | null): boolean {
+    if (control === null) {
+      return false;
+    }
     return control.invalid && (control.dirty || control.touched);
   }
 }
