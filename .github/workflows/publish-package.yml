@@ -86,3 +86,6 @@ jobs:
               --repo="$GITHUB_REPOSITORY" \
               --prerelease \
               --generate-notes
+
+  publish_pages:
+    uses: ./.github/workflows/pages.yml
