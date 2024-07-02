@@ -120,4 +120,5 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      contents: read
     uses: ./.github/workflows/pages.yml
