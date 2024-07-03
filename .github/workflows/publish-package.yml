@@ -1,7 +1,6 @@
 name: Publish new package
 on:
   workflow_dispatch:
-  pull_request:
 env:
   PACKAGE_PREFIX: scottlogic-tech-carbon-estimator-
 concurrency:
