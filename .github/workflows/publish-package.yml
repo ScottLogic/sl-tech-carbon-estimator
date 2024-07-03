@@ -26,8 +26,8 @@ jobs:
           then
             echo "PACKAGE_NAME=${PACKAGE_PREFIX}${VERSION}" >> $GITHUB_ENV
           else
-            echo "Workflow must be run from tag that matches package version." >&2
-            echo "GITHUB_REF_NAME='${GITHUB_REF_NAME}', PACKAGE_VERSION='v${VERSION}'" >&2
+            echo "::error::${Red}Workflow must be run from tag that matches package version.\n \
+              GITHUB_REF_NAME='${GITHUB_REF_NAME}', PACKAGE_VERSION='v${VERSION}'"
             exit 1
           fi
       - name: Output package name
