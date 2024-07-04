@@ -263,11 +263,11 @@
         [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': estimatorForm.invalid }"
         type="submit"
         [attr.aria-disabled]="estimatorForm.invalid"
-        aria-describedby="calculateDisabledMessage">
+        [attr.aria-describedby]="(estimatorForm | invalidated) ? 'calculateDisabledMessage' : null">
         Calculate
       </button>
     </div>
-    @if (estimatorForm.invalid && (estimatorForm.dirty || estimatorForm.touched)) {
+    @if (estimatorForm | invalidated) {
       <div
         class="tce-text-error-red tce-flex tce-gap-1 tce-justify-end tce-mt-2"
         aria-live="polite"
