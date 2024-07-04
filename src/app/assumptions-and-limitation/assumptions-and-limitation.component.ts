@@ -25,11 +25,6 @@ const locationDescriptions: Record<WorldLocation, string> = {
   'LATIN AMERICA AND CARIBBEAN': 'Latin America and Caribbean',
 };
 
-export type AssumptionsLimitationCloseEvent = {
-  focusOpenButton: boolean;
-  scrollToOpenButton: boolean;
-};
-
 @Component({
   selector: 'assumptions-and-limitation',
   standalone: true,
@@ -37,7 +32,7 @@ export type AssumptionsLimitationCloseEvent = {
   imports: [DecimalPipe],
 })
 export class AssumptionsAndLimitationComponent implements AfterContentInit {
-  @Output() public closeEvent = new EventEmitter<AssumptionsLimitationCloseEvent>();
+  @Output() public closeEvent = new EventEmitter<boolean>();
   readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
   readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
   readonly siteTypeInfo = purposeOfSiteArray.map(purpose => ({
@@ -90,13 +85,13 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
     this.assumptionsLimitation.nativeElement.focus({ preventScroll: true });
   }
 
-  public onClose(focusOpenButton: boolean, scrollToOpenButton: boolean): void {
-    this.closeEvent.emit({ focusOpenButton, scrollToOpenButton });
+  public onClose(hasFocus = true): void {
+    this.closeEvent.emit(hasFocus);
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   public onEscKeydown(): void {
     const hasFocus = this.assumptionsLimitation.nativeElement.contains(document.activeElement);
-    this.onClose(hasFocus, hasFocus);
+    this.onClose(hasFocus);
   }
 }

@@ -5,10 +5,7 @@ import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  AssumptionsAndLimitationComponent,
-  AssumptionsLimitationCloseEvent,
-} from '../assumptions-and-limitation/assumptions-and-limitation.component';
+import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 
 @Component({
@@ -57,15 +54,12 @@ export class TechCarbonEstimatorComponent {
     this.showAssumptionsAndLimitationView = true;
   }
 
-  public closeAssumptionsAndLimitation(event: AssumptionsLimitationCloseEvent): void {
+  public closeAssumptionsAndLimitation(hasFocus: boolean): void {
     this.showAssumptionsAndLimitationView = false;
     this.changeDetector.detectChanges();
     const openButton = this.showAssumptionsLimitationButton.nativeElement;
-    if (event.focusOpenButton) {
+    if (hasFocus) {
       openButton.focus();
-    }
-    if (event.scrollToOpenButton) {
-      openButton.scrollIntoView();
     }
   }
 }
