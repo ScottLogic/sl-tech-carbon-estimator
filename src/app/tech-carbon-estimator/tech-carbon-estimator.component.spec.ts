@@ -103,11 +103,11 @@ describe('TechCarbonEstimatorComponent', () => {
     expect(component.showEstimation).toBeFalse();
   });
 
-  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with focusOpenButton true', () => {
+  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
-    component.closeAssumptionsAndLimitation({ focusOpenButton: true, scrollToOpenButton: true });
+    component.closeAssumptionsAndLimitation(true);
     fixture.detectChanges();
 
     const button = component.showAssumptionsLimitationButton.nativeElement;
