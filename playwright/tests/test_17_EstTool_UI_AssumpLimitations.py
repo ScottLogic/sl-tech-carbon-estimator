@@ -62,8 +62,8 @@ def test_example(page: Page) -> None:
     expect(page.get_by_role("button", name="Assumptions and limitations")).to_be_visible()
     page.get_by_role("button", name="Assumptions and limitations").click()
     expect(page.get_by_role("heading", name="Assumptions and Limitations")).to_be_visible()
-    expect(page.get_by_label("Close assumptions and").filter(has_not_text=re.compile("Close"))).to_be_visible() # 'X' close button
-    # Need regex because has_text="Close" is case insensitive and 'X' button has the text 'close'
+    expect(page.get_by_label("Close assumptions and").filter(has_text=re.compile("close"))).to_be_visible() # 'X' close button
+    # Need regex because has_text="close" is case insensitive and other close button has the text 'Close'
     expect(page.get_by_text("The Technology Carbon Estimator tool is designed to")).to_be_visible()
     expect(page.get_by_role("heading", name="Assumptions", exact=True)).to_be_visible()
     expect(page.get_by_role("heading", name="Time period")).to_be_visible()
