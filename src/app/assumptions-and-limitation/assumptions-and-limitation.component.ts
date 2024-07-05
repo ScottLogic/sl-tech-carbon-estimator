@@ -82,7 +82,7 @@ export class AssumptionsAndLimitationComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.assumptionsLimitation.nativeElement.focus();
+    this.assumptionsLimitation.nativeElement.focus({ preventScroll: true });
   }
 
   public onClose(hasFocus = true): void {

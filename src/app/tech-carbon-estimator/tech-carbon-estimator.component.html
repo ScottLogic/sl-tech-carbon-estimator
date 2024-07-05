@@ -9,6 +9,14 @@
           aria-live="polite"
           (closeEvent)="closeAssumptionsAndLimitation($event)"></assumptions-and-limitation>
       } @else {
+        <div class="tce-flex tce-justify-end tce-pb-4 -tce-mt-2">
+          <button
+            #showAssumptionsLimitationButton
+            class="tce-button-assumptions tce-px-3 tce-py-2 tce-w-fit tce-self-end"
+            (click)="showAssumptionsAndLimitation()">
+            Assumptions and limitations
+          </button>
+        </div>
         <carbon-estimator-form
           [formValue]="formValue"
           (formSubmit)="handleFormSubmit($event)"
@@ -20,14 +28,6 @@
         #estimations
         class="tce-w-full md:tce-w-1/2 tce-flex tce-flex-col tce-h-fit tce-py-4 md:tce-py-0 md:tce-pl-4 md:tce-sticky md:tce-top-0">
         <carbon-estimation [carbonEstimation]="carbonEstimation" [extraHeight]="extraHeight"></carbon-estimation>
-        @if (!showAssumptionsAndLimitationView) {
-          <button
-            id="showAssumptionsAndLimitationButton"
-            class="tce-button-assumptions tce-px-3 tce-py-2 tce-w-fit tce-self-end"
-            (click)="showAssumptionsAndLimitation()">
-            Assumptions and limitations
-          </button>
-        }
       </div>
     }
   </div>

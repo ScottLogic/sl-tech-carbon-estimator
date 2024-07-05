@@ -1,5 +1,14 @@
 <div #assumptionsLimitation class="tce-flex tce-flex-col tce-gap-4" tabindex="0">
-  <h2 class="tce-text-2xl">Assumptions and Limitations</h2>
+  <div class="tce-flex tce-justify-between">
+    <h2 class="tce-text-2xl">Assumptions and Limitations</h2>
+    <button
+      type="button"
+      class="material-icons-outlined tce-text hover:tce-bg-slate-200 hover:tce-rounded"
+      (click)="onClose()"
+      aria-label="Close assumptions and limitations">
+      close
+    </button>
+  </div>
   <p class="tce-text-sm">
     The Technology Carbon Estimator tool is designed to give a high-level overview of the possible areas of carbon
     impact within your IT estate. We use a minimal number of questions to present this view, so we must make some
