@@ -32,6 +32,7 @@ type ApexChartSeries = {
 })
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input.required<CarbonEstimation>();
+  public diagramIsPlaceholder = input.required<boolean>();
   public extraHeight = input<string>();
 
   public emissions: ApexAxisChartSeries = [];
