@@ -51,6 +51,7 @@ export class TechCarbonEstimatorComponent implements OnInit {
 
   public handleFormReset() {
     this.showEstimation = false;
+    this.carbonEstimation = this.estimationService.getPlaceholderCarbonEstimation();
   }
 
   public showAssumptionsAndLimitation(): void {
