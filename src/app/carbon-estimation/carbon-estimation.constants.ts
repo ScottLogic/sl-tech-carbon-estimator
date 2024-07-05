@@ -7,6 +7,13 @@ export enum EmissionsColours {
   Downstream = '#4B7E56',
 }
 
+export enum PlaceholderEmissionsColours {
+  Upstream = '#333',
+  Direct = '#666',
+  Indirect = '#888',
+  Downstream = '#AAA',
+}
+
 export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
 
 const customTooltip = ({
