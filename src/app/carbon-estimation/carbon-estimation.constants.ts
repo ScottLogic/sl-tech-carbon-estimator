@@ -16,78 +16,86 @@ export enum PlaceholderEmissionsColours {
 
 export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
 
-const customTooltip = ({
-  series,
-  seriesIndex,
-  dataPointIndex,
-  w,
-}: {
-  series: number[][];
-  seriesIndex: number;
-  dataPointIndex: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  w: any;
-}) => {
-  const initialSeries = w.globals.initialSeries[seriesIndex];
-  const data = initialSeries.data[dataPointIndex];
+const getCustomTooltip = (isPlaceholder: boolean) => {
+  const customTooltip = ({
+    series,
+    seriesIndex,
+    dataPointIndex,
+    w,
+  }: {
+    series: number[][];
+    seriesIndex: number;
+    dataPointIndex: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    w: any;
+  }) => {
+    const initialSeries = w.globals.initialSeries[seriesIndex];
+    const data = initialSeries.data[dataPointIndex];
 
-  return `<div class="tce-rounded tce-flex tce-max-w-40 md:tce-max-w-none tce-text-slate-600">
-  <div class="tce-p-1 md:tce-p-2 tce-flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce-m-auto tce-size-4 md:tce-size-8"></div></div>
-    <div class="tce-p-1 md:tce-p-2">
-    <div class="tce-text-wrap">${data.meta.parent}:</div>
-    <div class="tce-text-wrap">${data.x} -
-    <span class="tce-font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
+    return `<div class="tce-rounded tce-flex tce-max-w-40 md:tce-max-w-none tce-text-slate-600">
+      <div class="tce-p-1 md:tce-p-2 tce-flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce-m-auto tce-size-4 md:tce-size-8"></div></div>
+        <div class="tce-p-1 md:tce-p-2">
+        <div class="tce-text-wrap">${data.meta.parent}:</div>
+        <div class="tce-text-wrap">${data.x} -
+        <span class="tce-font-bold">${isPlaceholder ? '?' : tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
+  };
+
+  return customTooltip;
 };
 
-export const chartOptions: ChartOptions = {
-  legend: {
-    show: true,
-    position: 'top',
-    horizontalAlign: 'left',
-    fontSize: '20px',
-    fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-    fontWeight: '400',
-    markers: {
-      height: 20,
-      width: 10,
-      radius: 2,
-      offsetY: 2,
-    },
-  },
-  chart: {
-    type: 'treemap',
-    toolbar: {
-      show: false,
-    },
-    selection: {
-      enabled: false,
-    },
-  },
-  plotOptions: {
-    treemap: {
-      distributed: false,
-      enableShades: false,
-      borderRadius: 4,
-    },
-  },
-  tooltip: {
-    custom: customTooltip,
-  },
-  states: {
-    active: {
-      filter: {
-        type: 'none',
-        value: 0,
-      },
-    },
-  },
-  dataLabels: {
-    style: {
-      fontSize: '16px',
+export const getChartOptions = (isPlaceholder: boolean) => {
+  const chartOptions: ChartOptions = {
+    legend: {
+      show: true,
+      position: 'top',
+      horizontalAlign: 'left',
+      fontSize: '20px',
       fontFamily: 'ui-sans-serif, system-ui, sans-serif',
       fontWeight: '400',
+      markers: {
+        height: 20,
+        width: 10,
+        radius: 2,
+        offsetY: 2,
+      },
     },
-  },
+    chart: {
+      type: 'treemap',
+      toolbar: {
+        show: false,
+      },
+      selection: {
+        enabled: false,
+      },
+    },
+    plotOptions: {
+      treemap: {
+        distributed: false,
+        enableShades: false,
+        borderRadius: 4,
+      },
+    },
+    tooltip: {
+      custom: getCustomTooltip(isPlaceholder),
+    },
+    states: {
+      active: {
+        filter: {
+          type: 'none',
+          value: 0,
+        },
+      },
+    },
+    dataLabels: {
+      style: {
+        fontSize: '16px',
+        fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+        fontWeight: '400',
+      },
+    },
+  };
+
+  return chartOptions;
 };
 
 export const estimatorHeights = {

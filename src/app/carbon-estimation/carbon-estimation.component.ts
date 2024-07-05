@@ -9,7 +9,7 @@ import {
   PlaceholderEmissionsColours,
   EmissionsLabels,
   SVG,
-  chartOptions,
+  getChartOptions,
   estimatorHeights,
   tooltipFormatter,
 } from './carbon-estimation.constants';
@@ -39,7 +39,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public emissions: ApexAxisChartSeries = [];
   public emissionAriaLabel = 'Estimations of emissions.';
 
-  public chartOptions: ChartOptions = chartOptions;
+  public chartOptions!: ChartOptions;
   private tooltipFormatter = tooltipFormatter;
   private estimatorBaseHeight = sumValues(estimatorHeights);
 
@@ -56,6 +56,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.chartOptions = getChartOptions(this.diagramIsPlaceholder());
     const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
