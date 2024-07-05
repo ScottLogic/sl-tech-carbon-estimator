@@ -37,7 +37,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public extraHeight = input<string>();
 
   public emissions: ApexAxisChartSeries = [];
-  public emissionAriaLabel = 'Estimations of emissions.';
+  public emissionAriaLabel!: string;
 
   public chartOptions!: ChartOptions;
   private tooltipFormatter = tooltipFormatter;
@@ -51,7 +51,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation(), this.diagramIsPlaceholder());
-      this.emissionAriaLabel = this.getAriaLabel(this.emissions);
+      this.emissionAriaLabel = this.getAriaLabel(this.emissions, this.diagramIsPlaceholder());
     });
   }
 
@@ -109,8 +109,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     ].filter(entry => entry.data.length !== 0);
   }
 
-  private getAriaLabel(emission: ApexAxisChartSeries): string {
-    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
+  private getAriaLabel(emission: ApexAxisChartSeries, isPlaceholder: boolean): string {
+    return isPlaceholder ?
+        'Placeholder for estimator of emissions'
+      : `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
   }
 
   private getAriaLabelForCategory(series: ApexChartSeries): string {
