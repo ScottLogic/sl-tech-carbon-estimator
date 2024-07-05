@@ -86,15 +86,15 @@ export class CarbonEstimationService {
     const placeholderEstimation: CarbonEstimation = {
       version: version,
       upstreamEmissions: {
-        software: 25 / 4,
-        employee: 25 / 4,
-        network: 25 / 4,
-        server: 25 / 4,
+        software: 0,
+        employee: 25 / 3,
+        network: 25 / 3,
+        server: 25 / 3,
       },
       indirectEmissions: {
-        cloud: 25 / 3,
-        saas: 25 / 3,
-        managed: 25 / 3,
+        cloud: 25 / 1,
+        saas: 0,
+        managed: 0,
       },
       directEmissions: {
         employee: 25 / 3,
