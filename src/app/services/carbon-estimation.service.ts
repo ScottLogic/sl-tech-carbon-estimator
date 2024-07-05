@@ -81,6 +81,34 @@ export class CarbonEstimationService {
       createDeviceUsage(monitor, 'employee', employeeIntensity, monitorCount),
     ];
   }
+
+  getPlaceholderCarbonEstimation(): CarbonEstimation {
+    const placeholderEstimation: CarbonEstimation = {
+      version: version,
+      upstreamEmissions: {
+        software: 25 / 4,
+        employee: 25 / 4,
+        network: 25 / 4,
+        server: 25 / 4,
+      },
+      indirectEmissions: {
+        cloud: 25 / 3,
+        saas: 25 / 3,
+        managed: 25 / 3,
+      },
+      directEmissions: {
+        employee: 25 / 3,
+        network: 25 / 3,
+        server: 25 / 3,
+      },
+      downstreamEmissions: {
+        endUser: 25 / 2,
+        networkTransfer: 25 / 2,
+      },
+    };
+
+    return placeholderEstimation;
+  }
 }
 
 function toPercentages(input: CarbonEstimation): CarbonEstimation {
