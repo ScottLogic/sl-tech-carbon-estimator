@@ -15,20 +15,18 @@
           (formReset)="handleFormReset()"></carbon-estimator-form>
       }
     </div>
-    @if (showEstimation) {
-      <div
-        #estimations
-        class="tce-w-full md:tce-w-1/2 tce-flex tce-flex-col tce-h-fit tce-py-4 md:tce-py-0 md:tce-pl-4 md:tce-sticky md:tce-top-0">
-        <carbon-estimation [carbonEstimation]="carbonEstimation" [extraHeight]="extraHeight"></carbon-estimation>
-        @if (!showAssumptionsAndLimitationView) {
-          <button
-            id="showAssumptionsAndLimitationButton"
-            class="tce-button-assumptions tce-px-3 tce-py-2 tce-w-fit tce-self-end"
-            (click)="showAssumptionsAndLimitation()">
-            Assumptions and limitations
-          </button>
-        }
-      </div>
-    }
+    <div
+      #estimations
+      class="tce-w-full md:tce-w-1/2 tce-flex tce-flex-col tce-h-fit tce-py-4 md:tce-py-0 md:tce-pl-4 md:tce-sticky md:tce-top-0">
+      <carbon-estimation [carbonEstimation]="carbonEstimation" [extraHeight]="extraHeight"></carbon-estimation>
+      @if (!showAssumptionsAndLimitationView) {
+        <button
+          id="showAssumptionsAndLimitationButton"
+          class="tce-button-assumptions tce-px-3 tce-py-2 tce-w-fit tce-self-end"
+          (click)="showAssumptionsAndLimitation()">
+          Assumptions and limitations
+        </button>
+      }
+    </div>
   </div>
 </div>

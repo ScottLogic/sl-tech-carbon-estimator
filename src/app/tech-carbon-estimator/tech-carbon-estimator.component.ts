@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -21,7 +21,7 @@ import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
   ],
   templateUrl: './tech-carbon-estimator.component.html',
 })
-export class TechCarbonEstimatorComponent {
+export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
 
   public showEstimation = false;
@@ -36,6 +36,10 @@ export class TechCarbonEstimatorComponent {
     private estimationService: CarbonEstimationService,
     private changeDetector: ChangeDetectorRef
   ) {}
+
+  ngOnInit(): void {
+    this.carbonEstimation = this.estimationService.getPlaceholderCarbonEstimation();
+  }
 
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
