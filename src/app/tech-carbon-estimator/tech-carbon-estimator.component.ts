@@ -24,7 +24,7 @@ import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
 
-  public showEstimation = false;
+  public showPlaceholderEstimation = true;
   public showAssumptionsAndLimitationView = false;
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
@@ -44,13 +44,13 @@ export class TechCarbonEstimatorComponent implements OnInit {
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
     this.carbonEstimation = this.estimationService.calculateCarbonEstimation(this.formValue);
-    this.showEstimation = true;
+    this.showPlaceholderEstimation = false;
     this.changeDetector.detectChanges();
     this.estimations.nativeElement.scrollIntoView();
   }
 
   public handleFormReset() {
-    this.showEstimation = false;
+    this.showPlaceholderEstimation = true;
     this.carbonEstimation = this.estimationService.getPlaceholderCarbonEstimation();
   }
 

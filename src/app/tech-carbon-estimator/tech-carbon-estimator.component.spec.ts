@@ -47,7 +47,7 @@ describe('TechCarbonEstimatorComponent', () => {
   });
 
   it('should only show form when showEstimation is false', () => {
-    component.showEstimation = false;
+    component.showPlaceholderEstimation = false;
     component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
@@ -59,7 +59,7 @@ describe('TechCarbonEstimatorComponent', () => {
   });
 
   it('should show form and estimation when showEstimation is true', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
@@ -71,7 +71,7 @@ describe('TechCarbonEstimatorComponent', () => {
   });
 
   it('should show assumptions and estimations when showEstimation and showAssumptionsAndLimitationView are true', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
@@ -91,20 +91,20 @@ describe('TechCarbonEstimatorComponent', () => {
     const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
     expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
-    expect(component.showEstimation).toBeTrue();
+    expect(component.showPlaceholderEstimation).toBeTrue();
   });
 
   it('should hide estimation if form is reset', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     fixture.detectChanges();
 
     fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
 
-    expect(component.showEstimation).toBeFalse();
+    expect(component.showPlaceholderEstimation).toBeFalse();
   });
 
   it('should scroll to top of assumptions and limitation when showAssumptionsAndLimitation is called', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
     spyOn(component.assumptionsLimitation.nativeElement, 'scrollIntoView').and.callThrough();
@@ -115,7 +115,7 @@ describe('TechCarbonEstimatorComponent', () => {
   });
 
   it('should scroll to top of estimations when closeAssumptionsAndLimitation is called', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     // Setting to true so the component exists, the detectChanges on line 48 doesn't not seem to result in the component being created as is normal when running the app
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
@@ -129,7 +129,7 @@ describe('TechCarbonEstimatorComponent', () => {
   });
 
   it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
-    component.showEstimation = true;
+    component.showPlaceholderEstimation = true;
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
