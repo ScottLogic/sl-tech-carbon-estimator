@@ -31,6 +31,7 @@ export class TechCarbonEstimatorComponent implements OnInit {
 
   @ViewChild('assumptionsLimitation', { read: ElementRef }) assumptionsLimitation!: ElementRef;
   @ViewChild('estimations') estimations!: ElementRef;
+  @ViewChild('showAssumptionsLimitationButton') showAssumptionsLimitationButton!: ElementRef<HTMLButtonElement>;
 
   constructor(
     private estimationService: CarbonEstimationService,
@@ -56,16 +57,14 @@ export class TechCarbonEstimatorComponent implements OnInit {
 
   public showAssumptionsAndLimitation(): void {
     this.showAssumptionsAndLimitationView = true;
-    this.changeDetector.detectChanges();
-    this.assumptionsLimitation.nativeElement.scrollIntoView();
   }
 
   public closeAssumptionsAndLimitation(hasFocus: boolean): void {
     this.showAssumptionsAndLimitationView = false;
-    this.estimations.nativeElement.scrollIntoView();
+    this.changeDetector.detectChanges();
+    const openButton = this.showAssumptionsLimitationButton.nativeElement;
     if (hasFocus) {
-      this.changeDetector.detectChanges();
-      this.estimations.nativeElement.querySelector('button#showAssumptionsAndLimitationButton')?.focus();
+      openButton.focus();
     }
   }
 }
