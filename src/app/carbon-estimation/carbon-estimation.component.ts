@@ -12,6 +12,7 @@ import {
   getChartOptions,
   estimatorHeights,
   tooltipFormatter,
+  placeholderData,
 } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { Subscription, debounceTime, fromEvent } from 'rxjs';
@@ -38,6 +39,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public emissions: ApexAxisChartSeries = [];
   public emissionAriaLabel!: string;
+  public placeholderData: ApexAxisChartSeries = placeholderData;
 
   public chartOptions!: ChartOptions;
   private tooltipFormatter = tooltipFormatter;

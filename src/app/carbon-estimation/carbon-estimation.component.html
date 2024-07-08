@@ -25,7 +25,7 @@
     <apx-chart
       #chart
       aria-hidden="true"
-      [series]="emissions"
+      [series]="diagramIsPlaceholder() ? placeholderData : emissions"
       [chart]="chartOptions.chart"
       [plotOptions]="chartOptions.plotOptions"
       [legend]="chartOptions.legend"

@@ -1,3 +1,4 @@
+import { ApexAxisChartSeries } from 'ng-apexcharts';
 import { ChartOptions } from '../types/carbon-estimator';
 
 export enum EmissionsColours {
@@ -123,3 +124,26 @@ export enum EmissionsLabels {
   Indirect = 'Indirect Emissions',
   Downstream = 'Downstream Emissions',
 }
+
+export const placeholderData: ApexAxisChartSeries = [
+  {
+    name: `${EmissionsLabels.Upstream} - ?`,
+    color: PlaceholderEmissionsColours.Upstream,
+    data: [{ x: EmissionsLabels.Upstream, y: 1 }],
+  },
+  {
+    name: `${EmissionsLabels.Direct} - ?`,
+    color: PlaceholderEmissionsColours.Direct,
+    data: [{ x: EmissionsLabels.Direct, y: 1 }],
+  },
+  {
+    name: `${EmissionsLabels.Indirect} - ?`,
+    color: PlaceholderEmissionsColours.Indirect,
+    data: [{ x: EmissionsLabels.Indirect, y: 1 }],
+  },
+  {
+    name: `${EmissionsLabels.Downstream} - ?`,
+    color: PlaceholderEmissionsColours.Downstream,
+    data: [{ x: EmissionsLabels.Downstream, y: 1 }],
+  },
+];
