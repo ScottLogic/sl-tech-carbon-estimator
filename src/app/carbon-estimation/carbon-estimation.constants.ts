@@ -67,6 +67,9 @@ export const getChartOptions = (isPlaceholder: boolean) => {
       selection: {
         enabled: false,
       },
+      animations: {
+        speed: 450,
+      },
     },
     plotOptions: {
       treemap: {

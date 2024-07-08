@@ -50,6 +50,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
+      this.chartOptions = getChartOptions(this.diagramIsPlaceholder());
       this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation(), this.diagramIsPlaceholder());
       this.emissionAriaLabel = this.getAriaLabel(this.emissions, this.diagramIsPlaceholder());
     });
