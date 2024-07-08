@@ -224,7 +224,7 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData).toEqual(expectedEmissions);
   });
 
   it('should have detailed aria label', () => {
@@ -259,7 +259,7 @@ describe('CarbonEstimationComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.emissions[0].name).toBe('Upstream Emissions - <1%');
+    expect(component.chartData[0].name).toBe('Upstream Emissions - <1%');
   });
 
   it('should remove categories when they are 0', () => {
@@ -337,7 +337,7 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData).toEqual(expectedEmissions);
   });
 
   it('should remove parent categories when all values are 0', () => {
@@ -393,6 +393,6 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData).toEqual(expectedEmissions);
   });
 });

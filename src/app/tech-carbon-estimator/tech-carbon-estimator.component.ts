@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -21,13 +21,12 @@ import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
   ],
   templateUrl: './tech-carbon-estimator.component.html',
 })
-export class TechCarbonEstimatorComponent implements OnInit {
+export class TechCarbonEstimatorComponent {
   @Input() public extraHeight?: string;
 
-  public showPlaceholderEstimation = true;
   public showAssumptionsAndLimitationView = false;
   public formValue: EstimatorValues | undefined;
-  public carbonEstimation: CarbonEstimation = {} as CarbonEstimation;
+  public carbonEstimation: CarbonEstimation | null = null;
 
   @ViewChild('assumptionsLimitation', { read: ElementRef }) assumptionsLimitation!: ElementRef;
   @ViewChild('estimations') estimations!: ElementRef;
@@ -38,21 +37,15 @@ export class TechCarbonEstimatorComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.carbonEstimation = this.estimationService.getPlaceholderCarbonEstimation();
-  }
-
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
     this.carbonEstimation = this.estimationService.calculateCarbonEstimation(this.formValue);
-    this.showPlaceholderEstimation = false;
     this.changeDetector.detectChanges();
     this.estimations.nativeElement.scrollIntoView();
   }
 
   public handleFormReset() {
-    this.showPlaceholderEstimation = true;
-    this.carbonEstimation = this.estimationService.getPlaceholderCarbonEstimation();
+    this.carbonEstimation = null;
   }
 
   public showAssumptionsAndLimitation(): void {

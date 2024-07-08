@@ -6,7 +6,6 @@ import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apex
 import { startCase } from 'lodash-es';
 import {
   EmissionsColours,
-  PlaceholderEmissionsColours,
   EmissionsLabels,
   SVG,
   getChartOptions,
@@ -33,13 +32,11 @@ type ApexChartSeries = {
   styleUrls: ['./carbon-estimation.component.css'],
 })
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
-  public carbonEstimation = input.required<CarbonEstimation>();
-  public diagramIsPlaceholder = input.required<boolean>();
+  public carbonEstimation = input.required<CarbonEstimation | null>();
   public extraHeight = input<string>();
 
-  public emissions: ApexAxisChartSeries = [];
+  public chartData: ApexAxisChartSeries = [];
   public emissionAriaLabel!: string;
-  public placeholderData: ApexAxisChartSeries = placeholderData;
 
   public chartOptions!: ChartOptions;
   private tooltipFormatter = tooltipFormatter;
@@ -52,14 +49,20 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
-      this.chartOptions = getChartOptions(this.diagramIsPlaceholder());
-      this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation(), this.diagramIsPlaceholder());
-      this.emissionAriaLabel = this.getAriaLabel(this.emissions, this.diagramIsPlaceholder());
+      if (this.carbonEstimation() === null) {
+        this.chartData = placeholderData;
+        this.chartOptions = getChartOptions(true);
+        this.emissionAriaLabel = 'Placeholder for estimator of emissions';
+      } else {
+        this.chartData = this.getOverallEmissionPercentages(this.carbonEstimation()!);
+        this.chartOptions = getChartOptions(false);
+        this.emissionAriaLabel = this.getAriaLabel(this.chartData);
+      }
     });
   }
 
   public ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.diagramIsPlaceholder());
+    this.chartOptions = getChartOptions(this.carbonEstimation() === null);
     const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
@@ -84,38 +87,33 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     this.chart?.updateOptions({ chart: { height: chartHeight } });
   }
 
-  private getOverallEmissionPercentages(
-    carbonEstimation: CarbonEstimation,
-    isPlaceholder: boolean
-  ): ApexAxisChartSeries {
+  private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
     return [
       {
-        name: `${EmissionsLabels.Upstream} - ${isPlaceholder ? '?' : this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
-        color: isPlaceholder ? PlaceholderEmissionsColours.Upstream : EmissionsColours.Upstream,
+        name: `${EmissionsLabels.Upstream} - ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
+        color: EmissionsColours.Upstream,
         data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, EmissionsLabels.Upstream),
       },
       {
-        name: `${EmissionsLabels.Direct} - ${isPlaceholder ? '?' : this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
-        color: isPlaceholder ? PlaceholderEmissionsColours.Direct : EmissionsColours.Direct,
+        name: `${EmissionsLabels.Direct} - ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
+        color: EmissionsColours.Direct,
         data: this.getEmissionPercentages(carbonEstimation.directEmissions, EmissionsLabels.Direct),
       },
       {
-        name: `${EmissionsLabels.Indirect} - ${isPlaceholder ? '?' : this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
-        color: isPlaceholder ? PlaceholderEmissionsColours.Indirect : EmissionsColours.Indirect,
+        name: `${EmissionsLabels.Indirect} - ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
+        color: EmissionsColours.Indirect,
         data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, EmissionsLabels.Indirect),
       },
       {
-        name: `${EmissionsLabels.Downstream} - ${isPlaceholder ? '?' : this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
-        color: isPlaceholder ? PlaceholderEmissionsColours.Downstream : EmissionsColours.Downstream,
+        name: `${EmissionsLabels.Downstream} - ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
+        color: EmissionsColours.Downstream,
         data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, EmissionsLabels.Downstream),
       },
     ].filter(entry => entry.data.length !== 0);
   }
 
-  private getAriaLabel(emission: ApexAxisChartSeries, isPlaceholder: boolean): string {
-    return isPlaceholder ?
-        'Placeholder for estimator of emissions'
-      : `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
+  private getAriaLabel(emission: ApexAxisChartSeries): string {
+    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
   }
 
   private getAriaLabelForCategory(series: ApexChartSeries): string {
