@@ -1,4 +1,3 @@
-import { ApexAxisChartSeries } from 'ng-apexcharts';
 import { ChartOptions } from '../types/carbon-estimator';
 
 export enum EmissionsColours {
@@ -37,8 +36,12 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
       <div class="tce-p-1 md:tce-p-2 tce-flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce-m-auto tce-size-4 md:tce-size-8"></div></div>
         <div class="tce-p-1 md:tce-p-2">
         <div class="tce-text-wrap">${data.meta.parent}:</div>
-        <div class="tce-text-wrap">${data.x} -
-        <span class="tce-font-bold">${isPlaceholder ? '?' : tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
+        ${
+          isPlaceholder ?
+            '<div class="tce-text-wrap">Subcategories - <span class="tce-font-bold">?</span></div>'
+          : `<div class="tce-text-wrap">${data.x} - <span class="tce-font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`
+        }
+        </div>`;
   };
 
   return customTooltip;
@@ -125,25 +128,33 @@ export enum EmissionsLabels {
   Downstream = 'Downstream Emissions',
 }
 
-export const placeholderData: ApexAxisChartSeries = [
+export type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
+
+export type ApexChartSeriesItem = {
+  name: string;
+  color: string;
+  data: ApexChartDataItem[];
+};
+
+export const placeholderData: ApexChartSeriesItem[] = [
   {
     name: `${EmissionsLabels.Upstream} - ?`,
     color: PlaceholderEmissionsColours.Upstream,
-    data: [{ x: EmissionsLabels.Upstream, y: 1 }],
+    data: [{ x: EmissionsLabels.Upstream, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Upstream } }],
   },
   {
     name: `${EmissionsLabels.Direct} - ?`,
     color: PlaceholderEmissionsColours.Direct,
-    data: [{ x: EmissionsLabels.Direct, y: 1 }],
+    data: [{ x: EmissionsLabels.Direct, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Direct } }],
   },
   {
     name: `${EmissionsLabels.Indirect} - ?`,
     color: PlaceholderEmissionsColours.Indirect,
-    data: [{ x: EmissionsLabels.Indirect, y: 1 }],
+    data: [{ x: EmissionsLabels.Indirect, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Indirect } }],
   },
   {
     name: `${EmissionsLabels.Downstream} - ?`,
     color: PlaceholderEmissionsColours.Downstream,
-    data: [{ x: EmissionsLabels.Downstream, y: 1 }],
+    data: [{ x: EmissionsLabels.Downstream, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Downstream } }],
   },
 ];

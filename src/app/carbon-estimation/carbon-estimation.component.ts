@@ -12,17 +12,11 @@ import {
   estimatorHeights,
   tooltipFormatter,
   placeholderData,
+  ApexChartSeriesItem,
+  ApexChartDataItem,
 } from './carbon-estimation.constants';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { Subscription, debounceTime, fromEvent } from 'rxjs';
-
-type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
-
-type ApexChartSeries = {
-  name: string;
-  color: string;
-  data: ApexChartDataItem[];
-};
 
 @Component({
   selector: 'carbon-estimation',
@@ -113,10 +107,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   private getAriaLabel(emission: ApexAxisChartSeries): string {
-    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
+    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeriesItem)).join(' ')}`;
   }
 
-  private getAriaLabelForCategory(series: ApexChartSeries): string {
+  private getAriaLabelForCategory(series: ApexChartSeriesItem): string {
     const category = series.name.replace('-', 'are');
     return `${category}${this.getEmissionMadeUp(series.data)}`;
   }
