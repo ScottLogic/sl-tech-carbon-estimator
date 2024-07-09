@@ -140,21 +140,27 @@ export const placeholderData: ApexChartSeriesItem[] = [
   {
     name: `${EmissionsLabels.Upstream} - ?`,
     color: PlaceholderEmissionsColours.Upstream,
-    data: [{ x: EmissionsLabels.Upstream, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Upstream } }],
+    data: [
+      { x: EmissionsLabels.Upstream, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Upstream } },
+    ],
   },
   {
     name: `${EmissionsLabels.Direct} - ?`,
     color: PlaceholderEmissionsColours.Direct,
-    data: [{ x: EmissionsLabels.Direct, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Direct } }],
+    data: [{ x: EmissionsLabels.Direct, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Direct } }],
   },
   {
     name: `${EmissionsLabels.Indirect} - ?`,
     color: PlaceholderEmissionsColours.Indirect,
-    data: [{ x: EmissionsLabels.Indirect, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Indirect } }],
+    data: [
+      { x: EmissionsLabels.Indirect, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Indirect } },
+    ],
   },
   {
     name: `${EmissionsLabels.Downstream} - ?`,
     color: PlaceholderEmissionsColours.Downstream,
-    data: [{ x: EmissionsLabels.Downstream, y: 1, meta: { svg: 'web-logo', parent: EmissionsLabels.Downstream } }],
+    data: [
+      { x: EmissionsLabels.Downstream, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Downstream } },
+    ],
   },
 ];
