@@ -26,7 +26,7 @@ import { Subscription, debounceTime, fromEvent } from 'rxjs';
   styleUrls: ['./carbon-estimation.component.css'],
 })
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
-  public carbonEstimation = input.required<CarbonEstimation | null>();
+  public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
 
   public chartData: ApexAxisChartSeries = [];
@@ -43,7 +43,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
-      if (this.carbonEstimation() === null) {
+      if (this.showPlaceholderChart) {
         this.chartData = placeholderData;
         this.chartOptions = getChartOptions(true);
         this.emissionAriaLabel = 'Placeholder for estimator of emissions';
@@ -231,5 +231,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       default:
         return startCase(key);
     }
+  }
+
+  private get showPlaceholderChart() {
+    return !this.carbonEstimation();
   }
 }
