@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   # Build job
-  build:
+  build_page:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -33,23 +33,16 @@ jobs:
         with:
           path: ./dist/tech-carbon-estimator
 
-  unit_tests:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up environment
-        uses: ./.github/actions/set-up-environment
-      - name: Run tests
-        run: npm test
+  build_and_test:
+    uses: ./.github/workflows/buildAndTest.yml
+    needs: build_page
 
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: unit_tests
+    needs: build_and_test
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
