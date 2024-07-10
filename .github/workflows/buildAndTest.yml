@@ -1,8 +1,10 @@
-name: PR Workflow
+name: Build and Test
 on:
-  - pull_request
-  - workflow_dispatch
-  - workflow_call
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
