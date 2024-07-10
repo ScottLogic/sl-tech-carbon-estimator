@@ -32,7 +32,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public chartData: ApexAxisChartSeries = [];
   public emissionAriaLabel!: string;
 
-  public chartOptions!: ChartOptions;
+  public chartOptions: ChartOptions;
   private tooltipFormatter = tooltipFormatter;
   private estimatorBaseHeight = sumValues(estimatorHeights);
 
@@ -42,6 +42,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
+    this.chartOptions = getChartOptions(this.showPlaceholderChart);
     effect(() => {
       if (this.showPlaceholderChart) {
         this.chartData = placeholderData;
@@ -56,7 +57,6 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.carbonEstimation() === null);
     const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
     if (chartHeight > 0) {
       this.chartOptions.chart.height = chartHeight;
