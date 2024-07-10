@@ -5,6 +5,30 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { By } from '@angular/platform-browser';
 
+const getMockCarbonEstimation: () => CarbonEstimation = () => ({
+  version: '0.0.0',
+  upstreamEmissions: {
+    software: 0,
+    employee: 10,
+    network: 10,
+    server: 5,
+  },
+  indirectEmissions: {
+    saas: 0,
+    managed: 0,
+    cloud: 25,
+  },
+  directEmissions: {
+    employee: 10,
+    network: 10,
+    server: 5,
+  },
+  downstreamEmissions: {
+    endUser: 15,
+    networkTransfer: 10,
+  },
+});
+
 describe('TechCarbonEstimatorComponent', () => {
   let component: TechCarbonEstimatorComponent;
   let fixture: ComponentFixture<TechCarbonEstimatorComponent>;
@@ -12,29 +36,7 @@ describe('TechCarbonEstimatorComponent', () => {
 
   beforeEach(async () => {
     estimationServiceStub = {
-      calculateCarbonEstimation: () => ({
-        version: '0.0.0',
-        upstreamEmissions: {
-          software: 0,
-          employee: 10,
-          network: 10,
-          server: 5,
-        },
-        indirectEmissions: {
-          saas: 0,
-          managed: 0,
-          cloud: 25,
-        },
-        directEmissions: {
-          employee: 10,
-          network: 10,
-          server: 5,
-        },
-        downstreamEmissions: {
-          endUser: 15,
-          networkTransfer: 10,
-        },
-      }),
+      calculateCarbonEstimation: getMockCarbonEstimation,
     };
 
     await TestBed.configureTestingModule({
@@ -86,55 +88,11 @@ describe('TechCarbonEstimatorComponent', () => {
     const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
 
-    expect(component.carbonEstimation as CarbonEstimation | null).toEqual({
-      version: '0.0.0',
-      upstreamEmissions: {
-        software: 0,
-        employee: 10,
-        network: 10,
-        server: 5,
-      },
-      indirectEmissions: {
-        saas: 0,
-        managed: 0,
-        cloud: 25,
-      },
-      directEmissions: {
-        employee: 10,
-        network: 10,
-        server: 5,
-      },
-      downstreamEmissions: {
-        endUser: 15,
-        networkTransfer: 10,
-      },
-    });
+    expect(component.carbonEstimation as CarbonEstimation | null).toEqual(getMockCarbonEstimation());
   });
 
   it('should set the carbonEstimation to null when the form is reset', () => {
-    component.carbonEstimation = {
-      version: '0.0.0',
-      upstreamEmissions: {
-        software: 0,
-        employee: 10,
-        network: 10,
-        server: 5,
-      },
-      indirectEmissions: {
-        saas: 0,
-        managed: 0,
-        cloud: 25,
-      },
-      directEmissions: {
-        employee: 10,
-        network: 10,
-        server: 5,
-      },
-      downstreamEmissions: {
-        endUser: 15,
-        networkTransfer: 10,
-      },
-    };
+    component.carbonEstimation = getMockCarbonEstimation();
     fixture.detectChanges();
 
     fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
