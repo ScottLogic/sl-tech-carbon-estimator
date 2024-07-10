@@ -42,16 +42,17 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    this.chartOptions = getChartOptions(this.showPlaceholderChart);
+    this.chartOptions = getChartOptions(!this.carbonEstimation());
     effect(() => {
-      if (this.showPlaceholderChart) {
+      const estimation = this.carbonEstimation();
+      if (estimation) {
+        this.chartData = this.getOverallEmissionPercentages(estimation);
+        this.chartOptions = getChartOptions(false);
+        this.emissionAriaLabel = this.getAriaLabel(this.chartData);
+      } else {
         this.chartData = placeholderData;
         this.chartOptions = getChartOptions(true);
         this.emissionAriaLabel = 'Placeholder for estimator of emissions';
-      } else {
-        this.chartData = this.getOverallEmissionPercentages(this.carbonEstimation()!);
-        this.chartOptions = getChartOptions(false);
-        this.emissionAriaLabel = this.getAriaLabel(this.chartData);
       }
     });
   }
@@ -231,9 +232,5 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       default:
         return startCase(key);
     }
-  }
-
-  private get showPlaceholderChart() {
-    return !this.carbonEstimation();
   }
 }
