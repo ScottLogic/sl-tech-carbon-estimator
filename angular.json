@@ -34,14 +34,14 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2.5kb",
-                  "maximumError": "5kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "baseHref": "/sl-tech-carbon-estimator/"
             },
             "npm-package": {
-              "index": { "input": "src/package-index.html", "output": "index.html" },
+              "index": {"input": "src/package-index.html", "output": "index.html"},
               "assets": [],
               "styles": ["src/styles.css", "src/package-styles.css"]
             },
