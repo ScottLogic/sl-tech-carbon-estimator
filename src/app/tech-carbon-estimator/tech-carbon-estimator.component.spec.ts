@@ -68,33 +68,79 @@ describe('TechCarbonEstimatorComponent', () => {
     expect(assumptionsElement).toBeTruthy();
   });
 
-  // it('should show pass the carbonEstimation to the estimation component when it is truthy', () => {
-  //   // component.showAssumptionsAndLimitationView = false;
-  //   fixture.detectChanges();
-
-  //   const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-  //   const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
-
-  //   expect(estimationElement.carbonEstimation).toEqual(estimation);
-  // });
-
   it('should call estimationService.calculateCarbonEstimation when handleFormSubmit is called', () => {
     spyOn(estimationServiceStub, 'calculateCarbonEstimation' as never).and.callThrough();
 
     // The form component expects a full EstimatorValues object or undefined, but we only need to test that the service is called
     const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
+
     expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
   });
 
-  // it('should hide estimation if form is reset', () => {
-  //   component.showPlaceholderEstimation = true;
-  //   fixture.detectChanges();
+  it('should set the carbonEstimation when handleFormSubmit is called', () => {
+    component.carbonEstimation = null;
+    fixture.detectChanges();
+    spyOn(estimationServiceStub, 'calculateCarbonEstimation' as never).and.callThrough();
 
-  //   fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
+    const formValue = undefined as unknown as EstimatorValues;
+    component.handleFormSubmit(formValue);
 
-  //   expect(component.showPlaceholderEstimation).toBeFalse();
-  // });
+    expect(component.carbonEstimation as CarbonEstimation | null).toEqual({
+      version: '0.0.0',
+      upstreamEmissions: {
+        software: 0,
+        employee: 10,
+        network: 10,
+        server: 5,
+      },
+      indirectEmissions: {
+        saas: 0,
+        managed: 0,
+        cloud: 25,
+      },
+      directEmissions: {
+        employee: 10,
+        network: 10,
+        server: 5,
+      },
+      downstreamEmissions: {
+        endUser: 15,
+        networkTransfer: 10,
+      },
+    });
+  });
+
+  it('should set the carbonEstimation to null when the form is reset', () => {
+    component.carbonEstimation = {
+      version: '0.0.0',
+      upstreamEmissions: {
+        software: 0,
+        employee: 10,
+        network: 10,
+        server: 5,
+      },
+      indirectEmissions: {
+        saas: 0,
+        managed: 0,
+        cloud: 25,
+      },
+      directEmissions: {
+        employee: 10,
+        network: 10,
+        server: 5,
+      },
+      downstreamEmissions: {
+        endUser: 15,
+        networkTransfer: 10,
+      },
+    };
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
+
+    expect(component.carbonEstimation).toBeNull();
+  });
 
   it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
     component.showAssumptionsAndLimitationView = true;
