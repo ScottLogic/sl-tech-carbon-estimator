@@ -32,7 +32,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public chartData: ApexAxisChartSeries = [];
   public emissionAriaLabel!: string;
 
-  public chartOptions: ChartOptions;
+  public chartOptions!: ChartOptions;
   private tooltipFormatter = tooltipFormatter;
   private estimatorBaseHeight = sumValues(estimatorHeights);
 
@@ -42,26 +42,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    this.chartOptions = getChartOptions(!this.carbonEstimation());
-    effect(() => {
-      const estimation = this.carbonEstimation();
-      if (estimation) {
-        this.chartData = this.getOverallEmissionPercentages(estimation);
-        this.chartOptions = getChartOptions(false);
-        this.emissionAriaLabel = this.getAriaLabel(this.chartData);
-      } else {
-        this.chartData = placeholderData;
-        this.chartOptions = getChartOptions(true);
-        this.emissionAriaLabel = 'Placeholder for estimator of emissions';
-      }
-    });
+    effect(() => this.configureChart(this.carbonEstimation()));
   }
 
   public ngOnInit(): void {
-    const chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
-    if (chartHeight > 0) {
-      this.chartOptions.chart.height = chartHeight;
-    }
+    this.configureChart(this.carbonEstimation());
 
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(500))
@@ -163,6 +148,19 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
 
     return heightBoundedAboveAndBelow;
+  }
+
+  private configureChart(estimation?: CarbonEstimation) {
+    if (estimation) {
+      this.chartData = this.getOverallEmissionPercentages(estimation);
+      this.chartOptions = getChartOptions(false);
+      this.emissionAriaLabel = this.getAriaLabel(this.chartData);
+    } else {
+      this.chartData = placeholderData;
+      this.chartOptions = getChartOptions(true);
+      this.emissionAriaLabel = 'Placeholder for estimator of emissions';
+    }
+    this.chartOptions.chart.height = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
