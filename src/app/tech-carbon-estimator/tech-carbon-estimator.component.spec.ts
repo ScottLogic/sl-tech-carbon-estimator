@@ -83,7 +83,6 @@ describe('TechCarbonEstimatorComponent', () => {
   it('should set the carbonEstimation when handleFormSubmit is called', () => {
     component.carbonEstimation = null;
     fixture.detectChanges();
-    spyOn(estimationServiceStub, 'calculateCarbonEstimation' as never).and.callThrough();
 
     const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
