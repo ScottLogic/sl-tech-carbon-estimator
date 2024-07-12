@@ -8,7 +8,7 @@ import {
   EmissionsColours,
   EmissionsLabels,
   SVG,
-  getChartOptions,
+  getBaseChartOptions,
   estimatorHeights,
   tooltipFormatter,
   placeholderData,
@@ -32,7 +32,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public chartData = computed(() => this.getChartData(this.carbonEstimation()));
   public emissionAriaLabel = computed(() => this.getEmissionAriaLabel(this.chartData(), !this.carbonEstimation()));
 
-  public chartOptions = computed(() => getChartOptions(!this.carbonEstimation()));
+  public chartOptions = computed(() => this.getChartOptions(!this.carbonEstimation()));
   private tooltipFormatter = tooltipFormatter;
   private estimatorBaseHeight = sumValues(estimatorHeights);
 
@@ -148,6 +148,12 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
 
     return heightBoundedAboveAndBelow;
+  }
+
+  private getChartOptions(isPlaceholder: boolean) {
+    const chartOptions = getBaseChartOptions(isPlaceholder);
+    chartOptions.chart.height = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
+    return chartOptions;
   }
 
   private getChartData(estimation?: CarbonEstimation): ApexAxisChartSeries {

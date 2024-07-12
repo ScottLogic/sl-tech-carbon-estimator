@@ -47,7 +47,7 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
   return customTooltip;
 };
 
-export const getChartOptions = (isPlaceholder: boolean) => {
+export const getBaseChartOptions = (isPlaceholder: boolean) => {
   const chartOptions: ChartOptions = {
     legend: {
       show: true,
