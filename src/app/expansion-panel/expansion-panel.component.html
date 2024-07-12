@@ -9,6 +9,6 @@
     {{ expanded ? 'expand_less' : 'expand_more' }}
   </button>
 </div>
-<div [ngClass]="{ 'tce-hidden': !expanded }" [class]="config.contentContainerStyles" role="region">
+<div [ngClass]="{ 'tce-hidden': !expanded }" [class]="config.contentContainerStyles">
   <ng-content select="[content]"></ng-content>
 </div>
