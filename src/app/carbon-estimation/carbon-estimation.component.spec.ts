@@ -56,7 +56,7 @@ describe('CarbonEstimationComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.chartOptions.chart.height).toBe(1000 - estimatorBaseHeight - 200);
+    expect(component.chartOptions().chart.height).toBe(1000 - estimatorBaseHeight - 200);
   });
 
   it('should subtract the extraHeight input from the chart height on laptop screens', () => {
@@ -224,11 +224,11 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.chartData).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 
   it('should have detailed aria label', () => {
-    expect(component.emissionAriaLabel.length).toBeGreaterThan(25);
+    expect(component.emissionAriaLabel().length).toBeGreaterThan(25);
   });
 
   it('should set label to <1% if emission is less than 1', () => {
@@ -259,7 +259,7 @@ describe('CarbonEstimationComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.chartData[0].name).toBe('Upstream Emissions - <1%');
+    expect(component.chartData()[0].name).toBe('Upstream Emissions - <1%');
   });
 
   it('should remove categories when they are 0', () => {
@@ -337,7 +337,7 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.chartData).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 
   it('should remove parent categories when all values are 0', () => {
@@ -393,6 +393,6 @@ describe('CarbonEstimationComponent', () => {
       },
     ];
 
-    expect(component.chartData).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 });
