@@ -125,8 +125,8 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
     const expansionPanelHeight = this.detailsPanel.nativeElement.clientHeight;
 
-    // medium tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
-    const responsiveBreakpoint = 768;
+    // large tailwind responsive design breakpoint https://tailwindcss.com/docs/responsive-design
+    const responsiveBreakpoint = 1024;
 
     const extraHeightString = this.extraHeight();
     const extraHeight = Number(extraHeightString) || 0;

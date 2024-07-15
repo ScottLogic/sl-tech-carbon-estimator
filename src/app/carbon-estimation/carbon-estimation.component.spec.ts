@@ -59,7 +59,7 @@ describe('CarbonEstimationComponent', () => {
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
     fixture.componentRef.setInput('extraHeight', '100');
 
-    component.onResize(1500, 1000, 2000);
+    component.onResize(1500, 1500, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: 1500 - estimatorBaseHeight - 200 - 100 },
@@ -70,7 +70,7 @@ describe('CarbonEstimationComponent', () => {
     spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
-    component.onResize(1500, 1000, 2000);
+    component.onResize(1500, 2000, 2000);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: 1500 - estimatorBaseHeight - 200 },
@@ -93,7 +93,7 @@ describe('CarbonEstimationComponent', () => {
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     const screenHeight = 2000;
-    component.onResize(2000, 1000, screenHeight);
+    component.onResize(2000, 1500, screenHeight);
 
     expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
       chart: { height: screenHeight * 0.75 },
