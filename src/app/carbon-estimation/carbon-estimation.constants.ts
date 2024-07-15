@@ -32,6 +32,22 @@ const customTooltip = ({
     <span class="tce-font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div></div>`;
 };
 
+const customDataLabel = (value: string | number | number[], {
+  seriesIndex,
+  dataPointIndex,
+  w,
+}: {
+  seriesIndex: number;
+  dataPointIndex: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  w: any;
+}) => {
+  const initialSeries = w.globals.initialSeries[seriesIndex];
+  const data = initialSeries.data[dataPointIndex];
+
+  return `${value} - ${tooltipFormatter(data.y)}`
+}
+
 export const chartOptions: ChartOptions = {
   legend: {
     show: true,
@@ -75,6 +91,7 @@ export const chartOptions: ChartOptions = {
     },
   },
   dataLabels: {
+    formatter: customDataLabel,
     style: {
       fontSize: '16px',
       fontFamily: 'ui-sans-serif, system-ui, sans-serif',
