@@ -1,0 +1,8 @@
+<ul>
+  @for (tab of tabs; track tab.title) {
+    <li [class.active]="tab.active()" (click)="selectTab(tab)" (keydown.enter)="selectTab(tab)" tabindex="0">
+      {{ tab.title() }}
+    </li>
+  }
+</ul>
+<ng-content></ng-content>
