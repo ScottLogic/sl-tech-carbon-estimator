@@ -51,23 +51,26 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
 };
 
 const getCustomDataLabel = (isPlaceholder: boolean) => {
-  const customDataLabel = (value: string | number | number[], {
-    seriesIndex,
-    dataPointIndex,
-    w,
-  }: {
-    seriesIndex: number;
-    dataPointIndex: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    w: any;
-  }) => {
+  const customDataLabel = (
+    value: string | number | number[],
+    {
+      seriesIndex,
+      dataPointIndex,
+      w,
+    }: {
+      seriesIndex: number;
+      dataPointIndex: number;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      w: any;
+    }
+  ) => {
     const initialSeries = w.globals.initialSeries[seriesIndex];
     const data = initialSeries.data[dataPointIndex];
-  
-    return `${value} - ${isPlaceholder ? '?' : tooltipFormatter(data.y)}`
-  }
+
+    return `${value} - ${isPlaceholder ? '?' : tooltipFormatter(data.y)}`;
+  };
   return customDataLabel;
-}
+};
 
 export const getBaseChartOptions = (isPlaceholder: boolean) => {
   const chartOptions: ChartOptions = {

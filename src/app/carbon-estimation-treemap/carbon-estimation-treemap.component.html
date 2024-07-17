@@ -1,12 +1,12 @@
-<div [attr.aria-label]="emissionAriaLabel" role="presentation" tabindex="0">
+<figure [attr.aria-label]="emissionAriaLabel()" tabindex="0">
   <apx-chart
     #chart
     aria-hidden="true"
-    [series]="emissions"
-    [chart]="chartOptions.chart"
-    [plotOptions]="chartOptions.plotOptions"
-    [legend]="chartOptions.legend"
-    [states]="chartOptions.states"
-    [dataLabels]="chartOptions.dataLabels"
-    [tooltip]="chartOptions.tooltip"></apx-chart>
-</div>
+    [series]="chartData()"
+    [chart]="chartOptions().chart"
+    [plotOptions]="chartOptions().plotOptions"
+    [legend]="chartOptions().legend"
+    [states]="chartOptions().states"
+    [dataLabels]="chartOptions().dataLabels"
+    [tooltip]="chartOptions().tooltip"></apx-chart>
+</figure>

@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, effect, input } from '@angular/core';
+import { Component, ViewChild, computed, effect, input } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { CarbonEstimation, ChartOptions } from '../types/carbon-estimator';
+import { CarbonEstimation } from '../types/carbon-estimator';
 import {
-  chartOptions,
   tooltipFormatter,
   EmissionsColours,
   EmissionsLabels,
+  getBaseChartOptions,
+  placeholderData,
 } from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../utils/number-object';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
@@ -24,34 +25,35 @@ type ApexChartSeries = {
   imports: [NgApexchartsModule],
   templateUrl: './carbon-estimation-treemap.component.html',
 })
-export class CarbonEstimationTreemapComponent implements OnInit {
-  public carbonEstimation = input.required<CarbonEstimation>();
+export class CarbonEstimationTreemapComponent {
+  public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = input.required<number>();
 
-  public emissions: ApexAxisChartSeries = [];
-  public emissionAriaLabel = 'Estimations of emissions.';
+  public chartData = computed(() => this.getChartData(this.carbonEstimation()));
+  public emissionAriaLabel = computed(() => this.getAriaLabel(this.chartData(), !this.carbonEstimation()));
 
-  public chartOptions: ChartOptions = chartOptions;
+  public chartOptions = computed(() => this.getChartOptions(!this.carbonEstimation()));
   private tooltipFormatter = tooltipFormatter;
 
   @ViewChild('chart') chart: ChartComponent | undefined;
 
   constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {
     effect(() => {
-      this.emissions = this.getOverallEmissionPercentages(this.carbonEstimation());
-      this.emissionAriaLabel = this.getAriaLabel(this.emissions);
       const chartHeight = this.chartHeight();
-      if (chartHeight !== this.chartOptions.chart.height) {
+      if (chartHeight !== this.chartOptions().chart.height) {
         this.chart?.updateOptions({ chart: { height: chartHeight } });
       }
     });
   }
 
-  public ngOnInit(): void {
-    const chartHeight = this.chartHeight();
-    if (chartHeight > 0) {
-      this.chartOptions.chart.height = chartHeight;
-    }
+  private getChartOptions(isPlaceholder: boolean) {
+    const chartOptions = getBaseChartOptions(isPlaceholder);
+    chartOptions.chart.height = this.chartHeight();
+    return chartOptions;
+  }
+
+  private getChartData(estimation?: CarbonEstimation): ApexAxisChartSeries {
+    return estimation ? this.getOverallEmissionPercentages(estimation) : placeholderData;
   }
 
   private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
@@ -79,7 +81,11 @@ export class CarbonEstimationTreemapComponent implements OnInit {
     ].filter(entry => entry.data.length !== 0);
   }
 
-  private getAriaLabel(emission: ApexAxisChartSeries): string {
+  private getAriaLabel(chartData: ApexAxisChartSeries, isPlaceholder: boolean) {
+    return isPlaceholder ? 'Placeholder for estimation of emissions' : this.getEmissionAriaLabel(chartData);
+  }
+
+  private getEmissionAriaLabel(emission: ApexAxisChartSeries): string {
     return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeries)).join(' ')}`;
   }
 
