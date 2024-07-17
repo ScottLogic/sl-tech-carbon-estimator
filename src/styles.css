@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input.ng-invalid.ng-touched {
+  @apply tce-border-error-red
+}
+
 .tce-note {
   @apply tce-bg-sky-200 tce-border-sky-400 tce-text-slate-800
 }
