@@ -2,9 +2,12 @@ import { ChartOptions } from '../types/carbon-estimator';
 
 export enum EmissionsColours {
   Upstream = '#40798C',
+  UpstreamLight = '#bfdae2',
   Direct = '#CB3775',
   Indirect = '#91234C',
+  OperationLight = '#f2afd1',
   Downstream = '#4B7E56',
+  DownstreamLight = '#c1d9c3',
 }
 
 export enum PlaceholderEmissionsColours {
