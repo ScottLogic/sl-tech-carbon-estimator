@@ -2,8 +2,32 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TechCarbonEstimatorComponent } from './tech-carbon-estimator.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
-import { EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { By } from '@angular/platform-browser';
+
+const getMockCarbonEstimation: () => CarbonEstimation = () => ({
+  version: '0.0.0',
+  upstreamEmissions: {
+    software: 0,
+    employee: 10,
+    network: 10,
+    server: 5,
+  },
+  indirectEmissions: {
+    saas: 0,
+    managed: 0,
+    cloud: 25,
+  },
+  directEmissions: {
+    employee: 10,
+    network: 10,
+    server: 5,
+  },
+  downstreamEmissions: {
+    endUser: 15,
+    networkTransfer: 10,
+  },
+});
 
 describe('TechCarbonEstimatorComponent', () => {
   let component: TechCarbonEstimatorComponent;
@@ -12,29 +36,7 @@ describe('TechCarbonEstimatorComponent', () => {
 
   beforeEach(async () => {
     estimationServiceStub = {
-      calculateCarbonEstimation: () => ({
-        version: '0.0.0',
-        upstreamEmissions: {
-          software: 0,
-          employee: 10,
-          network: 10,
-          server: 5,
-        },
-        indirectEmissions: {
-          saas: 0,
-          managed: 0,
-          cloud: 25,
-        },
-        directEmissions: {
-          employee: 10,
-          network: 10,
-          server: 5,
-        },
-        downstreamEmissions: {
-          endUser: 15,
-          networkTransfer: 10,
-        },
-      }),
+      calculateCarbonEstimation: getMockCarbonEstimation,
     };
 
     await TestBed.configureTestingModule({
@@ -46,41 +48,25 @@ describe('TechCarbonEstimatorComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should only show form when showEstimation is false', () => {
-    component.showEstimation = false;
+  it('should show the form when showAssumptionsAndLimitationsView is false', () => {
     component.showAssumptionsAndLimitationView = false;
     fixture.detectChanges();
 
     const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
+    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeTruthy();
-    expect(estimationElement).toBeFalsy();
+    expect(assumptionsElement).toBeFalsy();
   });
 
-  it('should show form and estimation when showEstimation is true', () => {
-    component.showEstimation = true;
-    component.showAssumptionsAndLimitationView = false;
-    fixture.detectChanges();
-
-    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
-
-    expect(formElement).toBeTruthy();
-    expect(estimationElement).toBeTruthy();
-  });
-
-  it('should show assumptions and estimations when showEstimation and showAssumptionsAndLimitationView are true', () => {
-    component.showEstimation = true;
+  it('should show the assumptions and limitations when showAssumptionsAndLimitationsView is true', () => {
     component.showAssumptionsAndLimitationView = true;
     fixture.detectChanges();
 
     const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const estimationElement = fixture.nativeElement.querySelector('carbon-estimation');
     const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeFalsy();
-    expect(estimationElement).toBeTruthy();
     expect(assumptionsElement).toBeTruthy();
   });
 
@@ -90,17 +76,27 @@ describe('TechCarbonEstimatorComponent', () => {
     // The form component expects a full EstimatorValues object or undefined, but we only need to test that the service is called
     const formValue = undefined as unknown as EstimatorValues;
     component.handleFormSubmit(formValue);
+
     expect(estimationServiceStub.calculateCarbonEstimation).toHaveBeenCalledWith(formValue);
-    expect(component.showEstimation).toBeTrue();
   });
 
-  it('should hide estimation if form is reset', () => {
-    component.showEstimation = true;
+  it('should set the carbonEstimation when handleFormSubmit is called', () => {
+    component.carbonEstimation = null;
+    fixture.detectChanges();
+
+    const formValue = undefined as unknown as EstimatorValues;
+    component.handleFormSubmit(formValue);
+
+    expect(component.carbonEstimation as CarbonEstimation | null).toEqual(getMockCarbonEstimation());
+  });
+
+  it('should set the carbonEstimation to null when the form is reset', () => {
+    component.carbonEstimation = getMockCarbonEstimation();
     fixture.detectChanges();
 
     fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
 
-    expect(component.showEstimation).toBeFalse();
+    expect(component.carbonEstimation).toBeNull();
   });
 
   it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
