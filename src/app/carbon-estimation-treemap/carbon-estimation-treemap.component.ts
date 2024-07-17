@@ -23,7 +23,6 @@ type ApexChartSeries = {
   standalone: true,
   imports: [NgApexchartsModule],
   templateUrl: './carbon-estimation-treemap.component.html',
-  styleUrl: './carbon-estimation-treemap.component.css',
 })
 export class CarbonEstimationTreemapComponent implements OnInit {
   public carbonEstimation = input.required<CarbonEstimation>();
