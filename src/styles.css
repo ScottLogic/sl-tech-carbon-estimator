@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 input.ng-invalid.ng-touched {
-  @apply tce-border-error-red
+  @apply tce-border-error-red dark:tce-border-error-orange
+}
+
+.tce-error-text {
+  @apply tce-text-error-red dark:tce-text-error-orange
 }
 
 .tce-note {
