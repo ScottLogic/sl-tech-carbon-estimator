@@ -1,6 +1,6 @@
 import { isolateInsideOfContainer, scopedPreflightStyles } from 'tailwindcss-scoped-preflight';
 import form from '@tailwindcss/forms';
-import { red, orange } from 'tailwindcss/colors';
+import { red } from 'tailwindcss/colors';
 
 export default {
   content: ['./src/**/*.{html,ts}'],
@@ -10,8 +10,7 @@ export default {
         sans: ['objektiv-mk1', 'sans-serif'],
       },
       colors: {
-        'error-red': red['600'],
-        'error-orange': orange['400'],
+        'error-red': red['700'],
       },
     },
   },
