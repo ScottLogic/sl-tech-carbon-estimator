@@ -1,8 +1,13 @@
-<ul>
+<div class="tce-w-full tce-flex tce-mb-2">
   @for (tab of tabs; track tab.title) {
-    <li [class.active]="tab.active()" (click)="selectTab(tab)" (keydown.enter)="selectTab(tab)" tabindex="0">
+    <div
+      [class.tce-active-tab]="tab.active()"
+      (click)="selectTab(tab)"
+      (keydown.enter)="selectTab(tab)"
+      tabindex="0"
+      class="tce-p-2 tce-cursor-pointer tce-border-b-2 tce-border-transparent hover:tce-border-slate-300">
       {{ tab.title() }}
-    </li>
+    </div>
   }
-</ul>
+</div>
 <ng-content></ng-content>
