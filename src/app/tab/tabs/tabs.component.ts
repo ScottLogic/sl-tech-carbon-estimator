@@ -23,5 +23,6 @@ export class TabsComponent implements AfterContentInit {
   public selectTab(selectedTab: TabItemComponent) {
     this.tabs.filter(tab => tab.active()).forEach(tab => tab.active.set(false));
     selectedTab.active.set(true);
+    selectedTab.tabSelected.emit();
   }
 }

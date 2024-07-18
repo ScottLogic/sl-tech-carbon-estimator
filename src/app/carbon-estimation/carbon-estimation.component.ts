@@ -27,11 +27,13 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public extraHeight = input<string>();
 
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
+  @ViewChild('treemap', { static: true }) treemap!: CarbonEstimationTreemapComponent;
 
   public chartHeight!: number;
 
   private estimatorBaseHeight = sumValues(estimatorHeights);
   private resizeSubscription!: Subscription;
+  private hasResized = true;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -47,13 +49,22 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     this.resizeSubscription.unsubscribe();
   }
 
-  onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
+  public onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
+    this.hasResized = true;
     this.chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
   }
 
   public onExpanded(): void {
     this.changeDetectorRef.detectChanges();
     this.onResize(window.innerHeight, window.innerWidth, window.screen.height);
+  }
+
+  public treemapSelected(): void {
+    if (this.hasResized) {
+      this.hasResized = false;
+      this.changeDetectorRef.detectChanges();
+      this.treemap.chart?.updateOptions({});
+    }
   }
 
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
