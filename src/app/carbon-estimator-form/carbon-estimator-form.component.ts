@@ -14,6 +14,7 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
+import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -46,6 +47,7 @@ const errorMessages = {
     ExpansionPanelComponent,
     FormatCostRangePipe,
     InvalidatedPipe,
+    ErrorSummaryComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit {
@@ -82,6 +84,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public questionPanelConfig = questionPanelConfig;
 
   public errorMessages = errorMessages;
+
+  public showErrorSummary = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -172,8 +176,10 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public handleSubmit() {
     if (!this.estimatorForm.valid) {
+      this.showErrorSummary = true;
       return;
     }
+    this.showErrorSummary = false;
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
       formValue.onPremise.serverLocation = 'WORLD';
@@ -212,7 +218,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
     }
   }
 
-  private getValidationErrors() {
+  public getValidationErrors() {
     const validationErrors: ValidationError[] = [];
     if (this.headCount?.invalid) {
       validationErrors.push({
