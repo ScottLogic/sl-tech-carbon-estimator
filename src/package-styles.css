@@ -6,4 +6,12 @@ input, select {
   .apexcharts-legend-text {
     @apply !tce-text-slate-50
   }
+
+  input.ng-invalid.ng-touched {
+    @apply tce-border-red-700
+  }
+
+  .tce-error-box {
+    @apply tce-text-white tce-bg-red-700 tce-p-1 tce-rounded tce-border tce-border-white
+  }
 }
