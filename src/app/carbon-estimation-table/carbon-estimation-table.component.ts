@@ -1,11 +1,15 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { CarbonEstimation } from '../types/carbon-estimator';
-import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
+import {
+  EmissionsColours,
+  EmissionsLabels,
+  placeholderTableData,
+} from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
 import { NgClass, NgStyle } from '@angular/common';
 
-type TableItem = {
+export type TableItem = {
   category: string;
   emissions: string;
   parent?: string;
@@ -26,8 +30,10 @@ type ItemColour = {
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
-  public carbonEstimation = input.required<CarbonEstimation>();
+  public carbonEstimation = input<CarbonEstimation>();
   public emissions: TableItem[] = [];
+
+  public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
   public expanded: { [key: string]: boolean } = {
     [EmissionsLabels.Upstream]: true,
@@ -36,11 +42,7 @@ export class CarbonEstimationTableComponent {
     [EmissionsLabels.Downstream]: true,
   };
 
-  constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {
-    effect(() => {
-      this.emissions = this.getEmissions(this.carbonEstimation());
-    });
-  }
+  constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {}
 
   public toggle(category: string): void {
     this.emissions.forEach(emission => {
@@ -51,53 +53,55 @@ export class CarbonEstimationTableComponent {
     this.expanded[category] = !this.expanded[category];
   }
 
-  public getEmissions(carbonEstimation: CarbonEstimation): TableItem[] {
-    return [
-      {
-        category: EmissionsLabels.Upstream,
-        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.upstreamEmissions),
-        colour: { background: EmissionsColours.Upstream },
-      },
-      ...this.getEmissionsBreakdown(
-        carbonEstimation.upstreamEmissions,
-        EmissionsLabels.Upstream,
-        EmissionsColours.Upstream,
-        EmissionsColours.UpstreamLight
-      ),
-      {
-        category: EmissionsLabels.Direct,
-        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.directEmissions),
-        colour: { background: EmissionsColours.Direct },
-      },
-      ...this.getEmissionsBreakdown(
-        carbonEstimation.directEmissions,
-        EmissionsLabels.Direct,
-        EmissionsColours.Direct,
-        EmissionsColours.OperationLight
-      ),
-      {
-        category: EmissionsLabels.Indirect,
-        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.indirectEmissions),
-        colour: { background: EmissionsColours.Indirect },
-      },
-      ...this.getEmissionsBreakdown(
-        carbonEstimation.indirectEmissions,
-        EmissionsLabels.Indirect,
-        EmissionsColours.Indirect,
-        EmissionsColours.OperationLight
-      ),
-      {
-        category: EmissionsLabels.Downstream,
-        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.downstreamEmissions),
-        colour: { background: EmissionsColours.Downstream },
-      },
-      ...this.getEmissionsBreakdown(
-        carbonEstimation.downstreamEmissions,
-        EmissionsLabels.Downstream,
-        EmissionsColours.Downstream,
-        EmissionsColours.DownstreamLight
-      ),
-    ];
+  public getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
+    return !carbonEstimation ? placeholderTableData : (
+        [
+          {
+            category: EmissionsLabels.Upstream,
+            emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.upstreamEmissions),
+            colour: { background: EmissionsColours.Upstream },
+          },
+          ...this.getEmissionsBreakdown(
+            carbonEstimation.upstreamEmissions,
+            EmissionsLabels.Upstream,
+            EmissionsColours.Upstream,
+            EmissionsColours.UpstreamLight
+          ),
+          {
+            category: EmissionsLabels.Direct,
+            emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.directEmissions),
+            colour: { background: EmissionsColours.Direct },
+          },
+          ...this.getEmissionsBreakdown(
+            carbonEstimation.directEmissions,
+            EmissionsLabels.Direct,
+            EmissionsColours.Direct,
+            EmissionsColours.OperationLight
+          ),
+          {
+            category: EmissionsLabels.Indirect,
+            emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.indirectEmissions),
+            colour: { background: EmissionsColours.Indirect },
+          },
+          ...this.getEmissionsBreakdown(
+            carbonEstimation.indirectEmissions,
+            EmissionsLabels.Indirect,
+            EmissionsColours.Indirect,
+            EmissionsColours.OperationLight
+          ),
+          {
+            category: EmissionsLabels.Downstream,
+            emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.downstreamEmissions),
+            colour: { background: EmissionsColours.Downstream },
+          },
+          ...this.getEmissionsBreakdown(
+            carbonEstimation.downstreamEmissions,
+            EmissionsLabels.Downstream,
+            EmissionsColours.Downstream,
+            EmissionsColours.DownstreamLight
+          ),
+        ]
+      );
   }
 
   private getEmissionsBreakdown(

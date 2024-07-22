@@ -6,33 +6,33 @@
     </tr>
   </thead>
   <tbody>
-    @for (emissionsItem of emissions; track $index) {
-      <tr [style.background-color]="emissionsItem.colour.background">
-        @if (!emissionsItem.parent) {
+    @for (tableItem of tableData(); track $index) {
+      <tr [style.background-color]="tableItem.colour.background">
+        @if (!tableItem.parent) {
           <td class="tce-flex tce-text-white tce-items-center">
             <button
               type="button"
-              (click)="toggle(emissionsItem.category)"
-              [attr.aria-label]="expanded[emissionsItem.category] ? 'Hide details' : 'Show details'"
+              (click)="toggle(tableItem.category)"
+              [attr.aria-label]="expanded[tableItem.category] ? 'Hide details' : 'Show details'"
               class="material-icons-outlined hover:tce-opacity-50 tce-m-1">
-              {{ expanded[emissionsItem.category] ? 'expand_less' : 'expand_more' }}
+              {{ expanded[tableItem.category] ? 'expand_less' : 'expand_more' }}
             </button>
-            {{ emissionsItem.category }}
+            {{ tableItem.category }}
           </td>
-          <td class="tce-text-white">{{ emissionsItem.emissions }}</td>
-        } @else if (emissionsItem.display) {
+          <td class="tce-text-white">{{ tableItem.emissions }}</td>
+        } @else if (tableItem.display) {
           <td class="tce-flex tce-ml-8">
             <div
               class="tce-p-1 tce-flex tce-rounded-sm"
-              [style.background-color]="emissionsItem.colour.svg ?? emissionsItem.colour.background">
-              <div class="tce-m-auto tce-size-4 {{ emissionsItem.svg }}"></div>
+              [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
+              <div class="tce-m-auto tce-size-4 {{ tableItem.svg }}"></div>
             </div>
             <span class="tce-pl-2">
-              {{ emissionsItem.category }}
+              {{ tableItem.category }}
             </span>
           </td>
           <td>
-            {{ emissionsItem.emissions }}
+            {{ tableItem.emissions }}
           </td>
         }
       </tr>

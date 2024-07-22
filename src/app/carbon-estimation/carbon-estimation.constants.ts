@@ -1,3 +1,4 @@
+import { TableItem } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ChartOptions } from '../types/carbon-estimator';
 
 export enum EmissionsColours {
@@ -188,5 +189,27 @@ export const placeholderData: ApexChartSeriesItem[] = [
     data: [
       { x: EmissionsLabels.Downstream, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Downstream } },
     ],
+  },
+];
+export const placeholderTableData: TableItem[] = [
+  {
+    category: EmissionsLabels.Upstream,
+    emissions: '?',
+    colour: { background: PlaceholderEmissionsColours.Upstream },
+  },
+  {
+    category: EmissionsLabels.Direct,
+    emissions: '?',
+    colour: { background: PlaceholderEmissionsColours.Direct },
+  },
+  {
+    category: EmissionsLabels.Indirect,
+    emissions: '?',
+    colour: { background: PlaceholderEmissionsColours.Indirect },
+  },
+  {
+    category: EmissionsLabels.Downstream,
+    emissions: '?',
+    colour: { background: PlaceholderEmissionsColours.Downstream },
   },
 ];
