@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import { ValidationError } from '../carbon-estimator-form/carbon-estimator-form.constants';
 
 @Component({
@@ -10,4 +10,5 @@ import { ValidationError } from '../carbon-estimator-form/carbon-estimator-form.
 })
 export class ErrorSummaryComponent {
   validationErrors = input.required<ValidationError[]>();
+  @ViewChild('errorSummary') summary!: ElementRef<HTMLDivElement>;
 }

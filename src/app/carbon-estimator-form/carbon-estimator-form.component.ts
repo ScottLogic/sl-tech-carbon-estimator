@@ -1,5 +1,5 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import {
@@ -55,6 +55,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
   @Output() public formReset: EventEmitter<void> = new EventEmitter();
+
+  @ViewChild(ErrorSummaryComponent) errorSummary?: ErrorSummaryComponent;
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
@@ -177,6 +179,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public handleSubmit() {
     if (!this.estimatorForm.valid) {
       this.showErrorSummary = true;
+      this.changeDetector.detectChanges();
+      this.errorSummary?.summary.nativeElement.focus();
       return;
     }
     this.showErrorSummary = false;
