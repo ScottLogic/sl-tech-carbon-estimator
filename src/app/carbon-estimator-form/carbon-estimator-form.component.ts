@@ -2,7 +2,13 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
-import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
+import {
+  costRanges,
+  defaultValues,
+  formContext,
+  questionPanelConfig,
+  ValidationError,
+} from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
@@ -18,6 +24,12 @@ const locationDescriptions: Record<WorldLocation, string> = {
   AFRICA: 'in Africa',
   OCEANIA: 'in Oceania',
   'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
+};
+
+const errorMessages = {
+  headCount: 'The number of employees must be greater than 0.',
+  numberOfServers: 'The number of servers must be greater than or equal to 0.',
+  monthlyActiveUsers: 'The number of monthly active users must be greater than 0.',
 };
 
 @Component({
@@ -68,6 +80,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }));
 
   public questionPanelConfig = questionPanelConfig;
+
+  public errorMessages = errorMessages;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -196,5 +210,29 @@ export class CarbonEstimatorFormComponent implements OnInit {
         this.estimatorForm.getRawValue() as EstimatorValues
       );
     }
+  }
+
+  private getValidationErrors() {
+    const validationErrors: ValidationError[] = [];
+    if (this.headCount?.invalid) {
+      validationErrors.push({
+        inputId: 'headCount',
+        errorMessage: this.errorMessages.headCount,
+      });
+    }
+    if (this.numberOfServers?.invalid) {
+      validationErrors.push({
+        inputId: 'numberOfServers',
+        errorMessage: this.errorMessages.numberOfServers,
+      });
+    }
+    if (this.monthlyActiveUsers?.invalid) {
+      validationErrors.push({
+        inputId: 'monthlyActiveUsers',
+        errorMessage: this.errorMessages.monthlyActiveUsers,
+      });
+    }
+
+    return validationErrors;
   }
 }
