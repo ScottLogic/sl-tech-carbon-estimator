@@ -86,8 +86,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public questionPanelConfig = questionPanelConfig;
 
   public errorMessages = errorMessages;
-
   public showErrorSummary = false;
+  public validationErrors: ValidationError[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -179,6 +179,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public handleSubmit() {
     if (!this.estimatorForm.valid) {
       this.showErrorSummary = true;
+      this.validationErrors = this.getValidationErrors();
       this.changeDetector.detectChanges();
       this.errorSummary?.summary.nativeElement.focus();
       return;
@@ -222,7 +223,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
     }
   }
 
-  public getValidationErrors() {
+  private getValidationErrors() {
     const validationErrors: ValidationError[] = [];
     if (this.headCount?.invalid) {
       validationErrors.push({

@@ -1,7 +1,7 @@
 <form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
   <div formGroupName="upstream">
     @if (showErrorSummary) {
-      <error-summary [validationErrors]="getValidationErrors()"></error-summary>
+      <error-summary [validationErrors]="validationErrors"></error-summary>
     }
 
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
