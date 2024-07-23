@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+input.ng-invalid.ng-touched {
+  @apply tce-border-red-600 tce-border-2 tce-m-[-1px]
+}
+
+.tce-error-box {
+  @apply tce-text-red-600
+}
+
 .tce-note {
   @apply tce-bg-sky-200 tce-border-sky-400 tce-text-slate-800
 }

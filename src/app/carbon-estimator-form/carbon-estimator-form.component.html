@@ -14,7 +14,7 @@
           required
           [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
         @if (headCount | invalidated) {
-          <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="headCountError">
+          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
             <p>The number of employees must be greater than 0.</p>
           </div>
@@ -81,7 +81,7 @@
           required
           [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
         @if (numberOfServers | invalidated) {
-          <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
+          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
             <p>The number of servers must be greater than or equal to 0.</p>
           </div>
@@ -210,7 +210,7 @@
             required
             [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
           @if (monthlyActiveUsers | invalidated) {
-            <div class="tce-text-error-red tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
+            <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
               <p>
                 Monthly active users must be greater than 0. To specify no external users, use the
@@ -269,7 +269,7 @@
     </div>
     @if (estimatorForm | invalidated) {
       <div
-        class="tce-text-error-red tce-flex tce-gap-1 tce-justify-end tce-mt-2"
+        class="tce-error-box tce-flex tce-gap-1 tce-justify-end tce-mt-2"
         aria-live="polite"
         id="calculateDisabledMessage">
         <span class="material-icons-outlined">error</span>
