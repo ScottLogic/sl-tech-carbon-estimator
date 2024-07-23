@@ -22,13 +22,13 @@
     </div>
   </expansion-panel>
   <tabs class="tce-mt-2">
-    <tab-item [title]="'Graphic'" (tabSelected)="treemapSelected()">
+    <tab-item [title]="'Diagram'" (tabSelected)="treemapSelected()">
       <carbon-estimation-treemap
         #treemap
         [carbonEstimation]="carbonEstimation()"
         [chartHeight]="chartHeight"></carbon-estimation-treemap>
     </tab-item>
-    <tab-item [active]="true" [title]="'Tabular'">
+    <tab-item [active]="true" [title]="'Table'">
       <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table
     ></tab-item>
   </tabs>
