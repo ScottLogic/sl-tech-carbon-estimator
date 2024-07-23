@@ -31,7 +31,6 @@ type ItemColour = {
 })
 export class CarbonEstimationTableComponent {
   public carbonEstimation = input<CarbonEstimation>();
-  public emissions: TableItem[] = [];
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
@@ -45,7 +44,7 @@ export class CarbonEstimationTableComponent {
   constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {}
 
   public toggle(category: string): void {
-    this.emissions.forEach(emission => {
+    this.tableData().forEach(emission => {
       if (emission.parent === category) {
         emission.display = !emission.display;
       }
@@ -65,7 +64,8 @@ export class CarbonEstimationTableComponent {
             carbonEstimation.upstreamEmissions,
             EmissionsLabels.Upstream,
             EmissionsColours.Upstream,
-            EmissionsColours.UpstreamLight
+            EmissionsColours.UpstreamLight,
+            this.expanded[EmissionsLabels.Upstream]
           ),
           {
             category: EmissionsLabels.Direct,
@@ -76,7 +76,8 @@ export class CarbonEstimationTableComponent {
             carbonEstimation.directEmissions,
             EmissionsLabels.Direct,
             EmissionsColours.Direct,
-            EmissionsColours.OperationLight
+            EmissionsColours.OperationLight,
+            this.expanded[EmissionsLabels.Direct]
           ),
           {
             category: EmissionsLabels.Indirect,
@@ -87,7 +88,8 @@ export class CarbonEstimationTableComponent {
             carbonEstimation.indirectEmissions,
             EmissionsLabels.Indirect,
             EmissionsColours.Indirect,
-            EmissionsColours.OperationLight
+            EmissionsColours.OperationLight,
+            this.expanded[EmissionsLabels.Indirect]
           ),
           {
             category: EmissionsLabels.Downstream,
@@ -98,7 +100,8 @@ export class CarbonEstimationTableComponent {
             carbonEstimation.downstreamEmissions,
             EmissionsLabels.Downstream,
             EmissionsColours.Downstream,
-            EmissionsColours.DownstreamLight
+            EmissionsColours.DownstreamLight,
+            this.expanded[EmissionsLabels.Downstream]
           ),
         ]
       );
@@ -108,19 +111,20 @@ export class CarbonEstimationTableComponent {
     emissions: NumberObject,
     parent: string,
     svgColour: string,
-    backgroundColour: string
+    backgroundColour: string,
+    display = true
   ): TableItem[] {
     return (
       Object.entries(emissions)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_key, value]) => value !== 0)
         .map(([_key, value]) =>
-          this.getTableItem(_key, value, parent, { background: backgroundColour, svg: svgColour })
+          this.getTableItem(_key, value, parent, { background: backgroundColour, svg: svgColour }, display)
         )
     );
   }
 
-  private getTableItem(key: string, value: number, parent: string, colour: ItemColour): TableItem {
+  private getTableItem(key: string, value: number, parent: string, colour: ItemColour, display: boolean): TableItem {
     const { label, svg } = this.carbonEstimationUtilService.getLabelAndSvg(key, parent);
     return {
       category: label,
@@ -128,7 +132,7 @@ export class CarbonEstimationTableComponent {
       parent,
       svg,
       colour,
-      display: true,
+      display,
     };
   }
 }
