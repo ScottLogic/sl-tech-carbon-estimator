@@ -28,9 +28,9 @@ const locationDescriptions: Record<WorldLocation, string> = {
 };
 
 const errorMessages = {
-  headCount: 'The number of employees must be greater than 0.',
-  numberOfServers: 'The number of servers must be greater than or equal to 0.',
-  monthlyActiveUsers: 'The number of monthly active users must be greater than 0.',
+  headCount: 'The number of employees must be greater than 0',
+  numberOfServers: 'The number of servers must be greater than or equal to 0',
+  monthlyActiveUsers: 'The number of monthly active users must be greater than 0',
 };
 
 @Component({
