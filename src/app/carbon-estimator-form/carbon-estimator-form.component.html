@@ -20,7 +20,7 @@
         @if (headCount | invalidated) {
           <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
-            <p>{{ errorMessages.headCount }}</p>
+            <p>{{ errorConfig.headCount.errorMessage }}</p>
           </div>
         }
       </div>
@@ -87,7 +87,7 @@
         @if (numberOfServers | invalidated) {
           <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
-            <p>{{ errorMessages.numberOfServers }}</p>
+            <p>{{ errorConfig.numberOfServers.errorMessage }}</p>
           </div>
         }
       </div>
@@ -217,7 +217,7 @@
             <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
               <p>
-                {{ errorMessages.monthlyActiveUsers }}. To specify no external users, use the
+                {{ errorConfig.monthlyActiveUsers.errorMessage }}. To specify no external users, use the
                 <a class="tce-underline" href="#noDownstream">checkbox</a> above.
               </p>
             </div>

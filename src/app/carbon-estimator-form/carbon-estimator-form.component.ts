@@ -2,13 +2,7 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
-import {
-  costRanges,
-  defaultValues,
-  formContext,
-  questionPanelConfig,
-  ValidationError,
-} from './carbon-estimator-form.constants';
+import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
@@ -27,10 +21,28 @@ const locationDescriptions: Record<WorldLocation, string> = {
   'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
 };
 
-const errorMessages = {
-  headCount: 'The number of employees must be greater than 0',
-  numberOfServers: 'The number of servers must be greater than or equal to 0',
-  monthlyActiveUsers: 'The number of monthly active users must be greater than 0',
+export type ValidationError = {
+  inputId: string;
+  errorMessage: string;
+};
+
+const errorConfig: {
+  headCount: ValidationError;
+  numberOfServers: ValidationError;
+  monthlyActiveUsers: ValidationError;
+} = {
+  headCount: {
+    inputId: 'headCount',
+    errorMessage: 'The number of employees must be greater than 0',
+  },
+  numberOfServers: {
+    inputId: 'numberOfServers',
+    errorMessage: 'The number of servers must be greater than or equal to 0',
+  },
+  monthlyActiveUsers: {
+    inputId: 'monthlyActiveUsers',
+    errorMessage: 'The number of monthly active users must be greater than 0',
+  },
 };
 
 @Component({
@@ -85,7 +97,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public questionPanelConfig = questionPanelConfig;
 
-  public errorMessages = errorMessages;
+  public errorConfig = errorConfig;
   public showErrorSummary = false;
   public validationErrors: ValidationError[] = [];
 
@@ -226,22 +238,13 @@ export class CarbonEstimatorFormComponent implements OnInit {
   private getValidationErrors() {
     const validationErrors: ValidationError[] = [];
     if (this.headCount?.invalid) {
-      validationErrors.push({
-        inputId: 'headCount',
-        errorMessage: this.errorMessages.headCount,
-      });
+      validationErrors.push(this.errorConfig.headCount);
     }
     if (this.numberOfServers?.invalid) {
-      validationErrors.push({
-        inputId: 'numberOfServers',
-        errorMessage: this.errorMessages.numberOfServers,
-      });
+      validationErrors.push(this.errorConfig.numberOfServers);
     }
     if (this.monthlyActiveUsers?.invalid) {
-      validationErrors.push({
-        inputId: 'monthlyActiveUsers',
-        errorMessage: this.errorMessages.monthlyActiveUsers,
-      });
+      validationErrors.push(this.errorConfig.monthlyActiveUsers);
     }
 
     return validationErrors;
