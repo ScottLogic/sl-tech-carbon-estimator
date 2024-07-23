@@ -133,11 +133,11 @@ describe('CarbonEstimationTreemapComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 
   it('should have detailed aria label', () => {
-    expect(component.emissionAriaLabel.length).toBeGreaterThan(25);
+    expect(component.emissionAriaLabel().length).toBeGreaterThan(25);
   });
 
   it('should set label to <1% if emission is less than 1', () => {
@@ -168,7 +168,7 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.emissions[0].name).toBe('Upstream Emissions - <1%');
+    expect(component.chartData()[0].name).toBe('Upstream Emissions - <1%');
   });
 
   it('should remove categories when they are 0', () => {
@@ -246,7 +246,7 @@ describe('CarbonEstimationTreemapComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 
   it('should remove parent categories when all values are 0', () => {
@@ -302,6 +302,6 @@ describe('CarbonEstimationTreemapComponent', () => {
       },
     ];
 
-    expect(component.emissions).toEqual(expectedEmissions);
+    expect(component.chartData()).toEqual(expectedEmissions);
   });
 });

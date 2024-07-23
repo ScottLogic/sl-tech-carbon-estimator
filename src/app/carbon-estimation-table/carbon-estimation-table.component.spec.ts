@@ -53,8 +53,8 @@ describe('CarbonEstimationTableComponent', () => {
 
   it('should toggle display value of child emissions when toggle called', () => {
     component.toggle('Upstream');
-    expect(component.emissions[0].display).toBeFalse();
-    component.emissions.forEach(emission => {
+    expect(component.tableData()[0].display).toBeFalse();
+    component.tableData().forEach(emission => {
       if (emission.parent === 'Upstream') {
         expect(emission.display).toBeFalse();
       }
@@ -62,7 +62,7 @@ describe('CarbonEstimationTableComponent', () => {
   });
 
   it('should set child emissions to display by default', () => {
-    component.emissions.forEach(emission => {
+    component.tableData().forEach(emission => {
       if (emission.parent) {
         expect(emission.display).toBeFalse();
       }
@@ -70,7 +70,7 @@ describe('CarbonEstimationTableComponent', () => {
   });
 
   it('should get emissions when getEmissions called', () => {
-    const emissions = component.getEmissions(component.carbonEstimation());
+    const emissions = component.getTableData(component.carbonEstimation());
     expect(emissions.length).toBe(13);
   });
 });
