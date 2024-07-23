@@ -1,5 +1,5 @@
 import { Component, ElementRef, input, ViewChild } from '@angular/core';
-import { ValidationError } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { ValidationError } from '../carbon-estimator-form/carbon-estimator-form.component';
 
 @Component({
   selector: 'error-summary',
