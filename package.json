@@ -70,7 +70,9 @@
   "overrides": {
     "braces": "^3.0.3",
     "ip": "^2.0.1",
-    "ws": "^8.17.1"
+    "ws": "^8.17.1",
+    "@web/test-runner-core": "^0.13.3",
+    "@web/dev-server": "^0.4.6"
   },
   "files": [
     "dist/tech-carbon-estimator/**"
