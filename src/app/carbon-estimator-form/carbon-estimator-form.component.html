@@ -18,7 +18,7 @@
           required
           [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
         @if (headCount | invalidated) {
-          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="headCountError">
+          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
             <p>{{ errorConfig.headCount.errorMessage }}</p>
           </div>
@@ -216,10 +216,7 @@
           @if (monthlyActiveUsers | invalidated) {
             <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
-              <p>
-                {{ errorConfig.monthlyActiveUsers.errorMessage }}. To specify no external users, use the
-                <a class="tce-underline" href="#noDownstream">checkbox</a> above.
-              </p>
+              <p>{{ errorConfig.monthlyActiveUsers.errorMessage }}</p>
             </div>
           }
         </div>
