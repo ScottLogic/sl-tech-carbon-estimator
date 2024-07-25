@@ -26,11 +26,7 @@ export type ValidationError = {
   errorMessage: string;
 };
 
-const errorConfig: {
-  headCount: ValidationError;
-  numberOfServers: ValidationError;
-  monthlyActiveUsers: ValidationError;
-} = {
+const errorConfig = {
   headCount: {
     inputId: 'headCount',
     errorMessage: 'The number of employees must be greater than 0',
