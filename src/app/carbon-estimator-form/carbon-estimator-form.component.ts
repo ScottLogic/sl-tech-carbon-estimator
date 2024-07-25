@@ -185,9 +185,9 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   public handleSubmit() {
-    if (!this.estimatorForm.valid) {
-      this.showErrorSummary = true;
+    if (this.estimatorForm.invalid) {
       this.validationErrors = this.getValidationErrors();
+      this.showErrorSummary = true;
       this.changeDetector.detectChanges();
       this.errorSummary?.summary.nativeElement.focus();
       return;
