@@ -49,10 +49,10 @@ describe('CarbonEstimationTableComponent', () => {
     component.toggle(EmissionsLabels.Upstream);
     fixture.detectChanges();
     component.tableData().forEach(emission => {
-      if (emission.category === EmissionsLabels.Upstream) {
+      if (emission.level === 1 && emission.category === EmissionsLabels.Upstream) {
         expect(emission.expanded).toBeFalse();
       }
-      if (emission.parent === EmissionsLabels.Upstream) {
+      if (emission.level === 2 && emission.parent === EmissionsLabels.Upstream) {
         expect(emission.display).toBeFalse();
       }
     });
@@ -60,7 +60,7 @@ describe('CarbonEstimationTableComponent', () => {
 
   it('should set child emissions to display by default', () => {
     component.tableData().forEach(emission => {
-      if (emission.parent) {
+      if (emission.level === 2 && emission.parent) {
         expect(emission.display).toBeTrue();
       }
     });
