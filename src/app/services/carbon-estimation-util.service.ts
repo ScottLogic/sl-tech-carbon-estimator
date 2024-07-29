@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { startCase } from 'lodash-es';
-import { SVG } from '../carbon-estimation/carbon-estimation.constants';
+import { SVG, tooltipFormatter } from '../carbon-estimation/carbon-estimation.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class CarbonEstimationUtilService {
     return this.getPercentageLabel(percentage);
   };
 
-  public getPercentageLabel = (percentage: number): string => (percentage < 1 ? '<1%' : Math.round(percentage) + '%');
+  public getPercentageLabel = tooltipFormatter;
 
   public getLabelAndSvg(key: string, parent: string = ''): { label: string; svg: string } {
     switch (key) {
