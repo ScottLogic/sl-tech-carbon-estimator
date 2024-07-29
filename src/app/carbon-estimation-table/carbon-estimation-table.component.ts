@@ -39,6 +39,8 @@ export class CarbonEstimationTableComponent {
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
+  private expandedState: { [key: string]: boolean } = {};
+
   constructor(
     private carbonEstimationUtilService: CarbonEstimationUtilService,
     private changeDetector: ChangeDetectorRef
@@ -48,6 +50,7 @@ export class CarbonEstimationTableComponent {
     this.tableData().forEach(emission => {
       if (emission.level === 2 && emission.parent === category) {
         emission.display = !emission.display;
+        this.expandedState[category] = emission.display;
       } else if (emission.level === 1 && emission.category === category) {
         emission.expanded = !emission.expanded;
       }
@@ -198,56 +201,39 @@ export class CarbonEstimationTableComponent {
             EmissionsLabels.Upstream,
             carbonEstimation.upstreamEmissions,
             EmissionsColours.Upstream,
+            EmissionsColours.UpstreamLight,
             1,
-            4
-          ),
-          ...this.getEmissionsBreakdown(
-            carbonEstimation.upstreamEmissions,
-            EmissionsLabels.Upstream,
-            EmissionsColours.Upstream,
-            EmissionsColours.UpstreamLight
-          ),
-          this.getParentTableItem(
-            EmissionsLabels.Direct,
-            carbonEstimation.directEmissions,
-            EmissionsColours.Direct,
-            2,
-            4
-          ),
-          ...this.getEmissionsBreakdown(
-            carbonEstimation.directEmissions,
-            EmissionsLabels.Direct,
-            EmissionsColours.Direct,
-            EmissionsColours.OperationLight
-          ),
-          this.getParentTableItem(
-            EmissionsLabels.Indirect,
-            carbonEstimation.indirectEmissions,
-            EmissionsColours.Indirect,
-            3,
-            4
-          ),
-          ...this.getEmissionsBreakdown(
-            carbonEstimation.indirectEmissions,
-            EmissionsLabels.Indirect,
-            EmissionsColours.Indirect,
-            EmissionsColours.OperationLight
-          ),
-          this.getParentTableItem(
-            EmissionsLabels.Downstream,
-            carbonEstimation.downstreamEmissions,
-            EmissionsColours.Downstream,
             4,
-            4
+            this.expandedState[EmissionsLabels.Upstream]
           ),
-          ...this.getEmissionsBreakdown(
-            carbonEstimation.downstreamEmissions,
+          ...this.getParentTableItems(
+            EmissionsLabels.Direct,
+            carbonEstimation.directEmissions,
+            EmissionsColours.Direct,
+            EmissionsColours.OperationLight,
+            2,
+            4,
+            this.expandedState[EmissionsLabels.Direct]
+          ),
+          ...this.getParentTableItems(
+            EmissionsLabels.Indirect,
+            carbonEstimation.indirectEmissions,
+            EmissionsColours.Indirect,
+            EmissionsColours.OperationLight,
+            3,
+            4,
+            this.expandedState[EmissionsLabels.Indirect]
+          ),
+          ...this.getParentTableItems(
             EmissionsLabels.Downstream,
+            carbonEstimation.downstreamEmissions,
             EmissionsColours.Downstream,
-            EmissionsColours.DownstreamLight
+            EmissionsColours.DownstreamLight,
+            4,
+            4,
+            this.expandedState[EmissionsLabels.Downstream]
           ),
-        ]
-      );
+        ];
   }
 
   private getEmissionsBreakdown(
@@ -275,24 +261,28 @@ export class CarbonEstimationTableComponent {
     );
   }
 
-  private getParentTableItem(
+  private getParentTableItems(
     label: string,
     value: NumberObject,
-    colour: string,
+    parentColour: string,
+    childColour: string,
     positionInSet: number,
     setSize: number,
     expanded: boolean = true
-  ): TableItem {
-    return {
-      category: label,
-      emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(value),
-      colour: { background: colour },
-      display: true,
-      expanded,
-      positionInSet,
-      setSize,
-      level: 1,
-    };
+  ): TableItem[] {
+    return [
+      {
+        category: label,
+        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(value),
+        colour: { background: parentColour },
+        display: true,
+        expanded,
+        positionInSet,
+        setSize,
+        level: 1,
+      },
+      ...this.getEmissionsBreakdown(value, label, parentColour, childColour, expanded),
+    ];
   }
 
   private getChildTableItem(
