@@ -1,73 +1,81 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <table role="treegrid" aria-label="Estimation of emissions" class="tce-table-fixed tce-w-full">
   <thead>
-    <tr>
+    <tr class="tce-border-b-2">
       <th class="tce-text-left">Category</th>
       <th class="tce-w-40 tce-text-left">Emissions</th>
     </tr>
   </thead>
-  <tbody
-    (keydown.home)="homeEndKeyBoardEvent($event, true)"
-    (keydown.end)="homeEndKeyBoardEvent($event, false)"
-    (keydown.control.home)="homeEndKeyBoardEvent($event, true)"
-    (keydown.control.end)="homeEndKeyBoardEvent($event, false)"
-    (keydown.arrowup)="arrowKeyBoardEvent($event, 'up')"
-    (keydown.arrowdown)="arrowKeyBoardEvent($event, 'down')">
-    @for (tableItem of tableData(); track $index) {
-      @if (!tableItem.parent) {
-        <tr
-          role="row"
-          [tabindex]="$index === 0 ? 0 : -1"
-          [attr.aria-level]="tableItem.level"
-          [attr.aria-setsize]="tableItem.setSize"
-          [attr.aria-posinset]="tableItem.positionInSet"
-          [attr.aria-expanded]="tableItem.expanded"
-          (keydown.arrowright)="parentRowArrowKeyBoardEvent($event, 'right', tableItem.category, tableItem.expanded)"
-          (keydown.arrowleft)="parentRowArrowKeyBoardEvent($event, 'left', tableItem.category, tableItem.expanded)"
-          [style.background-color]="tableItem.colour.background">
-          <td
-            role="gridcell"
-            tabindex="-1"
-            class="tce-flex tce-text-white tce-items-center"
-            (keydown.enter)="toggle(tableItem.category)">
-            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
-            <div
+  @if (carbonEstimation()) {
+    <tbody
+      (keydown.home)="homeEndKeyBoardEvent($event, true)"
+      (keydown.end)="homeEndKeyBoardEvent($event, false)"
+      (keydown.control.home)="homeEndKeyBoardEvent($event, true)"
+      (keydown.control.end)="homeEndKeyBoardEvent($event, false)"
+      (keydown.arrowup)="arrowKeyBoardEvent($event, 'up')"
+      (keydown.arrowdown)="arrowKeyBoardEvent($event, 'down')">
+      @for (tableItem of tableData(); track $index) {
+        @if (tableItem.level === 1) {
+          <tr
+            role="row"
+            [tabindex]="$index === 0 ? 0 : -1"
+            [attr.aria-level]="tableItem.level"
+            [attr.aria-setsize]="tableItem.setSize"
+            [attr.aria-posinset]="tableItem.positionInSet"
+            [attr.aria-expanded]="tableItem.expanded"
+            (keydown.arrowright)="parentRowArrowKeyBoardEvent($event, 'right', tableItem.category, tableItem.expanded)"
+            (keydown.arrowleft)="parentRowArrowKeyBoardEvent($event, 'left', tableItem.category, tableItem.expanded)"
+            [style.background-color]="tableItem.colour.background">
+            <td
+              role="gridcell"
               tabindex="-1"
-              aria-hidden="true"
-              (click)="toggle(tableItem.category)"
-              class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
-              {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
-            </div>
-            {{ tableItem.category }}
-          </td>
-          <td role="gridcell" tabindex="-1" class="tce-text-white">
-            {{ tableItem.emissions }}
-          </td>
-        </tr>
-      } @else {
-        <tr
-          role="row"
-          tabindex="-1"
-          [attr.aria-level]="tableItem.level"
-          [attr.aria-setsize]="tableItem.setSize"
-          [attr.aria-posinset]="tableItem.positionInSet"
-          [style.background-color]="tableItem.colour.background"
-          (keydown.arrowright)="arrowKeyBoardEvent($event, 'right')"
-          (keydown.arrowleft)="arrowKeyBoardEvent($event, 'left')"
-          [class.tce-hidden]="!tableItem.display">
-          <td role="gridcell" tabindex="-1" class="tce-flex tce-ml-8">
-            <div
-              class="tce-p-1 tce-flex tce-rounded-sm tce-mr-2"
-              [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
-              <div class="tce-m-auto tce-size-4 {{ tableItem.svg }}"></div>
-            </div>
-            {{ tableItem.category }}
-          </td>
-          <td role="gridcell" tabindex="-1">
-            {{ tableItem.emissions }}
-          </td>
-        </tr>
+              class="tce-flex tce-text-white tce-items-center"
+              (keydown.enter)="toggle(tableItem.category)">
+              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+              <div
+                tabindex="-1"
+                aria-hidden="true"
+                (click)="toggle(tableItem.category)"
+                class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
+                {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
+              </div>
+              {{ tableItem.category }}
+            </td>
+            <td role="gridcell" tabindex="-1" class="tce-text-white">
+              {{ tableItem.emissions }}
+            </td>
+          </tr>
+        } @else {
+          <tr
+            role="row"
+            tabindex="-1"
+            [attr.aria-level]="tableItem.level"
+            [attr.aria-setsize]="tableItem.setSize"
+            [attr.aria-posinset]="tableItem.positionInSet"
+            [style.background-color]="tableItem.colour.background"
+            (keydown.arrowright)="arrowKeyBoardEvent($event, 'right')"
+            (keydown.arrowleft)="arrowKeyBoardEvent($event, 'left')"
+            [class.tce-hidden]="!tableItem.display">
+            <td role="gridcell" tabindex="-1" class="tce-flex tce-ml-8">
+              <div
+                class="tce-p-1 tce-flex tce-rounded-sm tce-mr-2"
+                [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
+                <div class="tce-m-auto tce-size-4 {{ tableItem.svg }}"></div>
+              </div>
+              {{ tableItem.category }}
+            </td>
+            <td role="gridcell" tabindex="-1">
+              {{ tableItem.emissions }}
+            </td>
+          </tr>
+        }
       }
-    }
-  </tbody>
+    </tbody>
+  } @else {
+    <tbody>
+      <tr tabindex="0">
+        <td role="gridcell" class="tce-text-center tce-h-20" colspan="2">No estimation available</td>
+      </tr>
+    </tbody>
+  }
 </table>
