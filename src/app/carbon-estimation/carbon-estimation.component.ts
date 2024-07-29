@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
@@ -8,7 +8,6 @@ import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'carbon-estimation',
@@ -36,10 +35,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private resizeSubscription!: Subscription;
   private hasResized = true;
   private hasEstimationUpdated = false;
-  private carbonEstimationSubscription?: Subscription;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    this.carbonEstimationSubscription = toObservable(this.carbonEstimation).subscribe(() => {
+    effect(() => {
+      this.carbonEstimation();
       this.hasEstimationUpdated = true;
     });
   }
@@ -54,7 +53,6 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.resizeSubscription.unsubscribe();
-    this.carbonEstimationSubscription?.unsubscribe();
   }
 
   public onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
