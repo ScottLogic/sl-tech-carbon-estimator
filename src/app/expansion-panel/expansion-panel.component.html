@@ -3,7 +3,6 @@
   <button
     type="button"
     (click)="toggle()"
-    (keydown.enter)="toggle()"
     [class]="config.buttonStyles"
     [attr.aria-label]="expanded ? 'Hide details' : 'Show details'">
     {{ expanded ? 'expand_less' : 'expand_more' }}
