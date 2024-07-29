@@ -9,17 +9,17 @@ import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.
 import { NumberObject } from '../utils/number-object';
 import { NgClass, NgStyle } from '@angular/common';
 
-export type TableItem = {
+export type TableItem = TableItemLevel1 | TableItemLevel2;
+
+type TableItemLevel1 = { level: 1; expanded: boolean } & BaseTableItem;
+type TableItemLevel2 = { level: 2; parent: string; svg: string } & BaseTableItem;
+type BaseTableItem = {
   category: string;
   emissions: string;
   colour: ItemColour;
   display: boolean;
   positionInSet: number;
   setSize: number;
-  parent?: string;
-  svg?: string;
-  expanded?: boolean;
-  level: number;
 };
 
 type ItemColour = {
@@ -50,9 +50,9 @@ export class CarbonEstimationTableComponent {
 
   public toggle(category: string): void {
     this.tableData().forEach(emission => {
-      if (emission.parent === category) {
+      if (emission.level === 2 && emission.parent === category) {
         emission.display = !emission.display;
-      } else if (emission.category === category) {
+      } else if (emission.level === 1 && emission.category === category) {
         emission.expanded = !emission.expanded;
       }
     });
@@ -62,7 +62,7 @@ export class CarbonEstimationTableComponent {
     keyBoardEvent: Event,
     direction: ArrowDirectionHorizontal,
     parent: string,
-    expanded?: boolean
+    expanded: boolean
   ): void {
     if (
       keyBoardEvent.target === keyBoardEvent.currentTarget &&
