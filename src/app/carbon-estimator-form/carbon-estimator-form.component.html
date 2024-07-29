@@ -85,7 +85,7 @@
           required
           [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
         @if (numberOfServers | invalidated) {
-          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
+          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
             <p>{{ errorConfig.numberOfServers.errorMessage }}</p>
           </div>
@@ -214,7 +214,10 @@
             required
             [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
           @if (monthlyActiveUsers | invalidated) {
-            <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
+            <div
+              class="tce-error-box tce-flex tce-items-center tce-gap-1"
+              aria-live="polite"
+              id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
               <p>{{ errorConfig.monthlyActiveUsers.errorMessage }}</p>
             </div>
