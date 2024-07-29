@@ -10,7 +10,7 @@ describe('TabsComponent', () => {
     }).compileComponents();
   });
 
-  it('should select 1st tab is no active tab', () => {
+  it('should select 1st tab if no active tab', () => {
     const fixture = MockRender(`
       <tabs>
         <tab-item [title]="'tab 1'">Test</tab-item>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
@@ -6,7 +6,7 @@ import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/c
 import { CarbonEstimation } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
-import { debounceTime, fromEvent, Observable, Subscription } from 'rxjs';
+import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 
