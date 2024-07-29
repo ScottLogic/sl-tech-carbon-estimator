@@ -33,6 +33,7 @@
             <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
             <div
               tabindex="-1"
+              aria-hidden="true"
               (click)="toggle(tableItem.category)"
               class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
               {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
