@@ -85,8 +85,9 @@ export class CarbonEstimationTableComponent {
     }
   }
 
-  public homeEndKeyBoardEvent(event: Event, home: boolean): void {
+  public homeEndKeyBoardEvent(event: Event): void {
     const keyBoardEvent = event as KeyboardEvent;
+    const isHomeKey = keyBoardEvent.key === 'Home';
     keyBoardEvent.preventDefault();
     const tagName = (keyBoardEvent.target as HTMLElement).tagName;
 
@@ -94,7 +95,7 @@ export class CarbonEstimationTableComponent {
       // Row is focused
       const target = keyBoardEvent.target as HTMLTableRowElement;
       const table = target.parentElement as HTMLTableElement;
-      const newRow = home ? table.rows[0] : this.getLastVisibleRow(table);
+      const newRow = isHomeKey ? table.rows[0] : this.getLastVisibleRow(table);
       this.setNewTabIndexAndFocus(newRow, target);
     } else if (tagName === 'TD') {
       // Cell is focused
@@ -103,12 +104,12 @@ export class CarbonEstimationTableComponent {
 
       if (keyBoardEvent.ctrlKey) {
         const table = row.parentElement as HTMLTableElement;
-        const newRow = home ? table.rows[0] : this.getLastVisibleRow(table);
+        const newRow = isHomeKey ? table.rows[0] : this.getLastVisibleRow(table);
         const newCell = newRow.cells[target.cellIndex];
         this.setNewTabIndexAndFocus(newRow, row, false);
         this.setNewTabIndexAndFocus(newCell, target);
       } else {
-        const newCell = home ? row.cells[0] : row.cells[row.cells.length - 1];
+        const newCell = isHomeKey ? row.cells[0] : row.cells[row.cells.length - 1];
         this.setNewTabIndexAndFocus(newCell, target);
       }
     }

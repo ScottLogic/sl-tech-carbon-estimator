@@ -8,10 +8,10 @@
   </thead>
   @if (carbonEstimation()) {
     <tbody
-      (keydown.home)="homeEndKeyBoardEvent($event, true)"
-      (keydown.end)="homeEndKeyBoardEvent($event, false)"
-      (keydown.control.home)="homeEndKeyBoardEvent($event, true)"
-      (keydown.control.end)="homeEndKeyBoardEvent($event, false)"
+      (keydown.home)="homeEndKeyBoardEvent($event)"
+      (keydown.end)="homeEndKeyBoardEvent($event)"
+      (keydown.control.home)="homeEndKeyBoardEvent($event)"
+      (keydown.control.end)="homeEndKeyBoardEvent($event)"
       (keydown.arrowup)="arrowKeyBoardEvent($event, 'up')"
       (keydown.arrowdown)="arrowKeyBoardEvent($event, 'down')">
       @for (tableItem of tableData(); track $index) {

@@ -135,7 +135,7 @@ describe('CarbonEstimationTableComponent', () => {
     row.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent({ target: row, preventDefault: () => {} } as unknown as Event, false);
+    component.homeEndKeyBoardEvent({ target: row, preventDefault: () => {}, key: 'End' } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(table.rows[table.rows.length - 1]);
   });
@@ -148,7 +148,7 @@ describe('CarbonEstimationTableComponent', () => {
     row.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent({ target: row, preventDefault: () => {} } as unknown as Event, true);
+    component.homeEndKeyBoardEvent({ target: row, preventDefault: () => {}, key: 'Home' } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(table.rows[0]);
   });
@@ -244,7 +244,7 @@ describe('CarbonEstimationTableComponent', () => {
     cell.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, false);
+    component.homeEndKeyBoardEvent({ target: cell, preventDefault: () => {}, key: 'End' } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(row.cells[row.cells.length - 1]);
   });
@@ -258,7 +258,7 @@ describe('CarbonEstimationTableComponent', () => {
     cell.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, true);
+    component.homeEndKeyBoardEvent({ target: cell, preventDefault: () => {}, key: 'Home' } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(row.cells[0]);
   });
@@ -272,7 +272,12 @@ describe('CarbonEstimationTableComponent', () => {
     cell.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent({ target: cell, preventDefault: () => {}, ctrlKey: true } as unknown as Event, true);
+    component.homeEndKeyBoardEvent({
+      target: cell,
+      preventDefault: () => {},
+      ctrlKey: true,
+      key: 'Home',
+    } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(table.rows[0].cells[cell.cellIndex]);
   });
@@ -286,10 +291,12 @@ describe('CarbonEstimationTableComponent', () => {
     cell.focus();
     fixture.detectChanges();
 
-    component.homeEndKeyBoardEvent(
-      { target: cell, preventDefault: () => {}, ctrlKey: true } as unknown as Event,
-      false
-    );
+    component.homeEndKeyBoardEvent({
+      target: cell,
+      preventDefault: () => {},
+      ctrlKey: true,
+      key: 'End',
+    } as unknown as Event);
     fixture.detectChanges();
     expect(document.activeElement).toBe(table.rows[table.rows.length - 1].cells[cell.cellIndex]);
   });
