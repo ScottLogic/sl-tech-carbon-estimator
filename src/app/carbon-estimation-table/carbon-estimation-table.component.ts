@@ -50,9 +50,9 @@ export class CarbonEstimationTableComponent {
     this.tableData().forEach(emission => {
       if (emission.level === 2 && emission.parent === category) {
         emission.display = !emission.display;
-        this.expandedState[category] = emission.display;
       } else if (emission.level === 1 && emission.category === category) {
         emission.expanded = !emission.expanded;
+        this.expandedState[category] = emission.expanded;
       }
     });
   }
