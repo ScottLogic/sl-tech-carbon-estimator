@@ -6,7 +6,7 @@
       <th class="tce-w-40 tce-text-left">Emissions</th>
     </tr>
   </thead>
-  @if (carbonEstimation()) {
+  @if (tableData().length > 0) {
     <tbody
       (keydown.home)="homeEndKeyBoardEvent($event)"
       (keydown.end)="homeEndKeyBoardEvent($event)"
