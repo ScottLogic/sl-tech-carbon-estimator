@@ -78,9 +78,6 @@ export class CarbonEstimatorFormComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.storageService.sayHello();
-    this.storageService.set('foo', 'foo value');
-
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
         headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
@@ -105,6 +102,16 @@ export class CarbonEstimatorFormComponent implements OnInit {
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
+    });
+
+    const storedFormData = this.storageService.get('formData');
+
+    if (storedFormData) {
+      this.estimatorForm.setValue(JSON.parse(storedFormData));
+    }
+
+    this.estimatorForm.valueChanges.subscribe(value => {
+      this.storageService.set('formData', JSON.stringify(value));
     });
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
