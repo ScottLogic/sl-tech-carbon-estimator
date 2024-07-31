@@ -8,6 +8,7 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
+import { StorageService } from '../services/storage.service';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -72,10 +73,14 @@ export class CarbonEstimatorFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
-    private estimationService: CarbonEstimationService
+    private estimationService: CarbonEstimationService,
+    private storageService: StorageService
   ) {}
 
   public ngOnInit() {
+    this.storageService.sayHello();
+    this.storageService.set('foo', 'foo value');
+
     this.estimatorForm = this.formBuilder.nonNullable.group({
       upstream: this.formBuilder.nonNullable.group({
         headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
