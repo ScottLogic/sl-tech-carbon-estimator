@@ -1,5 +1,14 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Output,
+  input,
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
@@ -37,7 +46,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
     InvalidatedPipe,
   ],
 })
-export class CarbonEstimatorFormComponent implements OnInit {
+export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
@@ -110,10 +119,6 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.estimatorForm.setValue(JSON.parse(storedFormData));
     }
 
-    this.estimatorForm.valueChanges.subscribe(value => {
-      this.storageService.set('formData', JSON.stringify(value));
-    });
-
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
     });
@@ -168,6 +173,10 @@ export class CarbonEstimatorFormComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.saveFormData();
+  }
+
   public handleSubmit() {
     if (!this.estimatorForm.valid) {
       return;
@@ -187,6 +196,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.saveFormData();
     this.formReset.emit();
   }
 
@@ -208,5 +218,14 @@ export class CarbonEstimatorFormComponent implements OnInit {
         this.estimatorForm.getRawValue() as EstimatorValues
       );
     }
+  }
+
+  private saveFormData() {
+    this.storageService.set('formData', JSON.stringify(this.estimatorForm.value));
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(): void {
+    this.saveFormData();
   }
 }
