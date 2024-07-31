@@ -2,44 +2,21 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
-import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
+import {
+  costRanges,
+  defaultValues,
+  formContext,
+  questionPanelConfig,
+  locationDescriptions,
+  ValidationError,
+  errorConfig,
+} from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
-
-const locationDescriptions: Record<WorldLocation, string> = {
-  WORLD: 'Globally',
-  'NORTH AMERICA': 'in North America',
-  EUROPE: 'in Europe',
-  GBR: 'in the UK',
-  ASIA: 'in Asia',
-  AFRICA: 'in Africa',
-  OCEANIA: 'in Oceania',
-  'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
-};
-
-export type ValidationError = {
-  inputId: string;
-  errorMessage: string;
-};
-
-const errorConfig = {
-  headCount: {
-    inputId: 'headCount',
-    errorMessage: 'The number of employees must be greater than 0',
-  },
-  numberOfServers: {
-    inputId: 'numberOfServers',
-    errorMessage: 'The number of servers must be greater than or equal to 0',
-  },
-  monthlyActiveUsers: {
-    inputId: 'monthlyActiveUsers',
-    errorMessage: 'The number of monthly active users must be greater than 0',
-  },
-};
 
 @Component({
   selector: 'carbon-estimator-form',
