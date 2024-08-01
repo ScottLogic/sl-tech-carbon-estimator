@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationComponent } from './carbon-estimation.component';
 import { CarbonEstimation } from '../types/carbon-estimator';
-import { ChartComponent } from 'ng-apexcharts';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 
@@ -51,76 +50,58 @@ describe('CarbonEstimationComponent', () => {
     // Check that the height is set to a positive value.
     // (Checking for a specific value would require spying on the window object before
     // the test starts for consistent local and CI/CD results.)
-    expect(component.chartOptions().chart.height).toBeGreaterThan(0);
+    expect(component.chartHeight).toBeGreaterThan(0);
   });
 
   it('should subtract the extraHeight input from the chart height on laptop screens', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
     fixture.componentRef.setInput('extraHeight', '100');
 
     component.onResize(1500, 1500, 2000);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1500 - estimatorBaseHeight - 200 - 100 },
-    });
+    expect(component.chartHeight).toBe(1500 - estimatorBaseHeight - 200 - 100);
   });
 
   it('should recalculate chart height on window resize, for laptop screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     component.onResize(1500, 2000, 2000);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1500 - estimatorBaseHeight - 200 },
-    });
+    expect(component.chartHeight).toBe(1500 - estimatorBaseHeight - 200);
   });
 
   it('should recalculate chart height on window resize, for mobile screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     component.onResize(1000, 500, 1000);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 1000 - estimatorBaseHeight - 200 + estimatorHeights.title },
-    });
+    expect(component.chartHeight).toBe(1000 - estimatorBaseHeight - 200 + estimatorHeights.title);
   });
 
   it('should cap chart height as a percentage of screen height, for laptop screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     const screenHeight = 2000;
     component.onResize(2000, 1500, screenHeight);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: screenHeight * 0.75 },
-    });
+    expect(component.chartHeight).toBe(screenHeight * 0.75);
   });
 
   it('should cap chart height as a percentage of screen height, for mobile screen', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     const screenHeight = 1200;
     component.onResize(1200, 500, screenHeight);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: screenHeight * 0.75 },
-    });
+    expect(component.chartHeight).toBe(screenHeight * 0.75);
   });
 
   it('should have a chart height of 300 for small innerHeight values (if screen height is large enough)', () => {
-    spyOn(component.chart as ChartComponent, 'updateOptions');
     spyOnProperty(component.detailsPanel.nativeElement, 'clientHeight').and.returnValue(200);
 
     component.onResize(100, 1000, 2000);
 
-    expect(component.chart?.updateOptions).toHaveBeenCalledOnceWith({
-      chart: { height: 300 },
-    });
+    expect(component.chartHeight).toBe(300);
   });
 
   it('should call onResize when onExpansion is called', () => {
@@ -129,265 +110,5 @@ describe('CarbonEstimationComponent', () => {
     component.onExpanded();
 
     expect(component.onResize).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set emissions with total % and category breakdown', () => {
-    const expectedEmissions = [
-      {
-        name: 'Upstream Emissions - 25%',
-        color: '#40798C',
-        data: [
-          {
-            x: 'Software - Off the Shelf',
-            y: 7,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
-          },
-          {
-            x: 'Employee Hardware',
-            y: 6,
-            meta: { svg: 'devices-logo', parent: 'Upstream Emissions' },
-          },
-          {
-            x: 'Networking and Infrastructure Hardware',
-            y: 6,
-            meta: { svg: 'router-logo', parent: 'Upstream Emissions' },
-          },
-          {
-            x: 'Servers and Storage Hardware',
-            y: 6,
-            meta: { svg: 'storage-logo', parent: 'Upstream Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Direct Emissions - 25%',
-        color: '#CB3775',
-        data: [
-          {
-            x: 'Employee Devices',
-            y: 9,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
-          },
-          {
-            x: 'Networking and Infrastructure',
-            y: 8,
-            meta: { svg: 'router-logo', parent: 'Direct Emissions' },
-          },
-          {
-            x: 'Servers and Storage',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Direct Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Indirect Emissions - 25%',
-        color: '#91234C',
-        data: [
-          {
-            x: 'Cloud Services',
-            y: 9,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
-          },
-          {
-            x: 'SaaS',
-            y: 8,
-            meta: { svg: 'web-logo', parent: 'Indirect Emissions' },
-          },
-          {
-            x: 'Managed Services',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Indirect Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Downstream Emissions - 25%',
-        color: '#4B7E56',
-        data: [
-          {
-            x: 'End-User Devices',
-            y: 13,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
-          },
-          {
-            x: 'Network Data Transfer',
-            y: 12,
-            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions' },
-          },
-        ],
-      },
-    ];
-
-    expect(component.chartData()).toEqual(expectedEmissions);
-  });
-
-  it('should have detailed aria label', () => {
-    expect(component.emissionAriaLabel().length).toBeGreaterThan(25);
-  });
-
-  it('should set label to <1% if emission is less than 1', () => {
-    const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 0.2,
-        employee: 0.1,
-        network: 0.1,
-        server: 0.1,
-      },
-      directEmissions: {
-        employee: 34.5,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
-      },
-    };
-    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
-
-    fixture.detectChanges();
-
-    expect(component.chartData()[0].name).toBe('Upstream Emissions - <1%');
-  });
-
-  it('should remove categories when they are 0', () => {
-    const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 25,
-        employee: 0,
-        network: 0,
-        server: 0,
-      },
-      directEmissions: {
-        employee: 25,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 25,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 25,
-        networkTransfer: 0,
-      },
-    };
-    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
-
-    fixture.detectChanges();
-
-    const expectedEmissions = [
-      {
-        name: 'Upstream Emissions - 25%',
-        color: '#40798C',
-        data: [
-          {
-            x: 'Software - Off the Shelf',
-            y: 25,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Direct Emissions - 25%',
-        color: '#CB3775',
-        data: [
-          {
-            x: 'Employee Devices',
-            y: 25,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Indirect Emissions - 25%',
-        color: '#91234C',
-        data: [
-          {
-            x: 'Cloud Services',
-            y: 25,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Downstream Emissions - 25%',
-        color: '#4B7E56',
-        data: [
-          {
-            x: 'End-User Devices',
-            y: 25,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
-          },
-        ],
-      },
-    ];
-
-    expect(component.chartData()).toEqual(expectedEmissions);
-  });
-
-  it('should remove parent categories when all values are 0', () => {
-    const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 50,
-        employee: 0,
-        network: 0,
-        server: 0,
-      },
-      directEmissions: {
-        employee: 50,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 0,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 0,
-        networkTransfer: 0,
-      },
-    };
-    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
-
-    fixture.detectChanges();
-
-    const expectedEmissions = [
-      {
-        name: 'Upstream Emissions - 50%',
-        color: '#40798C',
-        data: [
-          {
-            x: 'Software - Off the Shelf',
-            y: 50,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
-          },
-        ],
-      },
-      {
-        name: 'Direct Emissions - 50%',
-        color: '#CB3775',
-        data: [
-          {
-            x: 'Employee Devices',
-            y: 50,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
-          },
-        ],
-      },
-    ];
-
-    expect(component.chartData()).toEqual(expectedEmissions);
   });
 });

@@ -33,3 +33,8 @@ input {
   background-color: var(--primary-turquoise);
   @apply tce-text-white
 }
+
+.tce-active-tab, .tce-active-tab:hover {
+  border-color: var(--primary-turquoise);
+  @apply tce-cursor-default
+}

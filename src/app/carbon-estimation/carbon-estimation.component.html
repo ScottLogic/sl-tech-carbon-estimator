@@ -21,16 +21,15 @@
       </p>
     </div>
   </expansion-panel>
-  <figure [attr.aria-label]="emissionAriaLabel()" tabindex="0">
-    <apx-chart
-      #chart
-      aria-hidden="true"
-      [series]="chartData()"
-      [chart]="chartOptions().chart"
-      [plotOptions]="chartOptions().plotOptions"
-      [legend]="chartOptions().legend"
-      [states]="chartOptions().states"
-      [dataLabels]="chartOptions().dataLabels"
-      [tooltip]="chartOptions().tooltip"></apx-chart>
-  </figure>
+  <tabs class="tce-mt-2">
+    <tab-item [active]="true" [title]="'Diagram'" (tabSelected)="treemapSelected()">
+      <carbon-estimation-treemap
+        #treemap
+        [carbonEstimation]="carbonEstimation()"
+        [chartHeight]="chartHeight"></carbon-estimation-treemap>
+    </tab-item>
+    <tab-item [title]="'Table'">
+      <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table
+    ></tab-item>
+  </tabs>
 </div>

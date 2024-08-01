@@ -21,3 +21,8 @@ input.ng-invalid.ng-touched {
 .tce-button-reset, .tce-button-assumptions {
   @apply tce-bg-slate-200 tce-text-slate-800 hover:tce-bg-slate-300 tce-rounded
 }
+
+
+.tce-active-tab, .tce-active-tab:hover {
+  @apply tce-cursor-default tce-border-sky-800
+}

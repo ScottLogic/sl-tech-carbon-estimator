@@ -1,27 +1,24 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, input } from '@angular/core';
-import { CarbonEstimation } from '../types/carbon-estimator';
-import { NumberObject, sumValues } from '../utils/number-object';
-import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-
-import { startCase } from 'lodash-es';
-import {
-  EmissionsColours,
-  EmissionsLabels,
-  SVG,
-  getBaseChartOptions,
-  estimatorHeights,
-  tooltipFormatter,
-  placeholderData,
-  ApexChartSeriesItem,
-  ApexChartDataItem,
-} from './carbon-estimation.constants';
+import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
-import { Subscription, debounceTime, fromEvent } from 'rxjs';
+import { TabsComponent } from '../tab/tabs/tabs.component';
+import { TabItemComponent } from '../tab/tab-item/tab-item.component';
+import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
+import { CarbonEstimation } from '../types/carbon-estimator';
+import { sumValues } from '../utils/number-object';
+import { estimatorHeights } from './carbon-estimation.constants';
+import { debounceTime, fromEvent, Subscription } from 'rxjs';
+import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 
 @Component({
   selector: 'carbon-estimation',
   standalone: true,
-  imports: [NgApexchartsModule, ExpansionPanelComponent],
+  imports: [
+    ExpansionPanelComponent,
+    TabsComponent,
+    TabItemComponent,
+    CarbonEstimationTreemapComponent,
+    CarbonEstimationTableComponent,
+  ],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
 })
@@ -29,21 +26,26 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
 
-  public chartData = computed(() => this.getChartData(this.carbonEstimation()));
-  public emissionAriaLabel = computed(() => this.getEmissionAriaLabel(this.chartData(), !this.carbonEstimation()));
-
-  public chartOptions = computed(() => this.getChartOptions(!this.carbonEstimation()));
-  private tooltipFormatter = tooltipFormatter;
-  private estimatorBaseHeight = sumValues(estimatorHeights);
-
-  private resizeSubscription!: Subscription;
-
-  @ViewChild('chart') chart: ChartComponent | undefined;
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
+  @ViewChild('treemap', { static: true }) treemap!: CarbonEstimationTreemapComponent;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  public chartHeight!: number;
+
+  private estimatorBaseHeight = sumValues(estimatorHeights);
+  private resizeSubscription!: Subscription;
+  private hasResized = true;
+  private hasEstimationUpdated = false;
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+    effect(() => {
+      this.carbonEstimation();
+      this.hasEstimationUpdated = true;
+    });
+  }
 
   public ngOnInit(): void {
+    this.chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
+
     this.resizeSubscription = fromEvent(window, 'resize')
       .pipe(debounceTime(500))
       .subscribe(() => this.onResize(window.innerHeight, window.innerWidth, window.screen.height));
@@ -53,73 +55,23 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     this.resizeSubscription.unsubscribe();
   }
 
+  public onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
+    this.hasResized = true;
+    this.chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
+  }
+
   public onExpanded(): void {
     this.changeDetectorRef.detectChanges();
     this.onResize(window.innerHeight, window.innerWidth, window.screen.height);
   }
 
-  onResize(innerHeight: number, innerWidth: number, screenHeight: number): void {
-    const chartHeight = this.getChartHeight(innerHeight, innerWidth, screenHeight);
-    this.chart?.updateOptions({ chart: { height: chartHeight } });
-  }
-
-  private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
-    return [
-      {
-        name: `${EmissionsLabels.Upstream} - ${this.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
-        color: EmissionsColours.Upstream,
-        data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, EmissionsLabels.Upstream),
-      },
-      {
-        name: `${EmissionsLabels.Direct} - ${this.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
-        color: EmissionsColours.Direct,
-        data: this.getEmissionPercentages(carbonEstimation.directEmissions, EmissionsLabels.Direct),
-      },
-      {
-        name: `${EmissionsLabels.Indirect} - ${this.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
-        color: EmissionsColours.Indirect,
-        data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, EmissionsLabels.Indirect),
-      },
-      {
-        name: `${EmissionsLabels.Downstream} - ${this.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
-        color: EmissionsColours.Downstream,
-        data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, EmissionsLabels.Downstream),
-      },
-    ].filter(entry => entry.data.length !== 0);
-  }
-
-  private getAriaLabel(emission: ApexAxisChartSeries): string {
-    return `Estimation of emissions. ${emission.map(entry => this.getAriaLabelForCategory(entry as ApexChartSeriesItem)).join(' ')}`;
-  }
-
-  private getEmissionAriaLabel(chartData: ApexAxisChartSeries, isPlaceholder: boolean) {
-    return isPlaceholder ? 'Placeholder for estimation of emissions' : this.getAriaLabel(chartData);
-  }
-
-  private getAriaLabelForCategory(series: ApexChartSeriesItem): string {
-    const category = series.name.replace('-', 'are');
-    return `${category}${this.getEmissionMadeUp(series.data)}`;
-  }
-
-  private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
-    if (emission.length === 0) {
-      return '.';
+  public treemapSelected(): void {
+    if (this.hasResized || this.hasEstimationUpdated) {
+      this.hasResized = false;
+      this.hasEstimationUpdated = false;
+      this.changeDetectorRef.detectChanges();
+      this.treemap.chart?.updateOptions({});
     }
-    return `, made up of ${emission.map(item => `${item.x} ${this.tooltipFormatter(item.y)}`).join(', ')}.`;
-  }
-
-  private getOverallPercentageLabel = (emissions: NumberObject): string => {
-    const percentage = sumValues(emissions);
-    return percentage < 1 ? '<1%' : Math.round(percentage) + '%';
-  };
-
-  private getEmissionPercentages(emissions: NumberObject, parent: string): ApexChartDataItem[] {
-    return (
-      Object.entries(emissions)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_key, value]) => value !== 0)
-        .map(([_key, value]) => this.getDataItem(_key, value, parent))
-    );
   }
 
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
@@ -148,84 +100,5 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
 
     return heightBoundedAboveAndBelow;
-  }
-
-  private getChartOptions(isPlaceholder: boolean) {
-    const chartOptions = getBaseChartOptions(isPlaceholder);
-    chartOptions.chart.height = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
-    return chartOptions;
-  }
-
-  private getChartData(estimation?: CarbonEstimation): ApexAxisChartSeries {
-    return estimation ? this.getOverallEmissionPercentages(estimation) : placeholderData;
-  }
-
-  private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {
-    switch (key) {
-      case 'software':
-        return this.getDataItemObject('Software - Off the Shelf', value, SVG.WEB, parent);
-      case 'saas':
-        return this.getDataItemObject('SaaS', value, SVG.WEB, parent);
-      case 'employee':
-        return this.getDataItemObject(this.getEmployeeLabel(parent), value, SVG.DEVICES, parent);
-      case 'endUser':
-        return this.getDataItemObject('End-User Devices', value, SVG.DEVICES, parent);
-      case 'network':
-        return this.getDataItemObject(this.getNetworkLabel(parent), value, SVG.ROUTER, parent);
-      case 'server':
-        return this.getDataItemObject(this.getServerLabel(parent), value, SVG.STORAGE, parent);
-      case 'managed':
-        return this.getDataItemObject('Managed Services', value, SVG.STORAGE, parent);
-      case 'cloud':
-        return this.getDataItemObject('Cloud Services', value, SVG.CLOUD, parent);
-      case 'networkTransfer':
-        return this.getDataItemObject('Network Data Transfer', value, SVG.CELL_TOWER, parent);
-      default:
-        return this.getDataItemObject(startCase(key), value, '', parent);
-    }
-  }
-
-  private getDataItemObject(x: string, y: number, svg: string, parent: string): ApexChartDataItem {
-    return {
-      x,
-      y,
-      meta: {
-        svg,
-        parent,
-      },
-    };
-  }
-
-  private getEmployeeLabel(key: string): string {
-    switch (key) {
-      case 'Upstream Emissions':
-        return 'Employee Hardware';
-      case 'Direct Emissions':
-        return 'Employee Devices';
-      default:
-        return startCase(key);
-    }
-  }
-
-  private getNetworkLabel(key: string): string {
-    switch (key) {
-      case 'Upstream Emissions':
-        return 'Networking and Infrastructure Hardware';
-      case 'Direct Emissions':
-        return 'Networking and Infrastructure';
-      default:
-        return startCase(key);
-    }
-  }
-
-  private getServerLabel(key: string): string {
-    switch (key) {
-      case 'Upstream Emissions':
-        return 'Servers and Storage Hardware';
-      case 'Direct Emissions':
-        return 'Servers and Storage';
-      default:
-        return startCase(key);
-    }
   }
 }
