@@ -113,12 +113,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       }),
     });
 
-    const storedFormData = this.storageService.get('formData');
-
-    if (storedFormData) {
-      this.estimatorForm.setValue(JSON.parse(storedFormData));
-    }
-
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
     });
@@ -170,6 +164,12 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     const formValue = this.formValue();
     if (formValue !== undefined) {
       this.estimatorForm.setValue(formValue);
+    }
+
+    const storedFormData = this.storageService.get('formData');
+
+    if (storedFormData) {
+      this.estimatorForm.setValue(JSON.parse(storedFormData));
     }
   }
 
