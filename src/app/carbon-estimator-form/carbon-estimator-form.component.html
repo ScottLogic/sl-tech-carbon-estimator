@@ -141,7 +141,8 @@
             class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed tce-px-3 tce-py-2"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
-            required>
+            required
+            [compareWith]="compareCostRanges">
             @for (range of costRanges; track $index) {
               <option [ngValue]="range">{{ range | formatCostRange }}</option>
             }

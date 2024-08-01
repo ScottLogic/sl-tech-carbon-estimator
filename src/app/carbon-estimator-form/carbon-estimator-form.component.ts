@@ -18,6 +18,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { StorageService } from '../services/storage.service';
+import { compareCostRanges } from '../utils/cost-range';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -78,6 +79,8 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }));
 
   public questionPanelConfig = questionPanelConfig;
+
+  public compareCostRanges = compareCostRanges;
 
   constructor(
     private formBuilder: FormBuilder,
