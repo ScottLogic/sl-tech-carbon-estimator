@@ -221,7 +221,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   private saveFormData() {
-    this.storageService.set('formData', JSON.stringify(this.estimatorForm.value));
+    this.storageService.set('formData', JSON.stringify(this.estimatorForm.getRawValue()));
   }
 
   @HostListener('window:beforeunload', ['$event'])
