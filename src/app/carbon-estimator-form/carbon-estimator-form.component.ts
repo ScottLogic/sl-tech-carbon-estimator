@@ -169,10 +169,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.estimatorForm.setValue(formValue);
     }
 
-    const storedFormData = this.storageService.get('formData');
+    const storedFormData = this.getSavedFormData();
 
     if (storedFormData) {
-      this.estimatorForm.setValue(JSON.parse(storedFormData));
+      this.estimatorForm.setValue(storedFormData);
     }
   }
 
@@ -225,6 +225,11 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   private saveFormData() {
     this.storageService.set('formData', JSON.stringify(this.estimatorForm.getRawValue()));
+  }
+
+  private getSavedFormData() {
+    const storedFormData = this.storageService.get('formData');
+    return storedFormData ? (JSON.parse(storedFormData) as EstimatorValues) : null;
   }
 
   @HostListener('window:beforeunload', ['$event'])
