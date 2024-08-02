@@ -11,7 +11,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
-import { costRanges, defaultValues, formContext, questionPanelConfig } from './carbon-estimator-form.constants';
+import {
+  ControlState,
+  costRanges,
+  defaultValues,
+  formContext,
+  questionPanelConfig,
+} from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
@@ -177,7 +183,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.saveFormData();
+    this.saveFormState();
   }
 
   public handleSubmit() {
@@ -199,7 +205,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public resetForm() {
     this.estimatorForm.reset();
-    this.saveFormData();
+    this.saveFormState();
     this.formReset.emit();
   }
 
@@ -232,8 +238,30 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return storedFormData ? (JSON.parse(storedFormData) as EstimatorValues) : null;
   }
 
+  private saveControlStates() {
+    const controlStates: Record<string, ControlState> = {};
+
+    for (const [groupName, formGroup] of Object.entries(this.estimatorForm.controls)) {
+      for (const [controlName, control] of Object.entries(formGroup.controls)) {
+        if (control.dirty || control.touched) {
+          controlStates[`${groupName}.${controlName}`] = {
+            dirty: control.dirty,
+            touched: control.touched,
+          };
+        }
+      }
+    }
+
+    this.storageService.set('controlStates', JSON.stringify(controlStates));
+  }
+
+  private saveFormState() {
+    this.saveFormData();
+    this.saveControlStates();
+  }
+
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(): void {
-    this.saveFormData();
+    this.saveFormState();
   }
 }
