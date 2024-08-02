@@ -175,13 +175,13 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.estimatorForm.setValue(formValue);
     }
 
-    const storedFormData = this.getSavedFormData();
+    const storedFormData = this.getStoredFormData();
 
     if (storedFormData) {
       this.estimatorForm.setValue(storedFormData);
     }
 
-    const storedControlStates = this.getSavedControlStates();
+    const storedControlStates = this.getStoredControlStates();
 
     if (storedControlStates) {
       for (const [controlKey, controlState] of Object.entries(storedControlStates)) {
@@ -197,7 +197,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.saveFormState();
+    this.storeFormState();
   }
 
   public handleSubmit() {
@@ -219,7 +219,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public resetForm() {
     this.estimatorForm.reset();
-    this.saveFormState();
+    this.storeFormState();
     this.formReset.emit();
   }
 
@@ -243,16 +243,16 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private saveFormData() {
+  private storeFormData() {
     this.storageService.set('formData', JSON.stringify(this.estimatorForm.getRawValue()));
   }
 
-  private getSavedFormData() {
+  private getStoredFormData() {
     const storedFormData = this.storageService.get('formData');
     return storedFormData ? (JSON.parse(storedFormData) as EstimatorValues) : null;
   }
 
-  private saveControlStates() {
+  private storeControlStates() {
     const controlStates: Record<string, ControlState> = {};
 
     for (const [groupName, formGroup] of Object.entries(this.estimatorForm.controls)) {
@@ -269,18 +269,18 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     this.storageService.set('controlStates', JSON.stringify(controlStates));
   }
 
-  private getSavedControlStates() {
+  private getStoredControlStates() {
     const storedControlStates = this.storageService.get('controlStates');
     return storedControlStates ? (JSON.parse(storedControlStates) as Record<string, ControlState>) : null;
   }
 
-  private saveFormState() {
-    this.saveFormData();
-    this.saveControlStates();
+  private storeFormState() {
+    this.storeFormData();
+    this.storeControlStates();
   }
 
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(): void {
-    this.saveFormState();
+    this.storeFormState();
   }
 }
