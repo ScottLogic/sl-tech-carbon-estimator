@@ -18,7 +18,6 @@ describe('CarbonEstimatorFormComponent', () => {
 
   it('should create component form in a valid state', () => {
     expect(component).toBeTruthy();
-    component.ngOnInit();
     expect(component.estimatorForm.valid).toBeTruthy();
   });
 
@@ -32,14 +31,12 @@ describe('CarbonEstimatorFormComponent', () => {
 
   describe('Downstream', () => {
     it('should invalidate form when monthly active users are zero', () => {
-      component.ngOnInit();
       component.estimatorForm.get('downstream.monthlyActiveUsers')?.setValue(0);
       fixture.detectChanges();
       expect(component.estimatorForm.valid).toBeFalsy();
     });
 
     it('should validate form when downstream is excluded and monthly active users are zero', () => {
-      component.ngOnInit();
       component.estimatorForm.get('downstream.monthlyActiveUsers')?.setValue(0);
       component.estimatorForm.get('downstream.noDownstream')?.setValue(true);
       fixture.detectChanges();
@@ -49,21 +46,18 @@ describe('CarbonEstimatorFormComponent', () => {
 
   describe('headCount()', () => {
     it('should not return null once the component is initialized', () => {
-      component.ngOnInit();
       expect(component.headCount).not.toBeNull();
     });
   });
 
   describe('numberOfServers()', () => {
     it('should not return null once the component is initialized', () => {
-      component.ngOnInit();
       expect(component.numberOfServers).not.toBeNull();
     });
   });
 
   describe('monthlyActiveUsers()', () => {
     it('should not return null once the component is initialized', () => {
-      component.ngOnInit();
       expect(component.monthlyActiveUsers).not.toBeNull();
     });
   });
