@@ -180,6 +180,20 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     if (storedFormData) {
       this.estimatorForm.setValue(storedFormData);
     }
+
+    const storedControlStates = this.getSavedControlStates();
+
+    if (storedControlStates) {
+      for (const [controlKey, controlState] of Object.entries(storedControlStates)) {
+        const control = this.estimatorForm.get(controlKey)!;
+        if (controlState.dirty) {
+          control.markAsDirty();
+        }
+        if (controlState.touched) {
+          control.markAsTouched();
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -253,6 +267,11 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
 
     this.storageService.set('controlStates', JSON.stringify(controlStates));
+  }
+
+  private getSavedControlStates() {
+    const storedControlStates = this.storageService.get('controlStates');
+    return storedControlStates ? (JSON.parse(storedControlStates) as Record<string, ControlState>) : null;
   }
 
   private saveFormState() {
