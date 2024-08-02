@@ -8,6 +8,7 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
+import { ExternalLinkDirective } from '../directives/external-link.directive';
 
 const locationDescriptions: Record<WorldLocation, string> = {
   WORLD: 'Globally',
@@ -34,6 +35,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
     ExpansionPanelComponent,
     FormatCostRangePipe,
     InvalidatedPipe,
+    ExternalLinkDirective,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit {
