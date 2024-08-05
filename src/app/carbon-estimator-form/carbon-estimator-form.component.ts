@@ -58,6 +58,11 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   @ViewChild(ErrorSummaryComponent) errorSummary?: ErrorSummaryComponent;
 
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(): void {
+    this.storeFormState();
+  }
+
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
   public formContext = formContext;
@@ -300,10 +305,5 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   private storeFormState() {
     this.storeFormData();
     this.storeControlStates();
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  onBeforeUnload(): void {
-    this.storeFormState();
   }
 }
