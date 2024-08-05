@@ -171,6 +171,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
       this.errorSummary?.summary.nativeElement.focus();
       return;
     }
+    this.validationErrors = [];
     this.showErrorSummary = false;
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
@@ -187,6 +188,8 @@ export class CarbonEstimatorFormComponent implements OnInit {
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.validationErrors = [];
+    this.showErrorSummary = false;
     this.formReset.emit();
   }
 
