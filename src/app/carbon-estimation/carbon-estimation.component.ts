@@ -8,6 +8,7 @@ import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
+import { ExternalLinkDirective } from '../directives/external-link.directive';
 
 @Component({
   selector: 'carbon-estimation',
@@ -18,6 +19,7 @@ import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbo
     TabItemComponent,
     CarbonEstimationTreemapComponent,
     CarbonEstimationTableComponent,
+    ExternalLinkDirective,
   ],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],

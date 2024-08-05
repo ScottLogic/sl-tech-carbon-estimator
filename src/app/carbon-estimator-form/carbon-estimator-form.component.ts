@@ -28,6 +28,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
+import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { StorageService } from '../services/storage.service';
 import { compareCostRanges } from '../utils/cost-range';
 
@@ -46,6 +47,7 @@ import { compareCostRanges } from '../utils/cost-range';
     FormatCostRangePipe,
     InvalidatedPipe,
     ErrorSummaryComponent,
+    ExternalLinkDirective,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
