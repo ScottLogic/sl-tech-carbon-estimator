@@ -1,5 +1,9 @@
 <form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
   <div formGroupName="upstream">
+    @if (showErrorSummary) {
+      <error-summary [validationErrors]="validationErrors"></error-summary>
+    }
+
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
 
     <div class="tce-flex tce-flex-col tce-gap-4">
@@ -14,9 +18,9 @@
           required
           [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
         @if (headCount | invalidated) {
-          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="headCountError">
+          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
-            <p>The number of employees must be greater than 0.</p>
+            <p>{{ errorConfig.headCount.errorMessage }}</p>
           </div>
         }
       </div>
@@ -81,9 +85,9 @@
           required
           [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
         @if (numberOfServers | invalidated) {
-          <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="numberOfServersError">
+          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
-            <p>The number of servers must be greater than or equal to 0.</p>
+            <p>{{ errorConfig.numberOfServers.errorMessage }}</p>
           </div>
         }
       </div>
@@ -210,12 +214,12 @@
             required
             [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
           @if (monthlyActiveUsers | invalidated) {
-            <div class="tce-error-box tce-flex tce-gap-1" aria-live="polite" id="monthlyActiveUsersError">
+            <div
+              class="tce-error-box tce-flex tce-items-center tce-gap-1"
+              aria-live="polite"
+              id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
-              <p>
-                Monthly active users must be greater than 0. To specify no external users, use the
-                <a class="tce-underline" href="#noDownstream">checkbox</a> above.
-              </p>
+              <p>{{ errorConfig.monthlyActiveUsers.errorMessage }}</p>
             </div>
           }
         </div>
@@ -258,35 +262,8 @@
   <div>
     <div class="tce-flex tce-gap-4 tce-justify-end">
       <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
-      <button
-        class="tce-button-calculate tce-px-3 tce-py-2"
-        [ngClass]="{ 'tce-opacity-50 tce-cursor-not-allowed': estimatorForm.invalid }"
-        type="submit"
-        [attr.aria-disabled]="estimatorForm.invalid"
-        [attr.aria-describedby]="(estimatorForm | invalidated) ? 'calculateDisabledMessage' : null">
-        Calculate
-      </button>
+      <button class="tce-button-calculate tce-px-3 tce-py-2" type="submit">Calculate</button>
     </div>
-    @if (estimatorForm | invalidated) {
-      <div
-        class="tce-error-box tce-flex tce-gap-1 tce-justify-end tce-mt-2"
-        aria-live="polite"
-        id="calculateDisabledMessage">
-        <span class="material-icons-outlined">error</span>
-        <p>
-          Unable to calculate emissions because the following fields are invalid:
-          @if (headCount?.invalid) {
-            <a class="tce-underline" href="#headCount">number of employees</a>&nbsp;
-          }
-          @if (numberOfServers?.invalid) {
-            <a class="tce-underline" href="#numberOfServers">number of servers</a>&nbsp;
-          }
-          @if (monthlyActiveUsers?.invalid) {
-            <a class="tce-underline" href="#monthlyActiveUsers">monthly active users</a>
-          }
-        </p>
-      </div>
-    }
   </div>
 
   <ng-template
