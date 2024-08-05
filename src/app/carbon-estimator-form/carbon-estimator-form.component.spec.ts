@@ -1,6 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimatorFormComponent } from './carbon-estimator-form.component';
+import { StorageService } from '../services/storage.service';
+
+class MockStorageService {
+  storage: Record<string, string> = {};
+
+  get(key: string): string | null {
+    return this.storage[key] || null;
+  }
+
+  set(key: string, value: string): void {
+    this.storage[key] = value;
+  }
+}
 
 describe('CarbonEstimatorFormComponent', () => {
   let component: CarbonEstimatorFormComponent;
@@ -9,6 +22,7 @@ describe('CarbonEstimatorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CarbonEstimatorFormComponent],
+      providers: [{ provide: StorageService, useClass: MockStorageService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CarbonEstimatorFormComponent);
