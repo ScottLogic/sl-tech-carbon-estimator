@@ -7,35 +7,29 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
   input,
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import {
-  ControlState,
   costRanges,
   defaultValues,
   formContext,
   questionPanelConfig,
+  locationDescriptions,
+  ValidationError,
+  errorConfig,
+  ControlState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
+import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { StorageService } from '../services/storage.service';
 import { compareCostRanges } from '../utils/cost-range';
-
-const locationDescriptions: Record<WorldLocation, string> = {
-  WORLD: 'Globally',
-  'NORTH AMERICA': 'in North America',
-  EUROPE: 'in Europe',
-  GBR: 'in the UK',
-  ASIA: 'in Asia',
-  AFRICA: 'in Africa',
-  OCEANIA: 'in Oceania',
-  'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
-};
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -51,6 +45,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
     ExpansionPanelComponent,
     FormatCostRangePipe,
     InvalidatedPipe,
+    ErrorSummaryComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
@@ -58,6 +53,8 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
   @Output() public formReset: EventEmitter<void> = new EventEmitter();
+
+  @ViewChild(ErrorSummaryComponent) errorSummary?: ErrorSummaryComponent;
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
@@ -85,6 +82,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }));
 
   public questionPanelConfig = questionPanelConfig;
+
+  public errorConfig = errorConfig;
+  public showErrorSummary = false;
+  public validationErrors: ValidationError[] = [];
 
   public compareCostRanges = compareCostRanges;
 
@@ -201,9 +202,14 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   public handleSubmit() {
-    if (!this.estimatorForm.valid) {
+    if (this.estimatorForm.invalid) {
+      this.validationErrors = this.getValidationErrors();
+      this.showErrorSummary = true;
+      this.changeDetector.detectChanges();
+      this.errorSummary?.summary.nativeElement.focus();
       return;
     }
+    this.showErrorSummary = false;
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
       formValue.onPremise.serverLocation = 'WORLD';
@@ -241,6 +247,21 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         this.estimatorForm.getRawValue() as EstimatorValues
       );
     }
+  }
+
+  private getValidationErrors() {
+    const validationErrors: ValidationError[] = [];
+    if (this.headCount?.invalid) {
+      validationErrors.push(this.errorConfig.headCount);
+    }
+    if (this.numberOfServers?.invalid) {
+      validationErrors.push(this.errorConfig.numberOfServers);
+    }
+    if (this.monthlyActiveUsers?.invalid) {
+      validationErrors.push(this.errorConfig.monthlyActiveUsers);
+    }
+
+    return validationErrors;
   }
 
   private storeFormData() {

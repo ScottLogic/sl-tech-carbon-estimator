@@ -1,5 +1,5 @@
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
-import { CostRange, EstimatorValues } from '../types/carbon-estimator';
+import { CostRange, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -96,6 +96,37 @@ export const questionPanelConfig: ExpansionPanelConfig = {
   startsExpanded: false,
   buttonStyles: 'material-icons-outlined tce-text-base hover:tce-bg-slate-200 hover:tce-rounded',
   contentContainerStyles: 'tce-px-3 tce-py-2 tce-bg-slate-100 tce-border tce-border-slate-400 tce-rounded tce-text-sm',
+};
+
+export const locationDescriptions: Record<WorldLocation, string> = {
+  WORLD: 'Globally',
+  'NORTH AMERICA': 'in North America',
+  EUROPE: 'in Europe',
+  GBR: 'in the UK',
+  ASIA: 'in Asia',
+  AFRICA: 'in Africa',
+  OCEANIA: 'in Oceania',
+  'LATIN AMERICA AND CARIBBEAN': 'in Latin America or the Caribbean',
+};
+
+export type ValidationError = {
+  inputId: string;
+  errorMessage: string;
+};
+
+export const errorConfig = {
+  headCount: {
+    inputId: 'headCount',
+    errorMessage: 'The number of employees must be greater than 0',
+  },
+  numberOfServers: {
+    inputId: 'numberOfServers',
+    errorMessage: 'The number of servers must be greater than or equal to 0',
+  },
+  monthlyActiveUsers: {
+    inputId: 'monthlyActiveUsers',
+    errorMessage: 'The number of monthly active users must be greater than 0',
+  },
 };
 
 export type ControlState = {
