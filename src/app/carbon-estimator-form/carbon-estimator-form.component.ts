@@ -21,6 +21,7 @@ import {
   ValidationError,
   errorConfig,
   ControlState,
+  ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
@@ -202,6 +203,13 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         }
       }
     }
+
+    const storedErrorSummaryState = this.getStoredErrorSummaryState();
+
+    if (storedErrorSummaryState) {
+      this.showErrorSummary = storedErrorSummaryState.showErrorSummary;
+      this.validationErrors = storedErrorSummaryState.validationErrors;
+    }
   }
 
   ngOnDestroy(): void {
@@ -302,8 +310,22 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return storedControlStates ? (JSON.parse(storedControlStates) as Record<string, ControlState>) : null;
   }
 
+  private storeErrorSummaryState() {
+    const errorSummaryState: ErrorSummaryState = {
+      showErrorSummary: this.showErrorSummary,
+      validationErrors: this.validationErrors,
+    };
+    this.storageService.set('errorSummaryState', JSON.stringify(errorSummaryState));
+  }
+
+  private getStoredErrorSummaryState() {
+    const storedErrorSummaryState = this.storageService.get('errorSummaryState');
+    return storedErrorSummaryState ? (JSON.parse(storedErrorSummaryState) as ErrorSummaryState) : null;
+  }
+
   private storeFormState() {
     this.storeFormData();
     this.storeControlStates();
+    this.storeErrorSummaryState();
   }
 }

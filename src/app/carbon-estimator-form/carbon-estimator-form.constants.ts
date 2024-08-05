@@ -133,3 +133,8 @@ export type ControlState = {
   dirty: boolean;
   touched: boolean;
 };
+
+export type ErrorSummaryState = {
+  showErrorSummary: boolean;
+  validationErrors: ValidationError[];
+};
