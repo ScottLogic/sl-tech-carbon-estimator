@@ -17,6 +17,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
+import { ExternalLinkDirective } from '../directives/external-link.directive';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -33,6 +34,7 @@ import { ErrorSummaryComponent } from '../error-summary/error-summary.component'
     FormatCostRangePipe,
     InvalidatedPipe,
     ErrorSummaryComponent,
+    ExternalLinkDirective,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit {

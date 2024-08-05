@@ -5,6 +5,7 @@ import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from 
 import { DecimalPipe } from '@angular/common';
 import { CarbonIntensityService } from '../services/carbon-intensity.service';
 import { desktop, laptop, mobile, monitor, network, server, tablet } from '../estimation/device-type';
+import { ExternalLinkDirective } from '../directives/external-link.directive';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
@@ -29,7 +30,7 @@ const locationDescriptions: Record<WorldLocation, string> = {
   selector: 'assumptions-and-limitation',
   standalone: true,
   templateUrl: './assumptions-and-limitation.component.html',
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, ExternalLinkDirective],
 })
 export class AssumptionsAndLimitationComponent implements AfterContentInit {
   @Output() public closeEvent = new EventEmitter<boolean>();

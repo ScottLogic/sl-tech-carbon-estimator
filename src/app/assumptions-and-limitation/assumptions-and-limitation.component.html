@@ -78,15 +78,21 @@
   </table>
   <p class="tce-text-sm">
     In the case of servers and their supporting network devices, we also apply an on-premises
-    <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#power-usage-effectiveness-pue">PUE</a>
+    <a
+      class="tce-underline"
+      href="https://www.techcarbonstandard.org/glossary#power-usage-effectiveness-pue"
+      tce-external-link
+      >PUE</a
+    >
     factor of {{ ON_PREMISE_AVERAGE_PUE }}, based on an average across all data centers.
   </p>
   <h4 class="tce-text-lg">Carbon Intensity</h4>
   <p class="tce-text-sm">
     We make use of the latest available Carbon Intensity figures from
-    <a class="tce-underline" href="https://ember-climate.org/data/data-tools/data-explorer/">Ember</a> via the
-    <a class="tce-underline" href="https://www.thegreenwebfoundation.org/co2-js/">CO2.js</a> library. We limit the range
-    of regions that can be selected, which are currently:
+    <a class="tce-underline" href="https://ember-climate.org/data/data-tools/data-explorer/" tce-external-link>Ember</a>
+    via the
+    <a class="tce-underline" href="https://www.thegreenwebfoundation.org/co2-js/" tce-external-link>CO2.js</a> library.
+    We limit the range of regions that can be selected, which are currently:
   </p>
   <table class="tce-w-fit">
     <thead>
@@ -143,8 +149,10 @@
   </aside>
   <p class="tce-text-sm">
     We use the total Embodied Carbon and the lifespan to give an
-    <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#amortisation">amortised</a> yearly amount
-    of carbon.
+    <a class="tce-underline" href="https://www.techcarbonstandard.org/glossary#amortisation" tce-external-link
+      >amortised</a
+    >
+    yearly amount of carbon.
   </p>
   <h4 class="tce-text-lg">Cloud Services</h4>
   <p class="tce-text-sm">
@@ -152,13 +160,15 @@
     Beginning with a list of AWS EC2 instance prices, we combined this with
     <a
       class="tce-underline"
-      href="https://github.com/cloud-carbon-footprint/cloud-carbon-coefficients/blob/main/data/aws-instances.csv">
+      href="https://github.com/cloud-carbon-footprint/cloud-carbon-coefficients/blob/main/data/aws-instances.csv"
+      tce-external-link>
       power</a
     >
     and
     <a
       class="tce-underline"
-      href="https://github.com/cloud-carbon-footprint/ccf-coefficients/blob/main/output/coefficients-aws-embodied.csv">
+      href="https://github.com/cloud-carbon-footprint/ccf-coefficients/blob/main/output/coefficients-aws-embodied.csv"
+      tce-external-link>
       embodied</a
     >
     data from Cloud Carbon Footprint's coefficients.<br />
@@ -257,12 +267,15 @@
   <h4 class="tce-text-lg">Network Data Transfer</h4>
   <p class="tce-text-sm">
     Our outgoing network data estimation makes use of the
-    <a href="https://developers.thegreenwebfoundation.org/co2js/overview/">CO2.js</a> library, specifically using the
-    <a href="https://sustainablewebdesign.org/calculating-digital-emissions/">Sustainable Web Design</a> model. This
-    methodology is often used to give an overview of the carbon emissions of an entire website but it can also focus on
-    single components like Network infrastructure. We felt that this was the most appropriate method to use at this
-    point in time, due to the difficulties involved in making a more specific estimation of the Downstream Network
-    infrastructure used by an organisation.
+    <a href="https://developers.thegreenwebfoundation.org/co2js/overview/" tce-external-link>CO2.js</a> library,
+    specifically using the
+    <a href="https://sustainablewebdesign.org/calculating-digital-emissions/" tce-external-link
+      >Sustainable Web Design</a
+    >
+    model. This methodology is often used to give an overview of the carbon emissions of an entire website but it can
+    also focus on single components like Network infrastructure. We felt that this was the most appropriate method to
+    use at this point in time, due to the difficulties involved in making a more specific estimation of the Downstream
+    Network infrastructure used by an organisation.
   </p>
   <h4 class="tce-text-lg">End-User Devices</h4>
   <p class="tce-text-sm">
