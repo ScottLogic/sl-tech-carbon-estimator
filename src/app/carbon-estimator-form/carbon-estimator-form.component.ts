@@ -189,17 +189,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
     if (storedFormState) {
       this.estimatorForm.setValue(storedFormState.formValue);
-
-      for (const [controlKey, controlState] of Object.entries(storedFormState.controlStates)) {
-        const control = this.estimatorForm.get(controlKey)!;
-        if (controlState.dirty) {
-          control.markAsDirty();
-        }
-        if (controlState.touched) {
-          control.markAsTouched();
-        }
-      }
-
+      this.setControlStates(storedFormState.controlStates);
       this.showErrorSummary = storedFormState.errorSummaryState.showErrorSummary;
       this.validationErrors = storedFormState.errorSummaryState.validationErrors;
     }
@@ -287,6 +277,18 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
 
     return controlStates;
+  }
+
+  private setControlStates(controlStates: Record<string, ControlState>) {
+    for (const [controlKey, controlState] of Object.entries(controlStates)) {
+      const control = this.estimatorForm.get(controlKey);
+      if (controlState.dirty) {
+        control?.markAsDirty();
+      }
+      if (controlState.touched) {
+        control?.markAsTouched();
+      }
+    }
   }
 
   private storeFormState() {
