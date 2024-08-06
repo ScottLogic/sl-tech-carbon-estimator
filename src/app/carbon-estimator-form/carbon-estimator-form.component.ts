@@ -22,6 +22,7 @@ import {
   errorConfig,
   ControlState,
   ErrorSummaryState,
+  FormState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
@@ -184,16 +185,12 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.estimatorForm.setValue(formValue);
     }
 
-    const storedFormData = this.getStoredFormData();
+    const storedFormState = this.getStoredFormState();
 
-    if (storedFormData) {
-      this.estimatorForm.setValue(storedFormData);
-    }
+    if (storedFormState) {
+      this.estimatorForm.setValue(storedFormState.formValue);
 
-    const storedControlStates = this.getStoredControlStates();
-
-    if (storedControlStates) {
-      for (const [controlKey, controlState] of Object.entries(storedControlStates)) {
+      for (const [controlKey, controlState] of Object.entries(storedFormState.controlStates)) {
         const control = this.estimatorForm.get(controlKey)!;
         if (controlState.dirty) {
           control.markAsDirty();
@@ -202,13 +199,9 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
           control.markAsTouched();
         }
       }
-    }
 
-    const storedErrorSummaryState = this.getStoredErrorSummaryState();
-
-    if (storedErrorSummaryState) {
-      this.showErrorSummary = storedErrorSummaryState.showErrorSummary;
-      this.validationErrors = storedErrorSummaryState.validationErrors;
+      this.showErrorSummary = storedFormState.errorSummaryState.showErrorSummary;
+      this.validationErrors = storedFormState.errorSummaryState.validationErrors;
     }
   }
 
@@ -279,16 +272,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return validationErrors;
   }
 
-  private storeFormData() {
-    this.storageService.set('formData', JSON.stringify(this.estimatorForm.getRawValue()));
-  }
-
-  private getStoredFormData() {
-    const storedFormData = this.storageService.get('formData');
-    return storedFormData ? (JSON.parse(storedFormData) as EstimatorValues) : null;
-  }
-
-  private storeControlStates() {
+  private getControlStates() {
     const controlStates: Record<string, ControlState> = {};
 
     for (const [groupName, formGroup] of Object.entries(this.estimatorForm.controls)) {
@@ -302,30 +286,26 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.storageService.set('controlStates', JSON.stringify(controlStates));
+    return controlStates;
   }
 
-  private getStoredControlStates() {
-    const storedControlStates = this.storageService.get('controlStates');
-    return storedControlStates ? (JSON.parse(storedControlStates) as Record<string, ControlState>) : null;
-  }
-
-  private storeErrorSummaryState() {
+  private storeFormState() {
+    const formValue = this.estimatorForm.getRawValue();
+    const controlStates = this.getControlStates();
     const errorSummaryState: ErrorSummaryState = {
       showErrorSummary: this.showErrorSummary,
       validationErrors: this.validationErrors,
     };
-    this.storageService.set('errorSummaryState', JSON.stringify(errorSummaryState));
+    const formState: FormState = {
+      formValue,
+      controlStates,
+      errorSummaryState,
+    };
+    this.storageService.set('formState', JSON.stringify(formState));
   }
 
-  private getStoredErrorSummaryState() {
-    const storedErrorSummaryState = this.storageService.get('errorSummaryState');
-    return storedErrorSummaryState ? (JSON.parse(storedErrorSummaryState) as ErrorSummaryState) : null;
-  }
-
-  private storeFormState() {
-    this.storeFormData();
-    this.storeControlStates();
-    this.storeErrorSummaryState();
+  private getStoredFormState() {
+    const storedFormState = this.storageService.get('formState');
+    return storedFormState ? (JSON.parse(storedFormState) as FormState) : null;
   }
 }

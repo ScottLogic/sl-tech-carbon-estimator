@@ -1,5 +1,6 @@
+import { FormGroup } from '@angular/forms';
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
-import { CostRange, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -129,6 +130,8 @@ export const errorConfig = {
   },
 };
 
+export type EstimatorFormRawValue = ReturnType<FormGroup<EstimatorFormValues>['getRawValue']>;
+
 export type ControlState = {
   dirty: boolean;
   touched: boolean;
@@ -137,4 +140,10 @@ export type ControlState = {
 export type ErrorSummaryState = {
   showErrorSummary: boolean;
   validationErrors: ValidationError[];
+};
+
+export type FormState = {
+  formValue: EstimatorFormRawValue;
+  controlStates: Record<string, ControlState>;
+  errorSummaryState: ErrorSummaryState;
 };
