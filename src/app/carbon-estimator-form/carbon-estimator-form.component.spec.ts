@@ -4,18 +4,18 @@ import { CarbonEstimatorFormComponent } from './carbon-estimator-form.component'
 import { StorageService } from '../services/storage.service';
 
 class MockStorageService {
-  storage: Record<string, string> = {};
+  storage = new Map<string, string>();
 
   get(key: string): string | null {
-    return this.storage[key] || null;
+    return this.storage.get(key) || null;
   }
 
   set(key: string, value: string): void {
-    this.storage[key] = value;
+    this.storage.set(key, value);
   }
 
   removeItem(key: string): void {
-    delete this.storage[key];
+    this.storage.delete(key);
   }
 }
 
