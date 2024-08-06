@@ -16,6 +16,10 @@ export class StorageService {
   }
 
   set(key: string, value: string): void {
-    return this.storage.setItem(key, value);
+    this.storage.setItem(key, value);
+  }
+
+  removeItem(key: string): void {
+    this.storage.removeItem(key);
   }
 }

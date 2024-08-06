@@ -223,7 +223,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public resetForm() {
     this.estimatorForm.reset();
-    this.storeFormState();
+    this.clearStoredFormState();
     this.formReset.emit();
   }
 
@@ -309,5 +309,9 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   private getStoredFormState() {
     const storedFormState = this.storageService.get('formState');
     return storedFormState ? (JSON.parse(storedFormState) as FormState) : null;
+  }
+
+  private clearStoredFormState() {
+    this.storageService.removeItem('formState');
   }
 }

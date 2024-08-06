@@ -13,6 +13,10 @@ class MockStorageService {
   set(key: string, value: string): void {
     this.storage[key] = value;
   }
+
+  removeItem(key: string): void {
+    delete this.storage[key];
+  }
 }
 
 describe('CarbonEstimatorFormComponent', () => {
