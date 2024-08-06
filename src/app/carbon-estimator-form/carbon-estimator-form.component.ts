@@ -22,6 +22,7 @@ import {
   errorConfig,
   ControlState,
   FormState,
+  ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
@@ -92,8 +93,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public questionPanelConfig = questionPanelConfig;
 
   public errorConfig = errorConfig;
-  public showErrorSummary = false;
-  public validationErrors: ValidationError[] = [];
+  public errorSummaryState: ErrorSummaryState = {
+    showErrorSummary: false,
+    validationErrors: [],
+  };
 
   public compareCostRanges = compareCostRanges;
 
@@ -189,8 +192,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     if (storedFormState) {
       this.estimatorForm.setValue(storedFormState.formValue);
       this.setControlStates(storedFormState.controlStates);
-      this.showErrorSummary = storedFormState.errorSummaryState.showErrorSummary;
-      this.validationErrors = storedFormState.errorSummaryState.validationErrors;
+      this.errorSummaryState = storedFormState.errorSummaryState;
     }
   }
 
@@ -200,13 +202,18 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public handleSubmit() {
     if (this.estimatorForm.invalid) {
-      this.validationErrors = this.getValidationErrors();
-      this.showErrorSummary = true;
+      this.errorSummaryState = {
+        showErrorSummary: true,
+        validationErrors: this.getValidationErrors(),
+      };
       this.changeDetector.detectChanges();
       this.errorSummary?.summary.nativeElement.focus();
       return;
     }
-    this.showErrorSummary = false;
+    this.errorSummaryState = {
+      showErrorSummary: false,
+      validationErrors: [],
+    };
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
       formValue.onPremise.serverLocation = 'WORLD';
@@ -294,10 +301,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     const formState: FormState = {
       formValue: this.estimatorForm.getRawValue(),
       controlStates: this.getControlStates(),
-      errorSummaryState: {
-        showErrorSummary: this.showErrorSummary,
-        validationErrors: this.validationErrors,
-      },
+      errorSummaryState: this.errorSummaryState,
     };
     this.storageService.set('formState', JSON.stringify(formState));
   }
