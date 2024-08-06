@@ -21,7 +21,6 @@ import {
   ValidationError,
   errorConfig,
   ControlState,
-  ErrorSummaryState,
   FormState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
@@ -292,16 +291,13 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   private storeFormState() {
-    const formValue = this.estimatorForm.getRawValue();
-    const controlStates = this.getControlStates();
-    const errorSummaryState: ErrorSummaryState = {
-      showErrorSummary: this.showErrorSummary,
-      validationErrors: this.validationErrors,
-    };
     const formState: FormState = {
-      formValue,
-      controlStates,
-      errorSummaryState,
+      formValue: this.estimatorForm.getRawValue(),
+      controlStates: this.getControlStates(),
+      errorSummaryState: {
+        showErrorSummary: this.showErrorSummary,
+        validationErrors: this.validationErrors,
+      },
     };
     this.storageService.set('formState', JSON.stringify(formState));
   }
