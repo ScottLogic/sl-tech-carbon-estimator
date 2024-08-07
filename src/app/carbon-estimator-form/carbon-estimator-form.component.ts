@@ -21,7 +21,6 @@ import {
   ValidationError,
   errorConfig,
   ControlState,
-  FormState,
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
@@ -31,8 +30,8 @@ import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import { StorageService } from '../services/storage.service';
 import { compareCostRanges } from '../utils/cost-range';
+import { FormStateService } from '../services/form-state.service';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -104,7 +103,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     private estimationService: CarbonEstimationService,
-    private storageService: StorageService
+    private formStateService: FormStateService
   ) {}
 
   public ngOnInit() {
@@ -268,50 +267,19 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return validationErrors;
   }
 
-  private getControlStates() {
-    const controlStates: Record<string, ControlState> = {};
-
-    for (const [groupName, formGroup] of Object.entries(this.estimatorForm.controls)) {
-      for (const [controlName, control] of Object.entries(formGroup.controls)) {
-        if (control.dirty || control.touched) {
-          controlStates[`${groupName}.${controlName}`] = {
-            dirty: control.dirty,
-            touched: control.touched,
-          };
-        }
-      }
-    }
-
-    return controlStates;
-  }
-
   private setControlStates(controlStates: Record<string, ControlState>) {
-    for (const [controlKey, controlState] of Object.entries(controlStates)) {
-      const control = this.estimatorForm.get(controlKey);
-      if (controlState.dirty) {
-        control?.markAsDirty();
-      }
-      if (controlState.touched) {
-        control?.markAsTouched();
-      }
-    }
+    this.formStateService.setControlStates(this.estimatorForm, controlStates);
   }
 
   private storeFormState() {
-    const formState: FormState = {
-      formValue: this.estimatorForm.getRawValue(),
-      controlStates: this.getControlStates(),
-      errorSummaryState: this.errorSummaryState,
-    };
-    this.storageService.set('formState', JSON.stringify(formState));
+    this.formStateService.storeFormState(this.estimatorForm, this.errorSummaryState);
   }
 
   private getStoredFormState() {
-    const storedFormState = this.storageService.get('formState');
-    return storedFormState ? (JSON.parse(storedFormState) as FormState) : null;
+    return this.formStateService.getStoredFormState();
   }
 
   private clearStoredFormState() {
-    this.storageService.removeItem('formState');
+    this.formStateService.clearStoredFormState();
   }
 }
