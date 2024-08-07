@@ -7,7 +7,7 @@ class MockStorageService {
   storage = new Map<string, string>();
 
   get(key: string): string | null {
-    return this.storage.get(key) || null;
+    return this.storage.get(key) ?? null;
   }
 
   set(key: string, value: string): void {
