@@ -59,8 +59,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   @ViewChild(ErrorSummaryComponent) errorSummary?: ErrorSummaryComponent;
 
-  @HostListener('window:beforeunload')
-  onBeforeUnload(): void {
+  // The visibilitychange event is fired in several scenarios including when the
+  // user navigates away from the page or switches app on mobile.
+  @HostListener('document:visibilitychange')
+  onVisibilityChange(): void {
     this.storeFormState();
   }
 

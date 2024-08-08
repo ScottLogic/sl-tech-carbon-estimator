@@ -90,9 +90,9 @@ describe('CarbonEstimatorFormComponent', () => {
       expect(storageService.set).toHaveBeenCalled();
     });
 
-    it('should store the state when the user leaves the page', () => {
+    it('should store the state when the page visibility changes', () => {
       spyOn(storageService, 'set');
-      window.dispatchEvent(new Event('beforeunload'));
+      document.dispatchEvent(new Event('visibilitychange'));
 
       expect(storageService.set).toHaveBeenCalled();
     });
