@@ -22,6 +22,7 @@ class MockStorageService {
 describe('CarbonEstimatorFormComponent', () => {
   let component: CarbonEstimatorFormComponent;
   let fixture: ComponentFixture<CarbonEstimatorFormComponent>;
+  let storageService: StorageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,6 +32,7 @@ describe('CarbonEstimatorFormComponent', () => {
 
     fixture = TestBed.createComponent(CarbonEstimatorFormComponent);
     component = fixture.componentInstance;
+    storageService = TestBed.inject(StorageService);
     fixture.detectChanges();
   });
 
@@ -77,6 +79,22 @@ describe('CarbonEstimatorFormComponent', () => {
   describe('monthlyActiveUsers()', () => {
     it('should not return null once the component is initialized', () => {
       expect(component.monthlyActiveUsers).not.toBeNull();
+    });
+  });
+
+  describe('form state', () => {
+    it('should store the form state when the component is destroyed', () => {
+      spyOn(storageService, 'set');
+      component.ngOnDestroy();
+
+      expect(storageService.set).toHaveBeenCalled();
+    });
+
+    it('should store the state when the user leaves the page', () => {
+      spyOn(storageService, 'set');
+      window.dispatchEvent(new Event('beforeunload'));
+
+      expect(storageService.set).toHaveBeenCalled();
     });
   });
 });
