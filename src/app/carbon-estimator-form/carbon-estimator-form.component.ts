@@ -211,10 +211,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.errorSummary?.summary.nativeElement.focus();
       return;
     }
-    this.errorSummaryState = {
-      showErrorSummary: false,
-      validationErrors: [],
-    };
+    this.resetValidationErrors();
     const formValue = this.estimatorForm.getRawValue();
     if (formValue.onPremise.serverLocation === 'unknown') {
       formValue.onPremise.serverLocation = 'WORLD';
@@ -230,6 +227,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.resetValidationErrors();
     this.clearStoredFormState();
     this.formReset.emit();
   }
@@ -267,6 +265,13 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
 
     return validationErrors;
+  }
+
+  private resetValidationErrors() {
+    this.errorSummaryState = {
+      showErrorSummary: false,
+      validationErrors: [],
+    };
   }
 
   private setControlStates(controlStates: Record<string, ControlState>) {
