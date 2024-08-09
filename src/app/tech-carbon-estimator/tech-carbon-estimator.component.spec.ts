@@ -48,8 +48,7 @@ describe('TechCarbonEstimatorComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should show the form when showAssumptionsAndLimitationsView is false', () => {
-    component.showAssumptionsAndLimitationView = false;
+  it('should show the form by default', () => {
     fixture.detectChanges();
 
     const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
@@ -57,17 +56,6 @@ describe('TechCarbonEstimatorComponent', () => {
 
     expect(formElement).toBeTruthy();
     expect(assumptionsElement).toBeFalsy();
-  });
-
-  it('should show the assumptions and limitations when showAssumptionsAndLimitationsView is true', () => {
-    component.showAssumptionsAndLimitationView = true;
-    fixture.detectChanges();
-
-    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
-
-    expect(formElement).toBeFalsy();
-    expect(assumptionsElement).toBeTruthy();
   });
 
   it('should call estimationService.calculateCarbonEstimation when handleFormSubmit is called', () => {
@@ -97,17 +85,5 @@ describe('TechCarbonEstimatorComponent', () => {
     fixture.debugElement.query(By.css('carbon-estimator-form')).triggerEventHandler('formReset');
 
     expect(component.carbonEstimation).toBeNull();
-  });
-
-  it('should focus on assumptions button when closeAssumptionsAndLimitation is called with hasFocus true', () => {
-    component.showAssumptionsAndLimitationView = true;
-    fixture.detectChanges();
-
-    component.closeAssumptionsAndLimitation(true);
-    fixture.detectChanges();
-
-    const button = component.showAssumptionsLimitationButton.nativeElement;
-    expect(document.activeElement).toEqual(button);
-    expect(button);
   });
 });

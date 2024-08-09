@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
+import { TabsComponent } from '../tab/tabs/tabs.component';
+import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 
 @Component({
   selector: 'tech-carbon-estimator',
@@ -18,13 +20,14 @@ import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
     CommonModule,
     AssumptionsAndLimitationComponent,
     DisclaimerComponent,
+    TabsComponent,
+    TabItemComponent,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
 })
 export class TechCarbonEstimatorComponent {
   @Input() public extraHeight?: string;
 
-  public showAssumptionsAndLimitationView = false;
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;
 
@@ -46,18 +49,5 @@ export class TechCarbonEstimatorComponent {
 
   public handleFormReset() {
     this.carbonEstimation = null;
-  }
-
-  public showAssumptionsAndLimitation(): void {
-    this.showAssumptionsAndLimitationView = true;
-  }
-
-  public closeAssumptionsAndLimitation(hasFocus: boolean): void {
-    this.showAssumptionsAndLimitationView = false;
-    this.changeDetector.detectChanges();
-    const openButton = this.showAssumptionsLimitationButton.nativeElement;
-    if (hasFocus) {
-      openButton.focus();
-    }
   }
 }
