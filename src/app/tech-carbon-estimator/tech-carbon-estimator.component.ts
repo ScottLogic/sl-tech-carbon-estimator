@@ -31,9 +31,7 @@ export class TechCarbonEstimatorComponent {
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;
 
-  @ViewChild('assumptionsLimitation', { read: ElementRef }) assumptionsLimitation!: ElementRef;
   @ViewChild('estimations') estimations!: ElementRef;
-  @ViewChild('showAssumptionsLimitationButton') showAssumptionsLimitationButton!: ElementRef<HTMLButtonElement>;
 
   constructor(
     private estimationService: CarbonEstimationService,
