@@ -1,7 +1,7 @@
 <form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
   <div formGroupName="upstream">
-    @if (showErrorSummary) {
-      <error-summary [validationErrors]="validationErrors"></error-summary>
+    @if (errorSummaryState.showErrorSummary) {
+      <error-summary [validationErrors]="errorSummaryState.validationErrors"></error-summary>
     }
 
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
@@ -145,7 +145,8 @@
             class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed tce-px-3 tce-py-2"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
-            required>
+            required
+            [compareWith]="compareCostRanges">
             @for (range of costRanges; track $index) {
               <option [ngValue]="range">{{ range | formatCostRange }}</option>
             }
