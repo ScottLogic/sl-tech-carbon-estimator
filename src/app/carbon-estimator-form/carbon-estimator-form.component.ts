@@ -1,5 +1,15 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  input,
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import {
@@ -10,6 +20,8 @@ import {
   locationDescriptions,
   ValidationError,
   errorConfig,
+  ControlState,
+  ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
@@ -18,6 +30,8 @@ import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { compareCostRanges } from '../utils/cost-range';
+import { FormStateService } from '../services/form-state.service';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -37,13 +51,20 @@ import { ExternalLinkDirective } from '../directives/external-link.directive';
     ExternalLinkDirective,
   ],
 })
-export class CarbonEstimatorFormComponent implements OnInit {
+export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
   @Output() public formReset: EventEmitter<void> = new EventEmitter();
 
   @ViewChild(ErrorSummaryComponent) errorSummary?: ErrorSummaryComponent;
+
+  // The visibilitychange event is fired in several scenarios including when the
+  // user navigates away from the page or switches app on mobile.
+  @HostListener('document:visibilitychange')
+  onVisibilityChange(): void {
+    this.storeFormState();
+  }
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
@@ -73,13 +94,18 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public questionPanelConfig = questionPanelConfig;
 
   public errorConfig = errorConfig;
-  public showErrorSummary = false;
-  public validationErrors: ValidationError[] = [];
+  public errorSummaryState: ErrorSummaryState = {
+    showErrorSummary: false,
+    validationErrors: [],
+  };
+
+  public compareCostRanges = compareCostRanges;
 
   constructor(
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
-    private estimationService: CarbonEstimationService
+    private estimationService: CarbonEstimationService,
+    private formStateService: FormStateService
   ) {}
 
   public ngOnInit() {
@@ -161,12 +187,26 @@ export class CarbonEstimatorFormComponent implements OnInit {
     if (formValue !== undefined) {
       this.estimatorForm.setValue(formValue);
     }
+
+    const storedFormState = this.getStoredFormState();
+
+    if (storedFormState) {
+      this.estimatorForm.setValue(storedFormState.formValue);
+      this.setControlStates(storedFormState.controlStates);
+      this.errorSummaryState = storedFormState.errorSummaryState;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.storeFormState();
   }
 
   public handleSubmit() {
     if (this.estimatorForm.invalid) {
-      this.validationErrors = this.getValidationErrors();
-      this.showErrorSummary = true;
+      this.errorSummaryState = {
+        showErrorSummary: true,
+        validationErrors: this.getValidationErrors(),
+      };
       this.changeDetector.detectChanges();
       this.errorSummary?.summary.nativeElement.focus();
       return;
@@ -188,6 +228,7 @@ export class CarbonEstimatorFormComponent implements OnInit {
   public resetForm() {
     this.estimatorForm.reset();
     this.resetValidationErrors();
+    this.clearStoredFormState();
     this.formReset.emit();
   }
 
@@ -227,7 +268,25 @@ export class CarbonEstimatorFormComponent implements OnInit {
   }
 
   private resetValidationErrors() {
-    this.validationErrors = [];
-    this.showErrorSummary = false;
+    this.errorSummaryState = {
+      showErrorSummary: false,
+      validationErrors: [],
+    };
+  }
+
+  private setControlStates(controlStates: Record<string, ControlState>) {
+    this.formStateService.setControlStates(this.estimatorForm, controlStates);
+  }
+
+  private storeFormState() {
+    this.formStateService.storeFormState(this.estimatorForm, this.errorSummaryState);
+  }
+
+  private getStoredFormState() {
+    return this.formStateService.getStoredFormState();
+  }
+
+  private clearStoredFormState() {
+    this.formStateService.clearStoredFormState();
   }
 }

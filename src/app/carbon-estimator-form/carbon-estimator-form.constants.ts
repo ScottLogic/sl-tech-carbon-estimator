@@ -1,6 +1,6 @@
+import { FormGroup } from '@angular/forms';
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
-import { CostRange, EstimatorValues } from '../types/carbon-estimator';
-import { WorldLocation } from '../types/carbon-estimator';
+import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -128,4 +128,22 @@ export const errorConfig = {
     inputId: 'monthlyActiveUsers',
     errorMessage: 'The number of monthly active users must be greater than 0',
   },
+};
+
+export type EstimatorFormRawValue = ReturnType<FormGroup<EstimatorFormValues>['getRawValue']>;
+
+export type ControlState = {
+  dirty: boolean;
+  touched: boolean;
+};
+
+export type ErrorSummaryState = {
+  showErrorSummary: boolean;
+  validationErrors: ValidationError[];
+};
+
+export type FormState = {
+  formValue: EstimatorFormRawValue;
+  controlStates: Record<string, ControlState>;
+  errorSummaryState: ErrorSummaryState;
 };
