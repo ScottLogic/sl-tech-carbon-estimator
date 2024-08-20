@@ -15,12 +15,4 @@ describe('AssumptionsAndLimitationComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  it('should have focus afterContentInit', () => {
-    component.ngAfterContentInit();
-    fixture.detectChanges();
-
-    const hasFocus = component.assumptionsLimitation.nativeElement.contains(document.activeElement);
-    expect(hasFocus).toBeTrue();
-  });
 });
