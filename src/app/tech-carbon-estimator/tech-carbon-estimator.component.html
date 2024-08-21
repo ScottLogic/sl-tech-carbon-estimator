@@ -3,25 +3,17 @@
   <div class="tce-flex tce-w-full tce-grow tce-flex-wrap lg:tce-flex-nowrap">
     <div class="tce-w-full lg:tce-w-1/2 tce-pb-4 lg:tce-pb-0 lg:tce-pr-4">
       <disclaimer></disclaimer>
-      @if (showAssumptionsAndLimitationView) {
-        <assumptions-and-limitation
-          #assumptionsLimitation
-          aria-live="polite"
-          (closeEvent)="closeAssumptionsAndLimitation($event)"></assumptions-and-limitation>
-      } @else {
-        <div class="tce-flex tce-justify-end tce-mb-4 -tce-mt-2">
-          <button
-            #showAssumptionsLimitationButton
-            class="tce-button-assumptions tce-px-3 tce-py-2 tce-w-fit tce-self-end"
-            (click)="showAssumptionsAndLimitation()">
-            Assumptions and limitations
-          </button>
-        </div>
-        <carbon-estimator-form
-          [formValue]="formValue"
-          (formSubmit)="handleFormSubmit($event)"
-          (formReset)="handleFormReset()"></carbon-estimator-form>
-      }
+      <tabs>
+        <tab-item [active]="true" [title]="'Estimation Input'">
+          <carbon-estimator-form
+            [formValue]="formValue"
+            (formSubmit)="handleFormSubmit($event)"
+            (formReset)="handleFormReset()"></carbon-estimator-form>
+        </tab-item>
+        <tab-item [title]="'Assumptions and Limitations'">
+          <assumptions-and-limitation aria-live="polite"></assumptions-and-limitation>
+        </tab-item>
+      </tabs>
     </div>
     <div
       #estimations
