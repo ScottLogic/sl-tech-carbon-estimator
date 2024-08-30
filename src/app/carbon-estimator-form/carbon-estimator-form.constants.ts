@@ -145,5 +145,5 @@ export type ErrorSummaryState = {
 export type FormState = {
   formValue: EstimatorFormRawValue;
   controlStates: Record<string, ControlState>;
-  errorSummaryState: ErrorSummaryState;
+  submitted: boolean;
 };

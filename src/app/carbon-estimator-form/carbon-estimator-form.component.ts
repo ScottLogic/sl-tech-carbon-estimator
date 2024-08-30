@@ -98,6 +98,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     showErrorSummary: false,
     validationErrors: [],
   };
+  public submitted = false;
 
   public compareCostRanges = compareCostRanges;
 
@@ -193,7 +194,9 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     if (storedFormState) {
       this.estimatorForm.setValue(storedFormState.formValue);
       this.setControlStates(storedFormState.controlStates);
-      this.errorSummaryState = storedFormState.errorSummaryState;
+      if (storedFormState.submitted) {
+        this.handleSubmit();
+      }
     }
   }
 
@@ -202,6 +205,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   public handleSubmit() {
+    this.submitted = true;
     if (this.estimatorForm.invalid) {
       this.errorSummaryState = {
         showErrorSummary: true,
@@ -227,6 +231,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public resetForm() {
     this.estimatorForm.reset();
+    this.submitted = false;
     this.resetValidationErrors();
     this.clearStoredFormState();
     this.formReset.emit();
@@ -279,7 +284,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   private storeFormState() {
-    this.formStateService.storeFormState(this.estimatorForm, this.errorSummaryState);
+    this.formStateService.storeFormState(this.estimatorForm, this.submitted);
   }
 
   private getStoredFormState() {

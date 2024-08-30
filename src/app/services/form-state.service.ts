@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { FormGroup } from '@angular/forms';
-import { ControlState, ErrorSummaryState, FormState } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { ControlState, FormState } from '../carbon-estimator-form/carbon-estimator-form.constants';
 import { EstimatorFormValues } from '../types/carbon-estimator';
 
 @Injectable({
@@ -39,11 +39,11 @@ export class FormStateService {
     }
   }
 
-  storeFormState(estimatorForm: FormGroup<EstimatorFormValues>, errorSummaryState: ErrorSummaryState) {
+  storeFormState(estimatorForm: FormGroup<EstimatorFormValues>, submitted: boolean) {
     const formState: FormState = {
       formValue: estimatorForm.getRawValue(),
       controlStates: this.getControlStates(estimatorForm),
-      errorSummaryState,
+      submitted,
     };
     this.storageService.set('formState', JSON.stringify(formState));
   }
