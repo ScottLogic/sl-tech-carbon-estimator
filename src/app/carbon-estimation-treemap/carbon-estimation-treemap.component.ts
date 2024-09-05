@@ -34,8 +34,9 @@ export class CarbonEstimationTreemapComponent {
 
   public chartOptions = computed(() => this.getChartOptions(!this.carbonEstimation()));
   private tooltipFormatter = tooltipFormatter;
+  private chartReady = false;
 
-  @ViewChild('chart') chart: ChartComponent | undefined;
+  @ViewChild('chart') private chart: ChartComponent | undefined;
 
   constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {
     effect(() => {
@@ -44,6 +45,18 @@ export class CarbonEstimationTreemapComponent {
         this.chart?.updateOptions({ chart: { height: chartHeight } });
       }
     });
+  }
+
+  public onChartReady() {
+    this.chartReady = true;
+  }
+
+  public readyChart(): ChartComponent | undefined {
+    if (this.chartReady) {
+      return this.chart;
+    }
+
+    return undefined;
   }
 
   private getChartOptions(isPlaceholder: boolean) {
