@@ -72,7 +72,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       this.hasResized = false;
       this.hasEstimationUpdated = false;
       this.changeDetectorRef.detectChanges();
-      this.treemap.chart?.updateOptions({});
+      this.treemap.readyChart()?.updateOptions({});
     }
   }
 
