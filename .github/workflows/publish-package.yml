@@ -121,4 +121,4 @@ jobs:
       pages: write
       id-token: write
       contents: read
-    uses: ./.github/workflows/pages.yml
+    uses: ./.github/workflows/shared-pages.yml
