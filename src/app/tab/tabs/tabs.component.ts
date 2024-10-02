@@ -24,4 +24,27 @@ export class TabsComponent implements AfterContentInit {
     this.tabs.filter(tab => tab.active()).forEach(tab => tab.active.set(false));
     selectedTab.active.set(true);
   }
+
+  public onKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowRight':
+        console.log('right');
+        break;
+
+      case 'ArrowLeft':
+        console.log('left');
+        break;
+
+      case 'Home':
+        console.log('home');
+        break;
+
+      case 'End':
+        console.log('end');
+        break;
+
+      default:
+        break;
+    }
+  }
 }

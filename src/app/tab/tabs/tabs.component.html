@@ -4,6 +4,7 @@
       role="tab"
       [class.tce-active-tab]="tab.active()"
       (click)="selectTab(tab)"
+      (keydown)="onKeydown($event)"
       [attr.tabindex]="tab.active() ? 0 : -1"
       class="tce-p-2 tce-cursor-pointer tce-border-b-2 tce-border-transparent hover:tce-border-slate-300">
       {{ tab.title() }}
