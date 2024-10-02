@@ -5,7 +5,7 @@
       [class.tce-active-tab]="tab.active()"
       (click)="selectTab(tab)"
       (keydown.enter)="selectTab(tab)"
-      tabindex="0"
+      [attr.tabindex]="tab.active() ? 0 : -1"
       class="tce-p-2 tce-cursor-pointer tce-border-b-2 tce-border-transparent hover:tce-border-slate-300">
       {{ tab.title() }}
     </div>
