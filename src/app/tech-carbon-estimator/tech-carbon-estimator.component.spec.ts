@@ -54,8 +54,8 @@ describe('TechCarbonEstimatorComponent', () => {
     const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
     const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
 
-    expect(formElement).toBeTruthy();
-    expect(assumptionsElement).toBeFalsy();
+    expect(formElement.checkVisibility()).toBeTrue();
+    expect(assumptionsElement.checkVisibility()).toBeFalse();
   });
 
   it('should call estimationService.calculateCarbonEstimation when handleFormSubmit is called', () => {
