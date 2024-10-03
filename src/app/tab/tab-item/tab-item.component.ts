@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, EventEmitter, input, model, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, model, OnInit, Output } from '@angular/core';
+import { camelCase } from 'lodash-es';
 
 @Component({
   selector: 'tab-item',
@@ -7,9 +8,10 @@ import { Component, effect, EventEmitter, input, model, Output } from '@angular/
   imports: [CommonModule],
   templateUrl: './tab-item.component.html',
 })
-export class TabItemComponent {
+export class TabItemComponent implements OnInit {
   public active = model(false);
   public title = input.required<string>();
+  public tabIdPrefix!: string;
   @Output() public tabSelected = new EventEmitter<void>();
 
   constructor() {
@@ -18,5 +20,9 @@ export class TabItemComponent {
         this.tabSelected.emit();
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.tabIdPrefix = camelCase(this.title());
   }
 }
