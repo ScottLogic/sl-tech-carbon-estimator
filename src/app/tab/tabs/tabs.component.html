@@ -1,10 +1,11 @@
 <div class="tce-w-full tce-flex tce-mb-2" role="tablist">
   @for (tab of tabs; track tab.title) {
     <button
+      #tabButton
       role="tab"
       [class.tce-active-tab]="tab.active()"
       (click)="selectTab(tab)"
-      (keydown)="onKeydown($event)"
+      (keydown)="onKeydown($event, $index)"
       [attr.tabindex]="tab.active() ? 0 : -1"
       class="tce-p-2 tce-cursor-pointer tce-border-b-2 tce-border-transparent hover:tce-border-slate-300">
       {{ tab.title() }}
