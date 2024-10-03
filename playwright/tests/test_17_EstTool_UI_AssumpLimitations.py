@@ -92,7 +92,7 @@ def test_example(page: Page) -> None:
     expect(page.get_by_text("Clearly there is a large")).to_be_visible()
     expect(page.get_by_text("The estimated kWh of cloud")).to_be_visible()
     expect(page.get_by_role("heading", name="Downstream Emissions")).to_be_visible()
-    expect(page.get_by_text("At present we focus on the")).to_be_visible()
+    expect(page.get_by_text("To do this we have collated")).to_be_visible()
     expect(page.get_by_role("cell", name="Type", exact=True)).to_be_visible()
     expect(page.get_by_text("These figures are combined")).to_be_visible()
     expect(page.get_by_role("heading", name="Network Data Transfer")).to_be_visible()
