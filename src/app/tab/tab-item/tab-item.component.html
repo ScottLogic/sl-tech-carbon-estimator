@@ -2,7 +2,7 @@
   role="tabpanel"
   aria-live="off"
   [hidden]="!active()"
-  [id]="title() + '-tabpanel'"
-  [attr.aria-labelledby]="title() + '-tab'">
+  [id]="title().replaceAll(' ', '-') + '-tabpanel'"
+  [attr.aria-labelledby]="title().replaceAll(' ', '-') + '-tab'">
   <ng-content></ng-content>
 </div>

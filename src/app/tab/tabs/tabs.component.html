@@ -3,8 +3,8 @@
     <button
       #tabButton
       role="tab"
-      [id]="tab.title() + '-tab'"
-      [attr.aria-controls]="tab.title() + '-tabpanel'"
+      [id]="tab.title().replaceAll(' ', '-') + '-tab'"
+      [attr.aria-controls]="tab.title().replaceAll(' ', '-') + '-tabpanel'"
       [class.tce-active-tab]="tab.active()"
       [tabindex]="tab.active() ? 0 : -1"
       [attr.aria-selected]="tab.active() ? true : false"
