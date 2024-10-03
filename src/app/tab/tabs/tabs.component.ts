@@ -43,26 +43,45 @@ export class TabsComponent implements AfterContentInit {
     this.selectAndFocusTab(newTabIndex);
   }
 
+  setSelectedToPreviousTab(currentTabIndex: number) {
+    let newTabIndex: number;
+    if (currentTabIndex === 0) {
+      newTabIndex = this.tabs.length - 1;
+    } else {
+      newTabIndex = currentTabIndex - 1;
+    }
+    this.selectAndFocusTab(newTabIndex);
+  }
+
   public onKeydown(event: KeyboardEvent, currentIndex: number) {
+    let flag = false;
     switch (event.key) {
       case 'ArrowRight':
+        flag = true;
         this.setSelectedToNextTab(currentIndex);
         break;
 
       case 'ArrowLeft':
-        console.log('left');
+        flag = true;
+        this.setSelectedToPreviousTab(currentIndex);
         break;
 
       case 'Home':
-        console.log('home');
+        flag = true;
+        this.selectAndFocusTab(0);
         break;
 
       case 'End':
-        console.log('end');
+        flag = true;
+        this.selectAndFocusTab(this.tabs.length - 1);
         break;
 
       default:
         break;
+    }
+    if (flag) {
+      event.stopPropagation();
+      event.preventDefault();
     }
   }
 }
