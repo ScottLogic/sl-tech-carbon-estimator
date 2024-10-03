@@ -1,18 +1,18 @@
 <div class="tce-w-full tce-flex tce-mb-2" role="tablist">
-  @for (tab of tabs; track tab.title) {
+  @for (tab of tabs; track tab.title()) {
     <button
       #tabButton
       role="tab"
+      [id]="tab.title() + '-tab'"
+      [attr.aria-controls]="tab.title() + '-tabpanel'"
       [class.tce-active-tab]="tab.active()"
+      [tabindex]="tab.active() ? 0 : -1"
+      [attr.aria-selected]="tab.active() ? true : false"
       (click)="selectTab(tab)"
       (keydown)="onKeydown($event, $index)"
-      [attr.tabindex]="tab.active() ? 0 : -1"
-      [attr.aria-selected]="tab.active() ? true : false"
       class="tce-p-2 tce-cursor-pointer tce-border-b-2 tce-border-transparent hover:tce-border-slate-300">
       {{ tab.title() }}
     </button>
   }
 </div>
-<div role="tabpanel" aria-live="off">
-  <ng-content></ng-content>
-</div>
+<ng-content></ng-content>
