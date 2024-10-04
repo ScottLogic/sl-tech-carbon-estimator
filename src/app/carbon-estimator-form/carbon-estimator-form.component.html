@@ -1,4 +1,8 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce-w-full tce-flex tce-flex-col tce-gap-6">
+<form
+  (ngSubmit)="handleSubmit()"
+  [formGroup]="estimatorForm"
+  class="tce-w-full tce-flex tce-flex-col tce-gap-6"
+  tabindex="0">
   <div formGroupName="upstream">
     @if (errorSummaryState.showErrorSummary) {
       <error-summary [validationErrors]="errorSummaryState.validationErrors"></error-summary>
