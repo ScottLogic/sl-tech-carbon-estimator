@@ -1,8 +1,3 @@
-<div
-  role="tabpanel"
-  aria-live="off"
-  [hidden]="!active()"
-  [id]="tabIdPrefix + 'Tabpanel'"
-  [attr.aria-labelledby]="tabIdPrefix + 'Tab'">
+<div role="tabpanel" [hidden]="!active()" [id]="tabIdPrefix + 'Tabpanel'" [attr.aria-labelledby]="tabIdPrefix + 'Tab'">
   <ng-content></ng-content>
 </div>
