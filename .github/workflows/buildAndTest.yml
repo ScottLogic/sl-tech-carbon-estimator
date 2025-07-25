@@ -26,6 +26,7 @@ jobs:
         uses: ./.github/actions/set-up-environment
       - name: Run tests
         run: npm test
+  # Removing playwriht test from workflow while we resolve issues
   # playwright_tests:
   #   needs: build
   #   runs-on: ubuntu-latest
