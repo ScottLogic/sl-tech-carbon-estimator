@@ -10,6 +10,7 @@ pyee==13.0.0
 Pygments==2.19.2
 pytest==8.4.1
 pytest-base-url==2.1.0
+pytest-html==4.1.1
 pytest-playwright==0.7.0
 pytest-xprocess==1.0.2
 python-slugify==8.0.4
