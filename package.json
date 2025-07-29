@@ -19,7 +19,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "playwright-install": "pip install -r requirements.txt && playwright install --with-deps",
-    "playwright-test": "cd playwright/tests && pytest"
+    "playwright-test": "cd playwright/tests && pytest --html=reports/report.html"
   },
   "private": true,
   "dependencies": {
