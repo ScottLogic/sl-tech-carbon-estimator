@@ -47,7 +47,7 @@ test('T12 verify calculated values are coherent with selected employees, servers
   }
   await expect(page.getByText('Mobile 70%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
-  await page.getByLabel("What's the primary purpose of ").selectOption({ label: 'eCommerce' });
+  await page.getByLabel("What's the primary purpose of").selectOption('eCommerce');
 
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
