@@ -19,5 +19,5 @@ runs:
       with:
         name: playwright-traces-and-report
         path: |
-          playwright/tests/test-results/
-          playwright/tests/reports/
+          test-results/
+          reports/
