@@ -4,6 +4,7 @@
     <tr class="tce-border-b-2">
       <th class="tce-text-left">Category</th>
       <th class="tce-w-40 tce-text-left">Emissions</th>
+      <th class="tce-w-40 tce-text-left">Emissions(%)</th>
     </tr>
   </thead>
   @if (tableData().length > 0) {
@@ -32,17 +33,24 @@
               class="tce-flex tce-text-white tce-items-center"
               (keydown.enter)="toggle(tableItem.category)">
               <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
-              <div
-                tabindex="-1"
-                aria-hidden="true"
-                (click)="toggle(tableItem.category)"
-                class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
-                {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
-              </div>
+              @if (tableItem.expandable) {
+                <div
+                  tabindex="-1"
+                  aria-hidden="true"
+                  (click)="toggle(tableItem.category)"
+                  class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
+                  {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
+                </div>
+              } @else {
+                <div class="tce-no-ex-table-header"></div>
+              }
               {{ tableItem.category }}
             </td>
             <td role="gridcell" tabindex="-1" class="tce-text-white">
-              {{ tableItem.emissions }}
+              {{ tableItem.emissionsValue }}
+            </td>
+            <td role="gridcell" tabindex="-1" class="tce-text-white">
+              {{ tableItem.emissionsPercentage }}
             </td>
           </tr>
         } @else {
@@ -65,7 +73,10 @@
               {{ tableItem.category }}
             </td>
             <td role="gridcell" tabindex="-1">
-              {{ tableItem.emissions }}
+              {{ tableItem.emissionsValue }}
+            </td>
+            <td role="gridcell" tabindex="-1">
+              {{ tableItem.emissionsPercentage }}
             </td>
           </tr>
         }

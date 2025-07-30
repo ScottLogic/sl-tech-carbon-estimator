@@ -38,3 +38,24 @@ input {
   border-color: var(--primary-turquoise);
   @apply tce-cursor-default
 }
+
+.tce-no-ex-table-header {
+  padding-left: 12px;
+  height: 32px;;
+}
+
+.tce-chart-total-text {
+  color: rgb(55, 61, 63);
+  font-size: 20px;
+  font-weight: 400;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.tce-chart-total-colour {
+  background-color: var(--primary-orange);
+  height: 20px;
+  width: 10px;
+  border-radius: 2px;
+  margin-right: 3px;
+  display: inline-block;
+}

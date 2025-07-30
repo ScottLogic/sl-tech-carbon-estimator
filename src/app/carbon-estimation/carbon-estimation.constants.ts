@@ -8,6 +8,7 @@ export enum EmissionsColours {
   OperationLight = '#f2afd1',
   Downstream = '#4B7E56',
   DownstreamLight = '#c1d9c3',
+  Total = '#FA9900',
 }
 
 export enum PlaceholderEmissionsColours {
@@ -17,7 +18,9 @@ export enum PlaceholderEmissionsColours {
   Downstream = '#AAA',
 }
 
-export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
+export const percentageTooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
+
+export const tooltipFormatter = (value: number) => (value < 1 ? '<1 kg' : `${Math.round(value)} kg`);
 
 const getCustomTooltip = (isPlaceholder: boolean) => {
   const customTooltip = ({

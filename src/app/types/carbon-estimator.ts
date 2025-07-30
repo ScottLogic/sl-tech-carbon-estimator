@@ -2,11 +2,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 
 export type CarbonEstimation = {
+  values: CarbonEstimationPart;
+  percentages: CarbonEstimationPart;
+};
+
+export type CarbonEstimationPart = {
   version: string;
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
   downstreamEmissions: DownstreamEstimation;
+  totalEmissions: number;
 };
 
 export type UpstreamEstimation = {
