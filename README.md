@@ -54,7 +54,7 @@ Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web
 
 ## Pull Requests / GitHub Actions
 
-The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. The main branch also has a branch protection rule that ensures that the status checks from this workflow have passed successfully before PRs can be merged into it.
+The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. The `develop` branch also has a ruleset that ensures that the status checks from this workflow have passed successfully before PRs can be merged into it. Ruleset details can be viewed [here](/rules).
 
 If you would like to skip running the workflow for a given push to a PR branch there are [various ways](https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs) this can be achieved. For example, adding `[skip ci]` to the end of the commit message in the push (e.g. `git commit -m "My message [skip ci]"`) will skip running the workflow for that push. However, you should be aware that this will also mark the status checks in the PR as pending, which will still block it from being merged.
 
