@@ -59,13 +59,8 @@ test('T17 calculations show 80% cloud usage', async ({ page }) => {
   await expect(page.getByText('Mobile 50%')).toBeVisible();
   await expect(page.getByText('Computer 50%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
-  // await expect(page.getByLabel("What's the primary purpose of your")).toBeVisible();
   await page.getByLabel("What's the primary purpose of your").selectOption('streaming');
 
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T17-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 11%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 9%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 80%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

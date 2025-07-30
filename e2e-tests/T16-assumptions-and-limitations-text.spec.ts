@@ -29,7 +29,6 @@ test('T16 assert text for assumptions and limitations', async ({ page }) => {
   await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
   await expect(page.getByText('What is your monthly cloud')).not.toBeVisible();
-  // await page.getByLabel("What is your monthly cloud").not_to_be_visible();
 
   // Users
   await expect(page.getByRole('heading', { name: 'Users' })).toBeVisible();

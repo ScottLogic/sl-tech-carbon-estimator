@@ -53,7 +53,4 @@ test('T12 verify calculated values are coherent with selected employees, servers
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 30%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 70%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

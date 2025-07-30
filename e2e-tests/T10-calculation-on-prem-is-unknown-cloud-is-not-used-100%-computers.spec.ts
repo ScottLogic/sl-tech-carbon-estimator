@@ -51,14 +51,10 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   await expect(page.getByText('Mobile 0%')).toBeVisible();
   await expect(page.getByText('Computer 100%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of")).toBeVisible();
-  // await page.getByLabel("What's the primary purpose of").selectOption("socialMedia");
   await page.getByLabel("What's the primary purpose of").selectOption('average');
 
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 32%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 64%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - 5%');
 });

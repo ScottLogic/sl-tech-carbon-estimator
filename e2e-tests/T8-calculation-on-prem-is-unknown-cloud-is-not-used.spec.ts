@@ -51,7 +51,4 @@ test('T8 verify calculated values are coherent when on prem is unknown and cloud
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 33%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

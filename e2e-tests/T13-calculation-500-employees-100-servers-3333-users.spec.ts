@@ -32,7 +32,6 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await page.getByLabel("We don't use cloud services").check();
   await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
-  // await page.getByLabel("What is your monthly cloud").selectOption("4: Object");
 
   // Users
   await expect(page.getByRole('heading', { name: 'End-Users' })).toBeVisible();
@@ -51,9 +50,6 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 25%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 75%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 
   // Part 2
   // "Unknown" uses the "Global as default calcs
@@ -70,8 +66,4 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart-1.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 25%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 75%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - <1%');
 });

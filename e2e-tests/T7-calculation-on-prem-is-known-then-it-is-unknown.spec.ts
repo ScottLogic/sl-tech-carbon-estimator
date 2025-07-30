@@ -66,12 +66,6 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 13%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 87%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - <1%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
-
-  //////////////////////////////////////////////////////////////////////////////
 
   // On Prem
   // Then for "Number of Servers:" click “I don’t know”
@@ -117,9 +111,4 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-1.png');
-  // foreign object is currently receiving "" and not actual values. we can subsitute this
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 41%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 57%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 2%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

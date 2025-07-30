@@ -62,9 +62,4 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({ pag
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T4-apex-chart.png');
-
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 32%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 1%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

@@ -16,11 +16,7 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   await expect(page.getByText("We'll use the number of")).toBeVisible();
   await expect(page.getByText('How many on-premise servers')).toBeVisible();
   await expect(page.locator('label', { hasText: "I don't know" })).toBeVisible();
-  // Check "I don't know"
-  // await page.getByLabel("I don't know").check();
-  await expect(page.getByText("We'll make an assumption")).toBeVisible();
   await expect(page.getByText('Number of Servers:')).toBeVisible();
-  await expect(page.getByLabel('Number of Servers:')).toBeDisabled();
   await page.getByLabel('Where are they primarily').selectOption('GBR');
   await page.getByLabel('Where are they primarily').selectOption('WORLD');
 
@@ -52,7 +48,4 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 33%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

@@ -4,11 +4,9 @@ import { test, expect } from '@playwright/test';
 //User checks On Premise "Don't know" checkbox | Only selection made
 
 test('T6 verify calculated values are coherent when on-prem is unknown', async ({ page }) => {
-  // page.goto("http://localhost:57056/")
   await page.goto('/');
 
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
-  // await page.pause();
 
   // Organisation
   await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
@@ -45,7 +43,6 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).toBeVisible();
   await expect(page.getByText('Cloud 50%')).toBeVisible();
   await expect(page.getByText('On-premise 50%')).toBeVisible();
-  // await page.getByLabel("Where are your cloud servers primarily located? helper popup").press("Tab");
   await expect(page.getByLabel('Where are your cloud servers')).toBeVisible();
   await page.getByLabel('Where are your cloud servers').selectOption('GBR');
   await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
@@ -56,28 +53,17 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   // Users
   await expect(page.getByRole('heading', { name: 'End-Users' })).toBeVisible();
   await expect(page.getByText('Tell us about your end-users -')).toBeVisible();
-  // await page.getByLabel("Where are your cloud servers primarily located? helper popup").press("Tab");
   await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
   await expect(page.getByText('How many monthly active users')).toBeVisible();
   await expect(page.getByLabel('How many monthly active users')).toHaveValue('100');
   await expect(page.getByText('What percentage of your end-users')).toBeVisible();
   await expect(page.getByText('Mobile 50%')).toBeVisible();
   await expect(page.getByText('Computer 50%')).toBeVisible();
-  // await page.getByLabel("What's the purpose of your website helper popup").click();
-  // await page.getByLabel("What's the purpose of your website helper popup").press("Tab");
   await expect(page.getByText("What's the primary purpose of")).toBeVisible();
   await page.getByLabel("What's the primary purpose of").selectOption('socialMedia');
   await page.getByLabel("What's the primary purpose of").selectOption('average');
-  // await page.getByLabel("What's the purpose of your website?").press("Tab");
-
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
-  // await page.pause();
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart.png');
-  // foreign object is currently receiving "" and not actual values. we can subsitute this
-  // await expect(page.locator("foreignobject")).toContainText("Upstream Emissions - 41%");
-  // await expect(page.locator("foreignobject")).toContainText("Direct Emissions - 57%");
-  // await expect(page.locator("foreignobject")).toContainText("Indirect Emissions - 2%");
-  // await expect(page.locator("foreignobject")).toContainText("Downstream Emissions - <1%");
 });

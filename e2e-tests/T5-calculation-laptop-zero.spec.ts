@@ -64,8 +64,4 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T5-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 34%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 64%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 1%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

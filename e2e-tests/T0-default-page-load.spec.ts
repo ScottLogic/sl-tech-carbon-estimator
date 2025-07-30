@@ -31,12 +31,5 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
   await expect(page.getByLabel("What's the primary purpose of your")).toHaveValue('average');
   await page.getByRole('button', { name: 'Calculate' }).click();
-  // await expect(page).toHaveScreenshot('Happy-Path-3.png');
-  // foreign object is currently receiving "" and not actual values. we can subsitute this into a single screenshot assertion
   await expect(page.locator('foreignobject')).toHaveScreenshot('T0-apex-chart.png');
-
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 33%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 65%');
-  // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 1%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });
