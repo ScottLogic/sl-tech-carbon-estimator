@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test('T7 happy path', async ({ page }) => {
+test('T8 verify calculated values are coherent when on prem is unknown and cloud is not used', async ({ page }) => {
   await page.goto('/');
 
-  expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
 
   // Organisation
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
@@ -49,9 +49,8 @@ test('T7 happy path', async ({ page }) => {
   await page.getByLabel("What's the primary purpose of").selectOption('average');
 
   // Calculate
-  // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart.png');
   // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 33%');
   // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
   // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');

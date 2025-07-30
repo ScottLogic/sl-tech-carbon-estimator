@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 //This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
 //User checks On Premise "Don't know" checkbox | Only selection made
 
-test('happy path - On Premise "Don\'t know" checkbox', async ({ page }) => {
+test('T6 verify calculated values are coherent when on-prem is unknown', async ({ page }) => {
   // page.goto("http://localhost:57056/")
   await page.goto('/');
 

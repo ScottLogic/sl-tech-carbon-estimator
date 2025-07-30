@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test('T5 happy path', async ({ page }) => {
+test('T4 verify calculated values are coherent when desktop is 0%', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('heading', { name: 'Carbon Estimator' }).click();
-
   // Organisation
   await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
   await expect(page.getByText('To understand the scale of')).toBeVisible();
@@ -14,23 +12,23 @@ test('T5 happy path', async ({ page }) => {
   await expect(page.getByLabel('What percentage of those')).toHaveValue('50');
   await page.getByLabel('What percentage of those').click();
   for (let i = 0; i < 10; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowRight');
+    await page.getByLabel('What percentage of those').press('ArrowLeft');
   }
-  await expect(page.getByText('Laptops 0%')).toBeVisible();
+  await expect(page.getByText('Desktops 0%')).toBeVisible();
 
   // On Prem
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByText("We'll use the number of")).toBeVisible();
   await expect(page.getByText('How many on-premise servers')).toBeVisible();
-  await expect(page.getByLabel("I don't know")).toBeVisible();
+  await expect(page.locator('label', { hasText: "I don't know" })).toBeVisible();
   await expect(page.getByLabel("I don't know")).not.toBeChecked();
   await expect(page.getByText('Number of Servers:')).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
 
   await expect(page.getByText('Where are they primarily')).toBeVisible();
-  await page.getByLabel('Where are they primarily located?').press('Enter');
-  await page.getByLabel('Where are they primarily located?').selectOption('GBR');
-  await page.getByLabel('Where are they primarily located?').selectOption('Globally');
+  await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
+  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('GBR');
+  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
 
   // Cloud
   await expect(page.getByRole('heading', { name: 'Cloud Services' })).toBeVisible();
@@ -63,9 +61,10 @@ test('T5 happy path', async ({ page }) => {
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T5-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 34%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 64%');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T4-apex-chart.png');
+
+  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 32%');
+  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
   // await expect(page.locator('foreignobject')).toContainText('Indirect Emissions - 1%');
   // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
 });

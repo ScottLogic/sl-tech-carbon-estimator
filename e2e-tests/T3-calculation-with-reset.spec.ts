@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Default page screenshot assertion,elements are visible and apex chart displays expected values', async ({
-  page,
-}) => {
+test('T3 verify calculated values are coherent with selected options', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();

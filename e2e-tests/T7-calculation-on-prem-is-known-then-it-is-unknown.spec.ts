@@ -6,7 +6,9 @@ import { test, expect } from '@playwright/test';
 //User checks On Premise "Don't know" checkbox
 //Ensure calcs are match spreadsheet
 
-test('T7 happy path', async ({ page }) => {
+test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
+  page,
+}) => {
   await page.goto('/');
 
   expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();

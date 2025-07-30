@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test('T7 happy path', async ({ page }) => {
+test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
+  page,
+}) => {
   await page.goto('/');
-
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
 
   // Organisation
@@ -38,20 +39,26 @@ test('T7 happy path', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'End-Users' })).toBeVisible();
   await expect(page.getByText('Tell us about your end-users -')).toBeVisible();
   await expect(page.getByText('Where are your end-users')).toBeVisible();
-  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
+  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('in the UK');
   await expect(page.getByText('How many monthly active users')).toBeVisible();
-  await expect(page.getByLabel('How many monthly active users')).toHaveValue('100');
+  await page.getByLabel('How many monthly active users').click();
+  await page.getByLabel('How many monthly active users').fill('1000');
   await expect(page.getByText('What percentage of your end-users')).toBeVisible();
-  await expect(page.getByText('Mobile 50%')).toBeVisible();
-  await expect(page.getByText('Computer 50%')).toBeVisible();
+
+  for (let i = 0; i < 10; i++) {
+    await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
+  }
+  await expect(page.getByText('Mobile 0%')).toBeVisible();
+  await expect(page.getByText('Computer 100%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of")).toBeVisible();
-  await page.getByLabel("What's the primary purpose of").selectOption('socialMedia');
+  // await page.getByLabel("What's the primary purpose of").selectOption("socialMedia");
   await page.getByLabel("What's the primary purpose of").selectOption('average');
 
   // Calculate
+  // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart.png');
-  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 33%');
-  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 66%');
-  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - <1%');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart.png');
+  // await expect(page.locator('foreignobject')).toContainText('Upstream Emissions - 32%');
+  // await expect(page.locator('foreignobject')).toContainText('Direct Emissions - 64%');
+  // await expect(page.locator('foreignobject')).toContainText('Downstream Emissions - 5%');
 });

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('T7 happy path', async ({ page }) => {
+test('T16 assert text for assumptions and limitations', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();

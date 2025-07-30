@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('T7 happy path', async ({ page }) => {
+test('T12 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
