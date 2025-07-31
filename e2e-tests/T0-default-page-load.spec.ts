@@ -6,7 +6,6 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   page,
 }) => {
   await page.goto('/');
-  await page.waitForLoadState('domcontentloaded');
   await expect(page).toHaveScreenshot('T0-default-page.png', { fullPage: true });
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
