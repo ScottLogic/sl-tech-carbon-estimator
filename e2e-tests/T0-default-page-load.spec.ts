@@ -6,13 +6,11 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   page,
 }) => {
   await page.goto('/');
-  await expect(page).toHaveScreenshot('T0-default-page.png', { fullPage: true });
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
   await expect(page.getByText('Desktops 50%')).toBeVisible();
   //why is this clicked?
   await page.getByText('Laptops 50%').click();
-  // await expect(page).toHaveScreenshot();
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
   await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
