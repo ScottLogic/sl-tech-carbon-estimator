@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
   workflow_call:
   push:
-    branches: [ main ]
-
+    branches:
+      - main
+      - develop
+      - 'release/**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +30,7 @@ jobs:
         run: npm test
   playwright_tests:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
