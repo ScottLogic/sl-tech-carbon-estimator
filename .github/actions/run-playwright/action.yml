@@ -20,4 +20,4 @@ runs:
         name: playwright-traces-and-report
         path: |
           test-results/
-          reports/
+          playwright-report/
