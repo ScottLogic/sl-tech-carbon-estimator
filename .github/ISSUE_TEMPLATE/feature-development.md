@@ -1,9 +1,10 @@
 ---
 name: Feature development
 about: Work item for planned features
-title: '[FEATURE]'
+title: "[FEATURE]"
 labels: ''
 assignees: ''
+
 ---
 
 **Description**
