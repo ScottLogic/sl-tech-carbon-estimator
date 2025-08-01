@@ -45,5 +45,9 @@ Thumbs.db
 # Python virtual environments
 **/.venv
 
-# Playwrigth reports
-/playwright/tests/reports
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
