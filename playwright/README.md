@@ -11,8 +11,8 @@ You may wish to set up a [virtual environment](https://docs.python.org/3/library
 
 Installation of Playwright: https://playwright.dev/python/docs/intro
 
-Install the Pytest plugin:
-`pip install pytest-playwright`
+Install the Pytest and Pytest HTML plugins:
+`pip install pytest-playwright pytest-html`
 
 Install the required browsers:
 `playwright install`
