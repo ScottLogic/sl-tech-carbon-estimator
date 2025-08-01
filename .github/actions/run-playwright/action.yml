@@ -3,10 +3,6 @@ description: 'Installs dependencies and runs playwright tests'
 runs:
   using: 'composite'
   steps:
-    # - name: Setup Python
-    #   uses: actions/setup-python@v5.1.0
-    #   with:
-    #     python-version: '3.11'
     - name: Install Playwright Dependencies
       run: npm run playwright-install
       shell: bash
