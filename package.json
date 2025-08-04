@@ -13,7 +13,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:npm-package": "ng serve --configuration npm-package",
-    "prepare": "ng build --configuration npm-package",
+    "prepare": "bash ./scripts/prepare.sh",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
