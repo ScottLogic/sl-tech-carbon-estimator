@@ -19,7 +19,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "playwright-install": "npx playwright install --with-deps",
-    "playwright-test": "npx playwright test"
+    "playwright-test": "npx playwright test",
+    "verify-release": "bash ./scripts/verify-release.sh"
   },
   "private": true,
   "dependencies": {
