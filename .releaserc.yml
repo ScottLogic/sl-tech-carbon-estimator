@@ -1,5 +1,7 @@
 branches:
   - main
+  # TODO: Remove this before merging the branch
+  - 171-add-semantic-release
 plugins:
   - "semantic-release-unsquash"
   -
@@ -7,3 +9,5 @@ plugins:
     - pkgRoot: "./dist/tech-carbon-estimator"
       tarballDir: "./dist/tech-carbon-estimator"
   - "@semantic-release/github"
+# TODO: Remove this before merging the branch
+debug: true
