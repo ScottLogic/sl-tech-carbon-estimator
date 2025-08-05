@@ -1,0 +1,51 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('Darkmode basic test', async ({ page }) => {
+  await page.goto('/');
+
+  //whole page check light mode
+  //parametrize light and dark
+  // Helper to run axe accessibility check and assert no violations
+  const expectNoA11yViolations = async () => {
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  };
+
+  await page.emulateMedia({ colorScheme: 'dark' });
+
+  // Initial accessibility check
+  await expectNoA11yViolations();
+
+  // Run check on default page load
+  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
+  await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
+  await expect(page.getByText('Desktops 50%')).toBeVisible();
+
+  await page.getByText('Laptops 50%').click();
+  await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
+  await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
+  await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
+  await expect(page.getByRole('heading', { name: 'Cloud Services' })).toBeVisible();
+  await expect(page.getByText('Cloud 50%')).toBeVisible();
+  await expect(page.getByText('On-premise 50%')).toBeVisible();
+  await expect(page.getByLabel('Where are your cloud servers')).toHaveValue('WORLD');
+  await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
+  await expect(page.getByRole('heading', { name: 'Users' })).toBeVisible();
+  await expect(page.getByText('Where are your end-users')).toBeVisible();
+  await expect(page.getByLabel('Where are your end-users')).toHaveValue('WORLD');
+  await expect(page.getByText('How many monthly active users')).toBeVisible();
+  await expect(page.getByLabel('How many monthly active users')).toHaveValue('100');
+  await expect(page.getByText('Mobile 50%')).toBeVisible();
+  await expect(page.getByText('Computer 50%')).toBeVisible();
+  await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
+  await expect(page.getByLabel("What's the primary purpose of your")).toHaveValue('average');
+
+  // After filling form, check accessibility again
+  await page.getByRole('button', { name: 'Calculate' }).click();
+  await expectNoA11yViolations();
+
+  // Table view accessibility check
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await expectNoA11yViolations();
+});

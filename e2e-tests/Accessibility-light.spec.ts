@@ -1,15 +1,27 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('Darkmode basic test', async ({ page }) => {
+test('Lightmode basic test', async ({ page }) => {
   await page.goto('/');
 
   //whole page check light mode
-  await page.emulateMedia({ colorScheme: 'dark' });
+  //parametrize light and dark
+  // Helper to run axe accessibility check and assert no violations
+  const expectNoA11yViolations = async () => {
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  };
+
+  await page.emulateMedia({ colorScheme: 'light' });
+
+  // Initial accessibility check
+  await expectNoA11yViolations();
+
+  // Run check on default page load
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
   await expect(page.getByText('Desktops 50%')).toBeVisible();
-  //why is this clicked?
+
   await page.getByText('Laptops 50%').click();
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
@@ -28,12 +40,12 @@ test('Darkmode basic test', async ({ page }) => {
   await expect(page.getByText('Computer 50%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
   await expect(page.getByLabel("What's the primary purpose of your")).toHaveValue('average');
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await page.getByRole('tab', { name: 'Table' }).click();
-  // await expect(page.locator('foreignobject')).toHaveScreenshot('T0-apex-chart.png');
 
-  const axeBuilderContrast = await new AxeBuilder({ page }).analyze();
-  console.log(axeBuilderContrast.violations);
-  expect(axeBuilderContrast.violations).toEqual([]);
-  // await page.waitForTimeout(5000);
+  // After filling form, check accessibility again
+  await page.getByRole('button', { name: 'Calculate' }).click();
+  await expectNoA11yViolations();
+
+  // Table view accessibility check
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await expectNoA11yViolations();
 });
