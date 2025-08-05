@@ -1,18 +1,12 @@
 import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { expectNoA11yViolations } from './helper-methods';
 
-test('Darkmode basic test', async ({ page }) => {
+test('Darkmode Accessibility test', async ({ page }) => {
   await page.goto('/');
-
-  const expectNoA11yViolations = async () => {
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations).toEqual([]);
-  };
-
   await page.emulateMedia({ colorScheme: 'dark' });
 
   // Initial accessibility check
-  await expectNoA11yViolations();
+  await expectNoA11yViolations(page);
 
   // Run check on default page load
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
@@ -39,9 +33,9 @@ test('Darkmode basic test', async ({ page }) => {
 
   // After filling form, check accessibility again
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expectNoA11yViolations();
+  await expectNoA11yViolations(page);
 
   // Table view accessibility check
   await page.getByRole('tab', { name: 'Table' }).click();
-  await expectNoA11yViolations();
+  await expectNoA11yViolations(page);
 });
