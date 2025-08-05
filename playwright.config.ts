@@ -55,7 +55,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'ng serve',
+    command: 'npm run start:npm-package',
     url: 'http://localhost:4200',
     reuseExistingServer: !process.env['CI'],
   },
