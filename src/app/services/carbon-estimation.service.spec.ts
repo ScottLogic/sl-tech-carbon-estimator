@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPart, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
@@ -35,15 +35,15 @@ const emptyEstimatorValues: EstimatorValues = {
 };
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
-  expect(sumValues(estimation.upstreamEmissions)).toBeGreaterThanOrEqual(0);
-  expect(sumValues(estimation.directEmissions)).toBeGreaterThanOrEqual(0);
-  expect(sumValues(estimation.indirectEmissions)).toBeGreaterThanOrEqual(0);
-  expect(sumValues(estimation.downstreamEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.percentages.upstreamEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.percentages.directEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.percentages.indirectEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.percentages.downstreamEmissions)).toBeGreaterThanOrEqual(0);
   const total =
-    sumValues(estimation.upstreamEmissions) +
-    sumValues(estimation.directEmissions) +
-    sumValues(estimation.indirectEmissions) +
-    sumValues(estimation.downstreamEmissions);
+    sumValues(estimation.percentages.upstreamEmissions) +
+    sumValues(estimation.percentages.directEmissions) +
+    sumValues(estimation.percentages.indirectEmissions) +
+    sumValues(estimation.percentages.downstreamEmissions);
   expect(total).toBeCloseTo(100);
 }
 
@@ -57,14 +57,21 @@ function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject
   }
 }
 
-function expectPartialEstimationCloseTo(actual: CarbonEstimation, expected: RecursivePartial<CarbonEstimation>) {
+function expectPartialEstimationCloseTo(
+  actual: CarbonEstimationPart,
+  expected: RecursivePartial<CarbonEstimationPart>
+) {
   for (const [key, value] of Object.entries(expected)) {
-    const trueKey = key as keyof CarbonEstimation;
+    const trueKey = key as keyof CarbonEstimationPart;
     if (trueKey === 'version' || typeof value === 'string') {
       expect(actual[trueKey]).toBe(value as string);
       continue;
     }
-    expectPartialNumberCloseTo(actual[trueKey], value, key);
+    if (trueKey === 'totalEmissions') {
+      expect(actual[trueKey]).toBeCloseTo(value as number);
+      continue;
+    }
+    expectPartialNumberCloseTo(actual[trueKey], value as NumberObject, key);
   }
 }
 
@@ -106,11 +113,11 @@ describe('CarbonEstimationService', () => {
   describe('calculateCarbonEstimation()', () => {
     it('should include version and zeroed values in estimation', () => {
       const estimation = service.calculateCarbonEstimation(emptyEstimatorValues);
-      expect(estimation.version).toBe(version);
-      expect(sumValues(estimation.upstreamEmissions)).toBe(0);
-      expect(sumValues(estimation.directEmissions)).toBe(0);
-      expect(sumValues(estimation.indirectEmissions)).toBe(0);
-      expect(sumValues(estimation.downstreamEmissions)).toBe(0);
+      expect(estimation.percentages.version).toBe(version);
+      expect(sumValues(estimation.percentages.upstreamEmissions)).toBe(0);
+      expect(sumValues(estimation.percentages.directEmissions)).toBe(0);
+      expect(sumValues(estimation.percentages.indirectEmissions)).toBe(0);
+      expect(sumValues(estimation.percentages.downstreamEmissions)).toBe(0);
     });
 
     it('should calculate estimations as percentages', () => {
@@ -186,7 +193,7 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expectPartialEstimationCloseTo(result, {
+      expectPartialEstimationCloseTo(result.percentages, {
         upstreamEmissions: {
           employee: 6.53,
           server: 8.64,
@@ -215,7 +222,7 @@ describe('CarbonEstimationService', () => {
         },
       };
       const result = service.calculateCarbonEstimation(hardwareInput);
-      expectPartialEstimationCloseTo(result, {
+      expectPartialEstimationCloseTo(result.percentages, {
         upstreamEmissions: {
           employee: 6.8,
           server: 8.99,

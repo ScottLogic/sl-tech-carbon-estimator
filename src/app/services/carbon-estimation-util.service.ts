@@ -49,9 +49,9 @@ export class CarbonEstimationUtilService {
 
   private getEmployeeLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Employee Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Employee Devices';
       default:
         return startCase(key);
@@ -60,9 +60,9 @@ export class CarbonEstimationUtilService {
 
   private getNetworkLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Networking and Infrastructure Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Networking and Infrastructure';
       default:
         return startCase(key);
@@ -71,9 +71,9 @@ export class CarbonEstimationUtilService {
 
   private getServerLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Servers and Storage Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Servers and Storage';
       default:
         return startCase(key);

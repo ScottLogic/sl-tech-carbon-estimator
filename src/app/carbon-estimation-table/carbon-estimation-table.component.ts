@@ -243,7 +243,7 @@ export class CarbonEstimationTableComponent {
             level: 1,
             expanded: false,
             expandable: false,
-            category: 'Total Emissions',
+            category: 'Total Emissions Estimate',
             emissionsValue: this.carbonEstimationUtilService.getAbsoluteValueLabel(
               carbonEstimation.values.totalEmissions
             ),

@@ -36,3 +36,58 @@ input.ng-invalid.ng-touched {
 .tce-active-tab, .tce-active-tab:hover {
   @apply tce-cursor-default tce-border-sky-800
 }
+
+.tce-totalchart-header {
+  display: flex;
+  align-items: center;
+}
+
+#tce-chart-total-text {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  display: inline-block;
+  line-height: 20px;
+}
+
+.tce-chart-total-colour {
+  @apply tce-bg-orange-400;
+  height: 20px;
+  width: 10px;
+  border-radius: 2px;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+.tce-switch-container {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 16px;
+  background: #f2f2f2;
+  border-radius: 16px;
+  padding: 2px 8px;
+}
+
+.tce-switch-label {
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  @apply tce-text-slate-800;
+  transition: background 0.2s, color 0.2s;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.tce-switch-label.tce-switch-active {
+  background: turquoise;
+  @apply tce-text-slate-800;
+}
+
+.tce-switch-input {
+  display: none;
+}
+
+.tce-no-ex-table-header {
+  padding-left: 12px;
+  height: 32px;;
+}

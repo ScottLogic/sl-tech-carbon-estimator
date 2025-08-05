@@ -16,26 +16,53 @@ describe('CarbonEstimationTreemapComponent', () => {
     component = fixture.componentInstance;
 
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 7,
-        employee: 6,
-        network: 6,
-        server: 6,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 7,
+          employee: 6,
+          network: 6,
+          server: 6,
+        },
+        directEmissions: {
+          employee: 9,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          endUser: 13,
+          networkTransfer: 12,
+        },
+        totalEmissions: 70,
       },
-      directEmissions: {
-        employee: 9,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+        },
+        totalEmissions: 7000,
       },
     };
 
@@ -142,26 +169,53 @@ describe('CarbonEstimationTreemapComponent', () => {
 
   it('should set label to <1% if emission is less than 1', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 0.2,
-        employee: 0.1,
-        network: 0.1,
-        server: 0.1,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.2,
+          employee: 0.1,
+          network: 0.1,
+          server: 0.1,
+        },
+        directEmissions: {
+          employee: 34.5,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          endUser: 13,
+          networkTransfer: 12,
+        },
+        totalEmissions: 70,
       },
-      directEmissions: {
-        employee: 34.5,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+        },
+        totalEmissions: 7000,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -173,26 +227,53 @@ describe('CarbonEstimationTreemapComponent', () => {
 
   it('should remove categories when they are 0', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 25,
-        employee: 0,
-        network: 0,
-        server: 0,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 25,
+          employee: 0,
+          network: 0,
+          server: 0,
+        },
+        directEmissions: {
+          employee: 25,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 25,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          endUser: 25,
+          networkTransfer: 0,
+        },
+        totalEmissions: 70,
       },
-      directEmissions: {
-        employee: 25,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 25,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 25,
-        networkTransfer: 0,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+        },
+        totalEmissions: 7000,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -251,26 +332,53 @@ describe('CarbonEstimationTreemapComponent', () => {
 
   it('should remove parent categories when all values are 0', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 50,
-        employee: 0,
-        network: 0,
-        server: 0,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 50,
+          employee: 0,
+          network: 0,
+          server: 0,
+        },
+        directEmissions: {
+          employee: 50,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 0,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          endUser: 0,
+          networkTransfer: 0,
+        },
+        totalEmissions: 70,
       },
-      directEmissions: {
-        employee: 50,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 0,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 0,
-        networkTransfer: 0,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+        },
+        totalEmissions: 7000,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
