@@ -2,51 +2,15 @@
 
 ## Introduction
 
-We have created the Tech Carbon Estimator so that it can be used in multiple sites, by including its package from npm. This document outlines some of the concerns around the publishing process, which may be needed in future.
+We have created the Tech Carbon Estimator so that it can be used in multiple sites, by including its package from npm. This document outlines the publishing process, including details on version numbering.
 
-## Pre-Publish
+## Publish process
 
-Before being able to release a new version you need to bump the package version and create a tag to build the version from.
+We rely on the [semantic-release](https://semantic-release.gitbook.io/semantic-release/) package to take care of determining version numbers and publishing the package to NPM/creating a GitHub release. This means that the version listed in the root `package.json` file is not used within the package process and is set to `0.0.0-semantically-released` for clarity. We also make use of a semantic-release plugin called [semantic-release-unsquash](https://github.com/romap0/semantic-release-unsquash) to ensure that squashed commits can still be analysed to determine the new version number.
 
-### Bump version and create a tag for a release
+To reduce the size of the published package and make it suitable for use in non-angular projects, we also build the components before packaging them. This is done via a `prepare` script, which builds using a specific `npm-package` configuration. This also copies the root README.md and package.json to the build directory, before removing unnecessary sections from the package. This must be done before running `npx semantic-release` to publish a new package, as it expects to find the package.json in the build directory and will fail early if it is not present.
 
-We will continue to use the `npm version` command to update the version of the package. Since this also commits the change by default, you should create a branch to submit the change as a PR first. For example, if the current version is 0.1.0, you might do the following:
-
-```bash
-git checkout -b v0-2-0
-
-npm version minor
-
-git push -–follow-tags
-```
-
-This should then give you a commit that you can push up for review (remember to add `--follow-tags` to the `git push` command to include tags).
-
-For clarity, here are the version increment types and the `npm version` parameter that would generate them.
-
-| Version update | `npm version` parameter |
-| -------------- | ----------------------- |
-| 0.0.1 -> 0.0.2 | `patch`                 |
-| 0.0.1 -> 0.1.0 | `minor`                 |
-| 0.0.1 -> 1.0.0 | `major`                 |
-
-#### Creating linear history
-
-While the package process should work whether the tag is merged in or not, for clarity we would like the tag to appear as a single commit on main after the last change it includes. This is not strictly possible through the GitHub PR process, as it will always create a merge commit, even if the branch was made from the current head of main. And using the Rebase and merge option is not a possibility, as this duplicates the branch commit but does not move the tag (only one tag with the same name can exist).
-
-To get around this, it is possible to force a fast-forward merge locally and push it up once the PR is approved. To do this, use the following commands:
-
-```bash
-git checkout main
-
-git merge v0-0-5 --ff-only
-
-git push
-```
-
-The `--ff-only` flag will ensure that this merge only succeeds if it is able to merge without an additional commit. You can then push this change up as normal, and the PR will automatically close.
-
-If it fails, then there is another commit on main after you branched for the version release, and it is unable to fast forward the merge. At this point you will have to do a standard PR merge and accept that the version commit may appear after changes that are not included in the tag, or attempt to re-write history to rebase the commit and tag on top of main (not recommended).
+This process can be run locally but you will need to create tokens for both NPM and GitHub, which must be stored in `NPM_TOKEN` and `GH_TOKEN` environment variables respectively.
 
 ## Publishing via GitHub Action
 
@@ -54,21 +18,7 @@ A workflow has been setup to publish new versions from GitHub, which does not re
 
 ![](images/publish_process_1.png)
 
-You should select a version tag that has already been merged into main. The workflow will validate that the tag matches the version of the current package and fail early if it does not. The GitHub release step will use the specified tag and fail if it does not already exist, so we want to be sure of that before we publish to npm.
-
-This workflow relies on the version already being incremented before it is run, and it will fail if it has already been published. This is because NPM does not allow you to overwrite packages with the same version number. If this is the case, you will see a message along the lines of:
-
-```
-npm error code E403
-
-npm error 403 403 Forbidden - PUT <https://registry.npmjs.org/@scottlogic%2ftech-carbon-estimator> - You cannot publish over the previously published versions: 0.0.2.
-
-npm error 403 In most cases, you or one of your dependencies are requesting
-
-npm error 403 a package version that is forbidden by your security policy, or
-
-npm error 403 on a server you do not have access to.
-```
+Currently you can select to run this from any branch, although the semantic-release configuration will cause it to fail if it does not match up against the list of acceptable branches. For the moment this is only `main`.
 
 Another error that can occur is the token used to allow GitHub Actions to publish to npm will expire. This would result in an error along the lines of:
 
