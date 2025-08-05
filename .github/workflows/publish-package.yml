@@ -5,15 +5,13 @@ concurrency:
   group: 'publish'
   cancel-in-progress: false
 jobs:
-  # TODO - Reinstate before merging
-  # test:
-  #   uses: ./.github/workflows/buildAndTest.yml
+  test:
+    uses: ./.github/workflows/buildAndTest.yml
 
   publish:
     runs-on: ubuntu-latest
-    # TODO - Reinstate before merging
-    # needs: 
-    #   - test
+    needs: 
+      - test
     permissions:
       contents: write
     steps:
@@ -27,8 +25,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        # TODO: Remove dry run parameter before merge
-        run: npx semantic-release --dryRun
+        run: npx semantic-release
       - name: Verify release
         run: npm run verify-release
 
