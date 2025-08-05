@@ -4,9 +4,6 @@ import AxeBuilder from '@axe-core/playwright';
 test('Lightmode basic test', async ({ page }) => {
   await page.goto('/');
 
-  //whole page check light mode
-  //parametrize light and dark
-  // Helper to run axe accessibility check and assert no violations
   const expectNoA11yViolations = async () => {
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);
@@ -21,7 +18,6 @@ test('Lightmode basic test', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
   await expect(page.getByText('Desktops 50%')).toBeVisible();
-
   await page.getByText('Laptops 50%').click();
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
