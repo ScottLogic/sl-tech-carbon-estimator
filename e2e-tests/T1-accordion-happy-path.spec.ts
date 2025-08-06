@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
+import { organisationVisibility } from './test-helpers';
 
 test('Expansion panel visibility', async ({ page }) => {
   await page.goto('/');
 
   // Organisation
-  await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
+
+  await organisationVisibility(page);
+
   page.pause();
-  await expect(page.getByText('To understand the scale of')).toBeVisible();
-  await expect(
-    page.locator('expansion-panel').filter({ hasText: 'Organisation expand_less To' }).getByLabel('Hide details')
-  ).toBeVisible();
+
   await page
     .locator('expansion-panel')
     .filter({ hasText: 'Organisation expand_less To' })
