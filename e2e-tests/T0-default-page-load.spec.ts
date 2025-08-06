@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, organisationVisibility } from './test-helpers';
+import { gotoHome, onPremiseVisibility, organisationVisibility } from './test-helpers';
 
 // This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
 
@@ -8,12 +8,7 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
 }) => {
   await gotoHome(page);
   await organisationVisibility(page);
-  await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
-  await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
-  await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
-  await expect(page.getByRole('heading', { name: 'Cloud Services' })).toBeVisible();
-  await expect(page.getByText('Cloud 50%')).toBeVisible();
-  await expect(page.getByText('On-premise 50%')).toBeVisible();
+  await onPremiseVisibility(page);
   await expect(page.getByLabel('Where are your cloud servers')).toHaveValue('WORLD');
   await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
   await expect(page.getByRole('heading', { name: 'Users' })).toBeVisible();

@@ -13,3 +13,14 @@ export async function organisationVisibility(page: Page) {
   await expect(page.getByText('Laptops 50%')).toBeVisible();
   await expect(page.getByText('What percentage of those')).toBeVisible();
 }
+
+export async function onPremiseVisibility(page: Page) {
+  await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
+  await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
+  await expect(page.getByText('How many on-premise servers')).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: "I don't know" })).toBeVisible();
+  await expect(page.locator('label').filter({ hasText: "I don't know" })).toBeVisible();
+  await expect(page.getByLabel('Where are they primarily')).toBeVisible();
+  await expect(page.getByText('Where are they primarily located? expand_more')).toBeVisible();
+  // await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
+}
