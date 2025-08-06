@@ -1,16 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { gotoHome, organisationVisibility } from './test-helpers';
 
 // This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
 
 test('Default page screenshot assertion,elements are visible and apex chart displays expected values', async ({
   page,
 }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
-  await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
-  await expect(page.getByText('Desktops 50%')).toBeVisible();
-  //why is this clicked?
-  await page.getByText('Laptops 50%').click();
+  await gotoHome(page);
+  await organisationVisibility(page);
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
   await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
