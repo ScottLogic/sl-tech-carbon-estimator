@@ -54,18 +54,19 @@ Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web
 
 If working on WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
 
-In `/tmp` download .deb
+In `/tmp` download .deb\
 `sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
-Then
-`sudo dpkg -i google-chrome-stable_current_amd64.deb`
-If there's any errors
-`sudo apt install --fix-broken -y`
-Then re-run
+
+Then\
 `sudo dpkg -i google-chrome-stable_current_amd64.deb`
 
-In `~/.bashrc`
-add
-`export CHROME_PATH=/usr/bin/google-chrome-stable`
+If there's any errors\
+`sudo apt install --fix-broken -y`
+
+Then re-run\
+`sudo dpkg -i google-chrome-stable_current_amd64.deb`
+
+In `~/.bashrc` add `export CHROME_PATH=/usr/bin/google-chrome-stable`
 
 N.B. These steps assume there isn't a Chrome install on the Windows host machine 
 
