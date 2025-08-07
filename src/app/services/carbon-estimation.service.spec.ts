@@ -118,9 +118,15 @@ describe('CarbonEstimationService', () => {
       expect(sumValues(estimation.percentages.directEmissions)).toBe(0);
       expect(sumValues(estimation.percentages.indirectEmissions)).toBe(0);
       expect(sumValues(estimation.percentages.downstreamEmissions)).toBe(0);
+      expect(sumValues(estimation.values.upstreamEmissions)).toBe(0);
+      expect(sumValues(estimation.values.directEmissions)).toBe(0);
+      expect(sumValues(estimation.values.indirectEmissions)).toBe(0);
+      expect(sumValues(estimation.values.downstreamEmissions)).toBe(0);
+      expect(estimation.values.totalEmissions).toBe(0);
+      expect(estimation.percentages.totalEmissions).toBe(0);
     });
 
-    it('should calculate estimations as percentages', () => {
+    it('should calculate percentages', () => {
       const estimation = service.calculateCarbonEstimation({
         ...emptyEstimatorValues,
         upstream: {
