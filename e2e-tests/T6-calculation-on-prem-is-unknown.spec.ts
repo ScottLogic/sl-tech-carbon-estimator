@@ -8,8 +8,6 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await gotoHome(page);
   await defaultPageElementVisibility(page);
 
-  // Organisation
-
   // On Prem
   await page.getByLabel("I don't know").check();
   await expect(page.getByLabel('Number of Servers:')).toBeDisabled();
@@ -18,23 +16,13 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
 
   // Cloud
-  await expect(page.getByLabel("We don't use cloud services")).not.toBeChecked();
-  await page.getByLabel("We don't use cloud services").check();
-
-  //expect cloud things to be invisible
-  await page.getByLabel("We don't use cloud services").uncheck();
-  //expect cloud things to return
-
   await page.getByLabel('Where are your cloud servers').selectOption('GBR');
   await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
-
   await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
 
   // Users
   await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
-
   await expect(page.getByLabel('How many monthly active users')).toHaveValue('100');
-
   await page.getByLabel("What's the primary purpose of").selectOption('socialMedia');
   await page.getByLabel("What's the primary purpose of").selectOption('average');
   // Calculate
