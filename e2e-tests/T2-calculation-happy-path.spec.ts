@@ -19,7 +19,6 @@ test('T2 verify calculated values are coherent with selected options', async ({ 
   // On Prem
   await page.getByLabel('Number of Servers:').click();
   await page.getByLabel('Number of Servers:').fill('10');
-
   await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
@@ -32,7 +31,6 @@ test('T2 verify calculated values are coherent with selected options', async ({ 
   await page.getByLabel('What is your monthly cloud').selectOption('0: Object');
 
   // Users
-
   await page.getByText("What's the primary purpose of").click();
   await page.getByLabel("What's the primary purpose of").selectOption('average');
   await page.getByLabel('Where are your end-users').selectOption('GBR');
