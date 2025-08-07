@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { gotoHome, defaultPageElementVisibility } from './test-helpers';
 
 test('T11 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
-  await page.goto('/');
-
-  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
+  await gotoHome(page);
+  await defaultPageElementVisibility(page);
   // Organisation
   await page.getByLabel('How many employees are in the').fill('1000000');
   await expect(page.getByText('What percentage of those')).toBeVisible();
@@ -14,7 +14,6 @@ test('T11 verify calculated values are coherent with selected employees, servers
   await expect(page.getByText('Laptops 0%')).toBeVisible();
 
   // On Prem Servers
-  await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await page.getByLabel('Number of Servers:').click();
   await page.getByLabel('Number of Servers:').fill('100');
   await page.getByLabel('Where are they primarily').selectOption('unknown');
@@ -28,14 +27,9 @@ test('T11 verify calculated values are coherent with selected employees, servers
   await page.getByLabel('What is your monthly cloud').selectOption('4: Object');
 
   // Users
-  await expect(page.getByRole('heading', { name: 'End-Users' })).toBeVisible();
-  await expect(page.getByText('Tell us about your end-users -')).toBeVisible();
-  await expect(page.getByText('Where are your end-users')).toBeVisible();
   await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
-  await expect(page.getByText('How many monthly active users')).toBeVisible();
   await page.getByLabel('How many monthly active users').click();
   await page.getByLabel('How many monthly active users').fill('800000');
-  await expect(page.getByText('What percentage of your end-users')).toBeVisible();
   await page.getByLabel('What percentage of your end-users').click();
   await page.getByLabel('What percentage of your end-users').click();
   for (let i = 0; i < 7; i++) {
