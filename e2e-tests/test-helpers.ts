@@ -8,14 +8,13 @@ export async function gotoHome(page: Page) {
 export async function expansionPanelClick(page: Page, panelName: string, action: 'Show details' | 'Hide details') {
   await expect(page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action)).toBeVisible();
   await page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action).click();
-  // await page.locator('expansion-panel').filter({ hasText: 'Where are your employees' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'Where are they primarily' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'Cloud Services expand_less' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'Where are your cloud servers' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'End-Users expand_less Tell us' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'What\'s the primary purpose of' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'Where are your end-users' }).getByLabel('Show details').click();
-  // await page.locator('expansion-panel').filter({ hasText: 'What percentage of your end-' }).getByLabel('Show details').click();
+}
+
+export async function defaultPageElementVisibility(page: Page) {
+  await organisationVisibility(page);
+  await onPremiseVisibility(page);
+  await cloudVisibility(page);
+  await endUserVisibility(page);
 }
 
 export async function organisationVisibility(page: Page) {
@@ -47,7 +46,10 @@ export async function cloudVisibility(page: Page) {
   await expect(page.getByText('On-premise 50%')).toBeVisible();
   await expect(page.getByLabel('Where are your cloud servers')).toHaveValue('WORLD');
   await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
+  await expect(page.getByText("We don't use cloud services")).toBeVisible();
   await expect(page.getByRole('checkbox', { name: "We don't use cloud services" })).toBeVisible;
+  await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).toBeVisible();
+  await expect(page.getByText('We have derived a rough')).toBeVisible;
   // await expect(page.getByText('What percentage of your')).toBeVisible();
   // await expect(page.getByRole('slider', { name: 'What percentage of your' })).toHaveValue('50');
 }
@@ -62,4 +64,7 @@ export async function endUserVisibility(page: Page) {
   await expect(page.getByText('Computer 50%')).toBeVisible();
   await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
   await expect(page.getByLabel("What's the primary purpose of your")).toHaveValue('average');
+  await expect(page.getByText('Tell us about your end-users - ')).toBeVisible();
+  await expect(page.getByText("We don't have any external")).toBeVisible();
+  await expect(page.getByRole('checkbox', { name: "We don't have any external" })).toBeVisible();
 }
