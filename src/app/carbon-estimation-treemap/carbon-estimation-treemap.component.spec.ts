@@ -133,7 +133,6 @@ describe('CarbonEstimationTreemapComponent', () => {
       },
     ];
 
-    // expect(component.chartData()).toEqual(expectedEmissions);
     expectedEmissions.forEach((expectedCategory, i) => {
       expect(component.chartData()[i]).toEqual(jasmine.objectContaining(expectedCategory));
     });
