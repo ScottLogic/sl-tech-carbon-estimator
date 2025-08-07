@@ -13,7 +13,7 @@
   }
 
   .tce-error-box {
-    @apply tce-text-white tce-bg-red-700 tce-p-1 tce-rounded tce-border tce-border-white;
+    @apply tce-text-white tce-bg-red-700 tce-p-1 tce-rounded-sm tce-border tce-border-white;
   }
 
   .tce-error-summary {
