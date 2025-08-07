@@ -82,9 +82,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
       fontFamily: 'ui-sans-serif, system-ui, sans-serif',
       fontWeight: '400',
       markers: {
-        height: 20,
-        width: 10,
-        radius: 2,
+        strokeWidth: 2,
         offsetY: 2,
       },
     },
@@ -113,8 +111,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
     states: {
       active: {
         filter: {
-          type: 'none',
-          value: 0,
+          type: 'none'
         },
       },
     },
