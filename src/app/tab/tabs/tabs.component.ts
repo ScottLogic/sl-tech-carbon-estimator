@@ -4,7 +4,7 @@ import { TabItemComponent } from '../tab-item/tab-item.component';
 @Component({
   selector: 'tabs',
   standalone: true,
-  imports: [TabItemComponent],
+  imports: [],
   templateUrl: './tabs.component.html',
 })
 export class TabsComponent implements AfterContentInit {

@@ -1,5 +1,5 @@
 <div class="tce-w-full tce-flex tce-mb-2" role="tablist">
-  @for (tab of tabs; track tab.title) {
+  @for (tab of tabs; track tab.title()) {
     <div
       role="tab"
       [class.tce-active-tab]="tab.active()"
