@@ -34,6 +34,7 @@ export async function onPremiseVisibility(page: Page) {
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
   await expect(page.getByText('How many on-premise servers')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: "I don't know" })).toBeVisible();
+  await expect(page.getByLabel("I don't know")).not.toBeChecked();
   await expect(page.locator('label').filter({ hasText: "I don't know" })).toBeVisible();
   await expect(page.getByLabel('Where are they primarily')).toBeVisible();
   await expect(page.getByText('Where are they primarily located? expand_more')).toBeVisible();
@@ -47,6 +48,8 @@ export async function cloudVisibility(page: Page) {
   await expect(page.getByLabel('Where are your cloud servers')).toHaveValue('WORLD');
   await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
   await expect(page.getByText("We don't use cloud services")).toBeVisible();
+  await expect(page.getByLabel("We don't use cloud services")).not.toBeChecked();
+
   await expect(page.getByRole('checkbox', { name: "We don't use cloud services" })).toBeVisible;
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).toBeVisible();
   await expect(page.getByText('We have derived a rough')).toBeVisible;
