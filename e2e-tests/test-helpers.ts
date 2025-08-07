@@ -5,7 +5,8 @@ export async function gotoHome(page: Page) {
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
 }
 
-export async function expansionPanel(page: Page, panelName: string, action: 'Show Details' | 'Hide details') {
+export async function expansionPanelClick(page: Page, panelName: string, action: 'Show details' | 'Hide details') {
+  await expect(page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action)).toBeVisible();
   await page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action).click();
   // await page.locator('expansion-panel').filter({ hasText: 'Where are your employees' }).getByLabel('Show details').click();
   // await page.locator('expansion-panel').filter({ hasText: 'Where are they primarily' }).getByLabel('Show details').click();
