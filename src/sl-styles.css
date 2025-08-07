@@ -26,15 +26,15 @@ input {
 .tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
   color: var(--primary-charcoal);
   border-color: var(--primary-turquoise);
-  @apply tce-rounded-none tce-border-b-[3px] tce-bg-transparent tce-p-0.5
+  @apply tce:rounded-none tce:border-b-[3px] tce:bg-transparent tce:p-0.5;
 }
 
 .tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {
   background-color: var(--primary-turquoise);
-  @apply tce-text-white
+  @apply tce:text-white;
 }
 
 .tce-active-tab, .tce-active-tab:hover {
   border-color: var(--primary-turquoise);
-  @apply tce-cursor-default
+  @apply tce:cursor-default;
 }
