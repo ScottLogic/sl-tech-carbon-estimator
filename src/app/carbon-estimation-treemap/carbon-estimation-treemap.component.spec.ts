@@ -167,6 +167,15 @@ describe('CarbonEstimationTreemapComponent', () => {
     expect(component.emissionAriaLabel().length).toBeGreaterThan(25);
   });
 
+  it('should toggle between mass and percentage emissions', () => {
+    expect(component.isMass()).toBeTrue();
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - 2500 kg');
+    component.toggleMassPercentages();
+    fixture.detectChanges();
+    expect(component.isMass()).toBeFalse();
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - 25%');
+  });
+
   it('should set label to <1% if emission is less than 1', () => {
     const carbonEstimation: CarbonEstimation = {
       percentages: {
@@ -225,6 +234,64 @@ describe('CarbonEstimationTreemapComponent', () => {
     fixture.detectChanges();
 
     expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - <1%');
+  });
+
+  it('should set label to <1 kg if emission is less than 1', () => {
+    const carbonEstimation: CarbonEstimation = {
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.0002,
+          employee: 0.0001,
+          network: 0.0001,
+          server: 0.0001,
+        },
+        directEmissions: {
+          employee: 0.0345,
+          network: 0.008,
+          server: 0.008,
+        },
+        indirectEmissions: {
+          cloud: 0.009,
+          saas: 0.008,
+          managed: 0.008,
+        },
+        downstreamEmissions: {
+          endUser: 0.013,
+          networkTransfer: 0.012,
+        },
+        totalEmissions: 0.07,
+      },
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.0007,
+          employee: 0.0006,
+          network: 0.000006,
+          server: 0.00006,
+        },
+        directEmissions: {
+          employee: 0.9,
+          network: 0.8,
+          server: 0.8,
+        },
+        indirectEmissions: {
+          cloud: 0.9,
+          saas: 0.8,
+          managed: 0.8,
+        },
+        downstreamEmissions: {
+          endUser: 1.3,
+          networkTransfer: 1.2,
+        },
+        totalEmissions: 7,
+      },
+    };
+
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
+    fixture.detectChanges();
+
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - <1 kg');
   });
 
   it('should remove categories when they are 0', () => {
