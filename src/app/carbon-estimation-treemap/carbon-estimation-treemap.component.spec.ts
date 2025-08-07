@@ -72,89 +72,89 @@ describe('CarbonEstimationTreemapComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should set emissions with total % and category breakdown', () => {
+  it('should by default set emissions with total kg and category breakdown', () => {
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 25%',
+        name: 'Upstream Emissions Estimate - 2500 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
-            y: 7,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            y: 700,
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Employee Hardware',
-            y: 6,
-            meta: { svg: 'devices-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'devices-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Networking and Infrastructure Hardware',
-            y: 6,
-            meta: { svg: 'router-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'router-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Servers and Storage Hardware',
-            y: 6,
-            meta: { svg: 'storage-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'storage-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 25%',
+        name: 'Direct Emissions Estimate - 2500 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
-            y: 9,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            y: 900,
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
           {
             x: 'Networking and Infrastructure',
-            y: 8,
-            meta: { svg: 'router-logo', parent: 'Direct Emissions' },
+            y: 800,
+            meta: { svg: 'router-logo', parent: 'Direct Emissions Estimate' },
           },
           {
             x: 'Servers and Storage',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Direct Emissions' },
+            y: 800,
+            meta: { svg: 'storage-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Indirect Emissions - 25%',
+        name: 'Indirect Emissions Estimate - 2500 kg',
         color: '#91234C',
         data: [
           {
             x: 'Cloud Services',
-            y: 9,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
+            y: 900,
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions Estimate' },
           },
           {
             x: 'SaaS',
-            y: 8,
-            meta: { svg: 'web-logo', parent: 'Indirect Emissions' },
+            y: 800,
+            meta: { svg: 'web-logo', parent: 'Indirect Emissions Estimate' },
           },
           {
             x: 'Managed Services',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Indirect Emissions' },
+            y: 800,
+            meta: { svg: 'storage-logo', parent: 'Indirect Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Downstream Emissions - 25%',
+        name: 'Downstream Emissions Estimate - 2500 kg',
         color: '#4B7E56',
         data: [
           {
             x: 'End-User Devices',
-            y: 13,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
+            y: 1300,
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
           {
             x: 'Network Data Transfer',
-            y: 12,
-            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions' },
+            y: 1200,
+            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions Estimate' },
           },
         ],
       },
@@ -220,9 +220,11 @@ describe('CarbonEstimationTreemapComponent', () => {
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
 
+    component.toggleMassPercentages(); // Switch to percentages;
+
     fixture.detectChanges();
 
-    expect(component.chartData()[0].name).toBe('Upstream Emissions - <1%');
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - <1%');
   });
 
   it('should remove categories when they are 0', () => {
@@ -254,26 +256,26 @@ describe('CarbonEstimationTreemapComponent', () => {
       values: {
         version: '1.0',
         upstreamEmissions: {
-          software: 700,
-          employee: 600,
-          network: 600,
-          server: 600,
+          software: 25,
+          employee: 0,
+          network: 0,
+          server: 0,
         },
         directEmissions: {
-          employee: 900,
-          network: 800,
-          server: 800,
+          employee: 25,
+          network: 0,
+          server: 0,
         },
         indirectEmissions: {
-          cloud: 900,
-          saas: 800,
-          managed: 800,
+          cloud: 25,
+          saas: 0,
+          managed: 0,
         },
         downstreamEmissions: {
-          endUser: 1300,
-          networkTransfer: 1200,
+          endUser: 25,
+          networkTransfer: 0,
         },
-        totalEmissions: 7000,
+        totalEmissions: 70,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -282,46 +284,46 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 25%',
+        name: 'Upstream Emissions Estimate - 25 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
             y: 25,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 25%',
+        name: 'Direct Emissions Estimate - 25 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
             y: 25,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Indirect Emissions - 25%',
+        name: 'Indirect Emissions Estimate - 25 kg',
         color: '#91234C',
         data: [
           {
             x: 'Cloud Services',
             y: 25,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Downstream Emissions - 25%',
+        name: 'Downstream Emissions Estimate - 25 kg',
         color: '#4B7E56',
         data: [
           {
             x: 'End-User Devices',
             y: 25,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
         ],
       },
@@ -359,26 +361,26 @@ describe('CarbonEstimationTreemapComponent', () => {
       values: {
         version: '1.0',
         upstreamEmissions: {
-          software: 700,
-          employee: 600,
-          network: 600,
-          server: 600,
+          software: 50,
+          employee: 0,
+          network: 0,
+          server: 0,
         },
         directEmissions: {
-          employee: 900,
-          network: 800,
-          server: 800,
+          employee: 50,
+          network: 0,
+          server: 0,
         },
         indirectEmissions: {
-          cloud: 900,
-          saas: 800,
-          managed: 800,
+          cloud: 0,
+          saas: 0,
+          managed: 0,
         },
         downstreamEmissions: {
-          endUser: 1300,
-          networkTransfer: 1200,
+          endUser: 0,
+          networkTransfer: 0,
         },
-        totalEmissions: 7000,
+        totalEmissions: 70,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -387,24 +389,24 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 50%',
+        name: 'Upstream Emissions Estimate - 50 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
             y: 50,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 50%',
+        name: 'Direct Emissions Estimate - 50 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
             y: 50,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },

@@ -31,16 +31,16 @@ describe('CarbonEstimationUtilService', () => {
   it('should return the correct label and svg for a given key', () => {
     expect(service.getLabelAndSvg('software')).toEqual({ label: 'Software - Off the Shelf', svg: 'web-logo' });
     expect(service.getLabelAndSvg('saas')).toEqual({ label: 'SaaS', svg: 'web-logo' });
-    expect(service.getLabelAndSvg('employee', 'Upstream Emissions')).toEqual({
+    expect(service.getLabelAndSvg('employee', 'Upstream Emissions Estimate')).toEqual({
       label: 'Employee Hardware',
       svg: 'devices-logo',
     });
     expect(service.getLabelAndSvg('endUser')).toEqual({ label: 'End-User Devices', svg: 'devices-logo' });
-    expect(service.getLabelAndSvg('network', 'Direct Emissions')).toEqual({
+    expect(service.getLabelAndSvg('network', 'Direct Emissions Estimate')).toEqual({
       label: 'Networking and Infrastructure',
       svg: 'router-logo',
     });
-    expect(service.getLabelAndSvg('server', 'Direct Emissions')).toEqual({
+    expect(service.getLabelAndSvg('server', 'Direct Emissions Estimate')).toEqual({
       label: 'Servers and Storage',
       svg: 'storage-logo',
     });
