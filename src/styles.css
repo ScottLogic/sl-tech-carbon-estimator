@@ -52,9 +52,9 @@ input.ng-invalid.ng-touched {
 
 .tce-chart-total-colour {
   @apply tce-bg-orange-400;
-  height: 20px;
-  width: 10px;
-  border-radius: 2px;
+  height: 12px;
+  width: 12px;
+  border-radius: 12px;
   margin-right: 3px;
   display: inline-block;
 }
