@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, defaultPageElementVisibility } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T11 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
   // Organisation
   await page.getByLabel('How many employees are in the').fill('1000000');
   await expect(page.getByText('What percentage of those')).toBeVisible();

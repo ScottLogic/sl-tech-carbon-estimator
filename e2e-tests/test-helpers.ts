@@ -12,18 +12,17 @@ export async function gotoHome(page: Page) {
 }
 
 export async function expansionPanelClick(page: Page, panelName: string, action: 'Show details' | 'Hide details') {
-  await expect(page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action)).toBeVisible();
   await page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action).click();
 }
 
-export async function defaultPageElementVisibility(page: Page) {
-  await organisationVisibility(page);
-  await onPremiseVisibility(page);
-  await cloudVisibility(page);
-  await endUserVisibility(page);
+export async function assertAllSectionElementsAreVisible(page: Page) {
+  await assertOrganisationElementVisiblity(page);
+  await assertOnPremiseElementVisiblity(page);
+  await assertCloudElementVisibility(page);
+  await assertEndUserElementVisibility(page);
 }
 
-export async function organisationVisibility(page: Page) {
+export async function assertOrganisationElementVisiblity(page: Page) {
   await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
   await expect(page.getByText('To understand the scale of')).toBeVisible();
   await expect(page.getByLabel('How many employees are in the')).toHaveValue('100');
@@ -33,7 +32,7 @@ export async function organisationVisibility(page: Page) {
   await expect(page.getByRole('slider', { name: 'What percentage of those' })).toBeVisible();
 }
 
-export async function onPremiseVisibility(page: Page) {
+export async function assertOnPremiseElementVisiblity(page: Page) {
   await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
   await expect(page.getByLabel('Number of Servers:')).toHaveValue('10');
   await expect(page.getByText('How many on-premise servers')).toBeVisible();
@@ -44,7 +43,7 @@ export async function onPremiseVisibility(page: Page) {
   await expect(page.getByText('Where are they primarily located? expand_more')).toBeVisible();
 }
 
-export async function cloudVisibility(page: Page) {
+export async function assertCloudElementVisibility(page: Page) {
   await expect(page.getByRole('heading', { name: 'Cloud Services' })).toBeVisible();
   await expect(page.getByText('Cloud 50%')).toBeVisible();
   await expect(page.getByText('On-premise 50%')).toBeVisible();
@@ -63,7 +62,7 @@ export async function cloudVisibility(page: Page) {
   ).toBeVisible();
 }
 
-export async function endUserVisibility(page: Page) {
+export async function assertEndUserElementVisibility(page: Page) {
   await expect(page.getByRole('heading', { name: 'Users' })).toBeVisible();
   await expect(page.getByText('Where are your end-users')).toBeVisible();
   await expect(page.getByLabel('Where are your end-users')).toHaveValue('WORLD');

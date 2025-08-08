@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, defaultPageElementVisibility } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
   page,
 }) => {
   await gotoHome(page);
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
 
   // On Prem Servers
   await page.getByLabel("I don't know").check();

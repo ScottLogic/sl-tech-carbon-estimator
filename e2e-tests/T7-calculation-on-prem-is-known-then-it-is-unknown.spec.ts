@@ -1,11 +1,16 @@
 import { test, expect } from '@playwright/test';
-import { cloudVisibility, defaultPageElementVisibility, gotoHome, endUserVisibility } from './test-helpers';
+import {
+  assertCloudElementVisibility,
+  assertAllSectionElementsAreVisible,
+  gotoHome,
+  assertEndUserElementVisibility,
+} from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
   page,
 }) => {
   await gotoHome(page);
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
 
   // On Prem
   await page.getByLabel('Number of Servers:').click();
@@ -34,10 +39,10 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
 
   // Cloud
-  await cloudVisibility(page);
+  await assertCloudElementVisibility(page);
 
   // Users
-  await endUserVisibility(page);
+  await assertEndUserElementVisibility(page);
   await page.getByLabel("What's the primary purpose of").selectOption('information');
   await page.getByLabel("What's the primary purpose of").selectOption('average');
 

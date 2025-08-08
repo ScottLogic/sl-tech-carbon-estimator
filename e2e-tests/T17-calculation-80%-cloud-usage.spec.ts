@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, defaultPageElementVisibility } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T17 calculations show 80% cloud usage', async ({ page }) => {
   await gotoHome(page);
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
   // Organisation
 
   await page.getByLabel('How many employees are in the').click();

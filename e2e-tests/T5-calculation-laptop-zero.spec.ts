@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { defaultPageElementVisibility, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
 
 test('T5 verify calculated values are coherent when laptop is 0%', async ({ page }) => {
   await gotoHome(page);
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
 
   // Set laptop percentage to 0% (by moving desktop to 100%)
   await page.getByText('Desktops 50%').click();
