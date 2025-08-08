@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { gotoHome, defaultPageElementVisibility } from './test-helpers';
+
 test('T17 calculations show 80% cloud usage', async ({ page }) => {
-  await page.goto('/');
-
-  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
-
+  await gotoHome(page);
+  await defaultPageElementVisibility(page);
   // Organisation
   await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
   await expect(page.getByText('To understand the scale of')).toBeVisible();
