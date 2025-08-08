@@ -32,7 +32,7 @@ type ArrowDirectionVertical = 'up' | 'down';
 @Component({
   selector: 'carbon-estimation-table',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [],
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
