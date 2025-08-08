@@ -95,8 +95,8 @@ export const formContext = {
 
 export const questionPanelConfig: ExpansionPanelConfig = {
   startsExpanded: false,
-  buttonStyles: 'material-icons-outlined tce-text-base hover:tce-bg-slate-200 hover:tce-rounded',
-  contentContainerStyles: 'tce-px-3 tce-py-2 tce-bg-slate-100 tce-border tce-border-slate-400 tce-rounded tce-text-sm dark:tce-text-slate-800',
+  buttonStyles: 'material-icons-outlined tce:text-base tce:hover:bg-slate-200 tce:hover:rounded',
+  contentContainerStyles: 'tce:px-3 tce:py-2 tce:bg-slate-100 tce:border tce:border-slate-400 tce:rounded tce:text-sm tce:dark:text-slate-800',
 };
 
 export const locationDescriptions: Record<WorldLocation, string> = {

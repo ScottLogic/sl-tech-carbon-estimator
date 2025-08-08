@@ -1,3 +1,5 @@
+@import "tailwindcss" prefix(tce);
+
 :root {
   --primary-charcoal: #252525;
   --primary-turquoise: #2bb3bb;
