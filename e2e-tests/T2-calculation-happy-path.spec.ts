@@ -1,13 +1,5 @@
 import { test, expect } from '@playwright/test';
-import {
-  gotoHome,
-  organisationVisibility,
-  onPremiseVisibility,
-  cloudVisibility,
-  endUserVisibility,
-  expansionPanelClick,
-  defaultPageElementVisibility,
-} from './test-helpers';
+import { gotoHome, defaultPageElementVisibility } from './test-helpers';
 
 test('T2 verify calculated values are coherent with selected options', async ({ page }) => {
   await gotoHome(page);

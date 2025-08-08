@@ -7,8 +7,6 @@ import {
   organisationVisibility,
 } from './test-helpers';
 
-// This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
-
 test('Default page screenshot assertion,elements are visible and apex chart displays expected values', async ({
   page,
 }) => {

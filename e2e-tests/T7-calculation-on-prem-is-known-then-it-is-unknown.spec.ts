@@ -1,12 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { cloudVisibility, defaultPageElementVisibility, gotoHome, endUserVisibility } from './test-helpers';
 
-//This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
-//Enter number into “Number of Servers”
-//Ensure calcs are match spreadsheet
-//User checks On Premise "Don't know" checkbox
-//Ensure calcs are match spreadsheet
-
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
   page,
 }) => {

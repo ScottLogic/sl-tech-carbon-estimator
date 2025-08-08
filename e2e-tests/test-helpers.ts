@@ -30,9 +30,7 @@ export async function organisationVisibility(page: Page) {
   await expect(page.getByText('Desktops 50%')).toBeVisible();
   await expect(page.getByText('Laptops 50%')).toBeVisible();
   await expect(page.getByText('What percentage of those')).toBeVisible();
-  await expect(
-    page.locator('expansion-panel').filter({ hasText: 'Organisation expand_less To' }).getByLabel('Hide details')
-  ).toBeVisible();
+  await expect(page.getByRole('slider', { name: 'What percentage of those' })).toBeVisible();
 }
 
 export async function onPremiseVisibility(page: Page) {
@@ -44,7 +42,6 @@ export async function onPremiseVisibility(page: Page) {
   await expect(page.locator('label').filter({ hasText: "I don't know" })).toBeVisible();
   await expect(page.getByLabel('Where are they primarily')).toBeVisible();
   await expect(page.getByText('Where are they primarily located? expand_more')).toBeVisible();
-  // await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
 }
 
 export async function cloudVisibility(page: Page) {
@@ -55,12 +52,15 @@ export async function cloudVisibility(page: Page) {
   await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
   await expect(page.getByText("We don't use cloud services")).toBeVisible();
   await expect(page.getByLabel("We don't use cloud services")).not.toBeChecked();
-
+  await expect(
+    page.getByRole('slider', { name: 'What percentage of your servers are cloud services vs on-premise?' })
+  ).toBeVisible();
   await expect(page.getByRole('checkbox', { name: "We don't use cloud services" })).toBeVisible;
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).toBeVisible();
   await expect(page.getByText('We have derived a rough')).toBeVisible;
-  // await expect(page.getByText('What percentage of your')).toBeVisible();
-  // await expect(page.getByRole('slider', { name: 'What percentage of your' })).toHaveValue('50');
+  await expect(
+    page.getByRole('slider', { name: 'What percentage of your servers are cloud services vs on-premise?' })
+  ).toBeVisible();
 }
 
 export async function endUserVisibility(page: Page) {
@@ -76,4 +76,5 @@ export async function endUserVisibility(page: Page) {
   await expect(page.getByText('Tell us about your end-users - ')).toBeVisible();
   await expect(page.getByText("We don't have any external")).toBeVisible();
   await expect(page.getByRole('checkbox', { name: "We don't have any external" })).toBeVisible();
+  await expect(page.getByRole('slider', { name: 'What percentage of your end-' })).toBeVisible();
 }

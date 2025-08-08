@@ -17,7 +17,6 @@ test('T8 verify calculated values are coherent when on prem is unknown and cloud
   await page.getByLabel("We don't use cloud services").check();
   await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
   await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
-  //more elements should be hidden
 
   // Users
   await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');

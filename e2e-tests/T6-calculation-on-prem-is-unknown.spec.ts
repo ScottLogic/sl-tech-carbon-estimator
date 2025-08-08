@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { defaultPageElementVisibility, gotoHome } from './test-helpers';
 
-//This test is to check that the page loads, labels, scroll bars, dropdowns are all visible and set at the default when page loads
-//User checks On Premise "Don't know" checkbox | Only selection made
-
 test('T6 verify calculated values are coherent when on-prem is unknown', async ({ page }) => {
   await gotoHome(page);
   await defaultPageElementVisibility(page);
