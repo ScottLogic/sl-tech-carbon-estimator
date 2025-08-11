@@ -6,6 +6,6 @@ export type ExpansionPanelConfig = {
 
 export const defaultConfig: ExpansionPanelConfig = {
   startsExpanded: true,
-  buttonStyles: 'material-icons-outlined tce-text hover:tce-bg-slate-200 hover:tce-rounded',
+  buttonStyles: 'material-icons-outlined tce:text tce:hover:bg-slate-200 tce:hover:rounded',
   contentContainerStyles: '',
 };

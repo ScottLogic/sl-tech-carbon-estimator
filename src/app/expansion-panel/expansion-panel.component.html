@@ -1,4 +1,4 @@
-<div class="tce-flex tce-justify-between">
+<div class="tce:flex tce:justify-between">
   <ng-content select="[header]"></ng-content>
   <button
     type="button"
@@ -8,6 +8,6 @@
     {{ expanded ? 'expand_less' : 'expand_more' }}
   </button>
 </div>
-<div [ngClass]="{ 'tce-hidden': !expanded }" [class]="config.contentContainerStyles">
+<div [ngClass]="{ 'tce:hidden': !expanded }" [class]="config.contentContainerStyles">
   <ng-content select="[content]"></ng-content>
 </div>

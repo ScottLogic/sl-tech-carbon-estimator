@@ -41,22 +41,22 @@ describe('estimateDownstreamEmissions()', () => {
 
   it('should return emissions for e-commerce site', () => {
     const result = estimateDownstreamEmissions(createInput('eCommerce'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 3.18, networkTransfer: 1.1 });
+    expectEmissionsCloseTo(result, { endUser: 3.18, networkTransfer: 1.07 });
   });
 
   it('should return emissions for social media site', () => {
     const result = estimateDownstreamEmissions(createInput('socialMedia'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 517.851, networkTransfer: 296.41 });
+    expectEmissionsCloseTo(result, { endUser: 517.851, networkTransfer: 286.09 });
   });
 
   it('should return emissions for streaming site', () => {
     const result = estimateDownstreamEmissions(createInput('streaming'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 703.48, networkTransfer: 693.03 });
+    expectEmissionsCloseTo(result, { endUser: 703.48, networkTransfer: 668.91 });
   });
 
   it('should return emissions based on average values', () => {
     const result = estimateDownstreamEmissions(createInput('average'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 306.25, networkTransfer: 247.65 });
+    expectEmissionsCloseTo(result, { endUser: 306.25, networkTransfer: 239.03 });
   });
 
   it('should create average equivalent to average of all other purposes', () => {

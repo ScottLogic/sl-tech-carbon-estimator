@@ -1,0 +1,9 @@
+branches:
+  - main
+plugins:
+  - "semantic-release-unsquash"
+  -
+    - "@semantic-release/npm"
+    - pkgRoot: "./dist/tech-carbon-estimator"
+      tarballDir: "./dist/tech-carbon-estimator"
+  - "@semantic-release/github"

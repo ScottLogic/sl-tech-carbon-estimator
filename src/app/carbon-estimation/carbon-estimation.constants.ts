@@ -35,14 +35,14 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
     const initialSeries = w.globals.initialSeries[seriesIndex];
     const data = initialSeries.data[dataPointIndex];
 
-    return `<div class="tce-rounded tce-flex tce-max-w-40 md:tce-max-w-none tce-text-slate-600">
-      <div class="tce-p-1 md:tce-p-2 tce-flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce-m-auto tce-size-4 md:tce-size-8"></div></div>
-        <div class="tce-p-1 md:tce-p-2">
-        <div class="tce-text-wrap">${data.meta.parent}:</div>
+    return `<div class="tce:rounded-sm tce:flex tce:max-w-40 tce:md:max-w-none tce:text-slate-600">
+      <div class="tce:p-1 tce:md:p-2 tce:flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce:m-auto tce:size-4 tce:md:size-8"></div></div>
+        <div class="tce:p-1 tce:md:p-2">
+        <div class="tce:text-wrap">${data.meta.parent}:</div>
         ${
           isPlaceholder ?
-            '<div class="tce-text-wrap">Subcategories - <span class="tce-font-bold">?</span></div>'
-          : `<div class="tce-text-wrap">${data.x} - <span class="tce-font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`
+            '<div class="tce:text-wrap">Subcategories - <span class="tce:font-bold">?</span></div>'
+          : `<div class="tce:text-wrap">${data.x} - <span class="tce:font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`
         }
         </div>`;
   };
@@ -82,9 +82,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
       fontFamily: 'ui-sans-serif, system-ui, sans-serif',
       fontWeight: '400',
       markers: {
-        height: 20,
-        width: 10,
-        radius: 2,
+        strokeWidth: 2,
         offsetY: 2,
       },
     },
@@ -113,8 +111,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
     states: {
       active: {
         filter: {
-          type: 'none',
-          value: 0,
+          type: 'none'
         },
       },
     },

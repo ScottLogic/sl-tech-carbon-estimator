@@ -82,7 +82,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": [],
-            "exclude": ["playwright"]
+            "exclude": ["e2e-tests", "playwright"]
           }
         },
         "lint": {

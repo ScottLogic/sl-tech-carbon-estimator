@@ -1,26 +1,28 @@
+@import "tailwindcss" prefix(tce);
+
 @media (prefers-color-scheme: dark) {
   .apexcharts-legend-text {
-    @apply !tce-text-slate-50;
+    @apply tce:!text-slate-50;
   }
 
   input,
   select {
-    @apply tce-text-slate-600;
+    @apply tce:text-slate-300;
   }
 
   input.ng-invalid.ng-touched {
-    @apply tce-border-red-700;
+    @apply tce:border-red-700;
   }
 
   .tce-error-box {
-    @apply tce-text-white tce-bg-red-700 tce-p-1 tce-rounded tce-border tce-border-white;
+    @apply tce:text-white tce:bg-red-700 tce:p-1 tce:rounded-sm tce:border tce:border-white;
   }
 
   .tce-error-summary {
-    @apply tce-text-white tce-bg-red-700 tce-border-white;
+    @apply tce:text-white tce:bg-red-700 tce:border-white;
   }
 
   .tce-error-summary-link {
-    @apply tce-text-white;
+    @apply tce:text-white;
   }
 }

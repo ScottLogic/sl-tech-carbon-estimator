@@ -1,38 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" prefix(tce);
+
+@theme {
+  --font-display: 'objektiv-mk1', 'sans-serif';
+}
 
 input.ng-invalid.ng-touched {
-  @apply tce-border-red-600 tce-border-2 tce-m-[-1px];
+  @apply tce:border-red-600 tce:border-2 tce:m-[-1px];
 }
 
 .tce-error-box {
-  @apply tce-text-red-600;
+  @apply tce:text-red-600;
 }
 
 .tce-error-summary {
-  @apply tce-border-red-600;
+  @apply tce:border-red-600;
 }
 
 .tce-error-summary-link {
-  @apply tce-text-red-600;
+  @apply tce:text-red-600;
 }
 
 .tce-note {
-  @apply tce-bg-sky-200 tce-border-sky-400 tce-text-slate-800;
+  @apply tce:bg-sky-200 tce:border-sky-400 tce:text-slate-800;
 }
 
 .tce-button-calculate,
 .tce-button-close {
-  @apply tce-bg-sky-800 tce-text-white hover:tce-bg-sky-900 tce-rounded;
+  @apply tce:bg-sky-800 tce:text-white tce:hover:bg-sky-900 tce:rounded-sm;
 }
 
 .tce-button-reset,
 .tce-button-assumptions {
-  @apply tce-bg-slate-200 tce-text-slate-800 hover:tce-bg-slate-300 tce-rounded;
+  @apply tce:bg-slate-200 tce:text-slate-800 tce:hover:bg-slate-300 tce:rounded-sm;
 }
 
-
 .tce-active-tab, .tce-active-tab:hover {
-  @apply tce-cursor-default tce-border-sky-800
+  @apply tce:cursor-default tce:border-sky-800;
 }
