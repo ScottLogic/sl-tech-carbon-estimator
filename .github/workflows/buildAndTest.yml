@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
   workflow_call:
   push:
-    branches: [ main ]
-
+    branches:
+      - main
+      - develop
+      - 'release/**'
 jobs:
   build:
     runs-on: ubuntu-latest

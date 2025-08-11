@@ -10,32 +10,32 @@
 
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
 
-    <div class="tce-flex tce-flex-col tce-gap-4">
-      <div class="tce-flex tce-flex-col tce-gap-2">
-        <label class="tce-text-sm" for="headCount">How many employees are in the organisation? </label>
+    <div class="tce:flex tce:flex-col tce:gap-4">
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <label class="tce:text-sm" for="headCount">How many employees are in the organisation? </label>
         <input
           id="headCount"
-          class="tce-border tce-border-slate-400 tce-rounded"
+          class="tce:border tce:border-slate-400 tce:rounded-sm"
           formControlName="headCount"
           name="headCount"
           type="number"
           required
           [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
         @if (headCount | invalidated) {
-          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="headCountError">
+          <div class="tce-error-box tce:flex tce:items-center tce:gap-1" aria-live="polite" id="headCountError">
             <span class="material-icons-outlined">error</span>
             <p>{{ errorConfig.headCount.errorMessage }}</p>
           </div>
         }
       </div>
 
-      <div class="tce-flex tce-flex-col tce-gap-2">
-        <label for="desktopPercentage" class="tce-text-sm">
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <label for="desktopPercentage" class="tce:text-sm">
           What percentage of those employee devices are desktops or laptops?
         </label>
         <input
           id="desktopPercentage"
-          class="tce-cursor-pointer"
+          class="tce:cursor-pointer"
           formControlName="desktopPercentage"
           name="desktopPercentage"
           type="range"
@@ -43,7 +43,7 @@
           max="100"
           step="5"
           [attr.aria-valuetext]="'Desktops ' + desktopPercentage + '%, Laptops ' + laptopPercentage + '%'" />
-        <div class="tce-flex tce-justify-between tce-text-sm">
+        <div class="tce:flex tce:justify-between tce:text-sm">
           <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
         </div>
       </div>
@@ -55,16 +55,16 @@
   <div formGroupName="onPremise">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
 
-    <div class="tce-flex tce-flex-col tce-gap-4">
+    <div class="tce:flex tce:flex-col tce:gap-4">
       <p id="on-prem-servers-question">How many on-premise servers do you use?</p>
-      <div class="tce-flex tce-gap-2 tce-items-center">
+      <div class="tce:flex tce:gap-2 tce:items-center">
         <input
           id="estimateServerCount"
           type="checkbox"
-          class="tce-rounded-sm tce-cursor-pointer"
+          class="tce:rounded-sm tce:cursor-pointer"
           formControlName="estimateServerCount"
           aria-describedby="on-prem-servers-question" />
-        <label for="estimateServerCount" class="tce-cursor-pointer tce-select-none">I don't know</label>
+        <label for="estimateServerCount" class="tce:cursor-pointer tce:select-none">I don't know</label>
       </div>
 
       @if (estimateServerCount) {
@@ -78,18 +78,18 @@
         </note>
       }
 
-      <div class="tce-flex tce-flex-col tce-gap-2">
-        <label class="tce-text-sm" for="numberOfServers">Number of Servers:</label>
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <label class="tce:text-sm" for="numberOfServers">Number of Servers:</label>
         <input
           id="numberOfServers"
-          class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed"
+          class="tce:border tce:border-slate-400 tce:rounded-sm tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
           formControlName="numberOfServers"
           name="numberOfServers"
           type="number"
           required
           [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
         @if (numberOfServers | invalidated) {
-          <div class="tce-error-box tce-flex tce-items-center tce-gap-1" aria-live="polite" id="numberOfServersError">
+          <div class="tce-error-box tce:flex tce:items-center tce:gap-1" aria-live="polite" id="numberOfServersError">
             <span class="material-icons-outlined">error</span>
             <p>{{ errorConfig.numberOfServers.errorMessage }}</p>
           </div>
@@ -103,24 +103,24 @@
   <div formGroupName="cloud">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.cloud"></ng-container>
 
-    <div class="tce-flex tce-flex-col tce-gap-4">
-      <div class="tce-flex tce-gap-2 tce-items-center">
+    <div class="tce:flex tce:flex-col tce:gap-4">
+      <div class="tce:flex tce:gap-2 tce:items-center">
         <input
           id="noCloudServices"
           type="checkbox"
           formControlName="noCloudServices"
-          class="tce-rounded-sm tce-cursor-pointer" />
-        <label for="noCloudServices" class="tce-cursor-pointer tce-select-none">We don't use cloud services</label>
+          class="tce:rounded-sm tce:cursor-pointer" />
+        <label for="noCloudServices" class="tce:cursor-pointer tce:select-none">We don't use cloud services</label>
       </div>
 
       @if (!noCloudServices) {
-        <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="cloudPercentage" class="tce-text-sm"
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="cloudPercentage" class="tce:text-sm"
             >What percentage of your servers are cloud services vs on-premise?</label
           >
           <input
             id="cloudPercentage"
-            class="tce-cursor-pointer disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed"
+            class="tce:cursor-pointer tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
             formControlName="cloudPercentage"
             name="cloudPercentage"
             type="range"
@@ -128,7 +128,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
-          <div class="tce-flex tce-justify-between tce-text-sm">
+          <div class="tce:flex tce:justify-between tce:text-sm">
             <span>Cloud {{ cloudPercentage }}%</span>
             <span>On-premise {{ onPremisePercentage }}%</span>
           </div>
@@ -142,11 +142,11 @@
           </p>
         </div>
 
-        <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="monthlyCloudBill" class="tce-text-sm">What is your monthly cloud bill?</label>
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="monthlyCloudBill" class="tce:text-sm">What is your monthly cloud bill?</label>
           <select
             id="monthlyCloudBill"
-            class="tce-border tce-border-slate-400 tce-rounded disabled:tce-bg-gray-200 disabled:tce-text-slate-400 disabled:tce-cursor-not-allowed tce-px-3 tce-py-2"
+            class="tce:border tce:border-slate-400 tce:rounded-sm tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed tce:px-3 tce:py-2"
             formControlName="monthlyCloudBill"
             name="monthlyCloudBill"
             required
@@ -162,30 +162,30 @@
 
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
-    <div class="tce-flex tce-flex-col tce-gap-4">
-      <div class="tce-flex tce-gap-2 tce-items-center">
+    <div class="tce:flex tce:flex-col tce:gap-4">
+      <div class="tce:flex tce:gap-2 tce:items-center">
         <input
           id="noDownstream"
           type="checkbox"
           formControlName="noDownstream"
-          class="tce-rounded-sm tce-cursor-pointer" />
+          class="tce:rounded-sm tce:cursor-pointer" />
         <label for="noDownstream" class="cursor-pointer select-none"
           >We don't have any external users of our digital services</label
         >
       </div>
 
       @if (!noDownstream) {
-        <div class="tce-flex tce-flex-col tce-gap-2">
+        <div class="tce:flex tce:flex-col tce:gap-2">
           <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
-              <div class="tce-flex">
-                <label for="purposeOfSite" class="tce-text-sm"
+              <div class="tce:flex">
+                <label for="purposeOfSite" class="tce:text-sm"
                   >What's the primary purpose of your digital services?</label
                 >
               </div>
             </div>
             <div content>
-              <p class="tce-text-sm">
+              <p class="tce:text-sm">
                 The purpose of your digital services is used to determine the typical amount of time a user might spend
                 on them and the amount of data that may be transferred. This can affect the amount of energy used by end
                 user devices and how much energy from network traffic is attributable to your organisation
@@ -193,7 +193,7 @@
             </div>
           </expansion-panel>
           <select
-            class="tce-border tce-border-slate-400 tce-rounded"
+            class="tce:border tce:border-slate-400 tce:rounded-sm"
             formControlName="purposeOfSite"
             name="purposeOfSite"
             id="purposeOfSite">
@@ -206,12 +206,12 @@
         </div>
         <ng-container *ngTemplateOutlet="locationInput; context: formContext.downstream"></ng-container>
 
-        <div class="tce-flex tce-flex-col tce-gap-2">
-          <label for="monthlyActiveUsers" class="tce-text-sm">
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="monthlyActiveUsers" class="tce:text-sm">
             How many monthly active users do your digital services have?
           </label>
           <input
-            class="tce-border tce-border-slate-400 tce-rounded"
+            class="tce:border tce:border-slate-400 tce:rounded-sm"
             formControlName="monthlyActiveUsers"
             name="monthlyActiveUsers"
             type="number"
@@ -220,7 +220,7 @@
             [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
           @if (monthlyActiveUsers | invalidated) {
             <div
-              class="tce-error-box tce-flex tce-items-center tce-gap-1"
+              class="tce-error-box tce:flex tce:items-center tce:gap-1"
               aria-live="polite"
               id="monthlyActiveUsersError">
               <span class="material-icons-outlined">error</span>
@@ -229,17 +229,17 @@
           }
         </div>
 
-        <div class="tce-flex tce-flex-col tce-gap-2">
+        <div class="tce:flex tce:flex-col tce:gap-2">
           <expansion-panel [configOverride]="questionPanelConfig">
             <div header>
-              <div class="tce-flex">
-                <label for="mobilePercentage" class="tce-text-sm">
+              <div class="tce:flex">
+                <label for="mobilePercentage" class="tce:text-sm">
                   What percentage of your end-users are mobile or personal computer users?
                 </label>
               </div>
             </div>
             <div content>
-              <p class="tce-text-sm">
+              <p class="tce:text-sm">
                 The percentage of mobile users will affect the energy used by end user devices and network
                 infrastructure. While the power demand of mobile devices is often much lower, the use of mobile networks
                 can increase the power used when transferring data.
@@ -255,7 +255,7 @@
             max="100"
             step="5"
             [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
-          <div class="tce-flex tce-justify-between tce-text-sm">
+          <div class="tce:flex tce:justify-between tce:text-sm">
             <span>Mobile {{ mobilePercentage }}%</span>
             <span>Computer {{ computerPercentage }}%</span>
           </div>
@@ -265,9 +265,9 @@
   </div>
 
   <div>
-    <div class="tce-flex tce-gap-4 tce-justify-end">
-      <button class="tce-button-reset tce-px-3 tce-py-2" type="button" (click)="resetForm()">Reset</button>
-      <button class="tce-button-calculate tce-px-3 tce-py-2" type="submit">Calculate</button>
+    <div class="tce:flex tce:gap-4 tce:justify-end">
+      <button class="tce-button-reset tce:px-3 tce:py-2" type="button" (click)="resetForm()">Reset</button>
+      <button class="tce-button-calculate tce:px-3 tce:py-2" type="submit">Calculate</button>
     </div>
   </div>
 
@@ -278,18 +278,18 @@
     let-hasUnknown="location.hasUnknown"
     let-formControlName="location.formControlName"
     let-formGroupName="formGroupName">
-    <div formGroupName="{{ formGroupName }}" class="tce-flex tce-flex-col tce-gap-2">
+    <div formGroupName="{{ formGroupName }}" class="tce:flex tce:flex-col tce:gap-2">
       <expansion-panel [configOverride]="questionPanelConfig">
         <div header>
-          <div class="tce-flex">
-            <label for="{{ formControlName }}" class="tce-text-sm">{{ label }} </label>
+          <div class="tce:flex">
+            <label for="{{ formControlName }}" class="tce:text-sm">{{ label }} </label>
           </div>
         </div>
         <div content>
-          <p class="tce-text-sm">
+          <p class="tce:text-sm">
             This will affect the average
             <a
-              class="tce-underline"
+              class="tce:underline"
               href="https://www.techcarbonstandard.org/glossary#carbon-intensity"
               tce-external-link
               >Carbon Intensity</a
@@ -299,7 +299,7 @@
         </div>
       </expansion-panel>
       <select
-        class="tce-border tce-border-slate-400 tce-rounded tce-px-3 tce-py-2"
+        class="tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2"
         name="{{ formControlName }}"
         formControlName="{{ formControlName }}"
         id="{{ formControlName }}">
@@ -320,9 +320,9 @@
 </form>
 
 <ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
-  <expansion-panel class="tce-flex tce-justify-between tce-gap-2 tce-flex-col tce-mb-4">
+  <expansion-panel class="tce:flex tce:justify-between tce:gap-2 tce:flex-col tce:mb-4">
     <div header>
-      <h2 class="tce-text-2xl">{{ heading }}</h2>
+      <h2 class="tce:text-2xl">{{ heading }}</h2>
     </div>
     <div content>
       <p>{{ sectionDetails }}</p>

@@ -1,7 +1,7 @@
-<div id="techCarbonEstimator" class="tce-flex tce-flex-col tce-h-full">
-  <h1 class="tce-text-3xl tce-mb-6">Technology Carbon Estimator</h1>
-  <div class="tce-flex tce-w-full tce-grow tce-flex-wrap lg:tce-flex-nowrap">
-    <div class="tce-w-full lg:tce-w-1/2 tce-pb-4 lg:tce-pb-0 lg:tce-pr-4">
+<div id="techCarbonEstimator" class="tce:flex tce:flex-col tce:h-full">
+  <h1 class="tce:text-3xl tce:mb-6">Technology Carbon Estimator</h1>
+  <div class="tce:flex tce:w-full tce:grow tce:flex-wrap tce:lg:flex-nowrap">
+    <div class="tce:w-full tce:lg:w-1/2 tce:pb-4 tce:lg:pb-0 tce:lg:pr-4">
       <disclaimer></disclaimer>
       <tabs>
         <tab-item [active]="true" [title]="'Estimation Input'">
@@ -17,7 +17,7 @@
     </div>
     <div
       #estimations
-      class="tce-w-full lg:tce-w-1/2 tce-flex tce-flex-col tce-h-fit tce-py-4 lg:tce-py-0 lg:tce-pl-4 lg:tce-sticky lg:tce-top-0">
+      class="tce:w-full tce:lg:w-1/2 tce:flex tce:flex-col tce:h-fit tce:py-4 tce:lg:py-0 tce:lg:pl-4 tce:lg:sticky tce:lg:top-0">
       <carbon-estimation
         [carbonEstimation]="carbonEstimation ? carbonEstimation : undefined"
         [extraHeight]="extraHeight"></carbon-estimation>

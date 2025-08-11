@@ -1,122 +1,36 @@
 name: Publish new package
 on:
   workflow_dispatch:
-env:
-  PACKAGE_PREFIX: scottlogic-tech-carbon-estimator-
 concurrency:
   group: 'publish'
   cancel-in-progress: false
 jobs:
-  check_version:
-    runs-on: ubuntu-latest
-    outputs:
-      package_name: ${{ steps.output.outputs.package_name}}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Check that package version and tag align
-        run: |
-          VERSION=$(npm pkg get version --workspaces=false | tr -d \")
-          if [ ${GITHUB_REF_NAME} == v${VERSION} ]
-          then
-            echo "PACKAGE_NAME=${PACKAGE_PREFIX}${VERSION}" >> $GITHUB_ENV
-          else
-            echo "::error::Workflow must be run from tag that matches package version.%0A\
-              GITHUB_REF_NAME='${GITHUB_REF_NAME}', PACKAGE_VERSION='v${VERSION}'"
-            exit 1
-          fi
-      - name: Output package name
-        id: output
-        run: echo "package_name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
-
   test:
-    needs: check_version
     uses: ./.github/workflows/buildAndTest.yml
 
-  package:
+  publish:
     runs-on: ubuntu-latest
-    needs:
-      - check_version
+    needs: 
       - test
-    env:
-      PACKAGE_NAME: ${{needs.check_version.outputs.package_name}}
+    permissions:
+      contents: write
     steps:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Set up environment
         uses: ./.github/actions/set-up-environment
-      - name: Create package
-        run: |
-          npm run prepare
-          cp README.md package.json ./dist/tech-carbon-estimator/
-          cd dist/tech-carbon-estimator
-          npm pkg delete scripts private devDependencies files
-          npm pkg set main=main.js
-          npm pack
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          if-no-files-found: error
-          name: ${{env.PACKAGE_NAME}}
-          path: ./dist/tech-carbon-estimator/${{env.PACKAGE_NAME}}.tgz
-
-  publish:
-    runs-on: ubuntu-latest
-    needs:
-      - check_version
-      - package
-    env:
-      PACKAGE_NAME: ${{needs.check_version.outputs.package_name}}
-    permissions:
-      id-token: write
-    steps:
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          registry-url: 'https://registry.npmjs.org'
-      - name: Download package
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{env.PACKAGE_NAME}}
-      - name: Publish to NPM registry
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: |
-          npm publish ${PACKAGE_NAME}.tgz --provenance --access public
-
-  release:
-    runs-on: ubuntu-latest
-    needs:
-      - check_version
-      - package
-      - publish
-    env:
-      PACKAGE_NAME: ${{needs.check_version.outputs.package_name}}
-    permissions:
-      contents: write
-    steps:
-      - name: Download package
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{env.PACKAGE_NAME}}
-      - name: Create Github Release
+      - name: Prepare package
+        run: npm run prepare
+      - name: Run Semantic-Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release create "${GITHUB_REF_NAME}" \
-              ${PACKAGE_NAME}.tgz \
-              --repo="$GITHUB_REPOSITORY" \
-              --prerelease \
-              --verify-tag \
-              --generate-notes
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: npx semantic-release
+      - name: Verify release
+        run: npm run verify-release
 
   publish_pages:
-    needs: release
+    needs: publish
     permissions:
       pages: write
       id-token: write
