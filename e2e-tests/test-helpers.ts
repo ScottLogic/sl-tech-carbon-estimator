@@ -22,6 +22,24 @@ export async function assertDefaultTableStructure(page: Page) {
   await expect(page.getByRole('gridcell', { name: 'No estimation available' })).toBeVisible();
 }
 
+export async function assertTableShowsCorrectCells(page: Page) {
+  await expect(page.getByRole('gridcell', { name: 'Upstream Emissions', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Employee Hardware', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Servers and Storage Hardware', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('gridcell', { name: 'Networking and Infrastructure Hardware', exact: true })
+  ).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Direct Emissions', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Employee Devices', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Servers and Storage', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Networking and Infrastructure', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Indirect Emissions', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Cloud Services', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Downstream Emissions', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'End-User Devices', exact: true })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Network Data Transfer', exact: true })).toBeVisible();
+}
+
 export async function expansionPanelClick(page: Page, panelName: string, action: 'Show details' | 'Hide details') {
   await page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action).click();
 }
