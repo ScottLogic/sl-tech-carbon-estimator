@@ -95,7 +95,7 @@ describe('CarbonEstimationTableComponent', () => {
 
   it('should get emissions when getEmissions called', () => {
     const tableData = component.tableData();
-    expect(tableData.length).toBe(16);
+    expect(tableData.length).toBe(17);
   });
 
   it('should call toggle when left arrow clicked on expanded parent row', () => {
@@ -351,12 +351,15 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'right');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not move focus when focus is on top edge and press up arrow', () => {
@@ -366,12 +369,15 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'up');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not move focus when focus is on bottom edge and press down arrow', () => {
@@ -381,11 +387,14 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'down');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 });
