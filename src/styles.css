@@ -57,6 +57,7 @@ input.ng-invalid.ng-touched {
   border-radius: 12px;
   margin-right: 3px;
   display: inline-block;
+  border: 2px solid #fff;
 }
 
 .tce-switch-container {
@@ -85,6 +86,11 @@ input.ng-invalid.ng-touched {
 
 .tce-switch-input {
   display: none;
+}
+
+.tce-chart-figure {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .tce-no-ex-table-header {
