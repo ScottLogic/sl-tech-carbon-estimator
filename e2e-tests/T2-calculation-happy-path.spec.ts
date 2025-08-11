@@ -33,12 +33,11 @@ test('T2 verify calculated values are coherent with selected options', async ({ 
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  // await expect(page.locator('foreignobject')).toHaveScreenshot('T2-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T2-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
+
   const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '47%', '6%', '1%', '1%', '<1%', '<1%', '<1%'];
-  // Locate all emissions cells (adjust selector based on your DOM structure)
-  const emissionCells = page.locator('td:nth-child(2)'); // Assuming emissions is 2nd column
-  // Assert all values at once
+  const emissionCells = page.locator('td:nth-child(2)');
   await expect(emissionCells).toHaveText(expectedEmissions);
 });
