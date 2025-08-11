@@ -7,7 +7,7 @@
 
   input,
   select {
-    @apply tce:text-slate-600;
+    @apply tce:text-slate-300;
   }
 
   input.ng-invalid.ng-touched {
