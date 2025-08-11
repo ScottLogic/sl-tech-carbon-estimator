@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { expectNoA11yViolations } from './test-helpers';
-import { defaultPageElementVisibility, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
 
 test('Lightmode Accessibility test', async ({ page }) => {
   await gotoHome(page);
@@ -8,7 +8,7 @@ test('Lightmode Accessibility test', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' });
 
   // Run check on default page load
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
 
   // Initial accessibility check
   await expectNoA11yViolations(page);

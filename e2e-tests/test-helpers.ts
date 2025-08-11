@@ -11,6 +11,17 @@ export async function gotoHome(page: Page) {
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
 }
 
+export async function resultsTabVisibilityCheck(page: Page) {
+  await page.getByRole('tab', { name: 'Diagram' }).click();
+  await page.getByRole('tab', { name: 'Table' }).click();
+}
+
+export async function assertDefaultTableStructure(page: Page) {
+  await expect(page.getByRole('gridcell', { name: 'Category' })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'Emissions' })).toBeVisible();
+  await expect(page.getByRole('gridcell', { name: 'No estimation available' })).toBeVisible();
+}
+
 export async function expansionPanelClick(page: Page, panelName: string, action: 'Show details' | 'Hide details') {
   await page.locator('expansion-panel').filter({ hasText: panelName }).getByLabel(action).click();
 }

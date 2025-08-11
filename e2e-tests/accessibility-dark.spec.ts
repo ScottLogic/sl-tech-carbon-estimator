@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { expectNoA11yViolations } from './test-helpers';
-import { defaultPageElementVisibility, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
 
 test('Darkmode Accessibility test', async ({ page }) => {
   await gotoHome(page);
@@ -10,7 +10,7 @@ test('Darkmode Accessibility test', async ({ page }) => {
   await expectNoA11yViolations(page);
 
   // Run check on default page load
-  await defaultPageElementVisibility(page);
+  await assertAllSectionElementsAreVisible(page);
 
   // After filling form, check accessibility again
   await page.getByRole('button', { name: 'Calculate' }).click();
