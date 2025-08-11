@@ -1,69 +1,34 @@
 import { test, expect } from '@playwright/test';
+import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T2 verify calculated values are coherent with selected options', async ({ page }) => {
-  await page.goto('/');
-
-  await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
-
+  await gotoHome(page);
+  await assertAllSectionElementsAreVisible(page);
   // Organisation
-  await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
-  await expect(page.getByText('To understand the scale of')).toBeVisible();
-  await expect(page.getByText('How many employees are in the')).toBeVisible();
-  await expect(page.getByLabel('How many employees are in the')).toBeVisible();
   await page.getByLabel('How many employees are in the').click();
   await page.getByLabel('How many employees are in the').fill('100');
-  await expect(page.getByText('What percentage of those')).toBeVisible();
-  await expect(page.getByText('Desktops 50%')).toBeVisible();
-  await expect(page.getByText('Laptops 50%')).toBeVisible();
 
   // On Prem
-  await expect(page.getByRole('heading', { name: 'On-Premise Servers' })).toBeVisible();
-  await expect(page.getByText("We'll use the number of")).toBeVisible();
-  await expect(page.getByText('How many on-premise servers')).toBeVisible();
-  await expect(page.locator('label').filter({ hasText: "I don't know" })).toBeVisible();
-  await expect(page.getByLabel('Number of Servers:')).toBeVisible();
   await page.getByLabel('Number of Servers:').click();
   await page.getByLabel('Number of Servers:').fill('10');
-
   await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
   await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
 
   // Cloud
-  await expect(page.getByRole('heading', { name: 'Cloud Services' })).toBeVisible();
-  await expect(page.getByText('Tell us about your cloud')).toBeVisible();
-  await expect(page.getByText("We don't use cloud services")).toBeVisible();
-  await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).toBeVisible();
-  await expect(page.getByText('Cloud 50%')).toBeVisible();
-  await expect(
-    page.getByText('What percentage of your servers are cloud services vs on-premise?Cloud 50%On-')
-  ).toBeVisible();
   await page.getByText('On-premise 50%').click();
   await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('Tab');
-  await expect(page.getByLabel('Where are your cloud servers')).toBeVisible();
   await page.getByLabel('Where are your cloud servers').selectOption('GBR');
   await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
-  await expect(page.getByText('We have derived a rough')).toBeVisible();
-  await expect(page.getByText('What is your monthly cloud')).toBeVisible();
   await page.getByLabel('What is your monthly cloud').selectOption('0: Object');
 
   // Users
-  await expect(page.getByRole('heading', { name: 'End-Users' })).toBeVisible();
-  await expect(page.getByText('Tell us about your end-users - ')).toBeVisible();
-  await expect(page.getByText("We don't have any external")).toBeVisible();
-
-  await expect(page.getByText("What's the primary purpose of")).toBeVisible();
   await page.getByText("What's the primary purpose of").click();
   await page.getByLabel("What's the primary purpose of").selectOption('average');
-  await expect(page.getByText('Where are your end-users')).toBeVisible();
   await page.getByLabel('Where are your end-users').selectOption('GBR');
   await page.getByLabel('Where are your end-users').selectOption('Globally');
-  await expect(page.getByText('How many monthly active users')).toBeVisible();
   await page.getByLabel('How many monthly active users').click();
   await page.getByLabel('How many monthly active users').fill('100');
-  await expect(page.getByText('What percentage of your end-')).toBeVisible();
-  await expect(page.getByText('Mobile 50%')).toBeVisible();
-
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
 
