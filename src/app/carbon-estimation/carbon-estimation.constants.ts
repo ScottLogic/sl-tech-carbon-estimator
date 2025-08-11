@@ -35,7 +35,7 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
     const initialSeries = w.globals.initialSeries[seriesIndex];
     const data = initialSeries.data[dataPointIndex];
 
-    return `<div class="tce:rounded tce:flex tce:max-w-40 tce:md:max-w-none tce:text-slate-600">
+    return `<div class="tce:rounded-sm tce:flex tce:max-w-40 tce:md:max-w-none tce:text-slate-600">
       <div class="tce:p-1 tce:md:p-2 tce:flex" style="background-color:${initialSeries.color}"><div class="${data.meta.svg} tce:m-auto tce:size-4 tce:md:size-8"></div></div>
         <div class="tce:p-1 tce:md:p-2">
         <div class="tce:text-wrap">${data.meta.parent}:</div>

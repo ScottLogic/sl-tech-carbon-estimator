@@ -1,9 +1,4 @@
-@layer theme, base, components, utilities;
-
 @import "tailwindcss" prefix(tce);
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @theme {
   --font-display: 'objektiv-mk1', 'sans-serif';
@@ -38,7 +33,6 @@ input.ng-invalid.ng-touched {
 .tce-button-assumptions {
   @apply tce:bg-slate-200 tce:text-slate-800 tce:hover:bg-slate-300 tce:rounded-sm;
 }
-
 
 .tce-active-tab, .tce-active-tab:hover {
   @apply tce:cursor-default tce:border-sky-800;
