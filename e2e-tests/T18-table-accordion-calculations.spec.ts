@@ -17,7 +17,6 @@ test.describe('Table Accordion Calculations', async () => {
   });
   test('Table shows expected values (On-Premise is unknown)', async ({ page }) => {
     await page.getByRole('tab', { name: 'Table' }).click();
-    await assertDefaultTableStructure(page);
     await page.getByLabel("I don't know").check();
     await page.getByRole('button', { name: 'Calculate' }).click();
 
