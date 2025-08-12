@@ -59,7 +59,7 @@ export function estimateDownstreamEmissions(
   downstreamIntensity: gCo2ePerKwh
 ): DownstreamEstimation {
   if (downstream.noDownstream) {
-    return { endUser: 0, networkTransfer: 0 };
+    return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
   }
 
   const downstreamDataTransfer = estimateDownstreamDataTransfer(
@@ -68,7 +68,8 @@ export function estimateDownstreamEmissions(
   );
   const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
   const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
-  return { endUser: endUserEmissions, networkTransfer: networkEmissions };
+  const downstreamInfrastructureEmissions = estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+  return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
 }
 
 function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
@@ -114,4 +115,15 @@ function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer
     return result.co2.networkCO2 / 1000;
   }
   throw new Error('perByteTrace should return CO2EstimateComponents for segment results');
+}
+
+function estimateDownstreamInfrastructureEmissions(
+  downstream: Downstream, 
+  downstreamDataTransfer: number,
+  downstreamIntensity: gCo2ePerKwh) {
+  return 1000;
+
+
+  const usageTime = siteTypeInfo[downstream.purposeOfSite].averageMonthlyUserData * 12;
+  const endUserEnergy = estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
 }
