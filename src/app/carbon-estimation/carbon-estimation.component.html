@@ -1,36 +1,36 @@
-<div class="tce-flex tce-flex-col" aria-live="polite">
+<div class="tce:flex tce:flex-col" aria-live="polite">
   <expansion-panel
     #detailsPanel
     (expandedChanged)="onExpanded()"
-    class="tce-flex tce-justify-between tce-gap-2 tce-flex-col">
+    class="tce:flex tce:justify-between tce:gap-2 tce:flex-col">
     <div header>
-      <h2 class="tce-text-2xl">Estimations</h2>
+      <h2 class="tce:text-2xl">Estimations</h2>
     </div>
     <div content>
       <p>
         The estimations are divided into 4 categories:
-        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/upstream" tce-external-link
+        <a class="tce:underline" href="https://www.techcarbonstandard.org/categories/upstream" tce-external-link
           >Upstream Emissions</a
         >,
         <a
-          class="tce-underline"
+          class="tce:underline"
           href="https://www.techcarbonstandard.org/categories/operational#direct-emissions"
           tce-external-link
           >Operational Direct Emissions</a
         >,
         <a
-          class="tce-underline"
+          class="tce:underline"
           href="https://www.techcarbonstandard.org/categories/operational#indirect-emissions"
           tce-external-link
           >Operational Indirect Emissions</a
         >, and
-        <a class="tce-underline" href="https://www.techcarbonstandard.org/categories/downstream" tce-external-link
+        <a class="tce:underline" href="https://www.techcarbonstandard.org/categories/downstream" tce-external-link
           >Downstream Emissions</a
         >.
       </p>
     </div>
   </expansion-panel>
-  <tabs class="tce-mt-2">
+  <tabs class="tce:mt-2">
     <tab-item [active]="true" [title]="'Diagram'" (tabSelected)="treemapSelected()">
       <carbon-estimation-treemap
         #treemap
