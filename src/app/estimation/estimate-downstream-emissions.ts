@@ -121,9 +121,5 @@ function estimateDownstreamInfrastructureEmissions(
   downstream: Downstream, 
   downstreamDataTransfer: number,
   downstreamIntensity: gCo2ePerKwh) {
-  return 1000;
-
-
-  const usageTime = siteTypeInfo[downstream.purposeOfSite].averageMonthlyUserData * 12;
-  const endUserEnergy = estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
+  return 0; //No method for estimation of IoT devices, etc. as of 12/08/25 for schema v0.0.2
 }
