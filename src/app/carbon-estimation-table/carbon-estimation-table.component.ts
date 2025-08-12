@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, computed, input } from '@angular/core';
-import { CarbonEstimation, CarbonEstimationPart } from '../types/carbon-estimator';
+import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
@@ -248,7 +248,7 @@ export class CarbonEstimationTableComponent {
               carbonEstimation.values.totalEmissions
             ),
             emissionsPercentage: this.carbonEstimationUtilService.getPercentageLabel(
-              carbonEstimation.percentages.totalEmissions
+              100
             ),
             colour: { background: EmissionsColours.Total },
             display: true,

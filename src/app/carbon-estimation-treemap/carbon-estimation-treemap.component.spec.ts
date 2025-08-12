@@ -38,7 +38,6 @@ describe('CarbonEstimationTreemapComponent', () => {
           endUser: 13,
           networkTransfer: 12,
         },
-        totalEmissions: 70,
       },
       values: {
         version: '1.0',
@@ -202,7 +201,6 @@ describe('CarbonEstimationTreemapComponent', () => {
           endUser: 13,
           networkTransfer: 12,
         },
-        totalEmissions: 70,
       },
       values: {
         version: '1.0',
@@ -262,7 +260,6 @@ describe('CarbonEstimationTreemapComponent', () => {
           endUser: 0.013,
           networkTransfer: 0.012,
         },
-        totalEmissions: 0.07,
       },
       values: {
         version: '1.0',
@@ -320,7 +317,6 @@ describe('CarbonEstimationTreemapComponent', () => {
           endUser: 25,
           networkTransfer: 0,
         },
-        totalEmissions: 70,
       },
       values: {
         version: '1.0',
@@ -425,7 +421,6 @@ describe('CarbonEstimationTreemapComponent', () => {
           endUser: 0,
           networkTransfer: 0,
         },
-        totalEmissions: 70,
       },
       values: {
         version: '1.0',

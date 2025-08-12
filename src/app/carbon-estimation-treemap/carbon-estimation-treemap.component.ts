@@ -1,6 +1,6 @@
 import { Component, ViewChild, computed, effect, input, signal } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { CarbonEstimation, CarbonEstimationPart } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../types/carbon-estimator';
 import {
   tooltipFormatter,
   percentageTooltipFormatter,
@@ -92,7 +92,7 @@ export class CarbonEstimationTreemapComponent {
       : this.carbonEstimationUtilService.getOverallPercentageLabel(emissions);
   }
 
-  private getOverallEmissionFigures(carbonEstimationPart: CarbonEstimationPart): ApexAxisChartSeries {
+  private getOverallEmissionFigures(carbonEstimationPart: CarbonEstimationValues|CarbonEstimationPercentages): ApexAxisChartSeries {
     return [
       {
         name: `${EmissionsLabels.Upstream} - ${this.getOverallLabel(carbonEstimationPart.upstreamEmissions)}`,

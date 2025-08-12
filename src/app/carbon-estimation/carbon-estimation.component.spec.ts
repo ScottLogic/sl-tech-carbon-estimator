@@ -40,7 +40,6 @@ describe('CarbonEstimationComponent', () => {
           endUser: 13,
           networkTransfer: 12,
         },
-        totalEmissions: 70,
       },
       values: {
         version: '1.0',
