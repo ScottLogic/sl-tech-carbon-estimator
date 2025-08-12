@@ -130,7 +130,7 @@ export class CarbonEstimationTreemapComponent {
     return `${category}${this.getEmissionMadeUp(series.data)}`;
   }
 
-  private foramtEmissionValue(value: number): string {
+  private formatEmissionValue(value: number): string {
     return this.isMass() ? tooltipFormatter(value) : percentageTooltipFormatter(value);
   }
 
@@ -138,7 +138,7 @@ export class CarbonEstimationTreemapComponent {
     if (emission.length === 0) {
       return '.';
     }
-    return `, made up of ${emission.map(item => `${item.x} ${this.foramtEmissionValue(item.y)}`).join(', ')}.`;
+    return `, made up of ${emission.map(item => `${item.x} ${this.formatEmissionValue(item.y)}`).join(', ')}.`;
   }
 
   private getEmissionFigures(emissions: NumberObject, parent: string): ApexChartDataItem[] {
