@@ -36,6 +36,7 @@ describe('CarbonEstimationTreemapComponent', () => {
       downstreamEmissions: {
         endUser: 13,
         networkTransfer: 12,
+        downstreamInfrastructure: 0
       },
     };
 
@@ -164,6 +165,7 @@ describe('CarbonEstimationTreemapComponent', () => {
       downstreamEmissions: {
         endUser: 13,
         networkTransfer: 12,
+        downstreamInfrastructure: 0
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -195,6 +197,7 @@ describe('CarbonEstimationTreemapComponent', () => {
       downstreamEmissions: {
         endUser: 25,
         networkTransfer: 0,
+        downstreamInfrastructure: 0
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -273,6 +276,7 @@ describe('CarbonEstimationTreemapComponent', () => {
       downstreamEmissions: {
         endUser: 0,
         networkTransfer: 0,
+        downstreamInfrastructure: 0
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);

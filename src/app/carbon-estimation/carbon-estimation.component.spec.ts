@@ -38,6 +38,7 @@ describe('CarbonEstimationComponent', () => {
       downstreamEmissions: {
         endUser: 13,
         networkTransfer: 12,
+        downstreamInfrastructure: 0
       },
     };
 

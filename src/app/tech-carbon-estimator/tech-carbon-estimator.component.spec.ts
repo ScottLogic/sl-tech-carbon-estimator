@@ -26,6 +26,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
   downstreamEmissions: {
     endUser: 15,
     networkTransfer: 10,
+    downstreamInfrastructure: 0
   },
 });
 
