@@ -23,5 +23,4 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   await page.getByRole('tab', { name: 'Diagram' }).click();
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T0-apex-chart.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
 });
