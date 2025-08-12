@@ -178,12 +178,12 @@ export class CarbonEstimationTableComponent {
     direction: ArrowDirectionVertical
   ): HTMLTableRowElement | undefined {
     const newRow = (direction === 'up' ? row.previousElementSibling : row.nextElementSibling) as HTMLTableRowElement;
-    return newRow?.classList.contains('tce-hidden') ? this.findNextVisibleRow(newRow, direction) : newRow;
+    return newRow?.classList.contains('tce:hidden') ? this.findNextVisibleRow(newRow, direction) : newRow;
   }
 
   private getLastVisibleRow(table: HTMLTableElement): HTMLTableRowElement {
     const rows = Array.from(table.rows);
-    const lastVisibleRow = rows.reverse().find(row => !row.classList.contains('tce-hidden'));
+    const lastVisibleRow = rows.reverse().find(row => !row.classList.contains('tce:hidden'));
     return lastVisibleRow as HTMLTableRowElement;
   }
 
