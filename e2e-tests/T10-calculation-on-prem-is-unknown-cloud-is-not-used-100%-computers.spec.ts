@@ -36,7 +36,6 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
-  // await assertTableShowsCorrectCells(page);
 
   const expectedEmissions = ['33%', '24%', '6%', '2%', '63%', '11%', '46%', '5%', '<1%', '4%', '2%', '2%'];
   const emissionCells = page.locator('td:nth-child(2)');
