@@ -57,46 +57,14 @@ function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject
   }
 }
 
-// function expectPartialEstimationCloseTo(
-//   actual: CarbonEstimationPercentages | CarbonEstimationValues,
-//   expected: RecursivePartial<CarbonEstimationPercentages | CarbonEstimationValues>,
-// ) {
-//   for (const [key, value] of Object.entries(expected)) {
-//     const trueKey = key as keyof (CarbonEstimationPercentages & CarbonEstimationValues);
-    
-//     if (trueKey === 'version' || typeof value === 'string') {
-//       expect(actual[trueKey]).toBe(value as string);
-//       continue;
-//     }
-//     if (trueKey === 'totalEmissions') {
-//       expect(actual[trueKey]).toBeCloseTo(value as number);
-//       continue;
-//     }
-//     expectPartialNumberCloseTo(actual[trueKey], value as NumberObject, key);
-//   }
-// }
-
-function expectPartialEstimationCloseTo(
-  actual: CarbonEstimationPercentages | CarbonEstimationValues,
-  expected: RecursivePartial<CarbonEstimationPercentages | CarbonEstimationValues>,
-) {
+function expectPartialEstimationCloseTo(actual: CarbonEstimationPercentages, expected: RecursivePartial<CarbonEstimationPercentages>) {
   for (const [key, value] of Object.entries(expected)) {
-    // Handle shared keys
-    if (key === 'version' || typeof value === 'string') {
-      expect((actual as any)[key]).toBe(value as string);
+    const trueKey = key as keyof CarbonEstimationPercentages;
+    if (trueKey === 'version' || typeof value === 'string') {
+      expect(actual[trueKey]).toBe(value as string);
       continue;
     }
-    // Handle totalEmissions only for CarbonEstimationValues
-    if (key === 'totalEmissions') {
-      if ('totalEmissions' in actual) {
-        expect((actual as CarbonEstimationValues).totalEmissions).toBeCloseTo(value as number);
-      }
-      continue;
-    }
-    // For other keys, check if they exist on actual before accessing
-    if (key in actual) {
-      expectPartialNumberCloseTo((actual as any)[key], value as NumberObject, key);
-    }
+    expectPartialNumberCloseTo(actual[trueKey], value, key);
   }
 }
 
