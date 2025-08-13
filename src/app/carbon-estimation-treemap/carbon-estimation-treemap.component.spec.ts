@@ -37,6 +37,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
+          downstreamInfrastructure: 0
         },
       },
       values: {
@@ -60,6 +61,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 1300,
           networkTransfer: 1200,
+          downstreamInfrastructure: 0
         },
         totalEmissions: 7000,
       },
@@ -200,6 +202,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
+          downstreamInfrastructure: 0
         },
       },
       values: {
@@ -223,6 +226,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 1300,
           networkTransfer: 1200,
+          downstreamInfrastructure: 0
         },
         totalEmissions: 7000,
       },
@@ -259,6 +263,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 0.013,
           networkTransfer: 0.012,
+          downstreamInfrastructure: 0
         },
       },
       values: {
@@ -282,6 +287,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 1.3,
           networkTransfer: 1.2,
+          downstreamInfrastructure: 0
         },
         totalEmissions: 7,
       },
@@ -316,6 +322,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 25,
           networkTransfer: 0,
+          downstreamInfrastructure: 0
         },
       },
       values: {
@@ -339,6 +346,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 25,
           networkTransfer: 0,
+          downstreamInfrastructure: 0
         },
         totalEmissions: 70,
       },
@@ -420,6 +428,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 0,
           networkTransfer: 0,
+          downstreamInfrastructure: 0
         },
       },
       values: {
@@ -443,6 +452,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         downstreamEmissions: {
           endUser: 0,
           networkTransfer: 0,
+          downstreamInfrastructure: 0
         },
         totalEmissions: 70,
       },
