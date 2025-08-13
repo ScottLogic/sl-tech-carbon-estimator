@@ -2,9 +2,21 @@ import AxeBuilder from '@axe-core/playwright';
 import { Page, expect } from '@playwright/test';
 
 export const expectNoA11yViolations = async (page: Page) => {
-  const results = await new AxeBuilder({ page }).analyze();
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    // .withRules(['color-contrast', 'color-contrast-enhanced'])
+    .analyze();
+
   expect(results.violations).toEqual([]);
 };
+
+// export async function assertMainErrorMessage(page) {}
+
+export async function spinButtonFill(page: Page, name: string, value: string) {
+  const spinButton = page.getByRole('spinbutton', { name });
+  await spinButton.fill(value);
+  await expect(spinButton).toHaveValue(value);
+}
 
 export async function gotoHome(page: Page) {
   await page.goto('/');
