@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible, assertTableShowsCorrectCells } from './test-helpers';
 
 test('T2 verify calculated values are coherent with selected options', async ({ page }) => {
   await gotoHome(page);
@@ -29,9 +29,15 @@ test('T2 verify calculated values are coherent with selected options', async ({ 
   await page.getByLabel('Where are your end-users').selectOption('Globally');
   await page.getByLabel('How many monthly active users').click();
   await page.getByLabel('How many monthly active users').fill('100');
+
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
-
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T2-apex-chart.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '47%', '6%', '1%', '1%', '<1%', '<1%', '<1%'];
+  const emissionCells = page.locator('td:nth-child(2)');
+  await expect(emissionCells).toHaveText(expectedEmissions);
 });

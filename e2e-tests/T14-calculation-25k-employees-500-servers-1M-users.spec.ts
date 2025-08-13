@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible, assertTableShowsCorrectCells, gotoHome } from './test-helpers';
 
 test('T14 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -43,4 +43,10 @@ test('T14 verify calculated values are coherent with selected employees, servers
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T14-apex-chart.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissions1 = ['6%', '5%', '<1%', '<1%', '6%', '3%', '2%', '<1%', '<1%', '<1%', '88%', '16%', '73%'];
+  const emissionCells1 = page.locator('td:nth-child(2)');
+  await expect(emissionCells1).toHaveText(expectedEmissions1);
 });
