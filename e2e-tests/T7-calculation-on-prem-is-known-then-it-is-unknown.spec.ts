@@ -4,6 +4,7 @@ import {
   assertAllSectionElementsAreVisible,
   gotoHome,
   assertEndUserElementVisibility,
+  assertTableShowsCorrectCells,
 } from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
@@ -31,6 +32,13 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissions = ['13%', '<1%', '12%', '<1%', '87%', '<1%', '85%', '1%', '<1%', '<1%', '<1%', '<1%', '<1%'];
+  const emissionCells = page.locator('td:nth-child(2)');
+  await expect(emissionCells).toHaveText(expectedEmissions);
+  await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // On Prem
   await page.getByLabel("I don't know").check();
@@ -49,4 +57,10 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-1.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissions1 = ['42%', '34%', '4%', '3%', '56%', '16%', '32%', '8%', '2%', '2%', '<1%', '<1%', '<1%'];
+  const emissionCells1 = page.locator('td:nth-child(2)');
+  await expect(emissionCells1).toHaveText(expectedEmissions1);
 });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { startCase } from 'lodash-es';
-import { SVG, tooltipFormatter } from '../carbon-estimation/carbon-estimation.constants';
+import { percentageTooltipFormatter, SVG, tooltipFormatter } from '../carbon-estimation/carbon-estimation.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,13 @@ export class CarbonEstimationUtilService {
     return this.getPercentageLabel(percentage);
   };
 
-  public getPercentageLabel = tooltipFormatter;
+  public getOverallAbsoluteValueLabel = (emissions: NumberObject): string => {
+    const absoluteValue = sumValues(emissions);
+    return this.getAbsoluteValueLabel(absoluteValue);
+  };
+
+  public getPercentageLabel = percentageTooltipFormatter;
+  public getAbsoluteValueLabel = tooltipFormatter;
 
   public getLabelAndSvg(key: string, parent: string = ''): { label: string; svg: string } {
     switch (key) {
@@ -43,9 +49,9 @@ export class CarbonEstimationUtilService {
 
   private getEmployeeLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Employee Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Employee Devices';
       default:
         return startCase(key);
@@ -54,9 +60,9 @@ export class CarbonEstimationUtilService {
 
   private getNetworkLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Networking and Infrastructure Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Networking and Infrastructure';
       default:
         return startCase(key);
@@ -65,9 +71,9 @@ export class CarbonEstimationUtilService {
 
   private getServerLabel(key: string): string {
     switch (key) {
-      case 'Upstream Emissions':
+      case 'Upstream Emissions Estimate':
         return 'Servers and Storage Hardware';
-      case 'Direct Emissions':
+      case 'Direct Emissions Estimate':
         return 'Servers and Storage';
       default:
         return startCase(key);
