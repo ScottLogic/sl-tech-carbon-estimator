@@ -8,6 +8,7 @@ export enum EmissionsColours {
   OperationLight = '#f2afd1',
   Downstream = '#4B7E56',
   DownstreamLight = '#c1d9c3',
+  Total = '#FA8904',
 }
 
 export enum PlaceholderEmissionsColours {
@@ -17,9 +18,11 @@ export enum PlaceholderEmissionsColours {
   Downstream = '#AAA',
 }
 
-export const tooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
+export const percentageTooltipFormatter = (value: number) => (value < 1 ? '<1%' : `${Math.round(value)}%`);
 
-const getCustomTooltip = (isPlaceholder: boolean) => {
+export const tooltipFormatter = (value: number) => (value < 1 ? '<1 kg' : `${Math.round(value)} kg`);
+
+const getCustomTooltip = (isPlaceholder: boolean, isMass: boolean) => {
   const customTooltip = ({
     series,
     seriesIndex,
@@ -42,7 +45,7 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
         ${
           isPlaceholder ?
             '<div class="tce:text-wrap">Subcategories - <span class="tce:font-bold">?</span></div>'
-          : `<div class="tce:text-wrap">${data.x} - <span class="tce:font-bold">${tooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`
+          : `<div class="tce:text-wrap">${data.x} - <span class="tce:font-bold">${isMass ? tooltipFormatter(series[seriesIndex][dataPointIndex]) : percentageTooltipFormatter(series[seriesIndex][dataPointIndex])}</span></div>`
         }
         </div>`;
   };
@@ -50,7 +53,7 @@ const getCustomTooltip = (isPlaceholder: boolean) => {
   return customTooltip;
 };
 
-const getCustomDataLabel = (isPlaceholder: boolean) => {
+const getCustomDataLabel = (isPlaceholder: boolean, isMass: boolean) => {
   const customDataLabel = (
     value: string | number | number[],
     {
@@ -67,12 +70,14 @@ const getCustomDataLabel = (isPlaceholder: boolean) => {
     const initialSeries = w.globals.initialSeries[seriesIndex];
     const data = initialSeries.data[dataPointIndex];
 
-    return `${value} - ${isPlaceholder ? '?' : tooltipFormatter(data.y)}`;
+    if (isPlaceholder) return `${value} - ?`;
+
+    return `${value} - ${isMass ? tooltipFormatter(data.y) : percentageTooltipFormatter(data.y)}`;
   };
   return customDataLabel;
 };
 
-export const getBaseChartOptions = (isPlaceholder: boolean) => {
+export const getBaseChartOptions = (isPlaceholder: boolean, isMass: boolean) => {
   const chartOptions: ChartOptions = {
     legend: {
       show: true,
@@ -106,7 +111,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
       },
     },
     tooltip: {
-      custom: getCustomTooltip(isPlaceholder),
+      custom: getCustomTooltip(isPlaceholder, isMass),
     },
     states: {
       active: {
@@ -116,7 +121,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean) => {
       },
     },
     dataLabels: {
-      formatter: getCustomDataLabel(isPlaceholder),
+      formatter: getCustomDataLabel(isPlaceholder, isMass),
       style: {
         fontSize: '16px',
         fontFamily: 'ui-sans-serif, system-ui, sans-serif',
@@ -145,10 +150,10 @@ export enum SVG {
 }
 
 export enum EmissionsLabels {
-  Upstream = 'Upstream Emissions',
-  Direct = 'Direct Emissions',
-  Indirect = 'Indirect Emissions',
-  Downstream = 'Downstream Emissions',
+  Upstream = 'Upstream Emissions Estimate',
+  Direct = 'Direct Emissions Estimate',
+  Indirect = 'Indirect Emissions Estimate',
+  Downstream = 'Downstream Emissions Estimate',
 }
 
 export type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };

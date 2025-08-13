@@ -1,8 +1,9 @@
-import { Component, ViewChild, computed, effect, input } from '@angular/core';
+import { Component, ViewChild, computed, effect, input, signal } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { CarbonEstimation } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../types/carbon-estimator';
 import {
   tooltipFormatter,
+  percentageTooltipFormatter,
   EmissionsColours,
   EmissionsLabels,
   getBaseChartOptions,
@@ -32,8 +33,11 @@ export class CarbonEstimationTreemapComponent {
   public chartData = computed(() => this.getChartData(this.carbonEstimation()));
   public emissionAriaLabel = computed(() => this.getAriaLabel(this.chartData(), !this.carbonEstimation()));
 
+  public isMass = signal(true);
+
   public chartOptions = computed(() => this.getChartOptions(!this.carbonEstimation()));
-  private tooltipFormatter = tooltipFormatter;
+
+  // private tooltipFormatter = tooltipFormatter;
   private chartReady = false;
 
   @ViewChild('chart') private chart: ChartComponent | undefined;
@@ -46,6 +50,16 @@ export class CarbonEstimationTreemapComponent {
       }
     });
   }
+
+  public totalEmissions = computed(() => {
+    const estimation = this.carbonEstimation();
+    return estimation ? this.carbonEstimationUtilService.getAbsoluteValueLabel(estimation.values.totalEmissions) : '';
+  });
+
+  public toggleMassPercentages = () => {
+    this.isMass.update(value => !value);
+    // this.getChartData(this.carbonEstimation());
+  };
 
   public onChartReady() {
     this.chartReady = true;
@@ -60,36 +74,45 @@ export class CarbonEstimationTreemapComponent {
   }
 
   private getChartOptions(isPlaceholder: boolean) {
-    const chartOptions = getBaseChartOptions(isPlaceholder);
+    const chartOptions = getBaseChartOptions(isPlaceholder, this.isMass());
     chartOptions.chart.height = this.chartHeight();
     return chartOptions;
   }
 
   private getChartData(estimation?: CarbonEstimation): ApexAxisChartSeries {
-    return estimation ? this.getOverallEmissionPercentages(estimation) : placeholderData;
+    if (!estimation) return placeholderData;
+    return this.isMass() ?
+        this.getOverallEmissionFigures(estimation.values)
+      : this.getOverallEmissionFigures(estimation.percentages);
   }
 
-  private getOverallEmissionPercentages(carbonEstimation: CarbonEstimation): ApexAxisChartSeries {
+  private getOverallLabel(emissions: NumberObject): string {
+    return this.isMass() ?
+        this.carbonEstimationUtilService.getOverallAbsoluteValueLabel(emissions)
+      : this.carbonEstimationUtilService.getOverallPercentageLabel(emissions);
+  }
+
+  private getOverallEmissionFigures(carbonEstimationPart: CarbonEstimationValues|CarbonEstimationPercentages): ApexAxisChartSeries {
     return [
       {
-        name: `${EmissionsLabels.Upstream} - ${this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.upstreamEmissions)}`,
+        name: `${EmissionsLabels.Upstream} - ${this.getOverallLabel(carbonEstimationPart.upstreamEmissions)}`,
         color: EmissionsColours.Upstream,
-        data: this.getEmissionPercentages(carbonEstimation.upstreamEmissions, EmissionsLabels.Upstream),
+        data: this.getEmissionFigures(carbonEstimationPart.upstreamEmissions, EmissionsLabels.Upstream),
       },
       {
-        name: `${EmissionsLabels.Direct} - ${this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.directEmissions)}`,
+        name: `${EmissionsLabels.Direct} - ${this.getOverallLabel(carbonEstimationPart.directEmissions)}`,
         color: EmissionsColours.Direct,
-        data: this.getEmissionPercentages(carbonEstimation.directEmissions, EmissionsLabels.Direct),
+        data: this.getEmissionFigures(carbonEstimationPart.directEmissions, EmissionsLabels.Direct),
       },
       {
-        name: `${EmissionsLabels.Indirect} - ${this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.indirectEmissions)}`,
+        name: `${EmissionsLabels.Indirect} - ${this.getOverallLabel(carbonEstimationPart.indirectEmissions)}`,
         color: EmissionsColours.Indirect,
-        data: this.getEmissionPercentages(carbonEstimation.indirectEmissions, EmissionsLabels.Indirect),
+        data: this.getEmissionFigures(carbonEstimationPart.indirectEmissions, EmissionsLabels.Indirect),
       },
       {
-        name: `${EmissionsLabels.Downstream} - ${this.carbonEstimationUtilService.getOverallPercentageLabel(carbonEstimation.downstreamEmissions)}`,
+        name: `${EmissionsLabels.Downstream} - ${this.getOverallLabel(carbonEstimationPart.downstreamEmissions)}`,
         color: EmissionsColours.Downstream,
-        data: this.getEmissionPercentages(carbonEstimation.downstreamEmissions, EmissionsLabels.Downstream),
+        data: this.getEmissionFigures(carbonEstimationPart.downstreamEmissions, EmissionsLabels.Downstream),
       },
     ].filter(entry => entry.data.length !== 0);
   }
@@ -107,14 +130,18 @@ export class CarbonEstimationTreemapComponent {
     return `${category}${this.getEmissionMadeUp(series.data)}`;
   }
 
+  private formatEmissionValue(value: number): string {
+    return this.isMass() ? tooltipFormatter(value) : percentageTooltipFormatter(value);
+  }
+
   private getEmissionMadeUp(emission: ApexChartDataItem[]): string {
     if (emission.length === 0) {
       return '.';
     }
-    return `, made up of ${emission.map(item => `${item.x} ${this.tooltipFormatter(item.y)}`).join(', ')}.`;
+    return `, made up of ${emission.map(item => `${item.x} ${this.formatEmissionValue(item.y)}`).join(', ')}.`;
   }
 
-  private getEmissionPercentages(emissions: NumberObject, parent: string): ApexChartDataItem[] {
+  private getEmissionFigures(emissions: NumberObject, parent: string): ApexChartDataItem[] {
     return (
       Object.entries(emissions)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

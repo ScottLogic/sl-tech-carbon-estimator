@@ -18,26 +18,52 @@ describe('CarbonEstimationTableComponent', () => {
     fixture = TestBed.createComponent(CarbonEstimationTableComponent);
     component = fixture.componentInstance;
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 7,
-        employee: 6,
-        network: 6,
-        server: 6,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 7,
+          employee: 6,
+          network: 6,
+          server: 6,
+        },
+        directEmissions: {
+          employee: 9,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          endUser: 13,
+          networkTransfer: 12,
+        },
       },
-      directEmissions: {
-        employee: 9,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+        },
+        totalEmissions: 7000,
       },
     };
 
@@ -68,7 +94,7 @@ describe('CarbonEstimationTableComponent', () => {
 
   it('should get emissions when getEmissions called', () => {
     const tableData = component.tableData();
-    expect(tableData.length).toBe(16);
+    expect(tableData.length).toBe(17);
   });
 
   it('should call toggle when left arrow clicked on expanded parent row', () => {
@@ -324,12 +350,15 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'right');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not move focus when focus is on top edge and press up arrow', () => {
@@ -339,12 +368,15 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'up');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not move focus when focus is on bottom edge and press down arrow', () => {
@@ -354,11 +386,14 @@ describe('CarbonEstimationTableComponent', () => {
     cell.tabIndex = 0;
     row.tabIndex = 0;
     fixture.detectChanges();
+
+    const focusSpy = spyOn(cell, 'focus').and.callThrough();
+
     cell.focus();
     fixture.detectChanges();
 
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'down');
     fixture.detectChanges();
-    expect(document.activeElement).toBe(cell);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 });

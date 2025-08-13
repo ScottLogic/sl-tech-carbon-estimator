@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
@@ -37,13 +37,22 @@ export class CarbonEstimationService {
     const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity);
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
-    return toPercentages({
+    const values = {
       version,
       upstreamEmissions: upstreamEmissions,
       directEmissions: directEmissions,
       indirectEmissions: indirectEmissions,
       downstreamEmissions: downstreamEmissions,
-    });
+      totalEmissions:
+        sumValues(upstreamEmissions) +
+        sumValues(directEmissions) +
+        sumValues(indirectEmissions) +
+        sumValues(downstreamEmissions),
+    };
+
+    const percentages = toPercentages(values);
+
+    return { values: values, percentages: percentages } as CarbonEstimation;
   }
 
   estimateServerCount(formValue: EstimatorValues): number {
@@ -83,7 +92,7 @@ export class CarbonEstimationService {
   }
 }
 
-function toPercentages(input: CarbonEstimation): CarbonEstimation {
+function toPercentages(input: CarbonEstimationValues): CarbonEstimationPercentages {
   const total =
     sumValues(input.upstreamEmissions) +
     sumValues(input.directEmissions) +
