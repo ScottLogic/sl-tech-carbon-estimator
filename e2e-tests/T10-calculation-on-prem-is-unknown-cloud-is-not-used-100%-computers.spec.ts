@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible, assertColumnShowsCorrectValues } from './test-helpers';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
   page,
@@ -53,6 +53,5 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
     '2%',
     '100%',
   ];
-  const percentageColumn = page.locator('td:nth-child(3)');
-  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

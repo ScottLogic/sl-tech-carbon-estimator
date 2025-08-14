@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible, assertDefaultTableStructure } from './test-helpers';
+import {
+  gotoHome,
+  assertAllSectionElementsAreVisible,
+  assertDefaultTableStructure,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
 
 test.describe('Table Accordion Calculations', async () => {
   test.beforeEach(async ({ page }) => {
@@ -7,14 +12,27 @@ test.describe('Table Accordion Calculations', async () => {
     await assertAllSectionElementsAreVisible(page);
     await page.getByRole('tab', { name: 'Table' }).click();
     await assertDefaultTableStructure(page);
-    await page.getByText('%', { exact: true }).click();
   });
   test('Table shows expected values (no checkboxes)', async ({ page }) => {
     await page.getByRole('button', { name: 'Calculate' }).click();
 
-    const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '47%', '6%', '1%', '1%', '<1%', '<1%', '<1%'];
-    const emissionCells = page.locator('td:nth-child(2)');
-    await expect(emissionCells).toHaveText(expectedEmissions);
+    const expectedEmissions = [
+      '34%',
+      '25%',
+      '7%',
+      '2%',
+      '65%',
+      '12%',
+      '47%',
+      '6%',
+      '1%',
+      '1%',
+      '<1%',
+      '<1%',
+      '<1%',
+      '100%',
+    ];
+    await assertColumnShowsCorrectValues(page, '3', expectedEmissions);
   });
   test('Table shows expected values (On-Premise is unknown)', async ({ page }) => {
     await page.getByRole('tab', { name: 'Table' }).click();
@@ -35,9 +53,9 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '<1%',
       '<1%',
+      '100%',
     ];
-    const emissionCells = page.locator('td:nth-child(2)');
-    await expect(emissionCells).toHaveText(expectedEmissionsOnPremiseUnknownArray);
+    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsOnPremiseUnknownArray);
   });
   test('Table shows expected values (Cloud services not used)', async ({ page }) => {
     await page.getByLabel("We don't use cloud services").check();
@@ -57,9 +75,9 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '<1%',
       '<1%',
+      '100%',
     ];
-    const emissionCells = page.locator('td:nth-child(2)');
-    await expect(emissionCells).toHaveText(expectedEmissionsCloudNotUsedArray);
+    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsCloudNotUsedArray);
   });
   test('Table shows expected values (No external users)', async ({ page }) => {
     await page.getByRole('checkbox', { name: "We don't have any external" }).check();
@@ -79,8 +97,8 @@ test.describe('Table Accordion Calculations', async () => {
       '1%',
       '1%',
       '<1%',
+      '100%',
     ];
-    const emissionCells = page.locator('td:nth-child(2)');
-    await expect(emissionCells).toHaveText(expectedEmissionsNoExternalUsersArray);
+    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsNoExternalUsersArray);
   });
 });

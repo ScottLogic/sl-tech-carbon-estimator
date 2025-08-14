@@ -11,6 +11,12 @@ export async function gotoHome(page: Page) {
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
 }
 
+export async function assertColumnShowsCorrectValues(page: Page, columnNumber: string, expectedValueArray: string[]) {
+  const columnLocator = page.locator(`td:nth-child(${columnNumber})`);
+  // turn into two variables in POM e.g. percentageColumn and kg column
+  await expect(columnLocator).toHaveText(expectedValueArray);
+}
+
 export async function resultsTabVisibilityCheck(page: Page) {
   await page.getByRole('tab', { name: 'Diagram' }).click();
   await page.getByRole('tab', { name: 'Table' }).click();

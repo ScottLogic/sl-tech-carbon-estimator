@@ -5,6 +5,7 @@ import {
   gotoHome,
   assertEndUserElementVisibility,
   assertTableShowsCorrectCells,
+  assertColumnShowsCorrectValues,
 } from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
@@ -52,8 +53,7 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     '<1%',
     '100%',
   ];
-  const percentageColumn = page.locator('td:nth-child(3)');
-  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
   await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // On Prem
@@ -93,6 +93,5 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     '<1%',
     '100%',
   ];
-  const percentageColumn1 = page.locator('td:nth-child(3)');
-  await expect(percentageColumn1).toHaveText(expectedEmissionPercentages1);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });

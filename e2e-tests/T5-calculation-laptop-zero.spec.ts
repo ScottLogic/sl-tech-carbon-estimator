@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, assertTableShowsCorrectCells, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  gotoHome,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
+import { assert } from 'console';
 
 test('T5 verify calculated values are coherent when laptop is 0%', async ({ page }) => {
   await gotoHome(page);
@@ -52,6 +58,5 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
     '<1%',
     '100%',
   ];
-  const percentageColumn = page.locator('td:nth-child(3)');
-  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

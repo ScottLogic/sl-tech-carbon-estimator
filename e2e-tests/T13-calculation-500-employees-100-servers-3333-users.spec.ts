@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, assertTableShowsCorrectCells, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  gotoHome,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
+import { assert } from 'console';
 
 test('T13 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -56,8 +62,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const percentageColumn = page.locator('td:nth-child(3)');
-  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
   await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // Cloud2
@@ -90,6 +95,5 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const percentageColumn1 = page.locator('td:nth-child(3)');
-  await expect(percentageColumn1).toHaveText(expectedEmissionPercentages1);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });
