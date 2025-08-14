@@ -27,7 +27,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: npx semantic-release
+        run: npx semantic-release --dryRun
       - name: Verify release
         run: npm run verify-release
 
