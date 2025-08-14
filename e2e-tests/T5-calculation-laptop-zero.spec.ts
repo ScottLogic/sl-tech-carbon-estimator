@@ -31,6 +31,7 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
 
   // Calculate and verify
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T5-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);

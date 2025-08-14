@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible, assertTableShowsCorrectCells } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T8 verify calculated values are coherent when on prem is unknown and cloud is not used', async ({ page }) => {
   await gotoHome(page);
@@ -25,9 +25,9 @@ test('T8 verify calculated values are coherent when on prem is unknown and cloud
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
-  // await assertTableShowsCorrectCells(page);
 
   const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '48%', '6%', '<1%', '<1%', '<1%', '<1%'];
   const emissionCells = page.locator('td:nth-child(2)');

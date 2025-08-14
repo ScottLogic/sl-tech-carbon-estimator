@@ -31,6 +31,7 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
@@ -56,6 +57,7 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-1.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);

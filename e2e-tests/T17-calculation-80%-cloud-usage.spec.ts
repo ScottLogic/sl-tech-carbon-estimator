@@ -27,5 +27,6 @@ test('T17 calculations show 80% cloud usage', async ({ page }) => {
   await page.getByLabel("What's the primary purpose of your").selectOption('streaming');
 
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T17-apex-chart.png');
 });

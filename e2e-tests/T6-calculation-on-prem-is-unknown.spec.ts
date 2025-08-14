@@ -24,6 +24,7 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await page.getByLabel("What's the primary purpose of").selectOption('average');
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);

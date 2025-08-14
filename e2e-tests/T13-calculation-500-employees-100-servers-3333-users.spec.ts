@@ -37,9 +37,9 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  // await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
-  // await assertTableShowsCorrectCells(page);
 
   const expectedEmissions = ['26%', '16%', '9%', '2%', '74%', '7%', '64%', '4%', '<1%', '<1%', '<1%', '<1%'];
   const emissionCells = page.locator('td:nth-child(2)');
@@ -55,6 +55,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart-1.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);

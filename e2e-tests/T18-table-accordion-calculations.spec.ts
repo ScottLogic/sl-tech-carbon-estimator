@@ -7,6 +7,7 @@ test.describe('Table Accordion Calculations', async () => {
     await assertAllSectionElementsAreVisible(page);
     await page.getByRole('tab', { name: 'Table' }).click();
     await assertDefaultTableStructure(page);
+    await page.getByText('%', { exact: true }).click();
   });
   test('Table shows expected values (no checkboxes)', async ({ page }) => {
     await page.getByRole('button', { name: 'Calculate' }).click();
