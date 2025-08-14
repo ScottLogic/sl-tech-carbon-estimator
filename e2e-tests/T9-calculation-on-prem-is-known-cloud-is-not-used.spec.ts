@@ -26,7 +26,21 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
-  const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '48%', '6%', '<1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '34%',
+    '25%',
+    '7%',
+    '2%',
+    '65%',
+    '12%',
+    '48%',
+    '6%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });

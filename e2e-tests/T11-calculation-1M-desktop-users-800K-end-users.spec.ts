@@ -46,7 +46,22 @@ test('T11 verify calculated values are coherent with selected employees, servers
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions = ['59%', '55%', '<1%', '4%', '39%', '31%', '<1%', '8%', '<1%', '<1%', '2%', '1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '59%',
+    '55%',
+    '<1%',
+    '4%',
+    '39%',
+    '31%',
+    '<1%',
+    '8%',
+    '<1%',
+    '<1%',
+    '2%',
+    '1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });

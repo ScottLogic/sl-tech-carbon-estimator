@@ -36,7 +36,22 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions = ['35%', '26%', '6%', '2%', '64%', '15%', '44%', '5%', '1%', '1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '35%',
+    '26%',
+    '6%',
+    '2%',
+    '64%',
+    '15%',
+    '44%',
+    '5%',
+    '1%',
+    '1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });

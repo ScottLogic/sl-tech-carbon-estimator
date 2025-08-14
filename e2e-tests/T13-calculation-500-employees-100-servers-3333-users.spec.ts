@@ -41,9 +41,23 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
-  const expectedEmissions = ['26%', '16%', '9%', '2%', '74%', '7%', '64%', '4%', '<1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '26%',
+    '16%',
+    '9%',
+    '2%',
+    '74%',
+    '7%',
+    '64%',
+    '4%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
   await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // Cloud2
@@ -60,7 +74,22 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions1 = ['26%', '16%', '9%', '2%', '74%', '7%', '63%', '4%', '<1%', '<1%', '<1%', '<1%', '<1%'];
-  const emissionCells1 = page.locator('td:nth-child(2)');
-  await expect(emissionCells1).toHaveText(expectedEmissions1);
+  const expectedEmissionPercentages1 = [
+    '26%',
+    '16%',
+    '9%',
+    '2%',
+    '74%',
+    '7%',
+    '63%',
+    '4%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn1 = page.locator('td:nth-child(3)');
+  await expect(percentageColumn1).toHaveText(expectedEmissionPercentages1);
 });

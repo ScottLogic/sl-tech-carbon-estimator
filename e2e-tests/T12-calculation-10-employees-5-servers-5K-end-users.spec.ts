@@ -41,7 +41,21 @@ test('T12 verify calculated values are coherent with selected employees, servers
   await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
-  const expectedEmissions = ['32%', '11%', '18%', '3%', '67%', '4%', '57%', '6%', '<1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '32%',
+    '11%',
+    '18%',
+    '3%',
+    '67%',
+    '4%',
+    '57%',
+    '6%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });

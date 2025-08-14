@@ -55,7 +55,22 @@ test('T3 verify calculated values are coherent with selected options', async ({ 
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions = ['34%', '25%', '7%', '2%', '65%', '12%', '47%', '6%', '1%', '1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '34%',
+    '25%',
+    '7%',
+    '2%',
+    '65%',
+    '12%',
+    '47%',
+    '6%',
+    '1%',
+    '1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });

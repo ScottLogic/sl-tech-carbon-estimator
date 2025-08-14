@@ -37,7 +37,22 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({ pag
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions = ['32%', '23%', '7%', '3%', '66%', '8%', '51%', '6%', '1%', '1%', '<1%', '<1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '32%',
+    '23%',
+    '7%',
+    '3%',
+    '66%',
+    '8%',
+    '51%',
+    '6%',
+    '1%',
+    '1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const percentageColumn = page.locator('td:nth-child(3)');
+  await expect(percentageColumn).toHaveText(expectedEmissionPercentages);
 });
