@@ -52,13 +52,44 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
 
+If working on WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
+
+In `/tmp` download .deb\
+`sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
+
+Then\
+`sudo dpkg -i google-chrome-stable_current_amd64.deb`
+
+If there's any errors\
+`sudo apt install --fix-broken -y`
+
+Then re-run\
+`sudo dpkg -i google-chrome-stable_current_amd64.deb`
+
+In `~/.bashrc` add `export CHROME_PATH=/usr/bin/google-chrome-stable`
+
+N.B. These steps assume there isn't a Chrome install on the Windows host machine 
+
+
+## Git Commit messages
+
+This project follows the the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification to track the types of changes being made, to determine the version number that should be used in package releases. To ensure that commits lead to a version number increase, then they should contain the following structural elements:
+
+`fix: <commit description>` - Results in a patch version increase (ie. 0.0.1 => 0.0.2). This must be the first line of the commit message.
+`feat: <commit description>` - Results in a minor version increase (ie. 0.0.1 => 0.1.0). This must be the first line of the commit message.
+`BREAKING CHANGE: <reason for breaking change>` - Results in a major version increase (ie. 0.0.1 => 1.0.0). This must be the footer/final line of the commit message.
+
+Other prefixes are acceptable (`docs:`, `build:` etc.) but these are the only ones guaranteed to affect the version number. For more information on the Package release process see [Publishing Tech Carbon Estimator Package](docs/publish_process.md).
+
 ## Pull Requests / GitHub Actions
 
-The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. The main branch also has a branch protection rule that ensures that the status checks from this workflow have passed successfully before PRs can be merged into it.
+The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. The `develop` branch also has a ruleset that ensures that the status checks from this workflow have passed successfully before PRs can be merged into it. Ruleset details can be viewed [here](https://github.com/ScottLogic/sl-tech-carbon-estimator/rules).
 
 If you would like to skip running the workflow for a given push to a PR branch there are [various ways](https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs) this can be achieved. For example, adding `[skip ci]` to the end of the commit message in the push (e.g. `git commit -m "My message [skip ci]"`) will skip running the workflow for that push. However, you should be aware that this will also mark the status checks in the PR as pending, which will still block it from being merged.
 
 Unfortunately Github does not recognise manually triggered runs of this workflow, so if you end up in this state you will either need to push additional changes without `[skip ci]` or amend the original commit to remove it from the description (e.g. `git commit --amend -m "My message"`), and then force push the branch (`git push --force-with-lease` - not recommended if anyone else has pulled down the branch), if there are no more legitimate changes to make.
+
+When it comes to merging PRs into `develop`, we have restricted the options to show 'Squash and merge' only. We request that you use the standard merge message that GitHub generates when using this option, as this preserves the conventional commit messages that allow us to determine the next version number.
 
 ## Further help
 

@@ -1,17 +1,13 @@
 name: 'Run Playwright'
-description: 'Sets up Python, installs dependencies and runs playwright tests'
+description: 'Installs dependencies and runs playwright tests'
 runs:
   using: 'composite'
   steps:
-    - name: Setup Python
-      uses: actions/setup-python@v5.1.0
-      with:
-        python-version: '3.11'
     - name: Install Playwright Dependencies
       run: npm run playwright-install
       shell: bash
     - name: Run Playwright tests
-      run: npm run playwright-test -- --tracing=retain-on-failure --html=reports/report.html
+      run: npm run playwright-test -- --trace=retain-on-failure
       shell: bash
     - name: Upload Playwright traces and report
       uses: actions/upload-artifact@v4
@@ -19,5 +15,5 @@ runs:
       with:
         name: playwright-traces-and-report
         path: |
-          playwright/tests/test-results/
-          playwright/tests/reports/
+          test-results/
+          playwright-report/

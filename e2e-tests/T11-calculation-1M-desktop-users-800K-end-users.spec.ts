@@ -1,0 +1,51 @@
+import { test, expect } from '@playwright/test';
+import { gotoHome, assertAllSectionElementsAreVisible, assertTableShowsCorrectCells } from './test-helpers';
+
+test('T11 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
+  await gotoHome(page);
+  await assertAllSectionElementsAreVisible(page);
+  // Organisation
+  await page.getByLabel('How many employees are in the').fill('1000000');
+  await expect(page.getByText('What percentage of those')).toBeVisible();
+  for (let i = 0; i < 10; i++) {
+    await page.getByLabel('What percentage of those').press('ArrowRight');
+  }
+  await expect(page.getByText('Desktops 100%')).toBeVisible();
+  await expect(page.getByText('Laptops 0%')).toBeVisible();
+
+  // On Prem Servers
+  await page.getByLabel('Number of Servers:').click();
+  await page.getByLabel('Number of Servers:').fill('100');
+  await page.getByLabel('Where are they primarily').selectOption('unknown');
+
+  // Cloud
+  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').click();
+  for (let i = 0; i < 7; i++) {
+    await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('ArrowLeft');
+  }
+  await expect(page.getByText('Cloud 15%')).toBeVisible();
+  await page.getByLabel('What is your monthly cloud').selectOption('4: Object');
+
+  // Users
+  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
+  await page.getByLabel('How many monthly active users').click();
+  await page.getByLabel('How many monthly active users').fill('800000');
+  await page.getByLabel('What percentage of your end-users').click();
+  await page.getByLabel('What percentage of your end-users').click();
+  for (let i = 0; i < 7; i++) {
+    await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
+  }
+  await page.getByLabel("What's the primary purpose of ").selectOption('socialMedia');
+  await page.getByText('Mobile 15%').click();
+
+  // Calculate
+  // Calculate outcome and make sure it matches spreadsheet
+  await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissions = ['59%', '55%', '<1%', '4%', '39%', '31%', '<1%', '8%', '<1%', '<1%', '2%', '1%', '<1%'];
+  const emissionCells = page.locator('td:nth-child(2)');
+  await expect(emissionCells).toHaveText(expectedEmissions);
+});

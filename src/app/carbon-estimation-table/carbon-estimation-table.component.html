@@ -1,9 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<table role="treegrid" aria-label="Estimation of emissions" class="tce-table-fixed tce-w-full">
+<table role="treegrid" aria-label="Estimation of emissions" class="tce:table-fixed tce:w-full">
   <thead>
-    <tr class="tce-border-b-2">
-      <th class="tce-text-left">Category</th>
-      <th class="tce-w-40 tce-text-left">Emissions</th>
+    <tr class="tce:border-b-2">
+      <th class="tce:text-left">Category</th>
+      <th class="tce:w-40 tce:text-left">Emissions</th>
     </tr>
   </thead>
   @if (tableData().length > 0) {
@@ -29,19 +29,19 @@
             <td
               role="gridcell"
               tabindex="-1"
-              class="tce-flex tce-text-white tce-items-center"
+              class="tce:flex tce:text-white tce:items-center"
               (keydown.enter)="toggle(tableItem.category)">
               <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
               <div
                 tabindex="-1"
                 aria-hidden="true"
                 (click)="toggle(tableItem.category)"
-                class="material-icons-outlined hover:tce-opacity-50 tce-m-1 tce-cursor-pointer">
+                class="material-icons-outlined tce:hover:opacity-50 tce:m-1 tce:cursor-pointer">
                 {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
               </div>
               {{ tableItem.category }}
             </td>
-            <td role="gridcell" tabindex="-1" class="tce-text-white">
+            <td role="gridcell" tabindex="-1" class="tce:text-white">
               {{ tableItem.emissions }}
             </td>
           </tr>
@@ -55,12 +55,13 @@
             [style.background-color]="tableItem.colour.background"
             (keydown.arrowright)="arrowKeyBoardEvent($event, 'right')"
             (keydown.arrowleft)="arrowKeyBoardEvent($event, 'left')"
-            [class.tce-hidden]="!tableItem.display">
-            <td role="gridcell" tabindex="-1" class="tce-flex tce-ml-8 dark:tce-text-slate-600">
+            [class.tce:hidden]="!tableItem.display"
+            class="tce:dark:text-slate-800">
+            <td role="gridcell" tabindex="-1" class="tce:flex tce:ml-8">
               <div
-                class="tce-p-1 tce-flex tce-rounded-sm tce-mr-2"
+                class="tce:p-1 tce:flex tce:rounded-sm tce:mr-2"
                 [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
-                <div class="tce-m-auto tce-size-4 {{ tableItem.svg }}"></div>
+                <div class="tce:m-auto tce:size-4 {{ tableItem.svg }}"></div>
               </div>
               {{ tableItem.category }}
             </td>
@@ -74,7 +75,7 @@
   } @else {
     <tbody>
       <tr tabindex="0">
-        <td role="gridcell" class="tce-text-center tce-h-20" colspan="2">No estimation available</td>
+        <td role="gridcell" class="tce:text-center tce:h-20" colspan="2">No estimation available</td>
       </tr>
     </tbody>
   }
