@@ -5,7 +5,6 @@ import {
   gotoHome,
   assertColumnShowsCorrectValues,
 } from './test-helpers';
-import { assert } from 'console';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({ page }) => {
   await gotoHome(page);
@@ -59,5 +58,22 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({ pag
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 16508 kg ',
+    ' 11583 kg ',
+    ' 3625 kg ',
+    ' 1300 kg ',
+    ' 33374 kg ',
+    ' 4091 kg ',
+    ' 26190 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 50890 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

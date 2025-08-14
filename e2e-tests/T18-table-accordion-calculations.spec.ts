@@ -32,6 +32,23 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '100%',
     ];
+    const expectedEmissionKilograms = [
+      ' 18633 kg ',
+      ' 13708 kg ',
+      ' 3625 kg ',
+      ' 1300 kg ',
+      ' 35767 kg ',
+      ' 6485 kg ',
+      ' 26190 kg ',
+      ' 3093 kg ',
+      ' 621 kg ',
+      ' 621 kg ',
+      ' 387 kg ',
+      ' 148 kg ',
+      ' 239 kg ',
+      ' 55408 kg ',
+    ];
+    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
     await assertColumnShowsCorrectValues(page, '3', expectedEmissions);
   });
   test('Table shows expected values (On-Premise is unknown)', async ({ page }) => {
@@ -55,6 +72,24 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '100%',
     ];
+
+    const expectedEmissionKilogramsOnPremiseUnknownArray = [
+      ' 16821 kg ',
+      ' 13708 kg ',
+      ' 1813 kg ',
+      ' 1300 kg ',
+      ' 22673 kg ',
+      ' 6485 kg ',
+      ' 13095 kg ',
+      ' 3093 kg ',
+      ' 621 kg ',
+      ' 621 kg ',
+      ' 387 kg ',
+      ' 148 kg ',
+      ' 239 kg ',
+      ' 40501 kg ',
+    ];
+    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsOnPremiseUnknownArray);
     await assertColumnShowsCorrectValues(page, '3', expectedEmissionsOnPremiseUnknownArray);
   });
   test('Table shows expected values (Cloud services not used)', async ({ page }) => {
@@ -77,6 +112,22 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '100%',
     ];
+    const expectedEmissionKilogramsCloudNotUsedArray = [
+      ' 18633 kg ',
+      ' 13708 kg ',
+      ' 3625 kg ',
+      ' 1300 kg ',
+      ' 35767 kg ',
+      ' 6485 kg ',
+      ' 26190 kg ',
+      ' 3093 kg ',
+      ' <1 kg ',
+      ' 387 kg ',
+      ' 148 kg ',
+      ' 239 kg ',
+      ' 54787 kg ',
+    ];
+    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsCloudNotUsedArray);
     await assertColumnShowsCorrectValues(page, '3', expectedEmissionsCloudNotUsedArray);
   });
   test('Table shows expected values (No external users)', async ({ page }) => {
@@ -99,6 +150,21 @@ test.describe('Table Accordion Calculations', async () => {
       '<1%',
       '100%',
     ];
+    const expectedEmissionKilogramsNoExternalUsersArray = [
+      ' 18633 kg ',
+      ' 13708 kg ',
+      ' 3625 kg ',
+      ' 1300 kg ',
+      ' 35767 kg ',
+      ' 6485 kg ',
+      ' 26190 kg ',
+      ' 3093 kg ',
+      ' 621 kg ',
+      ' 621 kg ',
+      ' <1 kg ',
+      ' 55022 kg ',
+    ];
+    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsNoExternalUsersArray);
     await assertColumnShowsCorrectValues(page, '3', expectedEmissionsNoExternalUsersArray);
   });
 });

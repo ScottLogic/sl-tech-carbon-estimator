@@ -58,5 +58,22 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 20758 kg ',
+    ' 15833 kg ',
+    ' 3625 kg ',
+    ' 1300 kg ',
+    ' 38161 kg ',
+    ' 8878 kg ',
+    ' 26190 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 59927 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

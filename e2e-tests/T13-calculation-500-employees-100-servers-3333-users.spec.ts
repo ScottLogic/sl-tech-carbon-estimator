@@ -5,7 +5,6 @@ import {
   gotoHome,
   assertColumnShowsCorrectValues,
 } from './test-helpers';
-import { assert } from 'console';
 
 test('T13 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -62,6 +61,22 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 106879 kg ',
+    ' 64292 kg ',
+    ' 36250 kg ',
+    ' 6338 kg ',
+    ' 305055 kg ',
+    ' 27636 kg ',
+    ' 261896 kg ',
+    ' 15524 kg ',
+    ' <1 kg ',
+    ' 1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 411936 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
   await page.getByRole('tab', { name: 'Diagram' }).click();
 
@@ -95,5 +110,22 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms1 = [
+    ' 106879 kg ',
+    ' 64292 kg ',
+    ' 36250 kg ',
+    ' 6338 kg ',
+    ' 305055 kg ',
+    ' 27636 kg ',
+    ' 261896 kg ',
+    ' 15524 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 412557 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms1);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });

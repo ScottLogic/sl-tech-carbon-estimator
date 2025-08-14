@@ -41,5 +41,21 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 18633 kg ',
+    ' 13708 kg ',
+    ' 3625 kg ',
+    ' 1300 kg ',
+    ' 35767 kg ',
+    ' 6485 kg ',
+    ' 26190 kg ',
+    ' 3093 kg ',
+    ' <1 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 54787 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

@@ -71,5 +71,22 @@ test('T15 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 1138450 kg ',
+    ' 899000 kg ',
+    ' 173638 kg ',
+    ' 65813 kg ',
+    ' 1882009 kg ',
+    ' 475245 kg ',
+    ' 1254480 kg ',
+    ' 152284 kg ',
+    ' 186262 kg ',
+    ' 186262 kg ',
+    ' 10717 kg ',
+    ' 6555 kg ',
+    ' 4162 kg ',
+    ' 3217438 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

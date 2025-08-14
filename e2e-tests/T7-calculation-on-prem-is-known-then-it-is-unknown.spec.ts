@@ -53,6 +53,24 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 221721 kg ',
+    ' 13708 kg ',
+    ' 201188 kg ',
+    ' 6825 kg ',
+    ' 1482466 kg ',
+    ' 6485 kg ',
+    ' 1453521 kg ',
+    ' 22460 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 1705194 kg ',
+  ];
+
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
   await page.getByRole('tab', { name: 'Diagram' }).click();
 
@@ -93,5 +111,22 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms1 = [
+    ' 16821 kg ',
+    ' 13708 kg ',
+    ' 1813 kg ',
+    ' 1300 kg ',
+    ' 22673 kg ',
+    ' 6485 kg ',
+    ' 13095 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 40501 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms1);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });

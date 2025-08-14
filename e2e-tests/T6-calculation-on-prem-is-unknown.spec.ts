@@ -50,5 +50,22 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
     '<1%',
     '100%',
   ];
+  const expectedEmissionKilograms = [
+    ' 16821 kg ',
+    ' 13708 kg ',
+    ' 1813 kg ',
+    ' 1300 kg ',
+    ' 22673 kg ',
+    ' 6485 kg ',
+    ' 13095 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 40501 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
   await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });
