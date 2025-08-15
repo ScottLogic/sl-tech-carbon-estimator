@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, assertTableShowsCorrectCells, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertColumnShowsCorrectValues,
+  assertTableShowsCorrectCells,
+  gotoHome,
+} from './test-helpers';
 
 test('T15 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -45,11 +50,44 @@ test('T15 verify calculated values are coherent with selected employees, servers
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-percentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions1 = ['35%', '28%', '5%', '2%', '58%', '15%', '39%', '5%', '6%', '6%', '<1%', '<1%', '<1%'];
-  const emissionCells1 = page.locator('td:nth-child(2)');
-  await expect(emissionCells1).toHaveText(expectedEmissions1);
+  const expectedEmissionPercentages = [
+    '35%',
+    '28%',
+    '5%',
+    '2%',
+    '58%',
+    '15%',
+    '39%',
+    '5%',
+    '6%',
+    '6%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 1138450 kg ',
+    ' 899000 kg ',
+    ' 173638 kg ',
+    ' 65813 kg ',
+    ' 1882009 kg ',
+    ' 475245 kg ',
+    ' 1254480 kg ',
+    ' 152284 kg ',
+    ' 186262 kg ',
+    ' 186262 kg ',
+    ' 10717 kg ',
+    ' 6555 kg ',
+    ' 4162 kg ',
+    ' 3217438 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });
