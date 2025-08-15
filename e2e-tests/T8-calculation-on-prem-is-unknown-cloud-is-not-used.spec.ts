@@ -25,8 +25,9 @@ test('T8 verify calculated values are coherent when on prem is unknown and cloud
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart-kilograms.png');
   await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T8-apex-chart-percentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
   const expectedEmissionPercentages = [

@@ -50,8 +50,9 @@ test('T15 verify calculated values are coherent with selected employees, servers
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-kilograms.png');
   await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-percentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 

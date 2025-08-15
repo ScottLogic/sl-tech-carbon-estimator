@@ -37,8 +37,9 @@ test('T12 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart-kilograms.png');
   await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart-pecentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
   const expectedEmissionPercentages = [

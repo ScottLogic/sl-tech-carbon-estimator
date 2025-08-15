@@ -22,8 +22,9 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart-kilograms.png');
   await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T9-apex-chart-percentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
 
   const expectedEmissionPercentages = [
