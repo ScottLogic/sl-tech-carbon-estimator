@@ -47,7 +47,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-chart-total-colour {
-  @apply tce:bg-orange-400 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
+  @apply tce:bg-neutral-500 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
 }
 
 .tce-switch-container {
