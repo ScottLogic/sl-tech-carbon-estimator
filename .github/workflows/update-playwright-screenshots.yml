@@ -44,4 +44,4 @@ jobs:
           git config --local user.name "${{ github.actor }}"
           git add .
           git commit -m "${{ github.event.inputs.commit_message || 'Auto-commit: Update screenshots' }} (by @${{ github.actor }})"
-          git pushh
+          git push
