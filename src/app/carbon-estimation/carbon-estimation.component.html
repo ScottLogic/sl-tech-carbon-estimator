@@ -41,4 +41,11 @@
       <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table
     ></tab-item>
   </tabs>
+  <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" class="tce:underline" tce-external-link>
+    Export JSON
+  </a>
+  <div>
+    <button (click)="generatePDF()">
+      Download PDF
+    </button>
 </div>

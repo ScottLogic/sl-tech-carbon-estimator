@@ -10,6 +10,7 @@ import {
 } from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../utils/number-object';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
+import html2canvas from 'html2canvas';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
 
@@ -137,5 +138,15 @@ export class CarbonEstimationTreemapComponent {
         parent,
       },
     };
+  }
+
+   public getTreeCanvas() {
+    const data = document.getElementById('tce-tree-chart');
+    return html2canvas(data!).then(canvas => {
+      const imgWidth = 208;
+      const imgheight = (canvas.height * imgWidth) / canvas.width;
+
+      return canvas; 
+    })
   }
 }

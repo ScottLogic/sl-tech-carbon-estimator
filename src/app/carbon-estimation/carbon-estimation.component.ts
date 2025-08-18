@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, viewChild, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
@@ -9,6 +9,8 @@ import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'carbon-estimation',
@@ -102,5 +104,28 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
 
     return heightBoundedAboveAndBelow;
+  }
+
+  get carbonEstimationDownloadUrl(): string {
+    const estimateJson = JSON.stringify(this.carbonEstimation(), null, 2);
+    const blob = new Blob([estimateJson], { type: 'application/json' });
+    const carbonEstimationJSONUrl = URL.createObjectURL(blob);
+    return carbonEstimationJSONUrl;
+  }
+
+  @ViewChild(CarbonEstimationTreemapComponent) chart!: CarbonEstimationTreemapComponent;
+
+  public async generatePDF() {
+    console.log('Generating PDF...');
+    const TreeCanvas = await this.chart.getTreeCanvas();
+    const imgWidth = 208;
+    const treeImgheight = (TreeCanvas.height * imgWidth) / TreeCanvas.width;
+    const treeContentDataURL = TreeCanvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    const position = 0;
+    pdf.addImage(treeContentDataURL, 'PNG', position, position, imgWidth, treeImgheight);
+    pdf.save('carbon-estimation.pdf');
   }
 }
