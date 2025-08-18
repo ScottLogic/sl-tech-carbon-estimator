@@ -2,11 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { Page, expect } from '@playwright/test';
 
 export const expectNoA11yViolations = async (page: Page) => {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-    // .withRules(['color-contrast', 'color-contrast-enhanced'])
-    .analyze();
-
+  const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 };
 
