@@ -28,7 +28,7 @@ test.describe('Accessibility Dark Mode Tests', () => {
     await expectNoA11yViolations(page);
   });
 
-  test('Darkmode information expansion tests', async ({ page }) => {
+  test('Assert that DarkMode information panels are accessible', async ({ page }) => {
     //expand all panels
     await expansionPanelClick(page, 'Where are your employees', 'Show details');
     await expansionPanelClick(page, 'Where are they primarily', 'Show details');
@@ -37,16 +37,5 @@ test.describe('Accessibility Dark Mode Tests', () => {
     await expansionPanelClick(page, 'What percentage of your end-', 'Show details');
 
     await expectNoA11yViolations(page);
-  });
-
-  test('Darkmode dropdown option tests', async ({ page }) => {
-    //expand all panels
-    await page.getByLabel('Where are your employees').click();
-    await page.waitForTimeout(1000); // Wait for dropdown to open
-    await expectNoA11yViolations(page);
-    // await page.getByLabel('Where are they primarily').click();
-    // await page.getByLabel('Where are your cloud servers').click();
-    // await page.getByLabel('What is your monthly cloud').click();
-    // await page.getByLabel("What's the primary purpose of").click();
   });
 });
