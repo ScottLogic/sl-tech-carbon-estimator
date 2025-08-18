@@ -28,6 +28,7 @@ jobs:
         
       - name: Check for changes
         id: changes
+        shell: bash
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
@@ -37,9 +38,10 @@ jobs:
          
       - name: Commit and push changes
         if: steps.changes.outputs.changed == 'true'
+        shell: bash
         run: |
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           git config --local user.name "${{ github.actor }}"
           git add .
           git commit -m "${{ github.event.inputs.commit_message || 'Auto-commit: Update screenshots' }} (by @${{ github.actor }})"
-          git push
+          git pushh
