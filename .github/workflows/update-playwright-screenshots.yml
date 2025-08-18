@@ -6,38 +6,41 @@ on:
         description: 'Commit message'
         required: false
         default: 'Auto-commit: Update screenshots'
-jobs:
-  playwright_screenshots_linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+permissions:
+  contents: write
 
+jobs:
+  playwright_screenshots:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
       - name: Set up environment
         uses: ./.github/actions/set-up-environment
-
+        
       - name: Run Playwright
         uses: ./.github/actions/update-playwright-screenshots
-
+        
       - name: Check for changes
-        id: verify-changed-files
+        id: changes
+        shell: bash
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-          
-      - name: Configure Git with user info
-        if: steps.verify-changed-files.outputs.changed == 'true'
+         
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
         run: |
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           git config --local user.name "${{ github.actor }}"
-          
-      - name: Commit and push changes
-        if: steps.verify-changed-files.outputs.changed == 'true'
-        run: |
           git add .
           git commit -m "${{ github.event.inputs.commit_message || 'Auto-commit: Update screenshots' }} (by @${{ github.actor }})"
           git push
-        
