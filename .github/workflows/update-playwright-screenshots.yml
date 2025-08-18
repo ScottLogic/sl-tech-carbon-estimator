@@ -1,4 +1,4 @@
-name: Update Playwrigth Screenshots
+name: Update Playwright Screenshots
 on:
   workflow_dispatch:
 jobs:
