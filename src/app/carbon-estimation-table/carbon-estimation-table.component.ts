@@ -194,7 +194,7 @@ export class CarbonEstimationTableComponent {
     }
   }
 
-  private getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
+  public getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
     return !carbonEstimation ?
         []
       : [

@@ -11,6 +11,7 @@ import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbo
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import PdfConstructionService from '../services/pdf-construction.service';
 
 @Component({
   selector: 'carbon-estimation',
@@ -114,18 +115,27 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild(CarbonEstimationTreemapComponent) chart!: CarbonEstimationTreemapComponent;
+  @ViewChild(CarbonEstimationTableComponent) table!: CarbonEstimationTableComponent;
 
   public async generatePDF() {
     console.log('Generating PDF...');
     const TreeCanvas = await this.chart.getTreeCanvas();
-    const imgWidth = 208;
-    const treeImgheight = (TreeCanvas.height * imgWidth) / TreeCanvas.width;
-    const treeContentDataURL = TreeCanvas.toDataURL('image/png');
+    // const imgWidth = 208;
+    // const treeImgheight = (TreeCanvas.height * imgWidth) / TreeCanvas.width;
+    // const treeContentDataURL = TreeCanvas.toDataURL('image/png');
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const tableData = this.table.getTableData(this.carbonEstimation());
 
-    const position = 0;
-    pdf.addImage(treeContentDataURL, 'PNG', position, position, imgWidth, treeImgheight);
-    pdf.save('carbon-estimation.pdf');
+    // const pdf = new jsPDF('p', 'mm', 'a4');
+
+    // const position = 0;
+    // pdf.addImage(treeContentDataURL, 'PNG', position, position, imgWidth, treeImgheight);
+
+
+
+    // pdf.save('carbon-estimation.pdf');
+
+    const pdfConstructionService = new PdfConstructionService();
+    pdfConstructionService.generatePDF(TreeCanvas, tableData);
   }
 }
