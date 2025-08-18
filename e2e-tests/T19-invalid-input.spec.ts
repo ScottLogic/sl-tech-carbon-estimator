@@ -53,7 +53,7 @@ test.describe('Assert errors based on input value', () => {
     await expect(page.getByRole('link', { name: 'The number of employees must be' })).not.toBeVisible();
   });
 
-  test('Asser error when number of users is 0 ', async ({ page }) => {
+  test('Assert error when number of users is 0 ', async ({ page }) => {
     //initial msg
     await spinButtonFill(page, 'How many monthly active users', '0');
     await expect(page.locator('#monthlyActiveUsersError').getByText('The number of monthly active')).toBeVisible();
