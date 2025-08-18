@@ -7,6 +7,8 @@ on:
         description: 'Commit message'
         required: false
         default: 'Auto-commit: Update screenshots'
+permissions:
+  contents: write
 jobs:
   playwright_screenshots_linux:
     runs-on: ubuntu-latest
