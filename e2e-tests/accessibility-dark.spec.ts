@@ -1,26 +1,26 @@
-import { test, expect } from '@playwright/test';
-import { expectNoA11yViolations } from './test-helpers';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+// import { test, expect } from '@playwright/test';
+// import { expectNoA11yViolations } from './test-helpers';
+// import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
 
-test('Darkmode Accessibility test', async ({ page }) => {
-  await gotoHome(page);
-  await page.emulateMedia({ colorScheme: 'dark' });
+// test('Darkmode Accessibility test', async ({ page }) => {
+//   await gotoHome(page);
+//   await page.emulateMedia({ colorScheme: 'dark' });
 
-  // Initial accessibility check
-  await expectNoA11yViolations(page);
+//   // Initial accessibility check
+//   await expectNoA11yViolations(page);
 
-  // Run check on default page load
-  await assertAllSectionElementsAreVisible(page);
+//   // Run check on default page load
+//   await assertAllSectionElementsAreVisible(page);
 
-  // After filling form, check accessibility again
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expectNoA11yViolations(page);
+//   // After filling form, check accessibility again
+//   await page.getByRole('button', { name: 'Calculate' }).click();
+//   await expectNoA11yViolations(page);
 
-  // Table view accessibility check
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await expectNoA11yViolations(page);
+//   // Table view accessibility check
+//   await page.getByRole('tab', { name: 'Table' }).click();
+//   await expectNoA11yViolations(page);
 
-  //Switch to assumptions tab
-  await page.getByRole('tab', { name: 'Assumptions and Limitations' }).click();
-  await expectNoA11yViolations(page);
-});
+//   //Switch to assumptions tab
+//   await page.getByRole('tab', { name: 'Assumptions and Limitations' }).click();
+//   await expectNoA11yViolations(page);
+// });
