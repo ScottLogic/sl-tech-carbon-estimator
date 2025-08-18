@@ -1,6 +1,11 @@
 name: Update Playwright Screenshots
 on:
   workflow_dispatch:
+    inputs:
+      commit_message:
+        description: 'Commit message'
+        required: false
+        default: 'Auto-commit: Update screenshots'
 jobs:
   playwright_screenshots_linux:
     runs-on: ubuntu-latest
