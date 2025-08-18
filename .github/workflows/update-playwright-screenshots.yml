@@ -1,5 +1,6 @@
 name: Update Playwright Screenshots
 on:
+  push:
   workflow_dispatch:
     inputs:
       commit_message:
