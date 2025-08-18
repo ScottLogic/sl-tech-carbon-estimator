@@ -6,7 +6,7 @@ import {
   spinButtonFill,
 } from './test-helpers';
 
-test.describe('Default page load and error handling', () => {
+test.describe('Assert errors based on input value', () => {
   test.beforeEach(async ({ page }) => {
     await gotoHome(page);
     await assertAllSectionElementsAreVisible(page);
@@ -34,6 +34,7 @@ test.describe('Default page load and error handling', () => {
     await page.getByRole('button', { name: 'Calculate' }).click();
     await expect(page.getByRole('link', { name: 'The number of employees must be' })).toBeVisible();
   });
+
   test('Assert error when number of employees is -1 ', async ({ page }) => {
     //initial msg
     await spinButtonFill(page, 'How many employees are in the', '-1');
