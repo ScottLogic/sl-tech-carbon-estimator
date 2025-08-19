@@ -6,6 +6,14 @@ export const expectNoA11yViolations = async (page: Page) => {
   expect(results.violations).toEqual([]);
 };
 
+// export async function assertMainErrorMessage(page) {}
+
+export async function spinButtonFill(page: Page, name: string, value: string) {
+  const spinButton = page.getByRole('spinbutton', { name });
+  await spinButton.fill(value);
+  await expect(spinButton).toHaveValue(value);
+}
+
 export async function gotoHome(page: Page) {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Carbon Estimator' })).toBeVisible();
