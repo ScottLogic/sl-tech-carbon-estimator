@@ -18,26 +18,54 @@ describe('CarbonEstimationComponent', () => {
     fixture = TestBed.createComponent(CarbonEstimationComponent);
     component = fixture.componentInstance;
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 7,
-        employee: 6,
-        network: 6,
-        server: 6,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 7,
+          employee: 6,
+          network: 6,
+          server: 6,
+        },
+        directEmissions: {
+          employee: 9,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          endUser: 13,
+          networkTransfer: 12,
+          downstreamInfrastructure: 0
+        },
       },
-      directEmissions: {
-        employee: 9,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          endUser: 1300,
+          networkTransfer: 1200,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 7000,
       },
     };
 

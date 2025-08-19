@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible, assertTableShowsCorrectCells } from './test-helpers';
+import {
+  gotoHome,
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
 
 test('T11 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -41,11 +46,44 @@ test('T11 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart-percentages.png');
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertTableShowsCorrectCells(page);
 
-  const expectedEmissions = ['59%', '55%', '<1%', '4%', '39%', '31%', '<1%', '8%', '<1%', '<1%', '2%', '1%', '<1%'];
-  const emissionCells = page.locator('td:nth-child(2)');
-  await expect(emissionCells).toHaveText(expectedEmissions);
+  const expectedEmissionPercentages = [
+    '59%',
+    '55%',
+    '<1%',
+    '4%',
+    '39%',
+    '31%',
+    '<1%',
+    '8%',
+    '<1%',
+    '<1%',
+    '2%',
+    '1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 168526971 kg ',
+    ' 158333333 kg ',
+    ' 36250 kg ',
+    ' 10157388 kg ',
+    ' 111580461 kg ',
+    ' 88782024 kg ',
+    ' 261896 kg ',
+    ' 22536541 kg ',
+    ' 18626 kg ',
+    ' 18626 kg ',
+    ' 5631418 kg ',
+    ' 3342687 kg ',
+    ' 2288731 kg ',
+    ' 285757476 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });
