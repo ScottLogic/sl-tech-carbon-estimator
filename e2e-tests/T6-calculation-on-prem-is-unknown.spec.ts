@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  gotoHome,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
 
 test('T6 verify calculated values are coherent when on-prem is unknown', async ({ page }) => {
   await gotoHome(page);
@@ -24,5 +29,44 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await page.getByLabel("What's the primary purpose of").selectOption('average');
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart-percentages.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissionPercentages = [
+    '42%',
+    '34%',
+    '4%',
+    '3%',
+    '56%',
+    '16%',
+    '32%',
+    '8%',
+    '2%',
+    '2%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 16821 kg ',
+    ' 13708 kg ',
+    ' 1813 kg ',
+    ' 1300 kg ',
+    ' 22673 kg ',
+    ' 6485 kg ',
+    ' 13095 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 40501 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

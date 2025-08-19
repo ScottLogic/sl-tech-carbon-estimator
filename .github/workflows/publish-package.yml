@@ -6,6 +6,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   test:
+    permissions:
+      contents: read
     uses: ./.github/workflows/buildAndTest.yml
 
   publish:

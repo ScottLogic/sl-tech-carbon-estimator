@@ -1,0 +1,11 @@
+name: 'Update Playwright Screenshots'
+description: 'Installs dependencies and runs playwright tests witht he --update-snapshots parameter'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Playwright Dependencies
+      run: npm run playwright-install
+      shell: bash
+    - name: Run Playwright tests
+      run: npm run playwright-test -- --update-snapshots
+      shell: bash

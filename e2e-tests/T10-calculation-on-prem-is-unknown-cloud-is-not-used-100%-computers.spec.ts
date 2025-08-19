@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
+import { gotoHome, assertAllSectionElementsAreVisible, assertColumnShowsCorrectValues } from './test-helpers';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
   page,
@@ -34,5 +34,41 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart-percentages.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+
+  const expectedEmissionPercentages = [
+    '33%',
+    '24%',
+    '6%',
+    '2%',
+    '63%',
+    '11%',
+    '46%',
+    '5%',
+    '<1%',
+    '4%',
+    '2%',
+    '2%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 18633 kg ',
+    ' 13708 kg ',
+    ' 3625 kg ',
+    ' 1300 kg ',
+    ' 35767 kg ',
+    ' 6485 kg ',
+    ' 26190 kg ',
+    ' 3093 kg ',
+    ' <1 kg ',
+    ' 2357 kg ',
+    ' 1292 kg ',
+    ' 1066 kg ',
+    ' 56758 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });

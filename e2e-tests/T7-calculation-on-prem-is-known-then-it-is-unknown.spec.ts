@@ -4,6 +4,8 @@ import {
   assertAllSectionElementsAreVisible,
   gotoHome,
   assertEndUserElementVisibility,
+  assertTableShowsCorrectCells,
+  assertColumnShowsCorrectValues,
 } from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
@@ -30,7 +32,48 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-percentages.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissionPercentages = [
+    '13%',
+    '<1%',
+    '12%',
+    '<1%',
+    '87%',
+    '<1%',
+    '85%',
+    '1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 221721 kg ',
+    ' 13708 kg ',
+    ' 201188 kg ',
+    ' 6825 kg ',
+    ' 1482466 kg ',
+    ' 6485 kg ',
+    ' 1453521 kg ',
+    ' 22460 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 1705194 kg ',
+  ];
+
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // On Prem
   await page.getByLabel("I don't know").check();
@@ -48,5 +91,45 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   // Calculate
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-1.png');
+  await page.getByText('kg', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-kilograms-1.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-percentages-1.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissionPercentages1 = [
+    '42%',
+    '34%',
+    '4%',
+    '3%',
+    '56%',
+    '16%',
+    '32%',
+    '8%',
+    '2%',
+    '2%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms1 = [
+    ' 16821 kg ',
+    ' 13708 kg ',
+    ' 1813 kg ',
+    ' 1300 kg ',
+    ' 22673 kg ',
+    ' 6485 kg ',
+    ' 13095 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 40501 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms1);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });

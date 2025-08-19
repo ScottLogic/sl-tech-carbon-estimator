@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  gotoHome,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
 
 test('T13 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
   await gotoHome(page);
@@ -37,7 +42,44 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart-percentages.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+
+  const expectedEmissionPercentages = [
+    '26%',
+    '16%',
+    '9%',
+    '2%',
+    '74%',
+    '7%',
+    '64%',
+    '4%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 106879 kg ',
+    ' 64292 kg ',
+    ' 36250 kg ',
+    ' 6338 kg ',
+    ' 305055 kg ',
+    ' 27636 kg ',
+    ' 261896 kg ',
+    ' 15524 kg ',
+    ' <1 kg ',
+    ' 1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 411936 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await page.getByRole('tab', { name: 'Diagram' }).click();
 
   // Cloud2
   await page.getByLabel("We don't use cloud services").uncheck();
@@ -48,5 +90,43 @@ test('T13 verify calculated values are coherent with selected employees, servers
   // Calculate
   // Calculate outcome and make sure it matches spreadsheet
   await page.getByRole('button', { name: 'Calculate' }).click();
+  await page.getByText('%', { exact: true }).click();
   await expect(page.locator('foreignobject')).toHaveScreenshot('T13-apex-chart-1.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissionPercentages1 = [
+    '26%',
+    '16%',
+    '9%',
+    '2%',
+    '74%',
+    '7%',
+    '63%',
+    '4%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms1 = [
+    ' 106879 kg ',
+    ' 64292 kg ',
+    ' 36250 kg ',
+    ' 6338 kg ',
+    ' 305055 kg ',
+    ' 27636 kg ',
+    ' 261896 kg ',
+    ' 15524 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 412557 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms1);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
 });

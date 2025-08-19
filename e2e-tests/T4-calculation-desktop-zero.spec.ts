@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import {
+  assertAllSectionElementsAreVisible,
+  assertTableShowsCorrectCells,
+  gotoHome,
+  assertColumnShowsCorrectValues,
+} from './test-helpers';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({ page }) => {
   await gotoHome(page);
@@ -32,5 +37,44 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({ pag
 
   // Calculate and verify
   await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T4-apex-chart.png');
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T4-apex-chart-kilograms.png');
+  await page.getByText('%', { exact: true }).click();
+  await expect(page.locator('foreignobject')).toHaveScreenshot('T4-apex-chart-percentages.png');
+  await page.getByRole('tab', { name: 'Table' }).click();
+  await assertTableShowsCorrectCells(page);
+
+  const expectedEmissionPercentages = [
+    '32%',
+    '23%',
+    '7%',
+    '3%',
+    '66%',
+    '8%',
+    '51%',
+    '6%',
+    '1%',
+    '1%',
+    '<1%',
+    '<1%',
+    '<1%',
+    '100%',
+  ];
+  const expectedEmissionKilograms = [
+    ' 16508 kg ',
+    ' 11583 kg ',
+    ' 3625 kg ',
+    ' 1300 kg ',
+    ' 33374 kg ',
+    ' 4091 kg ',
+    ' 26190 kg ',
+    ' 3093 kg ',
+    ' 621 kg ',
+    ' 621 kg ',
+    ' 387 kg ',
+    ' 148 kg ',
+    ' 239 kg ',
+    ' 50890 kg ',
+  ];
+  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
+  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
 });
