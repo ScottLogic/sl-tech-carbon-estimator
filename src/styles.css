@@ -37,3 +37,35 @@ input.ng-invalid.ng-touched {
 .tce-active-tab, .tce-active-tab:hover {
   @apply tce:cursor-default tce:border-sky-800;
 }
+
+.tce-totalchart-header {
+  @apply tce:flex tce:items-center;
+}
+
+#tce-chart-total-text {
+  @apply tce:text-[20px] tce:font-normal tce:font-sans tce:inline-block tce:leading-[20px];
+}
+
+.tce-chart-total-colour {
+  @apply tce:bg-neutral-500 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
+}
+
+.tce-switch-container {
+  @apply tce:inline-flex tce:items-center tce:ml-4 tce:bg-gray-100 tce:rounded-2xl tce:px-2 tce:py-0.5;
+}
+
+.tce-switch-label {
+  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
+}
+
+.tce-switch-label.tce-switch-active {
+  @apply tce:bg-cyan-400 tce:text-slate-800;
+}
+
+.tce-switch-input {
+  @apply tce:hidden;
+}
+
+.tce-no-ex-table-header {
+  @apply tce:pl-3 tce:h-8;
+}
