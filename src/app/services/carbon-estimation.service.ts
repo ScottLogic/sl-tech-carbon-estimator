@@ -11,6 +11,7 @@ import { desktop, laptop, monitor, network, server } from '../estimation/device-
 import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
+import { ICO2Calculator } from '../facades/ICO2Calculator';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ import { CarbonIntensityService } from './carbon-intensity.service';
 export class CarbonEstimationService {
   constructor(
     private carbonIntensityService: CarbonIntensityService,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private co2Calc: ICO2Calculator
   ) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
@@ -34,7 +36,7 @@ export class CarbonEstimationService {
     const indirectEmissions = estimateIndirectEmissions(formValue.cloud, indirectIntensity);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
     const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
-    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity);
+    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     const values = {

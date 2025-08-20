@@ -1,5 +1,7 @@
-import { ICO2Calculator, NumberOrCO2EstimateComponents } from "./ICO2Calculator";
+import { Injectable } from "@angular/core";
+import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateComponents } from "./ICO2Calculator";
 
+@Injectable()
 export class FakeCO2Calculator implements ICO2Calculator {
 
   constructor(private readonly returnType: 'number' | 'object' = 'number') {}
@@ -17,6 +19,22 @@ export class FakeCO2Calculator implements ICO2Calculator {
       };
     }
   }
+
+  perByteTrace(bytes: number, green?: boolean | undefined, options?: any): CO2EstimateTraceResultPerByte {
+    return { 
+      co2: 0,
+      green: green ?? false,
+      variables: {
+        gridIntensity: { 
+          description: "",
+          network: 0,
+          dataCenter: 0,
+          device: 0,
+          production: 0
+        }
+      }
+    }
+  };
 
   perVisit(bytes: number): NumberOrCO2EstimateComponents {
     return this.perByte(bytes);
