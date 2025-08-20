@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
@@ -12,6 +12,7 @@ import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class CarbonEstimationService {
   constructor(
     private carbonIntensityService: CarbonIntensityService,
     private loggingService: LoggingService,
-    private co2Calc: ICO2Calculator
+    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
   ) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {

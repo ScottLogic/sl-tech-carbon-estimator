@@ -10,6 +10,4 @@ export interface ICO2Calculator {
   perByteTrace(bytes: number, green?: boolean | undefined, options?: any): CO2EstimateTraceResultPerByte;
 
   perVisit(bytes: number): NumberOrCO2EstimateComponents;
-
-
 }

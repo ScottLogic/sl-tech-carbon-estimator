@@ -8,7 +8,6 @@ import {
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
-import { co2 } from '@tgwf/co2';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
 
 interface SiteInformation {
