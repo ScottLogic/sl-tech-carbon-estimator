@@ -13,14 +13,7 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({ org
   // Set desktop percentage to 0%
   await page.getByText('Desktops 50%').click();
   await expect(page.getByLabel('What percentage of those')).toHaveValue('50');
-
-  // await page.getByLabel('What percentage of those').click();
-  // for (let i = 0; i < 10; i++) {
-  //   await page.getByLabel('What percentage of those').press('ArrowLeft');
-  // }
-
   await organisationSection.sliderPercentageSet('ArrowLeft', 10);
-
   await expect(page.getByText('Desktops 0%')).toBeVisible();
 
   // Configure On-Prem servers location

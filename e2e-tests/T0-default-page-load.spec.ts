@@ -1,20 +1,21 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import {
   assertCloudElementVisibility,
   assertEndUserElementVisibility,
   gotoHome,
   assertOnPremiseElementVisiblity,
-  assertOrganisationElementVisiblity,
   resultsTabVisibilityCheck,
   assertDefaultTableStructure,
 } from './test-helpers';
 
 test('Default page screenshot assertion,elements are visible and apex chart displays expected values', async ({
   page,
+  organisationSection,
+  onPremSection,
 }) => {
   await gotoHome(page);
-  await assertOrganisationElementVisiblity(page);
-  await assertOnPremiseElementVisiblity(page);
+  await organisationSection.assertOrganisationSectionVisible();
+  await onPremSection.assertOnPremiseSectionVisible();
   await assertCloudElementVisibility(page);
   await assertEndUserElementVisibility(page);
   await resultsTabVisibilityCheck(page);
