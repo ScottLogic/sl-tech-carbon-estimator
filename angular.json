@@ -38,32 +38,12 @@
                   "maximumError": "4kb"
                 }
               ],
-              "baseHref": "/sl-tech-carbon-estimator/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
+              "baseHref": "/sl-tech-carbon-estimator/"
             },
             "npm-package": {
               "index": {"input": "src/package-index.html", "output": "index.html"},
               "assets": [],
-              "styles": ["src/styles.css", "src/package-styles.css"],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "fake-object": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.fake-object.ts"
-                }
-              ]
+              "styles": ["src/styles.css", "src/package-styles.css"]
             },
             "development": {
               "optimization": false,
