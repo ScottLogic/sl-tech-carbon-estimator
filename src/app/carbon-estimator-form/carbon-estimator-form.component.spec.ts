@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CarbonEstimatorFormComponent } from './carbon-estimator-form.component';
 import { StorageService } from '../services/storage.service';
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
+import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
 
 class MockStorageService {
   storage = new Map<string, string>();
@@ -27,7 +28,10 @@ describe('CarbonEstimatorFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CarbonEstimatorFormComponent],
-      providers: [{ provide: StorageService, useClass: MockStorageService }],
+      providers: [
+        { provide: StorageService, useClass: MockStorageService },
+        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object') }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CarbonEstimatorFormComponent);
