@@ -9,20 +9,22 @@ import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import PdfConstructionService from '../services/pdf-construction.service';
+import { ExportModal } from '../export-modal/export-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'carbon-estimation',
   standalone: true,
   imports: [
+    CommonModule,
     ExpansionPanelComponent,
     TabsComponent,
     TabItemComponent,
     CarbonEstimationTreemapComponent,
     CarbonEstimationTableComponent,
     ExternalLinkDirective,
+    ExportModal,
   ],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
@@ -47,6 +49,8 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       this.hasEstimationUpdated = true;
     });
   }
+
+  public isModalVisible = false;
 
   public ngOnInit(): void {
     this.chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
@@ -114,28 +118,14 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     return carbonEstimationJSONUrl;
   }
 
-  @ViewChild(CarbonEstimationTreemapComponent) chart!: CarbonEstimationTreemapComponent;
-  @ViewChild(CarbonEstimationTableComponent) table!: CarbonEstimationTableComponent;
-
-  public async generatePDF() {
-    console.log('Generating PDF...');
-    const TreeCanvas = await this.chart.getTreeCanvas();
-    // const imgWidth = 208;
-    // const treeImgheight = (TreeCanvas.height * imgWidth) / TreeCanvas.width;
-    // const treeContentDataURL = TreeCanvas.toDataURL('image/png');
-
-    const tableData = this.table.getTableData(this.carbonEstimation());
-
-    // const pdf = new jsPDF('p', 'mm', 'a4');
-
-    // const position = 0;
-    // pdf.addImage(treeContentDataURL, 'PNG', position, position, imgWidth, treeImgheight);
 
 
+  public showModal() {
+	  console.log('clicky was clikedead');
+    this.isModalVisible = true;
+  }
 
-    // pdf.save('carbon-estimation.pdf');
-
-    const pdfConstructionService = new PdfConstructionService();
-    pdfConstructionService.generatePDF(TreeCanvas, tableData);
+  public hideModal() {
+	  this.isModalVisible = false;
   }
 }

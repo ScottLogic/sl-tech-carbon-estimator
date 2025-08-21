@@ -11,7 +11,8 @@ import {
 } from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../utils/number-object';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
+import { CommonModule } from '@angular/common';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
 
@@ -24,12 +25,13 @@ type ApexChartSeries = {
 @Component({
   selector: 'carbon-estimation-treemap',
   standalone: true,
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, CommonModule],
   templateUrl: './carbon-estimation-treemap.component.html',
 })
 export class CarbonEstimationTreemapComponent {
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = input.required<number>();
+  public shouldShowUnitsSwitch = input.required<boolean>();
 
   public chartData = computed(() => this.getChartData(this.carbonEstimation()));
   public emissionAriaLabel = computed(() => this.getAriaLabel(this.chartData(), !this.carbonEstimation()));

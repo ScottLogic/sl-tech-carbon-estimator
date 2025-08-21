@@ -35,17 +35,16 @@
       <carbon-estimation-treemap
         #treemap
         [carbonEstimation]="carbonEstimation()"
-        [chartHeight]="chartHeight"></carbon-estimation-treemap>
+        [chartHeight]="chartHeight"
+        [shouldShowUnitsSwitch]="true"></carbon-estimation-treemap>
     </tab-item>
     <tab-item [title]="'Table'">
-      <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table
+      <carbon-estimation-table [carbonEstimation]="carbonEstimation()" [shouldShowSvgs]="true"></carbon-estimation-table
     ></tab-item>
   </tabs>
   <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" class="tce:underline" tce-external-link>
     Export JSON
   </a>
-  <div>
-    <button (click)="generatePDF()">
-      Download PDF
-    </button>
+  <button (click)="showModal()">Export PDF</button>
+  <export-modal *ngIf="isModalVisible" (close)="hideModal()" [carbonEstimation]="carbonEstimation()" [chartHeight]="chartHeight"></export-modal>
 </div>

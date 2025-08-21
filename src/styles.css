@@ -25,7 +25,8 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-button-calculate,
-.tce-button-close {
+.tce-button-close,
+.tce-button-download-pdf {
   @apply tce:bg-sky-800 tce:text-white tce:hover:bg-sky-900 tce:rounded-sm;
 }
 
@@ -68,4 +69,44 @@ input.ng-invalid.ng-touched {
 
 .tce-no-ex-table-header {
   @apply tce:pl-3 tce:h-8;
+}
+
+.tce-export-modal-overlay {
+  @apply tce:fixed tce:top-0 tce:left-0 tce:w-full tce:h-full tce:bg-black/70 tce:flex tce:justify-center tce:items-start tce:overflow-auto;
+}
+
+.tce-export-modal-content {
+  @apply tce:text-slate-950 tce:bg-slate-300 tce:rounded-lg tce:px-8;
+}
+
+.tce-export-modal-export-area-colour-provider {
+  @apply tce:bg-white tce:shadow-lg;
+}
+
+.tce-export-modal-export-area {
+  @apply tce:text-center tce:p-8 tce:w-fit tce:min-w-[300px] tce:max-w-[900px] tce:aspect-[1/1.414];
+}
+
+.tce-export-modal-content #tce-chart-total-text {
+  @apply tce:!text-slate-950;
+}
+
+.tce-export-modal-content .apexcharts-legend-text{
+  @apply tce:!text-slate-950;
+}
+
+.tce-export-modal-close {
+  @apply tce:h-5 tce:w-5 tce:mt-4 tce:font-bold tce:float-right;
+}
+
+.tce-export-modal-report-name {
+  @apply tce:text-slate-950 tce:font-normal tce:w-2/3 tce:border-0 tce:outline-none tce:border-b-1 tce:text-center tce:mb-4;
+}
+
+.tce-export-modal-report-name-input {
+  @apply tce:text-slate-950 tce:font-normal tce:w-1/2 tce:outline-none tce:border-1 tce:text-center tce:mt-4 tce:mb-1;
+}
+
+.tce-export-modal-report-name-input:focus {
+  @apply tce:border-blue-700;
 }
