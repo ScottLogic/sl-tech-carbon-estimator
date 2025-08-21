@@ -11,12 +11,14 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   organisationSection,
   onPremSection,
   cloudServicesSection,
+  endUsersSection,
 }) => {
   await gotoHome(page);
   await organisationSection.assertOrganisationSectionVisible();
   await onPremSection.assertOnPremiseSectionVisible();
   await cloudServicesSection.assertDefaultCloudElementVisibility();
-  await assertEndUserElementVisibility(page);
+  await endUsersSection.assertEndUserSectionVisible();
+
   await resultsTabVisibilityCheck(page);
   await page.getByRole('tab', { name: 'Table' }).click();
   await assertDefaultTableStructure(page);
