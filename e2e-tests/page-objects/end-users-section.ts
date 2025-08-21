@@ -17,9 +17,7 @@ export class EndUsersSection {
   public readonly monthlyActiveUsersQuestion: Locator;
   public readonly monthlyActiveUsersField: Locator;
 
-  // locator types here
   constructor(public readonly page: Page) {
-    // define locators for elements in the End Users section
     this.endUsersHeading = page.getByRole('heading', { name: 'End-Users' });
     this.endUsersInfo = page.getByText('Tell us about your end-users');
     this.noEndUsersText = page.getByText("We don't have any external");
