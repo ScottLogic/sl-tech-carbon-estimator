@@ -6,20 +6,17 @@ import {
   assertColumnShowsCorrectValues,
 } from './test-helpers';
 
-test('T2 verify calculated values are coherent with selected options', async ({ organisationSection, onPremSection, page }) => {
+test('T2 verify calculated values are coherent with selected options', async ({
+  organisationSection,
+  onPremSection,
+  page,
+}) => {
   await gotoHome(page);
   await assertAllSectionElementsAreVisible(page);
   // Organisation
-  // await page.getByLabel('How many employees are in the').click();
-  // await page.getByLabel('How many employees are in the').fill('100');
   await organisationSection.selectNumberOfEmployess('100');
 
   // On Prem
-  // await page.getByLabel('Number of Servers:').click();
-  // await page.getByLabel('Number of Servers:').fill('10');
-  // await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
-  // await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
-  // await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
   await onPremSection.selectNumberOfServers('10');
   await onPremSection.selectLocationOfServers('in the UK');
   await onPremSection.selectLocationOfServers('Globally');

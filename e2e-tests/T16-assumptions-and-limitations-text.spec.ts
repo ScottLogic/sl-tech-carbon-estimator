@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
 
 test('T16 assert text for assumptions and limitations', async ({ page }) => {

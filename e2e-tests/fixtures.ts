@@ -2,9 +2,11 @@ import { test as base } from '@playwright/test';
 import { OrganisationSection } from './page-objects/organisation-section';
 import { OnPremSection } from './page-objects/on-prem-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
-import { EndUsersSection } from './page-objects/end-users-section'; // Assuming EndUsersSection is defined similarly to the others
+import { EndUsersSection } from './page-objects/end-users-section';
+import { TcsEstimator } from './page-objects/tcs-estimator';
 
 type Fixtures = {
+  tcsEstimator: TcsEstimator;
   organisationSection: OrganisationSection;
   onPremSection: OnPremSection;
   cloudServicesSection: CloudServicesSection;
@@ -12,6 +14,9 @@ type Fixtures = {
 };
 
 export const test = base.extend<Fixtures>({
+  tcsEstimator: async ({ page }, use) => {
+    await use(new TcsEstimator(page));
+  },
   organisationSection: async ({ page }, use) => {
     await use(new OrganisationSection(page));
   },

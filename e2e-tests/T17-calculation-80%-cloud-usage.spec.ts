@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import { gotoHome, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T17 calculations show 80% cloud usage', async ({ page }) => {

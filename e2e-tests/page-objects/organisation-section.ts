@@ -1,7 +1,8 @@
 import type { Page, Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
+import { TcsEstimator } from './tcs-estimator';
 
-export class OrganisationSection {
+export class OrganisationSection extends TcsEstimator {
   public readonly selectEmployees: Locator;
   public readonly organisationHeading: Locator;
   public readonly percentageSlider: Locator;
@@ -9,8 +10,13 @@ export class OrganisationSection {
   public readonly defaultDesktopPercentage: Locator;
   public readonly defaultLaptopPercentage: Locator;
   public readonly organisationSectionInfo: Locator;
+  public readonly hideOrganisationSection: Locator;
+  public readonly showOrganisationSection: Locator;
+  public readonly showAdditionalSectionInfo: Locator;
+  public readonly hideAdditionalSectionInfo: Locator;
 
-  constructor(public readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.selectEmployees = page.getByLabel('How many employees are in the');
     this.organisationHeading = page.getByRole('heading', { name: 'Organisation' });
     this.percentageSlider = page.getByRole('slider', { name: 'What percentage of those' });
@@ -18,6 +24,22 @@ export class OrganisationSection {
     this.defaultLaptopPercentage = page.getByText('Laptops 50%');
     this.organisationSectionInfo = page.getByText('To understand the scale of');
     this.percentageSliderText = page.getByText('What percentage of those');
+    this.hideOrganisationSection = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Organisation expand_less To' })
+      .getByLabel('Hide details');
+    this.showOrganisationSection = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Organisation expand_more To' })
+      .getByLabel('Show details');
+    this.showAdditionalSectionInfo = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Where are your employees' })
+      .getByLabel('Show details');
+    this.hideAdditionalSectionInfo = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Where are your employees' })
+      .getByLabel('Hide details');
   }
 
   async assertOrganisationSectionVisible() {

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import { gotoHome, assertAllSectionElementsAreVisible, assertColumnShowsCorrectValues } from './test-helpers';
 
 test('T9 verify calculated values are coherent when on-prem is known and cloud is not used', async ({ page }) => {
