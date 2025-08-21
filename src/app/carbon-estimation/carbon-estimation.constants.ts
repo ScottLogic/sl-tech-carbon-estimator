@@ -8,7 +8,7 @@ export enum EmissionsColours {
   OperationLight = '#f2afd1',
   Downstream = '#4B7E56',
   DownstreamLight = '#c1d9c3',
-  Total = '#FA8904',
+  Total = '#646464',
 }
 
 export enum PlaceholderEmissionsColours {
