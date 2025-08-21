@@ -11,13 +11,13 @@ export class OrganisationSection {
   public readonly organisationSectionInfo: Locator;
 
   constructor(public readonly page: Page) {
-    this.selectEmployees = this.page.getByLabel('How many employees are in the');
-    this.organisationHeading = this.page.getByRole('heading', { name: 'Organisation' });
-    this.percentageSlider = this.page.getByRole('slider', { name: 'What percentage of those' });
-    this.defaultDesktopPercentage = this.page.getByText('Desktops 50%');
-    this.defaultLaptopPercentage = this.page.getByText('Laptops 50%');
-    this.organisationSectionInfo = this.page.getByText('To understand the scale of');
-    this.percentageSliderText = this.page.getByText('What percentage of those');
+    this.selectEmployees = page.getByLabel('How many employees are in the');
+    this.organisationHeading = page.getByRole('heading', { name: 'Organisation' });
+    this.percentageSlider = page.getByRole('slider', { name: 'What percentage of those' });
+    this.defaultDesktopPercentage = page.getByText('Desktops 50%');
+    this.defaultLaptopPercentage = page.getByText('Laptops 50%');
+    this.organisationSectionInfo = page.getByText('To understand the scale of');
+    this.percentageSliderText = page.getByText('What percentage of those');
   }
 
   async assertOrganisationSectionVisible() {

@@ -1,9 +1,7 @@
 import { test, expect } from './fixtures';
 import {
-  assertCloudElementVisibility,
   assertEndUserElementVisibility,
   gotoHome,
-  assertOnPremiseElementVisiblity,
   resultsTabVisibilityCheck,
   assertDefaultTableStructure,
 } from './test-helpers';
@@ -12,11 +10,12 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   page,
   organisationSection,
   onPremSection,
+  cloudServicesSection,
 }) => {
   await gotoHome(page);
   await organisationSection.assertOrganisationSectionVisible();
   await onPremSection.assertOnPremiseSectionVisible();
-  await assertCloudElementVisibility(page);
+  await cloudServicesSection.assertDefaultCloudElementVisibility();
   await assertEndUserElementVisibility(page);
   await resultsTabVisibilityCheck(page);
   await page.getByRole('tab', { name: 'Table' }).click();

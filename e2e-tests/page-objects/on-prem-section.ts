@@ -11,14 +11,14 @@ export class OnPremSection {
   public readonly serversUnknownLabel: Locator;
 
   constructor(public readonly page: Page) {
-    this.numberOfServers = this.page.getByLabel('Number of Servers:');
-    this.locationOfServers = this.page.getByLabel('Where are they primarily located?', { exact: true });
-    this.onPremHeading = this.page.getByRole('heading', { name: 'On-Premise Servers' });
-    this.onPremSectionInfo = this.page.getByText('How many on-premise servers');
-    this.onPremiseTickbox = this.page.getByRole('checkbox', { name: "I don't know" });
-    this.serverLocationText = this.page.getByText('Where are they primarily located? expand_more');
-    this.serverLocationTextExpansion = this.page.getByText('Where are they primarily located?');
-    this.serversUnknownLabel = this.page.locator('label').filter({ hasText: "I don't know" });
+    this.numberOfServers = page.getByLabel('Number of Servers:');
+    this.locationOfServers = page.getByLabel('Where are they primarily located?', { exact: true });
+    this.onPremHeading = page.getByRole('heading', { name: 'On-Premise Servers' });
+    this.onPremSectionInfo = page.getByText('How many on-premise servers');
+    this.onPremiseTickbox = page.getByRole('checkbox', { name: "I don't know" });
+    this.serverLocationText = page.getByText('Where are they primarily located? expand_more');
+    this.serverLocationTextExpansion = page.getByText('Where are they primarily located?');
+    this.serversUnknownLabel = page.locator('label').filter({ hasText: "I don't know" });
   }
 
   async assertOnPremiseSectionVisible() {
