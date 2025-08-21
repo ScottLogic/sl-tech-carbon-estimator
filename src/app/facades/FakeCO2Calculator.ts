@@ -22,7 +22,13 @@ export class FakeCO2Calculator implements ICO2Calculator {
 
   perByteTrace(bytes: number, green?: boolean | undefined, options?: any): CO2EstimateTraceResultPerByte {
     return { 
-      co2: 0,
+      co2: this.returnType == 'number' ? 0 : {
+        networkCO2: 0,
+        dataCenterCO2: 0,
+        consumerDeviceCO2: 0,
+        productionCO2: 0,
+        total: 0
+      },
       green: green ?? false,
       variables: {
         gridIntensity: { 
