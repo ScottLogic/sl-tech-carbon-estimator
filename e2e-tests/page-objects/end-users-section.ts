@@ -52,4 +52,26 @@ export class EndUsersSection {
     await expect(this.noEndUsersText).toBeVisible();
     await expect(this.endUserUnusedTickbox).not.toBeChecked();
   }
+
+  async setPrimaryPurpose(text: string) {
+    await this.primaryPurposeField.click();
+    await this.primaryPurposeField.fill(text);
+  }
+
+  async setEndUserLocation(text: string) {
+    await this.endUserLocationField.click();
+    await this.endUserLocationField.selectOption(text);
+  }
+
+  async setMonthlyActiveUsers(text: string) {
+    await this.monthlyActiveUsersField.click();
+    await this.monthlyActiveUsersField.fill(text);
+  }
+
+  async percentageSplitSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
+    await this.percentageSplitSlider.click();
+    for (let i = 0; i < clickCount; i++) {
+      await this.percentageSplitSlider.press(direction);
+    }
+  }
 }
