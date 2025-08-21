@@ -6,26 +6,55 @@ import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { By } from '@angular/platform-browser';
 
 const getMockCarbonEstimation: () => CarbonEstimation = () => ({
-  version: '0.0.0',
-  upstreamEmissions: {
-    software: 0,
-    employee: 10,
-    network: 10,
-    server: 5,
+  percentages: {
+    version: '0.0.0',
+    upstreamEmissions: {
+      software: 0,
+      employee: 10,
+      network: 10,
+      server: 5,
+    },
+    directEmissions: {
+      employee: 10,
+      network: 10,
+      server: 5,
+    },
+    indirectEmissions: {
+      cloud: 0,
+      saas: 0,
+      managed: 25,
+    },
+    downstreamEmissions: {
+      endUser: 15,
+      networkTransfer: 10,
+      downstreamInfrastructure: 0
+    },
+    totalEmissions: 70,
   },
-  indirectEmissions: {
-    saas: 0,
-    managed: 0,
-    cloud: 25,
-  },
-  directEmissions: {
-    employee: 10,
-    network: 10,
-    server: 5,
-  },
-  downstreamEmissions: {
-    endUser: 15,
-    networkTransfer: 10,
+  values: {
+    version: '1.0',
+    upstreamEmissions: {
+      software: 700,
+      employee: 600,
+      network: 600,
+      server: 600,
+    },
+    directEmissions: {
+      employee: 900,
+      network: 800,
+      server: 800,
+    },
+    indirectEmissions: {
+      cloud: 900,
+      saas: 800,
+      managed: 800,
+    },
+    downstreamEmissions: {
+      endUser: 1300,
+      networkTransfer: 1200,
+      downstreamInfrastructure: 0
+    },
+    totalEmissions: 7000,
   },
 });
 
