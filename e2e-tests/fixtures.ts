@@ -4,13 +4,17 @@ import { OnPremSection } from './page-objects/on-prem-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { EndUsersSection } from './page-objects/end-users-section';
 import { TcsEstimator } from './page-objects/tcs-estimator';
+import { EstimationsSection } from './page-objects/estimations-section';
+import { TableSection } from './page-objects/table-section';
 
 type Fixtures = {
   tcsEstimator: TcsEstimator;
+  tableSection: TableSection;
+  estimationsSection: EstimationsSection;
   organisationSection: OrganisationSection;
   onPremSection: OnPremSection;
   cloudServicesSection: CloudServicesSection;
-  endUsersSection: EndUsersSection; // Assuming EndUsersSection is defined similarly to the others
+  endUsersSection: EndUsersSection;
 };
 
 export const test = base.extend<Fixtures>({
@@ -30,7 +34,15 @@ export const test = base.extend<Fixtures>({
   },
 
   endUsersSection: async ({ page }, use) => {
-    await use(new EndUsersSection(page)); // Assuming EndUsersSection is defined similarly to the others
+    await use(new EndUsersSection(page));
+  },
+
+  estimationsSection: async ({ page }, use) => {
+    await use(new EstimationsSection(page));
+  },
+
+  tableSection: async ({ page }, use) => {
+    await use(new TableSection(page));
   },
 });
 

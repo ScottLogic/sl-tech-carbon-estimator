@@ -93,7 +93,7 @@ export class EndUsersSection {
 
   async setPrimaryPurpose(text: string) {
     await this.primaryPurposeField.click();
-    await this.primaryPurposeField.fill(text);
+    await this.primaryPurposeField.selectOption(text);
   }
 
   async setEndUserLocation(text: string) {
