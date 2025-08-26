@@ -4,6 +4,9 @@ import { sumValues } from '../utils/number-object';
 import { estimateDownstreamEmissions } from './estimate-downstream-emissions';
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
 import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
+import { ICO2Calculator } from '../facades/ICO2Calculator';
+
+let co2Calc: ICO2Calculator
 
 describe('estimateDownstreamEmissions()', () => {
   beforeEach(() => {
@@ -13,10 +16,10 @@ describe('estimateDownstreamEmissions()', () => {
         { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object')}
       ]
     })
+    co2Calc = TestBed.inject(CO2_CALCULATOR);
   })
 
   const carbonIntensity = 500;
-  const co2Calc = TestBed.inject(CO2_CALCULATOR);
 
   it('should return no emissions if no downstream is requested', () => {
     const input: Downstream = {
@@ -26,7 +29,7 @@ describe('estimateDownstreamEmissions()', () => {
       mobilePercentage: 0,
       purposeOfSite: 'average',
     };
-    const co2Calc = TestBed.inject(CO2_CALCULATOR);
+    
     expect(estimateDownstreamEmissions(input, carbonIntensity, co2Calc)).toEqual({
       endUser: 0,
       networkTransfer: 0,
