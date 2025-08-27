@@ -2,46 +2,43 @@ import { test, expect } from './fixtures';
 import {
   assertAllSectionElementsAreVisible,
   assertTableShowsCorrectCells,
-  gotoHome,
   assertColumnShowsCorrectValues,
 } from './test-helpers';
 import { assert } from 'console';
 
-test('T5 verify calculated values are coherent when laptop is 0%', async ({ page }) => {
-  await gotoHome(page);
+test('T5 verify calculated values are coherent when laptop is 0%', async ({
+  organisationSection,
+  page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+}) => {
+  await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
 
-  // Set laptop percentage to 0% (by moving desktop to 100%)
-  await page.getByText('Desktops 50%').click();
-  await page.getByLabel('What percentage of those').click();
-  for (let i = 0; i < 10; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowRight');
-  }
-  await expect(page.getByText('Laptops 0%')).toBeVisible();
+  await organisationSection.sliderPercentageSet('ArrowRight', 10);
+  await expect(organisationSection.percentageSliderText).toHaveValue('100');
 
-  // Configure On-Prem servers
-  await page.getByLabel('Where are they primarily located?').press('Enter');
-  await page.getByLabel('Where are they primarily located?').selectOption('GBR');
-  await page.getByLabel('Where are they primarily located?').selectOption('Globally');
+  await onPremSection.selectLocationOfServers('GBR');
+  await onPremSection.selectLocationOfServers('Globally');
 
-  // Configure Cloud settings
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').click();
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('ArrowLeft');
-  await expect(page.getByText('Cloud 45%')).toBeVisible();
-  await page.getByLabel('Where are your cloud servers').selectOption('GBR');
-  await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
+  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
+  await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
+  await cloudServicesSection.setCloudLocation('GBR');
+  await cloudServicesSection.setCloudLocation('WORLD');
 
-  // Configure Users
-  await page.getByLabel("What's the primary purpose of").selectOption('information');
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
+  await endUsersSection.setPrimaryPurpose('information');
+  await endUsersSection.setPrimaryPurpose('average');
 
-  // Calculate and verify
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T5-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T5-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await tcsEstimator.calculateButton.click();
+  await estimationsSection.assertDiagramScreenshot('T5-apex-chart-kilograms.png');
+  await estimationsSection.percentageButton.click();
+  await estimationsSection.assertDiagramScreenshot('T5-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages = [
     '35%',
@@ -75,6 +72,6 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({ page
     ' 239 kg ',
     ' 59927 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });
