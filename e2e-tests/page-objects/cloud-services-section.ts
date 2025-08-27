@@ -10,7 +10,7 @@ export class CloudServicesSection {
   public readonly monthlyCloudBill: Locator;
   public readonly CloudServicesNotUsedText: Locator;
   public readonly cloudUnusedTickbox: Locator;
-  public readonly cloudPercentageSlider: Locator;
+  public readonly percentageSlider: Locator;
   public readonly percentageSplitQuestion: Locator;
   public readonly derivedRoughEstimateText: Locator;
   public readonly hideCloudSection: Locator;
@@ -27,7 +27,7 @@ export class CloudServicesSection {
     this.monthlyCloudBill = page.getByLabel('What is your monthly cloud');
     this.CloudServicesNotUsedText = page.getByText("We don't use cloud services");
     this.cloudUnusedTickbox = page.getByRole('checkbox', { name: "We don't use cloud services" });
-    this.cloudPercentageSlider = page.getByRole('slider', {
+    this.percentageSlider = page.getByRole('slider', {
       name: 'What percentage of your servers are cloud services vs on-premise?',
     });
     this.percentageSplitQuestion = page.getByText('What percentage of your servers are cloud services vs on-premise?');
@@ -69,15 +69,15 @@ export class CloudServicesSection {
     await expect(this.monthlyCloudBill).toHaveValue('0: Object');
     await expect(this.CloudServicesNotUsedText).toBeVisible();
     await expect(this.cloudUnusedTickbox).not.toBeChecked();
-    await expect(this.cloudPercentageSlider).toBeVisible();
+    await expect(this.percentageSlider).toBeVisible();
     await expect(this.percentageSplitQuestion).toBeVisible();
     await expect(this.derivedRoughEstimateText).toBeVisible();
   }
 
-  async cloudPercentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    await this.cloudPercentageSlider.click();
+  async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
+    await this.percentageSlider.click();
     for (let i = 0; i < clickCount; i++) {
-      await this.cloudPercentageSlider.press(direction);
+      await this.percentageSlider.press(direction);
     }
   }
 }
