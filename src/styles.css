@@ -84,7 +84,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-export-modal-export-area {
-  @apply tce:text-center tce:p-8 tce:w-fit tce:min-w-[300px] tce:max-w-[900px] tce:aspect-[1/1.414];
+  @apply tce:text-center tce:p-8 tce:w-fit tce:min-h-[1209px] tce:min-w-[300px] tce:max-w-[900px] tce:aspect-[1/1.414];
 }
 
 .tce-export-modal-content #tce-chart-total-text {
@@ -109,4 +109,8 @@ input.ng-invalid.ng-touched {
 
 .tce-export-modal-report-name-input:focus {
   @apply tce:border-blue-700;
+}
+
+.tce-export-modal-input-display-container {
+  @apply tce:grid tce:grid-cols-2 tce:grid-rows-2 tce:gap-4 tce:grid-flow-col;
 }

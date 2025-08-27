@@ -9,15 +9,27 @@
 			</button>
 		</div>
 		<div class="tce-export-modal-export-area-colour-provider">
-			<div class="tce-export-modal-export-area" id="exportMe">
+			<div class="tce-export-modal-export-area" id="tceExportPageOne">
 				<div class="tce:flex tce:justify-center">
 				  <h2 class="tce-export-modal-report-name" >{{ reportName }}</h2>
 				</div>
 			  <carbon-estimation-treemap [carbonEstimation]="carbonEstimation()"
-				  [chartHeight]="chartHeight()"
+				  [chartHeight]="chartHeight"
 				  [shouldShowUnitsSwitch]="false"
 				  class="tce:!pointer-events-none"></carbon-estimation-treemap>
 			  <carbon-estimation-table [carbonEstimation]="carbonEstimation()" [shouldShowSvgs]="false"></carbon-estimation-table>
+			</div>
+		</div>
+		<div class="tce:min-h-4"></div>
+		<div class="tce-export-modal-export-area-colour-provider">
+			<div class="tce-export-modal-export-area" id="tceExportPageTwo">
+				<h2 class="tce:mb-3">Estimate Input Data</h2>
+				<div class="tce-export-modal-input-display-container">
+				  <input-group-display class="tce:m-auto" [inputGroup]="upstream()" [group]="'Upstream'"></input-group-display>
+				  <input-group-display class="tce:m-auto" [inputGroup]="downstream()" [group]="'Downstream'"></input-group-display>
+				  <input-group-display class="tce:m-auto" [inputGroup]="onPremise()" [group]="'On Premise'"></input-group-display>
+				  <input-group-display class="tce:m-auto" [inputGroup]="cloud()" [group]="'Cloud'"></input-group-display>
+			  </div>
 			</div>
 		</div>
 		<div class="tce:flex tce:justify-center">

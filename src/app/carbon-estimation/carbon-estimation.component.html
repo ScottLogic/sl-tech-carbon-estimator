@@ -45,6 +45,15 @@
   <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" class="tce:underline" tce-external-link>
     Export JSON
   </a>
+  <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json" class="tce:underline"
+    tce-external-link>
+    Export JSON with Inputs
+  </a>
   <button (click)="showModal()">Export PDF</button>
-  <export-modal *ngIf="isModalVisible" (close)="hideModal()" [carbonEstimation]="carbonEstimation()" [chartHeight]="chartHeight"></export-modal>
+  <export-modal
+    *ngIf="isModalVisible"
+    (close)="hideModal()"
+    [carbonEstimation]="carbonEstimation()"
+    [inputValues]="inputValues()"
+  ></export-modal>
 </div>

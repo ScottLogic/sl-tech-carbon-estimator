@@ -3,13 +3,12 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import { jsPDF } from 'jspdf';
 import { ExportModal } from '../export-modal/export-modal.component';
 import { CommonModule } from '@angular/common';
 
@@ -32,6 +31,7 @@ import { CommonModule } from '@angular/common';
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
+  public inputValues = input<EstimatorValues | undefined>();
 
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
   @ViewChild('treemap', { static: true }) treemap!: CarbonEstimationTreemapComponent;
@@ -112,7 +112,17 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   get carbonEstimationDownloadUrl(): string {
-    const estimateJson = JSON.stringify(this.carbonEstimation(), null, 2);
+    const exportObject = this.carbonEstimation();
+    return this.getJSONExportUrl(exportObject);
+  }
+
+  get carbonEstimationWithInputDownloadUrl(): string {
+    const exportObject = {estimate: this.carbonEstimation(), input: this.inputValues()};
+    return this.getJSONExportUrl(exportObject);
+  }
+
+  private getJSONExportUrl(exportObject: unknown): string {
+    const estimateJson = JSON.stringify(exportObject, null, 2);
     const blob = new Blob([estimateJson], { type: 'application/json' });
     const carbonEstimationJSONUrl = URL.createObjectURL(blob);
     return carbonEstimationJSONUrl;
