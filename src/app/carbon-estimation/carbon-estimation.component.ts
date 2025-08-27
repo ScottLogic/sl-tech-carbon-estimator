@@ -138,4 +138,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public hideModal() {
 	  this.isModalVisible = false;
   }
+
+  public isExportMenuOpen = false;
+
+  public toggleExportMenu() {
+    this.isExportMenuOpen = !this.isExportMenuOpen;
+  }
 }

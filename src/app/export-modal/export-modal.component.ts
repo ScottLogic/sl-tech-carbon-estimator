@@ -56,5 +56,3 @@ export class ExportModal {
 
   
 }
-
-// now have 2 pages, need to screen grab separetly and add to pdf one by one

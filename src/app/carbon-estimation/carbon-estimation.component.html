@@ -30,6 +30,7 @@
       </p>
     </div>
   </expansion-panel>
+  
   <tabs class="tce:mt-2">
     <tab-item [active]="true" [title]="'Diagram'" (tabSelected)="treemapSelected()">
       <carbon-estimation-treemap
@@ -41,15 +42,31 @@
     <tab-item [title]="'Table'">
       <carbon-estimation-table [carbonEstimation]="carbonEstimation()" [shouldShowSvgs]="true"></carbon-estimation-table
     ></tab-item>
+    <tab-item [title]="'Export'">
+      <div class="tce-relative tce-inline-block">
+    <button class="tce-bg-slate-200 tce-px-4 tce-py-2 tce-rounded tce-shadow tce-font-medium" (click)="toggleExportMenu()"
+      >
+      Export ▼
+    </button>
+    <div *ngIf="isExportMenuOpen"
+      class="tce-absolute tce-right-0 tce-mt-2 tce-bg-white tce-shadow-lg tce-rounded tce-z-10 tce-min-w-[200px]"
+      (click)="$event.stopPropagation()">
+      <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json"
+        class="tce-block tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-underline" tce-external-link>
+        Export JSON
+      </a>
+      <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json"
+        class="tce-block tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-underline" tce-external-link>
+        Export JSON with Inputs
+      </a>
+      <button class="tce-block tce-w-full tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-text-left"
+        (click)="showModal()">
+        Export PDF
+      </button>
+    </div>
+  </div>
+    </tab-item>
   </tabs>
-  <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" class="tce:underline" tce-external-link>
-    Export JSON
-  </a>
-  <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json" class="tce:underline"
-    tce-external-link>
-    Export JSON with Inputs
-  </a>
-  <button (click)="showModal()">Export PDF</button>
   <export-modal
     *ngIf="isModalVisible"
     (close)="hideModal()"
