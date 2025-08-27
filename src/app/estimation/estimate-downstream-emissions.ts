@@ -8,7 +8,7 @@ import {
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
-import { co2 } from '@tgwf/co2';
+import { ICO2Calculator } from '../facades/ICO2Calculator';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
@@ -56,7 +56,8 @@ export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
 
 export function estimateDownstreamEmissions(
   downstream: Downstream,
-  downstreamIntensity: gCo2ePerKwh
+  downstreamIntensity: gCo2ePerKwh,
+  co2Calc: ICO2Calculator
 ): DownstreamEstimation {
   if (downstream.noDownstream) {
     return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
@@ -67,7 +68,7 @@ export function estimateDownstreamEmissions(
     downstream.purposeOfSite
   );
   const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-  const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer);
+  const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer, co2Calc);
   const downstreamInfrastructureEmissions = estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
   return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
 }
@@ -98,11 +99,7 @@ function estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercen
   return averageDevice.estimateEnergy(userTime);
 }
 
-function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number) {
-  const co2Inst = new co2({
-    model: 'swd',
-    results: 'segment',
-  });
+function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number, co2Calc: ICO2Calculator) {
   const options = {
     gridIntensity: {
       device: 0,
@@ -110,7 +107,7 @@ function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer
       dataCenter: 0,
     },
   };
-  const result = co2Inst.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
+  const result = co2Calc.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
   if (typeof result.co2 !== 'number') {
     return result.co2.networkCO2 / 1000;
   }
