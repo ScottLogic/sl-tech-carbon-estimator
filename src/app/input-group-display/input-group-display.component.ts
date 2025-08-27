@@ -25,6 +25,9 @@ export class InputGroupDisplay {
         entries.push(['No Cloud Services', (this.inputGroup() as Cloud).noCloudServices]);
       } else {
         entries = Object.entries(this.inputGroup() ?? {});
+        entries.forEach(entry => {
+          entry[0] = entry[0].replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+        })
       }
     }
 
