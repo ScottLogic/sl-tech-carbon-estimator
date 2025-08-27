@@ -13,6 +13,7 @@ describe('TabItemComponent', () => {
     .compileComponents();
     
     fixture = TestBed.createComponent(TabItemComponent);
+    fixture.componentRef.setInput('title', 'Tab Title');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
