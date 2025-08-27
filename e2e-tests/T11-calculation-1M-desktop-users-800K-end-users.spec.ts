@@ -1,56 +1,49 @@
 import { test, expect } from './fixtures';
+import { EndUsersSection } from './page-objects/end-users-section';
 import {
-  gotoHome,
   assertAllSectionElementsAreVisible,
   assertTableShowsCorrectCells,
   assertColumnShowsCorrectValues,
 } from './test-helpers';
 
-test('T11 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
-  await gotoHome(page);
+test('T11 verify calculated values are coherent with selected employees, servers and users', async ({
+  organisationSection,
+  page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+}) => {
+  await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
-  // Organisation
-  await page.getByLabel('How many employees are in the').fill('1000000');
-  await expect(page.getByText('What percentage of those')).toBeVisible();
-  for (let i = 0; i < 10; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowRight');
-  }
-  await expect(page.getByText('Desktops 100%')).toBeVisible();
-  await expect(page.getByText('Laptops 0%')).toBeVisible();
 
-  // On Prem Servers
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('100');
-  await page.getByLabel('Where are they primarily').selectOption('unknown');
+  await organisationSection.selectNumberOfEmployess('1000000');
+  await organisationSection.sliderPercentageSet('ArrowRight', 10);
+  await expect(organisationSection.percentageSliderText).toHaveValue('100');
 
-  // Cloud
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').click();
-  for (let i = 0; i < 7; i++) {
-    await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('ArrowLeft');
-  }
-  await expect(page.getByText('Cloud 15%')).toBeVisible();
-  await page.getByLabel('What is your monthly cloud').selectOption('4: Object');
+  await onPremSection.selectNumberOfServers('100');
+  await onPremSection.selectLocationOfServers('unknown');
+
+  await cloudServicesSection.percentageSliderSet('ArrowLeft', 7);
+  await expect(cloudServicesSection.percentageSlider).toHaveValue('15');
+  await cloudServicesSection.setMonthlyCloudBill('4: Object');
 
   // Users
-  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
+  await endUsersSection.setEndUserLocation('Globally');
   await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('800000');
-  await page.getByLabel('What percentage of your end-users').click();
-  await page.getByLabel('What percentage of your end-users').click();
-  for (let i = 0; i < 7; i++) {
-    await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
-  }
-  await page.getByLabel("What's the primary purpose of ").selectOption('socialMedia');
-  await page.getByText('Mobile 15%').click();
+  await endUsersSection.setMonthlyActiveUsers('800000');
+  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 7);
+  await expect(endUsersSection.percentageSplitSlider).toHaveValue('15');
+  await endUsersSection.setPrimaryPurpose('socialMedia');
 
-  // Calculate
-  // Calculate outcome and make sure it matches spreadsheet
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T11-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await tcsEstimator.calculateButton.click();
+  await estimationsSection.assertDiagramScreenshot('T11-apex-chart-kilograms.png');
+  await estimationsSection.percentageButton.click();
+  await estimationsSection.assertDiagramScreenshot('T11-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages = [
     '59%',
@@ -84,6 +77,6 @@ test('T11 verify calculated values are coherent with selected employees, servers
     ' 2288731 kg ',
     ' 285757476 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

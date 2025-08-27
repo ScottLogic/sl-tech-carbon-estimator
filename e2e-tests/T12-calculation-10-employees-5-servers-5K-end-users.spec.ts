@@ -1,46 +1,42 @@
 import { test, expect } from './fixtures';
-import { gotoHome, assertAllSectionElementsAreVisible, assertColumnShowsCorrectValues } from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T12 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
-  await gotoHome(page);
+test('T12 verify calculated values are coherent with selected employees, servers and users', async ({
+  organisationSection,
+  page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+}) => {
+  await tcsEstimator.gotoHome();
+
   await assertAllSectionElementsAreVisible(page);
-  // Organisation
-  await page.getByLabel('How many employees are in the').click();
-  await page.getByLabel('How many employees are in the').fill('10');
-  await page.getByLabel('What percentage of those').click();
-  for (let i = 0; i < 10; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowLeft');
-  }
 
-  // On Prem Servers
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('5');
-  await page.getByLabel('Where are they primarily').selectOption({ label: 'in the UK' });
+  await organisationSection.selectNumberOfEmployess('10');
+  await organisationSection.sliderPercentageSet('ArrowLeft', 10);
 
-  // Cloud
-  await page.getByLabel("We don't use cloud services").check();
-  await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
-  await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
+  await onPremSection.selectNumberOfServers('5');
+  await onPremSection.selectLocationOfServers('in the UK');
 
-  // Users
-  await page.getByLabel('Where are your end-users').selectOption({ label: 'in the UK' });
-  await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('5000');
-  await page.getByLabel('What percentage of your end-users').click();
-  await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
-  for (let i = 0; i < 5; i++) {
-    await page.getByLabel('What percentage of your end-users').press('ArrowRight');
-  }
-  await expect(page.getByText('Mobile 70%')).toBeVisible();
-  await page.getByLabel("What's the primary purpose of").selectOption('eCommerce');
+  await cloudServicesSection.cloudUnusedTickbox.check();
+  await expect(cloudServicesSection.cloudUnusedTickbox).toBeChecked();
+  await expect(cloudServicesSection.percentageSplitQuestion).not.toBeVisible();
 
-  // Calculate
-  // Calculate outcome and make sure it matches spreadsheet
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T12-apex-chart-pecentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
+  await endUsersSection.setEndUserLocation('in the UK');
+  await endUsersSection.setMonthlyActiveUsers('5000');
+  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 1);
+  await endUsersSection.percentageSplitSliderSet('ArrowRight', 5);
+  await expect(endUsersSection.percentageSplitSlider).toHaveValue('70');
+  await endUsersSection.setPrimaryPurpose('eCommerce');
+
+  await tcsEstimator.calculateButton.click();
+  await estimationsSection.assertDiagramScreenshot('T12-apex-chart-kilograms.png');
+  await estimationsSection.percentageButton.click();
+  await estimationsSection.assertDiagramScreenshot('T12-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [
     '32%',
@@ -72,6 +68,6 @@ test('T12 verify calculated values are coherent with selected employees, servers
     ' 24 kg ',
     ' 10202 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

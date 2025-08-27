@@ -1,43 +1,40 @@
 import { test, expect } from './fixtures';
-import { gotoHome, assertAllSectionElementsAreVisible, assertColumnShowsCorrectValues } from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
   page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
 }) => {
-  await gotoHome(page);
+  await tcsEstimator.gotoHome();
+
   await assertAllSectionElementsAreVisible(page);
 
-  // On Prem Servers
-  await page.getByLabel("I don't know").check();
-  await expect(page.getByText("We'll make an assumption")).toBeVisible();
-  await expect(page.getByText('Number of Servers:')).toBeVisible();
-  await expect(page.getByLabel('Number of Servers:')).toBeDisabled();
-  await page.getByLabel('Where are they primarily').selectOption('GBR');
-  await page.getByLabel('Where are they primarily').selectOption('WORLD');
+  await onPremSection.onPremUnknownTickbox.check();
+  await expect(onPremSection.assumptionText).toBeVisible();
+  await expect(onPremSection.numberOfServersContainer).toBeVisible();
+  await expect(onPremSection.numberOfServersContainer).toBeDisabled();
+  await onPremSection.selectLocationOfServers('GBR');
+  await onPremSection.selectLocationOfServers('WORLD');
 
-  // Cloud
-  await page.getByLabel("We don't use cloud services").check();
-  await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
-  await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
+  await cloudServicesSection.cloudUnusedTickbox.check();
+  await expect(cloudServicesSection.cloudUnusedTickbox).toBeChecked();
+  await expect(cloudServicesSection.percentageSplitQuestion).not.toBeVisible();
 
-  // Users
+  await endUsersSection.setEndUserLocation('in the UK');
+  await endUsersSection.setMonthlyActiveUsers('1000');
+  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 10);
+  await endUsersSection.setPrimaryPurpose('average');
 
-  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('in the UK');
-  await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('1000');
-
-  for (let i = 0; i < 10; i++) {
-    await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
-  }
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
-
-  // Calculate
-  // Calculate outcome and make sure it matches spreadsheet
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T10-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
+  await tcsEstimator.calculateButton.click();
+  await estimationsSection.assertDiagramScreenshot('T10-apex-chart-kilograms.png');
+  await estimationsSection.percentageButton.click();
+  await estimationsSection.assertDiagramScreenshot('T10-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [
     '33%',
@@ -69,6 +66,6 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
     ' 1066 kg ',
     ' 56758 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });
