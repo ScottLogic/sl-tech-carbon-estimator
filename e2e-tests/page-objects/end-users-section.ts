@@ -24,6 +24,7 @@ export class EndUsersSection {
   public readonly hideEndUserLocationInfo: Locator;
   public readonly showEndUserPercentageInfo: Locator;
   public readonly hideEndUserPercentageInfo: Locator;
+  public readonly monthlyActiveUsersError: Locator;
 
   constructor(public readonly page: Page) {
     this.endUsersHeading = page.getByRole('heading', { name: 'End-Users' });
@@ -72,6 +73,7 @@ export class EndUsersSection {
       .locator('expansion-panel')
       .filter({ hasText: 'What percentage of your end-' })
       .getByLabel('Hide details');
+    this.monthlyActiveUsersError = page.locator('#monthlyActiveUsersError').getByText('The number of monthly active');
   }
 
   async assertEndUserSectionVisible() {

@@ -14,6 +14,7 @@ export class OrganisationSection extends TcsEstimator {
   public readonly showOrganisationSection: Locator;
   public readonly showAdditionalSectionInfo: Locator;
   public readonly hideAdditionalSectionInfo: Locator;
+  public readonly headCountError: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -40,6 +41,7 @@ export class OrganisationSection extends TcsEstimator {
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your employees' })
       .getByLabel('Hide details');
+    this.headCountError = page.locator('#headCountError').getByText('The number of employees');
   }
 
   async assertOrganisationSectionVisible() {

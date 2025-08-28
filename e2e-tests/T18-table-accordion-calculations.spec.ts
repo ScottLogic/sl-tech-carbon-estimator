@@ -1,22 +1,17 @@
 import { test, expect } from './fixtures';
-import {
-  gotoHome,
-  assertAllSectionElementsAreVisible,
-  assertDefaultTableStructure,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test.describe('Table Accordion Calculations', async () => {
-  test.beforeEach(async ({ page }) => {
-    await gotoHome(page);
+  test.beforeEach(async ({ page, tcsEstimator, estimationsSection, tableSection }) => {
+    await tcsEstimator.gotoHome();
     await assertAllSectionElementsAreVisible(page);
-    await page.getByRole('tab', { name: 'Table' }).click();
-    await assertDefaultTableStructure(page);
+    await estimationsSection.tableViewButton.click();
+    await tableSection.assertDefaultTableStructure;
   });
-  test('Table shows expected values (no checkboxes)', async ({ page }) => {
-    await page.getByRole('button', { name: 'Calculate' }).click();
+  test('Table shows expected values (no checkboxes)', async ({ tcsEstimator, tableSection }) => {
+    await tcsEstimator.calculateButton.click();
 
-    const expectedEmissions = [
+    const expectedEmissionPercentages = [
       '34%',
       '25%',
       '7%',
@@ -48,13 +43,18 @@ test.describe('Table Accordion Calculations', async () => {
       ' 239 kg ',
       ' 55408 kg ',
     ];
-    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-    await assertColumnShowsCorrectValues(page, '3', expectedEmissions);
+    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
   });
-  test('Table shows expected values (On-Premise is unknown)', async ({ page }) => {
-    await page.getByRole('tab', { name: 'Table' }).click();
-    await page.getByLabel("I don't know").check();
-    await page.getByRole('button', { name: 'Calculate' }).click();
+  test('Table shows expected values (On-Premise is unknown)', async ({
+    tcsEstimator,
+    onPremSection,
+    estimationsSection,
+    tableSection,
+  }) => {
+    await estimationsSection.tableViewButton.click();
+    await onPremSection.onPremUnknownTickbox.check();
+    await tcsEstimator.calculateButton.click();
 
     const expectedEmissionsOnPremiseUnknownArray = [
       '42%',
@@ -89,13 +89,17 @@ test.describe('Table Accordion Calculations', async () => {
       ' 239 kg ',
       ' 40501 kg ',
     ];
-    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsOnPremiseUnknownArray);
-    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsOnPremiseUnknownArray);
+    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsOnPremiseUnknownArray);
+    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsOnPremiseUnknownArray);
   });
-  test('Table shows expected values (Cloud services not used)', async ({ page }) => {
-    await page.getByLabel("We don't use cloud services").check();
-    await page.getByRole('button', { name: 'Calculate' }).click();
-    await expect(page.getByRole('gridcell', { name: 'Cloud Services', exact: true })).not.toBeVisible();
+  test('Table shows expected values (Cloud services not used)', async ({
+    tcsEstimator,
+    cloudServicesSection,
+    tableSection,
+  }) => {
+    await cloudServicesSection.cloudUnusedTickbox.check();
+    await tcsEstimator.calculateButton.click();
+    await expect(tableSection.cloudServices).not.toBeVisible();
 
     const expectedEmissionsCloudNotUsedArray = [
       '34%',
@@ -127,14 +131,14 @@ test.describe('Table Accordion Calculations', async () => {
       ' 239 kg ',
       ' 54787 kg ',
     ];
-    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsCloudNotUsedArray);
-    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsCloudNotUsedArray);
+    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsCloudNotUsedArray);
+    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsCloudNotUsedArray);
   });
-  test('Table shows expected values (No external users)', async ({ page }) => {
-    await page.getByRole('checkbox', { name: "We don't have any external" }).check();
-    await page.getByRole('button', { name: 'Calculate' }).click();
-    await expect(page.getByRole('gridcell', { name: 'End-User Devices', exact: true })).not.toBeVisible();
-    await expect(page.getByRole('gridcell', { name: 'Network Data Transfer', exact: true })).not.toBeVisible();
+  test('Table shows expected values (No external users)', async ({ tcsEstimator, endUsersSection, tableSection }) => {
+    await endUsersSection.endUserUnusedTickbox.check();
+    await tcsEstimator.calculateButton.click();
+    await expect(tableSection.endUserDevices).not.toBeVisible();
+    await expect(tableSection.networkDataTransfer).not.toBeVisible();
 
     const expectedEmissionsNoExternalUsersArray = [
       '34%',
@@ -164,7 +168,7 @@ test.describe('Table Accordion Calculations', async () => {
       ' <1 kg ',
       ' 55022 kg ',
     ];
-    await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilogramsNoExternalUsersArray);
-    await assertColumnShowsCorrectValues(page, '3', expectedEmissionsNoExternalUsersArray);
+    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsNoExternalUsersArray);
+    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsNoExternalUsersArray);
   });
 });

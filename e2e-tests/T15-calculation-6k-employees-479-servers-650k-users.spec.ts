@@ -1,60 +1,46 @@
 import { test, expect } from './fixtures';
-import {
-  assertAllSectionElementsAreVisible,
-  assertColumnShowsCorrectValues,
-  assertTableShowsCorrectCells,
-  gotoHome,
-} from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T15 verify calculated values are coherent with selected employees, servers and users', async ({ page }) => {
-  await gotoHome(page);
+test('T15 verify calculated values are coherent with selected employees, servers and users', async ({
+  organisationSection,
+  page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+}) => {
+  await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
 
-  // Organisation
-  await page.getByLabel('How many employees are in the').click();
-  await page.getByLabel('How many employees are in the').fill('6000');
-  await page.getByLabel('What percentage of those').click();
-  for (let i = 0; i < 6; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowRight');
-  }
-  await expect(page.getByText('Desktops 80%')).toBeVisible();
-  await expect(page.getByText('Laptops 20%')).toBeVisible();
+  await organisationSection.selectNumberOfEmployess('6000');
+  await organisationSection.sliderPercentageSet('ArrowRight', 6);
+  await expect(organisationSection.percentageSlider).toHaveValue('80');
 
-  // On Prem Servers
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('479');
-  await page.getByLabel('Where are they primarily').selectOption('Globally');
+  await onPremSection.selectNumberOfServers('479');
+  await onPremSection.selectLocationOfServers('Globally');
 
-  // Cloud
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').click();
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('ArrowLeft');
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').fill('50');
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').click();
-  for (let i = 0; i < 6; i++) {
-    await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('ArrowRight');
-  }
-  await expect(page.getByText('Cloud 80%')).toBeVisible();
-  await expect(page.getByText('On-Premise 20%')).toBeVisible();
-  await expect(page.getByLabel('Where are your cloud servers')).toHaveValue('WORLD');
-  await page.getByLabel('What is your monthly cloud').selectOption('7: Object');
+  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
+  await cloudServicesSection.percentageSlider.fill('50');
+  await cloudServicesSection.percentageSliderSet('ArrowRight', 6);
+  await expect(cloudServicesSection.percentageSlider).toHaveValue('80');
+  await expect(cloudServicesSection.serverLocation).toHaveValue('WORLD');
+  await cloudServicesSection.setMonthlyCloudBill('7: Object');
 
-  // Users
-  await page.getByLabel('Where are your end-users').selectOption('in Europe');
-  await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('650000');
-  await page.getByLabel('What percentage of your end-users').click();
-  await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
-  await expect(page.getByText('Mobile 45%')).toBeVisible();
-  await expect(page.getByText("What's the primary purpose of your")).toBeVisible();
-  await page.getByLabel("What's the primary purpose of your").selectOption('eCommerce');
+  await endUsersSection.setEndUserLocation('in Europe');
+  await endUsersSection.setMonthlyActiveUsers('650000');
+  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 1);
+  await expect(endUsersSection.percentageSplitSlider).toHaveValue('45');
+  await expect(endUsersSection.primaryPurposeQuestion).toBeVisible();
+  await endUsersSection.setPrimaryPurpose('eCommerce');
 
-  // Calculate
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T15-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await tcsEstimator.calculateButton.click();
+  await estimationsSection.assertDiagramScreenshot('T15-apex-chart-kilograms.png');
+  await estimationsSection.percentageButton.click();
+  await estimationsSection.assertDiagramScreenshot('T15-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages = [
     '35%',
@@ -88,6 +74,6 @@ test('T15 verify calculated values are coherent with selected employees, servers
     ' 4162 kg ',
     ' 3217438 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });
