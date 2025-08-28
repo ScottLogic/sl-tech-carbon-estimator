@@ -10,6 +10,7 @@ test('T15 verify calculated values are coherent with selected employees, servers
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -36,9 +37,9 @@ test('T15 verify calculated values are coherent with selected employees, servers
   await endUsersSection.setPrimaryPurpose('eCommerce');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T15-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T15-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T15-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T15-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

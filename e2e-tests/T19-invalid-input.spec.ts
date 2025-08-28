@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures';
-import { resultsTabVisibilityCheck, assertAllSectionElementsAreVisible, spinButtonFill } from './test-helpers';
+import { resultsTabVisibilityCheck, assertAllSectionElementsAreVisible } from './test-helpers';
 
 test.describe('Assert errors based on input value', () => {
   test.beforeEach(async ({ page, tcsEstimator }) => {

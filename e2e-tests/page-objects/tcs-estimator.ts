@@ -1,6 +1,4 @@
 import type { Page, Locator } from '@playwright/test';
-import { expect } from '@playwright/test';
-import { OrganisationSection } from './organisation-section';
 
 export class TcsEstimator {
   readonly baseURL: string;

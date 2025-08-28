@@ -10,6 +10,7 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -29,9 +30,9 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T4-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T4-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

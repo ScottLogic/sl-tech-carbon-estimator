@@ -1,10 +1,5 @@
 import { test, expect } from './fixtures';
-import { EndUsersSection } from './page-objects/end-users-section';
-import {
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T11 verify calculated values are coherent with selected employees, servers and users', async ({
   organisationSection,
@@ -15,6 +10,7 @@ test('T11 verify calculated values are coherent with selected employees, servers
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -39,9 +35,9 @@ test('T11 verify calculated values are coherent with selected employees, servers
   await endUsersSection.setPrimaryPurpose('socialMedia');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T11-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T11-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T11-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T11-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

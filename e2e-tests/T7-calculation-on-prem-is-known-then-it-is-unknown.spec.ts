@@ -9,6 +9,7 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -27,9 +28,9 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   // Calculate
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T7-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T7-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
@@ -82,10 +83,10 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.kilogramsButton.click();
-  await estimationsSection.assertDiagramScreenshot('T7-apex-chart-kilograms-1.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T7-apex-chart-percentages-1.png');
+  await diagramSection.kilogramsButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-kilograms-1.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-percentages-1.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

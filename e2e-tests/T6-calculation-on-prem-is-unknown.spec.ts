@@ -9,6 +9,7 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -28,9 +29,9 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T6-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T6-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

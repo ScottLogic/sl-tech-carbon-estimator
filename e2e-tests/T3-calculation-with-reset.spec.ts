@@ -10,6 +10,7 @@ test('T3 verify calculated values are coherent with selected options', async ({
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
@@ -40,9 +41,9 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T3-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T3-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T3-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure;
 

@@ -1,10 +1,5 @@
-import { test, expect } from './fixtures';
-import {
-  gotoHome,
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { test } from './fixtures';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T2 verify calculated values are coherent with selected options', async ({
   organisationSection,
@@ -15,6 +10,7 @@ test('T2 verify calculated values are coherent with selected options', async ({
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
@@ -36,9 +32,9 @@ test('T2 verify calculated values are coherent with selected options', async ({
   await endUsersSection.setMonthlyActiveUsers('100');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T2-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T2-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure;
 

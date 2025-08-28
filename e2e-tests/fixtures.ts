@@ -6,8 +6,10 @@ import { EndUsersSection } from './page-objects/end-users-section';
 import { TcsEstimator } from './page-objects/tcs-estimator';
 import { EstimationsSection } from './page-objects/estimations-section';
 import { TableSection } from './page-objects/table-section';
+import { DiagramSection } from './page-objects/diagram-section';
 
 type Fixtures = {
+  diagramSection: DiagramSection;
   tcsEstimator: TcsEstimator;
   tableSection: TableSection;
   estimationsSection: EstimationsSection;
@@ -43,6 +45,9 @@ export const test = base.extend<Fixtures>({
 
   tableSection: async ({ page }, use) => {
     await use(new TableSection(page));
+  },
+  diagramSection: async ({ page }, use) => {
+    await use(new DiagramSection(page));
   },
 });
 

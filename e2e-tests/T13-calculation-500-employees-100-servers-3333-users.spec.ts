@@ -1,9 +1,5 @@
 import { test, expect } from './fixtures';
-import {
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T13 verify calculated values are coherent with selected employees, servers and users', async ({
   organisationSection,
@@ -14,6 +10,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -35,9 +32,9 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await endUsersSection.setPrimaryPurpose('information');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T13-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T13-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [
@@ -80,8 +77,8 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await cloudServicesSection.setCloudLocation("I don't know");
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T13-apex-chart-1.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

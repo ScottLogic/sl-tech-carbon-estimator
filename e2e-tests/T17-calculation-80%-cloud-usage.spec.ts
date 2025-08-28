@@ -9,6 +9,7 @@ test('T17 calculations show 80% cloud usage', async ({
   cloudServicesSection,
   endUsersSection,
   estimationsSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -29,7 +30,7 @@ test('T17 calculations show 80% cloud usage', async ({
   await endUsersSection.setPrimaryPurpose('streaming');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T17-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T17-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T17-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T17-apex-chart-percentages.png');
 });

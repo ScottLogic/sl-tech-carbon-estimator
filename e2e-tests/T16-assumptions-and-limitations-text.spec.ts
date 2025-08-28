@@ -1,38 +1,9 @@
 import { test, expect } from './fixtures';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T16 assert text for assumptions and limitations', async ({ page }) => {
-  await gotoHome(page);
+test('T16 assert text for assumptions and limitations', async ({ page, tcsEstimator }) => {
+  await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
-  // Organisation
-  await page.getByLabel('How many employees are in the').click();
-  await page.getByLabel('How many employees are in the').fill('6000');
-  await page.getByLabel('What percentage of those').click();
-  for (let i = 0; i < 6; i++) {
-    await page.getByLabel('What percentage of those').press('ArrowRight');
-  }
-  await expect(page.getByText('Desktops 80%')).toBeVisible();
-  // On Prem Servers
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('479');
-  await expect(page.getByLabel('Where are they primarily')).toHaveValue('WORLD');
-
-  // Cloud
-  await page.getByLabel("We don't use cloud services").check();
-  await expect(page.getByLabel("We don't use cloud services")).toBeChecked();
-  await expect(page.getByText('What percentage of your servers are cloud services vs on-premise?')).not.toBeVisible();
-  await expect(page.getByText('What is your monthly cloud')).not.toBeVisible();
-
-  // Users
-  await page.getByLabel('Where are your end-users').selectOption('in Europe');
-  await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('650000');
-  await page.getByLabel('What percentage of your end-users').click();
-  await page.getByLabel('What percentage of your end-users').press('ArrowLeft');
-  await expect(page.locator('form')).toContainText('Mobile 45%');
-  await page.getByLabel("What's the primary purpose of your").selectOption('eCommerce');
-  await page.getByRole('button', { name: 'Calculate' }).click();
-
   // Not recording calcs in this test. Content is here to check link and content of "Assumptions and limitations" page
 
   await page.getByRole('tab', { name: 'Assumptions and limitations' }).click();

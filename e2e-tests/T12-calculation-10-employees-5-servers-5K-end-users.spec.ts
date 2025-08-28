@@ -10,6 +10,7 @@ test('T12 verify calculated values are coherent with selected employees, servers
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
@@ -33,9 +34,9 @@ test('T12 verify calculated values are coherent with selected employees, servers
   await endUsersSection.setPrimaryPurpose('eCommerce');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T12-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T12-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T12-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T12-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [

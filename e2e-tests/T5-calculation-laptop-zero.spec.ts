@@ -1,10 +1,5 @@
 import { test, expect } from './fixtures';
-import {
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
-import { assert } from 'console';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T5 verify calculated values are coherent when laptop is 0%', async ({
   organisationSection,
@@ -15,6 +10,7 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(page);
@@ -34,9 +30,9 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T5-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T5-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T5-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T5-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 

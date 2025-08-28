@@ -9,6 +9,7 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
@@ -31,9 +32,9 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T10-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T10-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T10-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T10-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [

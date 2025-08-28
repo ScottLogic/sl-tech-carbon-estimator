@@ -1,6 +1,5 @@
 import type { Page, Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { assertColumnShowsCorrectValues, assertDefaultTableStructure } from '../test-helpers';
 
 export class TableSection {
   public readonly categoryHeading: Locator;

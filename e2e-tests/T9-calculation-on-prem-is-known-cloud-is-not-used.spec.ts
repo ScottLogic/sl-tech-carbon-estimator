@@ -9,6 +9,7 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   endUsersSection,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
@@ -26,9 +27,9 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.assertDiagramScreenshot('T9-apex-chart-kilograms.png');
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T9-apex-chart-percentages.png');
+  await diagramSection.assertDiagramScreenshot('T9-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T9-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
   const expectedEmissionPercentages = [
