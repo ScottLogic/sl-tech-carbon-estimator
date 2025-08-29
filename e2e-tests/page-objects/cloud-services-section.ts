@@ -15,8 +15,8 @@ export class CloudServicesSection {
   public readonly derivedRoughEstimateText: Locator;
   public readonly hideCloudSection: Locator;
   public readonly showCloudSection: Locator;
-  public readonly showAdditionalSectionInfo: Locator;
-  public readonly hideAdditionalSectionInfo: Locator;
+  public readonly showCloudServerLocationTooltip: Locator;
+  public readonly hideCloudServerLocationTooltip: Locator;
 
   constructor(public readonly page: Page) {
     this.cloudServicesHeading = page.getByRole('heading', { name: 'Cloud Services' });
@@ -40,11 +40,11 @@ export class CloudServicesSection {
       .locator('expansion-panel')
       .filter({ hasText: 'Cloud Services expand_more' })
       .getByLabel('Show details');
-    this.showAdditionalSectionInfo = page
+    this.showCloudServerLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your cloud servers' })
       .getByLabel('Show details');
-    this.hideAdditionalSectionInfo = page
+    this.hideCloudServerLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your cloud servers' })
       .getByLabel('Hide details');
@@ -75,7 +75,6 @@ export class CloudServicesSection {
   }
 
   async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    await this.percentageSlider.click();
     for (let i = 0; i < clickCount; i++) {
       await this.percentageSlider.press(direction);
     }

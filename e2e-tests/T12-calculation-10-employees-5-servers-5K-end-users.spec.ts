@@ -3,7 +3,6 @@ import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T12 verify calculated values are coherent with selected employees, servers and users', async ({
   organisationSection,
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -14,10 +13,11 @@ test('T12 verify calculated values are coherent with selected employees, servers
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await organisationSection.selectNumberOfEmployess('10');
-  await organisationSection.sliderPercentageSet('ArrowLeft', 10);
+  await organisationSection.percentageSlider.click();
+  await organisationSection.percentageSliderSet('ArrowLeft', 10);
 
   await onPremSection.selectNumberOfServers('5');
   await onPremSection.selectLocationOfServers('in the UK');
@@ -28,9 +28,10 @@ test('T12 verify calculated values are coherent with selected employees, servers
 
   await endUsersSection.setEndUserLocation('in the UK');
   await endUsersSection.setMonthlyActiveUsers('5000');
-  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 1);
-  await endUsersSection.percentageSplitSliderSet('ArrowRight', 5);
-  await expect(endUsersSection.percentageSplitSlider).toHaveValue('70');
+  await endUsersSection.percentageSlider.click();
+  await endUsersSection.percentageSliderSet('ArrowLeft', 1);
+  await endUsersSection.percentageSliderSet('ArrowRight', 5);
+  await expect(endUsersSection.percentageSlider).toHaveValue('70');
   await endUsersSection.setPrimaryPurpose('eCommerce');
 
   await tcsEstimator.calculateButton.click();

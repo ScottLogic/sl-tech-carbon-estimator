@@ -9,7 +9,7 @@ export class EndUsersSection {
   public readonly endUserLocationQuestion: Locator;
   public readonly noEndUsersText: Locator;
   public readonly endUserUnusedTickbox: Locator;
-  public readonly percentageSplitSlider: Locator;
+  public readonly percentageSlider: Locator;
   public readonly percentageSplitQuestion: Locator;
   public readonly primaryPurposeQuestion: Locator;
   public readonly primaryPurposeField: Locator;
@@ -18,12 +18,12 @@ export class EndUsersSection {
   public readonly monthlyActiveUsersField: Locator;
   public readonly hideEndUsersSection: Locator;
   public readonly showEndUsersSection: Locator;
-  public readonly showPrimaryPurposeInfo: Locator;
-  public readonly hidePrimaryPurposeInfo: Locator;
-  public readonly showEndUserLocationInfo: Locator;
-  public readonly hideEndUserLocationInfo: Locator;
-  public readonly showEndUserPercentageInfo: Locator;
-  public readonly hideEndUserPercentageInfo: Locator;
+  public readonly showPrimaryPurposeTooltip: Locator;
+  public readonly hidePrimaryPurposeTooltip: Locator;
+  public readonly showEndUserLocationTooltip: Locator;
+  public readonly hideEndUserLocationTooltip: Locator;
+  public readonly showEndUserPercentageTooltip: Locator;
+  public readonly hideEndUserPercentageTooltip: Locator;
   public readonly monthlyActiveUsersError: Locator;
 
   constructor(public readonly page: Page) {
@@ -31,7 +31,7 @@ export class EndUsersSection {
     this.endUsersSummary = page.getByText('Tell us about your end-users');
     this.noEndUsersText = page.getByText("We don't have any external");
     this.endUserUnusedTickbox = page.getByRole('checkbox', { name: "We don't have any external" });
-    this.percentageSplitSlider = page.getByRole('slider', { name: 'What percentage of your end-' });
+    this.percentageSlider = page.getByRole('slider', { name: 'What percentage of your end-' });
     this.primaryPurposeQuestion = page.getByLabel("What's the primary purpose of");
     this.primaryPurposeField = page.getByLabel("What's the primary purpose of");
     this.endUserLocationQuestion = page.getByText('Where are your end-users');
@@ -49,27 +49,27 @@ export class EndUsersSection {
       .locator('expansion-panel')
       .filter({ hasText: 'End-Users expand_more Tell us' })
       .getByLabel('Show details');
-    this.showPrimaryPurposeInfo = page
+    this.showPrimaryPurposeTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: "What's the primary purpose of" })
       .getByLabel('Show details');
-    this.hidePrimaryPurposeInfo = page
+    this.hidePrimaryPurposeTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: "What's the primary purpose of" })
       .getByLabel('Hide details');
-    this.showEndUserLocationInfo = page
+    this.showEndUserLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your end-users' })
       .getByLabel('Show details');
-    this.hideEndUserLocationInfo = page
+    this.hideEndUserLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your end-users' })
       .getByLabel('Hide details');
-    this.showEndUserPercentageInfo = page
+    this.showEndUserPercentageTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'What percentage of your end-' })
       .getByLabel('Show details');
-    this.hideEndUserPercentageInfo = page
+    this.hideEndUserPercentageTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'What percentage of your end-' })
       .getByLabel('Hide details');
@@ -88,7 +88,7 @@ export class EndUsersSection {
     await expect(this.primaryPurposeQuestion).toBeVisible();
     await expect(this.primaryPurposeField).toHaveValue('average');
     await expect(this.percentageSplitQuestion).toBeVisible();
-    await expect(this.percentageSplitSlider).toBeVisible();
+    await expect(this.percentageSlider).toBeVisible();
     await expect(this.noEndUsersText).toBeVisible();
     await expect(this.endUserUnusedTickbox).not.toBeChecked();
   }
@@ -108,10 +108,9 @@ export class EndUsersSection {
     await this.monthlyActiveUsersField.fill(text);
   }
 
-  async percentageSplitSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    await this.percentageSplitSlider.click();
+  async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
     for (let i = 0; i < clickCount; i++) {
-      await this.percentageSplitSlider.press(direction);
+      await this.percentageSlider.press(direction);
     }
   }
 }

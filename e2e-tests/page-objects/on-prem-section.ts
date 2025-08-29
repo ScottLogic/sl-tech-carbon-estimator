@@ -17,6 +17,8 @@ export class OnPremSection {
   public readonly hideAdditionalSectionInfo: Locator;
   public readonly assumptionText: Locator;
   public readonly numberOfServersError: Locator;
+  public readonly showServerLocationTooltip: Locator;
+  public readonly hideServerLocationTooltip: Locator;
 
   constructor(public readonly page: Page) {
     this.numberOfServers = page.getByLabel('Number of Servers:');
@@ -47,6 +49,14 @@ export class OnPremSection {
       .filter({ hasText: 'Where are they primarily' })
       .getByLabel('Hide details');
     this.numberOfServersError = page.locator('#numberOfServersError').getByText('The number of servers');
+    this.showServerLocationTooltip = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Where are they primarily' })
+      .getByLabel('Show details');
+    this.hideServerLocationTooltip = page
+      .locator('expansion-panel')
+      .filter({ hasText: 'Where are they primarily' })
+      .getByLabel('Hide details');
   }
 
   async assertOnPremiseSectionVisible() {

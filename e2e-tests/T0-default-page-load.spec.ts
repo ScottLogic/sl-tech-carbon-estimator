@@ -8,6 +8,7 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   tcsEstimator,
   estimationsSection,
   tableSection,
+  diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
   await organisationSection.assertOrganisationSectionVisible();
@@ -15,11 +16,11 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   await cloudServicesSection.assertDefaultCloudElementVisibility();
   await endUsersSection.assertEndUserSectionVisible();
 
-  await estimationsSection.assertResultsElementVIsibility();
+  await estimationsSection.assertResultsElementVisibility();
   await estimationsSection.tableViewButton.click();
   await tableSection.assertDefaultTableStructure();
   await estimationsSection.diagramViewButton.click();
   await tcsEstimator.calculateButton.click();
-  await estimationsSection.percentageButton.click();
-  await estimationsSection.assertDiagramScreenshot('T0-apex-chart.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T0-apex-chart.png');
 });

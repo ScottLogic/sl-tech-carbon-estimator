@@ -10,10 +10,11 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   estimationsSection,
   tableSection,
   diagramSection,
+  organisationSection,
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await onPremSection.onPremUnknownTickbox.check();
   await expect(onPremSection.assumptionText).toBeVisible();
@@ -28,7 +29,8 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
 
   await endUsersSection.setEndUserLocation('in the UK');
   await endUsersSection.setMonthlyActiveUsers('1000');
-  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 10);
+  await endUsersSection.percentageSlider.click();
+  await endUsersSection.percentageSliderSet('ArrowLeft', 10);
   await endUsersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();

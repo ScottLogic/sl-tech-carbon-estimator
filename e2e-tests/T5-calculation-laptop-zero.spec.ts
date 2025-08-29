@@ -13,14 +13,15 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
-
-  await organisationSection.sliderPercentageSet('ArrowRight', 10);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await organisationSection.percentageSlider.click();
+  await organisationSection.percentageSliderSet('ArrowRight', 10);
   await expect(organisationSection.percentageSliderText).toHaveValue('100');
 
   await onPremSection.selectLocationOfServers('GBR');
   await onPremSection.selectLocationOfServers('Globally');
 
+  await cloudServicesSection.percentageSlider.click();
   await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
   await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
   await cloudServicesSection.setCloudLocation('GBR');

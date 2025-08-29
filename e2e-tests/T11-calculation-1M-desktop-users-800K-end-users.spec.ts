@@ -13,25 +13,26 @@ test('T11 verify calculated values are coherent with selected employees, servers
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await organisationSection.selectNumberOfEmployess('1000000');
-  await organisationSection.sliderPercentageSet('ArrowRight', 10);
+  await organisationSection.percentageSlider.click();
+  await organisationSection.percentageSliderSet('ArrowRight', 10);
   await expect(organisationSection.percentageSliderText).toHaveValue('100');
 
   await onPremSection.selectNumberOfServers('100');
   await onPremSection.selectLocationOfServers('unknown');
-
+  await cloudServicesSection.percentageSlider.click();
   await cloudServicesSection.percentageSliderSet('ArrowLeft', 7);
   await expect(cloudServicesSection.percentageSlider).toHaveValue('15');
   await cloudServicesSection.setMonthlyCloudBill('4: Object');
 
-  // Users
   await endUsersSection.setEndUserLocation('Globally');
   await page.getByLabel('How many monthly active users').click();
   await endUsersSection.setMonthlyActiveUsers('800000');
-  await endUsersSection.percentageSplitSliderSet('ArrowLeft', 7);
-  await expect(endUsersSection.percentageSplitSlider).toHaveValue('15');
+  await endUsersSection.percentageSlider.click();
+  await endUsersSection.percentageSliderSet('ArrowLeft', 7);
+  await expect(endUsersSection.percentageSlider).toHaveValue('15');
   await endUsersSection.setPrimaryPurpose('socialMedia');
 
   await tcsEstimator.calculateButton.click();

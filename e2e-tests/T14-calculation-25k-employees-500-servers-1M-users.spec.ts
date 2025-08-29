@@ -3,7 +3,6 @@ import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T14 verify calculated values are coherent with selected employees, servers and users', async ({
   organisationSection,
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -13,10 +12,11 @@ test('T14 verify calculated values are coherent with selected employees, servers
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await organisationSection.selectNumberOfEmployess('25000');
-  await organisationSection.sliderPercentageSet('ArrowRight', 6);
+  await organisationSection.percentageSlider.click();
+  await organisationSection.percentageSliderSet('ArrowRight', 6);
   await expect(organisationSection.percentageSliderText).toHaveValue('80');
 
   await onPremSection.selectNumberOfServers('500');
@@ -28,15 +28,14 @@ test('T14 verify calculated values are coherent with selected employees, servers
   await cloudServicesSection.setCloudLocation('WORLD');
   await expect(cloudServicesSection.monthlyCloudBill).toHaveValue('0: Object');
 
-  // Users
   await endUsersSection.setEndUserLocation('in North America');
   await endUsersSection.setMonthlyActiveUsers('10000000');
-  await endUsersSection.percentageSplitSliderSet('ArrowRight', 6);
-  await expect(endUsersSection.percentageSplitSlider).toHaveValue('80');
+  await endUsersSection.percentageSlider.click();
+  await endUsersSection.percentageSliderSet('ArrowRight', 6);
+  await expect(endUsersSection.percentageSlider).toHaveValue('80');
   await await expect(endUsersSection.primaryPurposeQuestion).toBeVisible();
   await endUsersSection.setPrimaryPurpose('streaming');
 
-  // Calculate
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T14-apex-chart-kilograms.png');
   await diagramSection.percentageButton.click();

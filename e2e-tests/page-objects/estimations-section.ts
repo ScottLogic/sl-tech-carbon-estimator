@@ -9,7 +9,7 @@ export class EstimationsSection {
     this.diagramViewButton = page.getByRole('tab', { name: 'Diagram' });
     this.tableViewButton = page.getByRole('tab', { name: 'Table' });
   }
-  async assertResultsElementVIsibility() {
+  async assertResultsElementVisibility() {
     await expect(this.diagramViewButton).toBeVisible();
     await expect(this.tableViewButton).toBeVisible();
   }

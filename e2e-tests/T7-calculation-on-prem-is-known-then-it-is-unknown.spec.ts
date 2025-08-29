@@ -2,7 +2,6 @@ import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -10,9 +9,10 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   estimationsSection,
   tableSection,
   diagramSection,
+  organisationSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await onPremSection.selectNumberOfServers('555');
   await onPremSection.selectLocationOfServers('GBR');

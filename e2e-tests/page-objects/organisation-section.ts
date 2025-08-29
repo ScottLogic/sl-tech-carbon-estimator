@@ -12,9 +12,9 @@ export class OrganisationSection extends TcsEstimator {
   public readonly organisationSectionInfo: Locator;
   public readonly hideOrganisationSection: Locator;
   public readonly showOrganisationSection: Locator;
-  public readonly showAdditionalSectionInfo: Locator;
-  public readonly hideAdditionalSectionInfo: Locator;
   public readonly headCountError: Locator;
+  public readonly showEmployeeLocationTooltip: Locator;
+  public readonly hideEmployeeLocationTooltip: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -33,15 +33,15 @@ export class OrganisationSection extends TcsEstimator {
       .locator('expansion-panel')
       .filter({ hasText: 'Organisation expand_more To' })
       .getByLabel('Show details');
-    this.showAdditionalSectionInfo = page
+    this.headCountError = page.locator('#headCountError').getByText('The number of employees');
+    this.showEmployeeLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your employees' })
       .getByLabel('Show details');
-    this.hideAdditionalSectionInfo = page
+    this.hideEmployeeLocationTooltip = page
       .locator('expansion-panel')
       .filter({ hasText: 'Where are your employees' })
       .getByLabel('Hide details');
-    this.headCountError = page.locator('#headCountError').getByText('The number of employees');
   }
 
   async assertOrganisationSectionVisible() {
@@ -54,12 +54,12 @@ export class OrganisationSection extends TcsEstimator {
     await expect(this.percentageSlider).toBeVisible();
   }
 
-  async sliderPercentageSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    await this.percentageSlider.click();
+  async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
     for (let i = 0; i < clickCount; i++) {
       await this.percentageSlider.press(direction);
     }
   }
+
   async selectNumberOfEmployess(text: string) {
     await this.selectEmployees.click();
     await this.selectEmployees.fill(text);

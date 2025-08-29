@@ -1,10 +1,16 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T16 assert text for assumptions and limitations', async ({ page, tcsEstimator }) => {
+test('T16 assert text for assumptions and limitations', async ({
+  page,
+  organisationSection,
+  onPremSection,
+  endUsersSection,
+  cloudServicesSection,
+  tcsEstimator,
+}) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
-  // Not recording calcs in this test. Content is here to check link and content of "Assumptions and limitations" page
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await page.getByRole('tab', { name: 'Assumptions and limitations' }).click();
   await expect(page.getByRole('heading', { name: 'Assumptions and Limitations' })).toBeVisible();

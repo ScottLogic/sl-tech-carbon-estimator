@@ -8,11 +8,10 @@ test('T17 calculations show 80% cloud usage', async ({
   onPremSection,
   cloudServicesSection,
   endUsersSection,
-  estimationsSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
   await organisationSection.selectNumberOfEmployess('1000');
   await expect(organisationSection.percentageSliderText).toBeVisible();
@@ -23,7 +22,7 @@ test('T17 calculations show 80% cloud usage', async ({
 
   await page.getByText('On-premise 50%').click();
   await cloudServicesSection.setCloudLocation('in the UK');
-  await cloudServicesSection.setMonthlyCloudBill('10: Object'); // $1m-$2m
+  await cloudServicesSection.setMonthlyCloudBill('10: Object');
 
   await endUsersSection.setEndUserLocation('in the UK');
   await endUsersSection.setMonthlyActiveUsers('100');

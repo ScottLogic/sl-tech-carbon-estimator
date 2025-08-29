@@ -1,12 +1,26 @@
 import { test, expect } from './fixtures';
-import { resultsTabVisibilityCheck, assertAllSectionElementsAreVisible } from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test.describe('Assert errors based on input value', () => {
-  test.beforeEach(async ({ page, tcsEstimator }) => {
-    await tcsEstimator.gotoHome();
-    await assertAllSectionElementsAreVisible(page);
-    await resultsTabVisibilityCheck(page);
-  });
+  test.beforeEach(
+    async ({
+      tcsEstimator,
+      organisationSection,
+      onPremSection,
+      cloudServicesSection,
+      endUsersSection,
+      estimationsSection,
+    }) => {
+      await tcsEstimator.gotoHome();
+      await assertAllSectionElementsAreVisible(
+        organisationSection,
+        onPremSection,
+        cloudServicesSection,
+        endUsersSection
+      );
+      await estimationsSection.assertResultsElementVisibility();
+    }
+  );
   test('Assert error when number of servers is -1', async ({ tcsEstimator, onPremSection }) => {
     await onPremSection.selectNumberOfServers('-1');
     await expect(onPremSection.numberOfServersError).toBeVisible();
@@ -16,7 +30,7 @@ test.describe('Assert errors based on input value', () => {
 
   test('Assert no Error when number of servers is 0', async ({ tcsEstimator, onPremSection }) => {
     await onPremSection.selectNumberOfServers('0');
-    await expect(onPremSection.numberOfServersError).toBeVisible();
+    await expect(onPremSection.numberOfServersError).not.toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(tcsEstimator.serversCalculationError).not.toBeVisible();
   });

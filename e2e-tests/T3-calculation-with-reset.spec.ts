@@ -14,7 +14,7 @@ test('T3 verify calculated values are coherent with selected options', async ({
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(page);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
   await organisationSection.selectNumberOfEmployess('100');
 
   await onPremSection.selectNumberOfServers('10');
