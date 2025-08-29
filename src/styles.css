@@ -69,3 +69,11 @@ input.ng-invalid.ng-touched {
 .tce-no-ex-table-header {
   @apply tce:pl-3 tce:h-8;
 }
+
+.tce-select, .tce-input {
+  @apply tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2
+}
+
+.tce-select > option {
+  @apply tce:dark:bg-slate-800 tce:dark:text-slate-50
+}
