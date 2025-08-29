@@ -47,8 +47,8 @@ export class TableSection {
     this.endUserDevices = page.getByRole('gridcell', { name: 'End-User Devices', exact: true });
     this.networkDataTransfer = page.getByRole('gridcell', { name: 'Network Data Transfer', exact: true });
     this.totalEmissionsEstimate = page.getByRole('gridcell', { name: 'Total Emissions Estimate', exact: true });
-    this.kilogramsColumn = page.locator('td:nth-child(2)');
-    this.percentageColumn = page.locator('td:nth-child(3)');
+    this.kilogramsColumn = page.getByRole('treegrid').locator('td:nth-child(2)');
+    this.percentageColumn = page.getByRole('treegrid').locator('td:nth-child(3)');
   }
 
   async assertDefaultTableStructure() {
