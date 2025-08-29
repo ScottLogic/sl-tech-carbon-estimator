@@ -1,39 +1,39 @@
-import { test, expect } from '@playwright/test';
-import {
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  gotoHome,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { test, expect } from './fixtures';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T6 verify calculated values are coherent when on-prem is unknown', async ({ page }) => {
-  await gotoHome(page);
-  await assertAllSectionElementsAreVisible(page);
+test('T6 verify calculated values are coherent when on-prem is unknown', async ({
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  organisationSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+  diagramSection,
+}) => {
+  await tcsEstimator.gotoHome();
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
-  // On Prem
-  await page.getByLabel("I don't know").check();
-  await expect(page.getByLabel('Number of Servers:')).toBeDisabled();
-  await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
+  await onPremSection.onPremUnknownTickbox.check();
+  await expect(onPremSection.numberOfServersContainer).toBeDisabled();
+  await onPremSection.selectLocationOfServers('in the UK');
+  await onPremSection.selectLocationOfServers('Globally');
 
-  // Cloud
-  await page.getByLabel('Where are your cloud servers').selectOption('GBR');
-  await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
-  await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
+  await cloudServicesSection.setCloudLocation('GBR');
+  await cloudServicesSection.setCloudLocation('WORLD');
+  await expect(cloudServicesSection.monthlyCloudBill).toHaveValue('0: Object');
 
-  // Users
-  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
-  await expect(page.getByLabel('How many monthly active users')).toHaveValue('100');
-  await page.getByLabel("What's the primary purpose of").selectOption('socialMedia');
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
-  // Calculate
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T6-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await endUsersSection.setEndUserLocation('Globally');
+  await expect(endUsersSection.monthlyActiveUsersField).toHaveValue('100');
+  await endUsersSection.setPrimaryPurpose('socialMedia');
+  await endUsersSection.setPrimaryPurpose('average');
+
+  await tcsEstimator.calculateButton.click();
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages = [
     '42%',
@@ -67,6 +67,6 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
     ' 239 kg ',
     ' 40501 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

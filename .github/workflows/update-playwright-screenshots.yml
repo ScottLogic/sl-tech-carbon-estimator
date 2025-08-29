@@ -43,4 +43,14 @@ jobs:
           git config --local user.name "${{ github.actor }}"
           git add .
           git commit -m "${{ github.event.inputs.commit_message || 'Auto-commit: Update screenshots' }} (by @${{ github.actor }})"
-          git push
+          
+          for i in 1 2; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}"; then
+              if git push; then
+                echo "Push successful"
+                break
+              fi
+            fi
+            echo "Push failed, retrying in 10s..."
+            sleep 10
+          done

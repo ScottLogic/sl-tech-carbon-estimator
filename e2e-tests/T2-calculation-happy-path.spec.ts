@@ -1,48 +1,45 @@
-import { test, expect } from '@playwright/test';
-import {
-  gotoHome,
-  assertAllSectionElementsAreVisible,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { test } from './fixtures';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('T2 verify calculated values are coherent with selected options', async ({ page }) => {
-  await gotoHome(page);
-  await assertAllSectionElementsAreVisible(page);
-  // Organisation
-  await page.getByLabel('How many employees are in the').click();
-  await page.getByLabel('How many employees are in the').fill('100');
+test('T2 verify calculated values are coherent with selected options', async ({
+  organisationSection,
+  onPremSection,
+  page,
+  tcsEstimator,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+  diagramSection,
+}) => {
+  await tcsEstimator.gotoHome();
 
-  // On Prem
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('10');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
+  await organisationSection.assertOrganisationSectionVisible();
+  await onPremSection.assertOnPremiseSectionVisible();
+  await cloudServicesSection.assertDefaultCloudElementVisibility();
+  await endUsersSection.assertEndUserSectionVisible();
 
-  // Cloud
-  await page.getByText('On-premise 50%').click();
-  await page.getByLabel('What percentage of your servers are cloud services vs on-premise?').press('Tab');
-  await page.getByLabel('Where are your cloud servers').selectOption('GBR');
-  await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
-  await page.getByLabel('What is your monthly cloud').selectOption('0: Object');
+  await organisationSection.selectNumberOfEmployess('100');
 
-  // Users
-  await page.getByText("What's the primary purpose of").click();
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
-  await page.getByLabel('Where are your end-users').selectOption('GBR');
-  await page.getByLabel('Where are your end-users').selectOption('Globally');
-  await page.getByLabel('How many monthly active users').click();
-  await page.getByLabel('How many monthly active users').fill('100');
+  await onPremSection.selectNumberOfServers('10');
+  await onPremSection.selectLocationOfServers('in the UK');
+  await onPremSection.selectLocationOfServers('Globally');
 
-  // Calculate
-  // Calculate outcome and make sure it matches spreadsheet
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T2-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T2-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await cloudServicesSection.setCloudLocation('GBR');
+  await cloudServicesSection.setCloudLocation('WORLD');
+  await cloudServicesSection.setMonthlyCloudBill('0: Object');
+
+  await endUsersSection.setPrimaryPurpose('average');
+  await endUsersSection.setEndUserLocation('GBR');
+  await endUsersSection.setEndUserLocation('Globally');
+  await endUsersSection.setMonthlyActiveUsers('100');
+
+  await tcsEstimator.calculateButton.click();
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure;
 
   const expectedEmissionPercentages = [
     '34%',
@@ -76,6 +73,6 @@ test('T2 verify calculated values are coherent with selected options', async ({ 
     ' 239 kg ',
     ' 55408 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });
