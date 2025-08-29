@@ -13,6 +13,7 @@ jobs:
   playwright_screenshots:
     runs-on: ${{ matrix.os }}
     strategy:
+      max-parallel: 1
       matrix:
         os: [ubuntu-latest, windows-latest]
     
