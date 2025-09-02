@@ -7,11 +7,12 @@ import jsPDF from 'jspdf';
 import { FormsModule } from '@angular/forms';
 import { pairwise } from 'rxjs';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
+import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
 
 @Component({
   selector: 'export-modal',
   templateUrl: './export-modal.component.html',
-  imports: [CarbonEstimationTreemapComponent, CarbonEstimationTableComponent, FormsModule, InputGroupDisplay],
+  imports: [CarbonEstimationTreemapComponent, CarbonEstimationTableComponent, FormsModule, InputGroupDisplay, DisclaimerTextComponent],
 })
 export class ExportModal {
   @Output() close = new EventEmitter<void>();

@@ -9,7 +9,7 @@
 			</button>
 		</div>
 		<div class="tce-export-modal-export-area-colour-provider">
-			<div class="tce-export-modal-export-area" id="tceExportPageOne">
+			<div class="tce-export-modal-export-area tce:w-fit" id="tceExportPageOne">
 				<div class="tce:flex tce:justify-center">
 				  <h2 class="tce-export-modal-report-name" >{{ reportName }}</h2>
 				</div>
@@ -22,14 +22,18 @@
 		</div>
 		<div class="tce:min-h-4"></div>
 		<div class="tce-export-modal-export-area-colour-provider">
-			<div class="tce-export-modal-export-area" id="tceExportPageTwo">
-				<h2 class="tce:mb-3">Estimate Input Data</h2>
+			<div class="tce-export-modal-export-area tce:relative" id="tceExportPageTwo">
+				<h2 class="tce:mb-6">Estimate Input Data</h2>
 				<div class="tce-export-modal-input-display-container">
 				  <input-group-display [inputGroup]="upstream()" [group]="'Upstream'"></input-group-display>
 				  <input-group-display [inputGroup]="downstream()" [group]="'Downstream'"></input-group-display>
 				  <input-group-display [inputGroup]="onPremise()" [group]="'On Premise'"></input-group-display>
 				  <input-group-display [inputGroup]="cloud()" [group]="'Cloud'"></input-group-display>
 			  </div>
+				<div class="tce:absolute tce:left-0 tce:bottom-0 tce:w-full tce:mb-5">
+				  <h2 class="tce:mb-1">Disclaimer</h2>
+				  <disclaimer-text></disclaimer-text>
+				</div>
 			</div>
 		</div>
 		<div class="tce:flex tce:justify-center">
