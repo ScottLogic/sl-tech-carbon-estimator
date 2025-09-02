@@ -144,4 +144,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public toggleExportMenu() {
     this.isExportMenuOpen = !this.isExportMenuOpen;
   }
+
+  public handlePDFClick() {
+    this.toggleExportMenu();
+    this.showModal();
+  }
 }
