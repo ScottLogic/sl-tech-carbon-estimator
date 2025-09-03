@@ -31,11 +31,14 @@
     </div>
   </expansion-panel>
   <tabs class="tce:mt-2">
-    <tab-item [active]="true" [title]="'Diagram'" (tabSelected)="treemapSelected()">
-      <carbon-estimation-treemap
-        #treemap
-        [carbonEstimation]="carbonEstimation()"
-        [chartHeight]="chartHeight"></carbon-estimation-treemap>
+    <tab-item [(active)]="diagramActive" [title]="'Diagram'">
+      <!-- Apex chart does not get destroyed correctly if it exists when tab is inactive -->
+      @if (diagramActive())
+      {
+        <carbon-estimation-treemap
+          [carbonEstimation]="carbonEstimation()"
+          [chartHeight]="chartHeight"></carbon-estimation-treemap>
+      }
     </tab-item>
     <tab-item [title]="'Table'">
       <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table

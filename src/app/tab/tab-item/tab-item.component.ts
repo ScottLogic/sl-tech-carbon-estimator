@@ -10,13 +10,4 @@ import { Component, effect, EventEmitter, input, model, Output } from '@angular/
 export class TabItemComponent {
   public active = model(false);
   public title = input.required<string>();
-  @Output() public tabSelected = new EventEmitter<void>();
-
-  constructor() {
-    effect(() => {
-      if (this.active()) {
-        this.tabSelected.emit();
-      }
-    });
-  }
 }

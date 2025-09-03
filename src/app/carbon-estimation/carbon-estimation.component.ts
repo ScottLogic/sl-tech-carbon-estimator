@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
@@ -28,8 +28,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
 
+  public diagramActive = signal(true);
+
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
-  @ViewChild('treemap', { static: true }) treemap!: CarbonEstimationTreemapComponent;
 
   public chartHeight!: number;
 
@@ -65,15 +66,6 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public onExpanded(): void {
     this.changeDetectorRef.detectChanges();
     this.onResize(window.innerHeight, window.innerWidth, window.screen.height);
-  }
-
-  public treemapSelected(): void {
-    if (this.hasResized || this.hasEstimationUpdated) {
-      this.hasResized = false;
-      this.hasEstimationUpdated = false;
-      this.changeDetectorRef.detectChanges();
-      this.treemap.readyChart()?.updateOptions({});
-    }
   }
 
   private getChartHeight(innerHeight: number, innerWidth: number, screenHeight: number): number {
