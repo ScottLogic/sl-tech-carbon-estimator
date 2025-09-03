@@ -40,7 +40,12 @@ describe('ExportModal', () => {
     upstream: { software: 1, employee: 2 },
     onPremise: { server: 3 },
     downstream: { endUser: 4 },
-    cloud: { cloud: 5 }
+    cloud: {
+      monthlyCloudBill: { min: 100, max: 200 },
+      cloudPercentage: 50,
+      cloudLocation: 'UK',
+      noCloudServices: false
+    }
   };
 
   beforeEach(async () => {
