@@ -70,6 +70,7 @@ describe('CarbonEstimationTableComponent', () => {
     };
 
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
+    fixture.componentRef.setInput('shouldShowSvgs', true); // or false, as needed
     fixture.detectChanges();
   });
 
@@ -397,5 +398,15 @@ describe('CarbonEstimationTableComponent', () => {
     component.arrowKeyBoardEvent({ target: cell, preventDefault: () => {} } as unknown as Event, 'down');
     fixture.detectChanges();
     expect(focusSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not render SVGs when shouldShowSvgs is false', () => {
+    // Set shouldShowSvgs to false
+    fixture.componentRef.setInput('shouldShowSvgs', false);
+    fixture.detectChanges();
+
+    // Query for SVG elements in the table
+    const svgElements = fixture.debugElement.nativeElement.querySelectorAll('svg');
+    expect(svgElements.length).toBe(0);
   });
 });
