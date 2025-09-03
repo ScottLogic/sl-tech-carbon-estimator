@@ -128,10 +128,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     return carbonEstimationJSONUrl;
   }
 
-
-
   public showModal() {
-	  console.log('clicky was clikedead');
     this.isModalVisible = true;
   }
 

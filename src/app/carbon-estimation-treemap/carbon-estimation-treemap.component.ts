@@ -168,14 +168,4 @@ export class CarbonEstimationTreemapComponent {
       },
     };
   }
-
-   public getTreeCanvas() {
-    const data = document.getElementById('tce-tree-chart');
-    return html2canvas(data!).then(canvas => {
-      const imgWidth = 208;
-      const imgheight = (canvas.height * imgWidth) / canvas.width;
-
-      return canvas; 
-    })
-  }
 }

@@ -44,14 +44,17 @@ export class ExportModal {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const imgWidth = 208;
     const imgHeight = (page1Canvas.height * imgWidth) / page1Canvas.width;
-    const chartContentDataURL = page1Canvas.toDataURL('image/png');
-    pdf.addImage(chartContentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
+    const page1URL = page1Canvas.toDataURL('image/png');
+
+    pdf.addImage(page1URL, 'PNG', 0, 0, imgWidth, imgHeight);
     pdf.addPage();
+
     const page2 = document.getElementById('tceExportPageTwo');
     const page2Canvas = await html2canvas(page2!);
     const imgHeight2 = (page2Canvas.height * imgWidth) / page2Canvas.width;
-    const inputGroupsURL = page2Canvas.toDataURL('image/png');
-    pdf.addImage(inputGroupsURL, 'PNG', 0, 0, imgWidth, imgHeight2);
+    const page2URL = page2Canvas.toDataURL('image/png');
+
+    pdf.addImage(page2URL, 'PNG', 0, 0, imgWidth, imgHeight2);
     pdf.save(`${this.reportName}.pdf`);
   }
 
