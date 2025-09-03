@@ -2,8 +2,6 @@ import { Component, computed, EventEmitter, input, Output } from '@angular/core'
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { CarbonEstimation, Cloud, Downstream, EstimatorValues, OnPremise, Upstream } from '../types/carbon-estimator';
-import html2canvas from 'html2canvas-pro';
-import jsPDF from 'jspdf';
 import { FormsModule } from '@angular/forms';
 import { pairwise } from 'rxjs';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
@@ -39,6 +37,10 @@ export class ExportModal {
   }
 
   public async exportToPDF() {
+    const { jsPDF } = await import('jspdf');
+    const html2canvasModule = await import('html2canvas-pro');
+    const html2canvas = html2canvasModule.default;
+
     const page1 = document.getElementById('tceExportPageOne');
     const page1Canvas = await html2canvas(page1!);
     const pdf = new jsPDF('p', 'mm', 'a4');
