@@ -1,26 +1,50 @@
-import { test, expect } from '@playwright/test';
+import { test } from './fixtures';
+
 import { expectNoA11yViolations } from './test-helpers';
-import { assertAllSectionElementsAreVisible, gotoHome } from './test-helpers';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
-test('Darkmode Accessibility test', async ({ page }) => {
-  await gotoHome(page);
-  await page.emulateMedia({ colorScheme: 'dark' });
+test.describe('Accessibility Dark Mode Tests', () => {
+  test.beforeEach(async ({ page, tcsEstimator }) => {
+    await tcsEstimator.gotoHome();
+    await page.emulateMedia({ colorScheme: 'dark' });
+  });
 
-  // Initial accessibility check
-  await expectNoA11yViolations(page);
+  test('Darkmode default Accessibility test', async ({
+    organisationSection,
+    onPremSection,
+    cloudServicesSection,
+    endUsersSection,
+    tcsEstimator,
+    page,
+    estimationsSection,
+  }) => {
+    await expectNoA11yViolations(page);
 
-  // Run check on default page load
-  await assertAllSectionElementsAreVisible(page);
+    await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
-  // After filling form, check accessibility again
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expectNoA11yViolations(page);
+    await tcsEstimator.calculateButton.click();
+    await expectNoA11yViolations(page);
 
-  // Table view accessibility check
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await expectNoA11yViolations(page);
+    await estimationsSection.tableViewButton.click();
+    await await expectNoA11yViolations(page);
 
-  //Switch to assumptions tab
-  await page.getByRole('tab', { name: 'Assumptions and Limitations' }).click();
-  await expectNoA11yViolations(page);
+    await tcsEstimator.assumptionsAndLimitationsTab.click();
+    await expectNoA11yViolations(page);
+  });
+
+  test('Assert that DarkMode information panels are accessible', async ({
+    page,
+    organisationSection,
+    onPremSection,
+    cloudServicesSection,
+    endUsersSection,
+  }) => {
+    await organisationSection.showEmployeeLocationTooltip.click();
+    await onPremSection.showServerLocationTooltip.click();
+    await cloudServicesSection.showCloudServerLocationTooltip.click();
+    await endUsersSection.showPrimaryPurposeTooltip.click();
+    await endUsersSection.showEndUserLocationTooltip.click();
+    await endUsersSection.showEndUserPercentageTooltip.click();
+    await expectNoA11yViolations(page);
+  });
 });

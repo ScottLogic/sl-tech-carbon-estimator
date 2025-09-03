@@ -48,7 +48,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-chart-total-colour {
-  @apply tce:bg-orange-400 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
+  @apply tce:bg-neutral-500 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
 }
 
 .tce-switch-container {
@@ -113,4 +113,12 @@ input.ng-invalid.ng-touched {
 
 .tce-export-modal-input-display-container {
   @apply tce:grid tce:grid-cols-2 tce:grid-rows-2 tce:gap-4 tce:grid-flow-col;
+}
+
+.tce-select, .tce-input {
+  @apply tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2
+}
+
+.tce-select > option {
+  @apply tce:dark:bg-slate-800 tce:dark:text-slate-50
 }

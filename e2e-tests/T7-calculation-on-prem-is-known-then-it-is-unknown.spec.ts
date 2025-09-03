@@ -1,42 +1,38 @@
-import { test, expect } from '@playwright/test';
-import {
-  assertCloudElementVisibility,
-  assertAllSectionElementsAreVisible,
-  gotoHome,
-  assertEndUserElementVisibility,
-  assertTableShowsCorrectCells,
-  assertColumnShowsCorrectValues,
-} from './test-helpers';
+import { test, expect } from './fixtures';
+import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
-  page,
+  tcsEstimator,
+  onPremSection,
+  cloudServicesSection,
+  endUsersSection,
+  estimationsSection,
+  tableSection,
+  diagramSection,
+  organisationSection,
 }) => {
-  await gotoHome(page);
-  await assertAllSectionElementsAreVisible(page);
+  await tcsEstimator.gotoHome();
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
 
-  // On Prem
-  await page.getByLabel('Number of Servers:').click();
-  await page.getByLabel('Number of Servers:').fill('555');
-  await page.getByLabel('Where are they primarily').selectOption('GBR');
-  await page.getByLabel('Where are they primarily').selectOption('WORLD');
+  await onPremSection.selectNumberOfServers('555');
+  await onPremSection.selectLocationOfServers('GBR');
+  await onPremSection.selectLocationOfServers('WORLD');
 
-  // Cloud
-  await page.getByLabel('Where are your cloud servers').selectOption('GBR');
-  await page.getByLabel('Where are your cloud servers').selectOption('WORLD');
-  await expect(page.getByLabel('What is your monthly cloud')).toHaveValue('0: Object');
+  await cloudServicesSection.setCloudLocation('GBR');
+  await cloudServicesSection.setCloudLocation('WORLD');
+  await expect(cloudServicesSection.monthlyCloudBill).toHaveValue('0: Object');
 
-  // Users
-  await page.getByLabel('Where are your end-users primarily located?', { exact: true }).selectOption('Globally');
-  await page.getByLabel("What's the primary purpose of").selectOption('socialMedia');
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
+  await endUsersSection.setEndUserLocation('Globally');
+  await endUsersSection.setPrimaryPurpose('socialMedia');
+  await endUsersSection.setPrimaryPurpose('average');
 
   // Calculate
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-kilograms.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-percentages.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await tcsEstimator.calculateButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-kilograms.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-percentages.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages = [
     '13%',
@@ -71,32 +67,28 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     ' 1705194 kg ',
   ];
 
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages);
-  await page.getByRole('tab', { name: 'Diagram' }).click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 
-  // On Prem
-  await page.getByLabel("I don't know").check();
-  await page.getByLabel('Where are they primarily located?', { exact: true }).press('Enter');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('in the UK');
-  await page.getByLabel('Where are they primarily located?', { exact: true }).selectOption('Globally');
+  await estimationsSection.diagramViewButton.click();
 
-  // Cloud
-  await assertCloudElementVisibility(page);
+  await onPremSection.onPremUnknownTickbox.check();
+  await onPremSection.selectLocationOfServers('in the UK');
+  await onPremSection.selectLocationOfServers('Globally');
 
-  // Users
-  await assertEndUserElementVisibility(page);
-  await page.getByLabel("What's the primary purpose of").selectOption('information');
-  await page.getByLabel("What's the primary purpose of").selectOption('average');
+  await cloudServicesSection.assertDefaultCloudElementVisibility();
 
-  // Calculate
-  await page.getByRole('button', { name: 'Calculate' }).click();
-  await page.getByText('kg', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-kilograms-1.png');
-  await page.getByText('%', { exact: true }).click();
-  await expect(page.locator('foreignobject')).toHaveScreenshot('T7-apex-chart-percentages-1.png');
-  await page.getByRole('tab', { name: 'Table' }).click();
-  await assertTableShowsCorrectCells(page);
+  await endUsersSection.assertEndUserSectionVisible();
+  await endUsersSection.setPrimaryPurpose('information');
+  await endUsersSection.setPrimaryPurpose('average');
+
+  await tcsEstimator.calculateButton.click();
+  await diagramSection.kilogramsButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-kilograms-1.png');
+  await diagramSection.percentageButton.click();
+  await diagramSection.assertDiagramScreenshot('T7-apex-chart-percentages-1.png');
+  await estimationsSection.tableViewButton.click();
+  await tableSection.assertPopulatedTableStructure();
 
   const expectedEmissionPercentages1 = [
     '42%',
@@ -130,6 +122,6 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
     ' 239 kg ',
     ' 40501 kg ',
   ];
-  await assertColumnShowsCorrectValues(page, '2', expectedEmissionKilograms1);
-  await assertColumnShowsCorrectValues(page, '3', expectedEmissionPercentages1);
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1);
+  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages1);
 });
