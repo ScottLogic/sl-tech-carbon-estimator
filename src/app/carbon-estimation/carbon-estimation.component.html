@@ -61,12 +61,15 @@
     </div>
   </div>
   <tabs class="tce:mt-2">
-    <tab-item [active]="true" [title]="'Diagram'" (tabSelected)="treemapSelected()">
-      <carbon-estimation-treemap
-        #treemap
-        [carbonEstimation]="carbonEstimation()"
-        [chartHeight]="chartHeight"
-        [shouldShowUnitsSwitch]="true"></carbon-estimation-treemap>
+    <tab-item [(active)]="diagramActive" [title]="'Diagram'">
+      <!-- Apex chart does not get destroyed correctly if it exists when tab is inactive -->
+      @if (diagramActive())
+      {
+        <carbon-estimation-treemap
+          [carbonEstimation]="carbonEstimation()"
+          [chartHeight]="chartHeight"
+          [shouldShowUnitsSwitch]="true"></carbon-estimation-treemap>
+      }
     </tab-item>
     <tab-item [title]="'Table'">
       <carbon-estimation-table [carbonEstimation]="carbonEstimation()" [shouldShowSvgs]="true"></carbon-estimation-table
