@@ -139,4 +139,25 @@ describe('CarbonEstimationComponent', () => {
 
     expect(component.onResize).toHaveBeenCalledTimes(1);
   });
+
+  it('should disable the export button if there is no carbon estimation', () => {
+    fixture.componentRef.setInput('carbonEstimation', undefined);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const buttons = compiled.querySelectorAll('button');
+    const exportButton = Array.from(buttons).find(button => button.classList.contains('tce-export-button'));
+
+    console.log('Export button:', exportButton);
+
+    expect(exportButton?.disabled).toBeTrue();
+  });
+
+  it('should enable the export button if there is a carbon estimation', () => {
+    let compiled = fixture.nativeElement as HTMLElement;
+    const buttons = compiled.querySelectorAll('button');
+    const exportButton = Array.from(buttons).find(button => button.classList.contains('tce-export-button'));
+
+    expect(exportButton?.disabled).toBeFalse();
+  });
 });
