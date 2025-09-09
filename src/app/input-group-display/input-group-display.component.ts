@@ -6,7 +6,6 @@ import { entries } from 'lodash-es';
   selector: 'input-group-display',
   imports: [],
   templateUrl: './input-group-display.component.html',
-  styleUrl: './input-value-display.css'
 })
 export class InputGroupDisplay {
 
