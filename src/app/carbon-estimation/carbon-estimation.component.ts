@@ -3,7 +3,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, jsonExport } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
@@ -113,7 +113,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     return this.getJSONExportUrl(exportObject);
   }
 
-  private getJSONExportUrl(exportObject: unknown): string {
+  private getJSONExportUrl(exportObject: CarbonEstimation|jsonExport|undefined): string {
     const estimateJson = JSON.stringify(exportObject, null, 2);
     const blob = new Blob([estimateJson], { type: 'application/json' });
     const carbonEstimationJSONUrl = URL.createObjectURL(blob);

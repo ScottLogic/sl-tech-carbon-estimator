@@ -30,30 +30,26 @@
       </p>
     </div>
   </expansion-panel>
-  <div class="tce-relative tce-inline-block">
-    <button class="tce-bg-slate-200 tce-px-4 tce-py-2 tce-rounded tce-shadow tce-font-medium" (click)="toggleExportMenu()"
+  <div>
+    <button [disabled]="!carbonEstimation()" class="tce-export-button" (click)="toggleExportMenu()"
       >
       Export ▼
     </button>
     <div *ngIf="isExportMenuOpen"
-      class="tce-absolute tce-right-0 tce-mt-2 tce-bg-white tce-shadow-lg tce-rounded tce-z-10 tce-min-w-[200px]"
       (click)="$event.stopPropagation()">
-      <ul class="tce:z-50 tce:absolute tce:bg-sky-900 tce:rounded tce-shadow-lg tce-w-full tce:px-2 tce:pb-1">
+      <ul class="tce:z-50 tce:absolute tce:bg-sky-900 tce:rounded tce:px-2 tce:pb-1">
         <li>
-          <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json"
-            class="tce-block tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-underline" tce-external-link>
+          <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" tce-external-link>
             Export JSON
           </a>
         </li>
         <li>
-          <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json"
-            class="tce-block tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-underline" tce-external-link>
+          <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json" tce-external-link>
             Export JSON with Inputs
           </a>
         </li>
         <li>
-          <button class="tce-block tce-w-full tce-px-4 tce-py-2 tce-text-slate-800 tce-hover:bg-slate-100 tce-text-left"
-            (click)="handlePDFClick()">
+          <button (click)="handlePDFClick()" class="tce-export-button">
             Export PDF
           </button>
         </li>

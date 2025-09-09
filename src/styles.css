@@ -122,3 +122,11 @@ input.ng-invalid.ng-touched {
 .tce-select > option {
   @apply tce:dark:bg-slate-800 tce:dark:text-slate-50
 }
+
+.tce-export-button:disabled {
+  @apply tce:opacity-50 tce:text-slate-400 tce:cursor-default;
+}
+
+.tce-export-button {
+  @apply tce:cursor-pointer;
+}
