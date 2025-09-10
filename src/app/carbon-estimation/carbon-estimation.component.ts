@@ -114,6 +114,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   private getJSONExportUrl(exportObject: CarbonEstimation|jsonExport|undefined): string {
+    if (typeof exportObject === 'undefined') {
+      return '';
+    }
     const estimateJson = JSON.stringify(exportObject, null, 2);
     const blob = new Blob([estimateJson], { type: 'application/json' });
     const carbonEstimationJSONUrl = URL.createObjectURL(blob);
