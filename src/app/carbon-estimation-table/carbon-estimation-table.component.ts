@@ -3,7 +3,8 @@ import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
-import { NgClass, NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
+import html2canvas from 'html2canvas-pro';
 
 export type TableItem = TableItemLevel1 | TableItemLevel2;
 
@@ -32,11 +33,12 @@ type ArrowDirectionVertical = 'up' | 'down';
 @Component({
   selector: 'carbon-estimation-table',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
   public carbonEstimation = input<CarbonEstimation>();
+  public shouldShowSvgs = input.required<boolean>();
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
@@ -195,7 +197,7 @@ export class CarbonEstimationTableComponent {
     }
   }
 
-  private getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
+  public getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
     return !carbonEstimation ?
         []
       : [

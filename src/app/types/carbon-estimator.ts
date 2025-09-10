@@ -136,3 +136,8 @@ export type ChartOptions = {
   states: ApexStates;
   dataLabels: ApexDataLabels;
 };
+
+export type jsonExport = {
+  estimate: CarbonEstimation | undefined;
+  input: EstimatorValues | undefined;
+}; 

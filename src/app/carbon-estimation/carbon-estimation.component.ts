@@ -3,23 +3,27 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, jsonExport } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { ExportModal } from '../export-modal/export-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'carbon-estimation',
   standalone: true,
   imports: [
+    CommonModule,
     ExpansionPanelComponent,
     TabsComponent,
     TabItemComponent,
     CarbonEstimationTreemapComponent,
     CarbonEstimationTableComponent,
     ExternalLinkDirective,
+    ExportModal,
   ],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
@@ -27,6 +31,7 @@ import { ExternalLinkDirective } from '../directives/external-link.directive';
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
+  public inputValues = input<EstimatorValues | undefined>();
 
   public diagramActive = signal(true);
 
@@ -45,6 +50,8 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       this.hasEstimationUpdated = true;
     });
   }
+
+  public isModalVisible = false;
 
   public ngOnInit(): void {
     this.chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
@@ -94,5 +101,45 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     const heightBoundedAboveAndBelow = Math.max(heightBoundedAbove, minChartHeight);
 
     return heightBoundedAboveAndBelow;
+  }
+
+  get carbonEstimationDownloadUrl(): string {
+    const exportObject = this.carbonEstimation();
+    return this.getJSONExportUrl(exportObject);
+  }
+
+  get carbonEstimationWithInputDownloadUrl(): string {
+    const exportObject = {estimate: this.carbonEstimation(), input: this.inputValues()};
+    return this.getJSONExportUrl(exportObject);
+  }
+
+  private getJSONExportUrl(exportObject: CarbonEstimation|jsonExport|undefined): string {
+    if (typeof exportObject === 'undefined') {
+      return '';
+    }
+
+    const estimateJson = JSON.stringify(exportObject, null, 2);
+    const blob = new Blob([estimateJson], { type: 'application/json' });
+    const carbonEstimationJSONUrl = URL.createObjectURL(blob);
+    return carbonEstimationJSONUrl;
+  }
+
+  public showModal() {
+    this.isModalVisible = true;
+  }
+
+  public hideModal() {
+	  this.isModalVisible = false;
+  }
+
+  public isExportMenuOpen = false;
+
+  public toggleExportMenu() {
+    this.isExportMenuOpen = !this.isExportMenuOpen;
+  }
+
+  public handlePDFClick() {
+    this.toggleExportMenu();
+    this.showModal();
   }
 }

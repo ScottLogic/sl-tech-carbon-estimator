@@ -69,6 +69,7 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
     fixture.componentRef.setInput('chartHeight', 700);
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', true);
 
     fixture.detectChanges();
   });
@@ -487,5 +488,12 @@ describe('CarbonEstimationTreemapComponent', () => {
     ];
 
     expect(component.chartData()).toEqual(expectedEmissions);
+  });
+
+  it('should not render the units switch if shouldShowUnitsSwitch is false', () => {
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', false);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('.tce-switch-container')).toBeNull();
   });
 });

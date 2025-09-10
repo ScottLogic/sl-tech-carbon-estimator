@@ -30,6 +30,32 @@
       </p>
     </div>
   </expansion-panel>
+  <div>
+    <button [disabled]="!carbonEstimation()" class="tce-export-button" (click)="toggleExportMenu()"
+      >
+      Export ▼
+    </button>
+    <div *ngIf="isExportMenuOpen"
+      (click)="$event.stopPropagation()">
+      <ul class="tce:z-50 tce:absolute tce:bg-sky-900 tce:rounded tce:px-2 tce:pb-1">
+        <li>
+          <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" tce-external-link>
+            Export JSON
+          </a>
+        </li>
+        <li>
+          <a [href]="carbonEstimationWithInputDownloadUrl" download="carbon-estimation-with-inputs.json" tce-external-link>
+            Export JSON with Inputs
+          </a>
+        </li>
+        <li>
+          <button (click)="handlePDFClick()" class="tce-export-button">
+            Export PDF
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
   <tabs class="tce:mt-2">
     <tab-item [(active)]="diagramActive" [title]="'Diagram'">
       <!-- Apex chart does not get destroyed correctly if it exists when tab is inactive -->
@@ -37,11 +63,18 @@
       {
         <carbon-estimation-treemap
           [carbonEstimation]="carbonEstimation()"
-          [chartHeight]="chartHeight"></carbon-estimation-treemap>
+          [chartHeight]="chartHeight"
+          [shouldShowUnitsSwitch]="true"></carbon-estimation-treemap>
       }
     </tab-item>
     <tab-item [title]="'Table'">
-      <carbon-estimation-table [carbonEstimation]="carbonEstimation()"></carbon-estimation-table
+      <carbon-estimation-table [carbonEstimation]="carbonEstimation()" [shouldShowSvgs]="true"></carbon-estimation-table
     ></tab-item>
   </tabs>
+  <export-modal
+    *ngIf="isModalVisible"
+    (close)="hideModal()"
+    [carbonEstimation]="carbonEstimation()"
+    [inputValues]="inputValues()"
+  ></export-modal>
 </div>

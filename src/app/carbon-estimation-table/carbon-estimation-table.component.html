@@ -33,7 +33,7 @@
               class="tce:flex tce:text-white tce:items-center"
               (keydown.enter)="toggle(tableItem.category)">
               <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
-              @if (tableItem.expandable) {
+              @if (tableItem.expandable && shouldShowSvgs()) {
                 <div
                   tabindex="-1"
                   aria-hidden="true"
@@ -67,6 +67,7 @@
             class="tce:dark:text-slate-800">
             <td role="gridcell" tabindex="-1" class="tce:flex tce:ml-8">
               <div
+                *ngIf="shouldShowSvgs()"
                 class="tce:p-1 tce:flex tce:rounded-sm tce:mr-2"
                 [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
                 <div class="tce:m-auto tce:size-4 {{ tableItem.svg }}"></div>

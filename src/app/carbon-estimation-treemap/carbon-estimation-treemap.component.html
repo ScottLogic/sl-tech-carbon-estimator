@@ -2,7 +2,7 @@
   <span class="tce-chart-total-colour"></span>
   <span class="apexcharts-legend-text" id="tce-chart-total-text">Total Emissions Estimate {{ totalEmissions() }}</span>
   <!--span><button (click)="toggleMassPercentages()">toggle</button></span-->
-  <span class="tce-switch-container">
+  <span class="tce-switch-container" *ngIf="shouldShowUnitsSwitch()">
     <label class="tce-switch-label" [class.tce-switch-active]="isMass()">
       <input
         type="radio"
