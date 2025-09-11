@@ -9,6 +9,8 @@ import { estimateEnergyEmissions } from './estimate-energy-emissions';
 import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
+import { Inject } from '@angular/core';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
@@ -53,6 +55,30 @@ export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
     averageMonthlyUserData: 10.3912,
   },
 });
+
+export class DownstreamEmissionsEstimator {
+  constructor(
+    private downstream: Downstream,
+    private downstreamIntensity: gCo2ePerKwh,
+    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
+  ){}
+
+  estimate(): DownstreamEstimation {
+    if (this.downstream.noDownstream) {
+      return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
+    }
+
+    const downstreamDataTransfer = estimateDownstreamDataTransfer(
+      this.downstream.monthlyActiveUsers,
+      this.downstream.purposeOfSite
+    );
+    const endUserEmissions = estimateEndUserEmissions(this.downstream, downstreamDataTransfer, this.downstreamIntensity);
+    const networkEmissions = estimateNetworkEmissions(this.downstream, downstreamDataTransfer, this.co2Calc);
+    const downstreamInfrastructureEmissions = estimateDownstreamInfrastructureEmissions(this.downstream, downstreamDataTransfer, this.downstreamIntensity);
+    return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
+
+  }
+} 
 
 export function estimateDownstreamEmissions(
   downstream: Downstream,
