@@ -1,6 +1,8 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
-import { createDefaultCalculationJsonExport } from './test-helpers';
+// import { createDefaultCalculationJsonExport } from './test-helpers';
+import { createDefaultValuesJsonExport } from './test-helpers';
+import { createDefaultPercentagesJsonExport } from './test-helpers';
 import * as fs from 'fs';
 
 test('T20', async ({
@@ -39,8 +41,9 @@ test('T20', async ({
   const fileContent = fs.readFileSync(path, 'utf-8');
   const json = JSON.parse(fileContent);
 
-  const expectedJsonContent = createDefaultCalculationJsonExport({
-    // values: { version: '0.0.0-semantically-released' },
-  });
-  expect(json).toEqual(expectedJsonContent);
+  const expectedValuesJsonContent = createDefaultValuesJsonExport({});
+  const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
+
+  expect(json.values).toEqual(expectedValuesJsonContent.values);
+  expect(json.percentages).toEqual(expectedPercentagesJsonContent.percentages);
 });

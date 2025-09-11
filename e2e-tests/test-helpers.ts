@@ -18,64 +18,99 @@ export async function assertAllSectionElementsAreVisible(
   await endUsersSection.assertEndUserSectionVisible();
 }
 
-interface EmissionsValues {
-  version: string;
-  upstreamEmissions?: {
-    employee: number;
-    server: number;
-    network: number;
-    software: number;
+interface EmissionValuesSchema {
+  values: {
+    version: string;
+    upstreamEmissions: {
+      employee: number;
+      server: number;
+      network: number;
+      software: number;
+    };
+    directEmissions: {
+      employee: number;
+      server: number;
+      network: number;
+    };
+    indirectEmissions: {
+      cloud: number;
+      saas: number;
+      managed: number;
+    };
+    downstreamEmissions: {
+      endUser: number;
+      networkTransfer: number;
+      downstreamInfrastructure: number;
+    };
+    totalEmissions: number;
   };
-  directEmissions?: {
-    employee: number;
-    server: number;
-    network: number;
-  };
-  indirectEmissions?: {
-    cloud: number;
-    saas: number;
-    managed: number;
-  };
-  downstreamEmissions?: {
-    endUser: number;
-    networkTransfer: number;
-    downstreamInfrastructure: number;
-  };
-  totalEmissions?: number;
 }
 
-interface EmissionsPercentages {
-  version: string;
-  upstreamEmissions?: {
-    employee: number;
-    server: number;
-    network: number;
-    software: number;
+interface EmissionPercentagesSchema {
+  percentages: {
+    version: string;
+    upstreamEmissions?: {
+      employee: number;
+      server: number;
+      network: number;
+      software: number;
+    };
+    directEmissions?: {
+      employee: number;
+      server: number;
+      network: number;
+    };
+    indirectEmissions?: {
+      cloud: number;
+      saas: number;
+      managed: number;
+    };
+    downstreamEmissions?: {
+      endUser: number;
+      networkTransfer: number;
+      downstreamInfrastructure: number;
+    };
+    totalEmissions?: number;
   };
-  directEmissions?: {
-    employee: number;
-    server: number;
-    network: number;
-  };
-  indirectEmissions?: {
-    cloud: number;
-    saas: number;
-    managed: number;
-  };
-  downstreamEmissions?: {
-    endUser: number;
-    networkTransfer: number;
-    downstreamInfrastructure: number;
-  };
-  totalEmissions?: number;
 }
 
-export interface EmissionsData {
-  values: EmissionsValues;
-  percentages: EmissionsPercentages;
+interface InputData {
+  upstream: {
+    headCount: number;
+    desktopPercentage: number;
+    employeeLocation: string;
+  };
+  onPremise: {
+    estimateServerCount: boolean;
+    serverLocation: string;
+    numberOfServers: number;
+  };
+  cloud: {
+    noCloudServices: boolean;
+    cloudLocation: string;
+    cloudPercentage: number;
+    monthlyCloudBill: {
+      min: number;
+      max: number;
+    };
+  };
+  downstream: {
+    noDownstream: boolean;
+    customerLocation: string;
+    monthlyActiveUsers: number;
+    mobilePercentage: number;
+    purposeOfSite: string;
+  };
 }
-export function createDefaultCalculationJsonExport(overrides: Partial<EmissionsData> = {}): EmissionsData {
-  const defaultCalculationJson = {
+
+// export interface EmissionsData {
+//   values: EmissionsValues;
+//   percentages: EmissionsPercentages;
+//   input?: InputData;
+// }
+
+export function createDefaultValuesJsonExport(overrides: Partial<EmissionValuesSchema> = {}): EmissionValuesSchema {
+  const defaultValuesJson = {
     values: {
       version: '0.0.0-semantically-released',
       upstreamEmissions: {
@@ -101,6 +136,14 @@ export function createDefaultCalculationJsonExport(overrides: Partial<EmissionsD
       },
       totalEmissions: 55408.2464769009,
     },
+  };
+  return { ...defaultValuesJson, ...overrides };
+}
+
+export function createDefaultPercentagesJsonExport(
+  overrides: Partial<EmissionPercentagesSchema> = {}
+): EmissionPercentagesSchema {
+  const defaultPercentagesJson = {
     percentages: {
       version: '0.0.0-semantically-released',
       upstreamEmissions: {
@@ -127,5 +170,5 @@ export function createDefaultCalculationJsonExport(overrides: Partial<EmissionsD
       totalEmissions: 55408.2464769009,
     },
   };
-  return { ...defaultCalculationJson, ...overrides };
+  return { ...defaultPercentagesJson, ...overrides };
 }
