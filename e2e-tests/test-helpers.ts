@@ -18,7 +18,59 @@ export async function assertAllSectionElementsAreVisible(
   await endUsersSection.assertEndUserSectionVisible();
 }
 
-export const expectNoA11yViolations = async (page: Page) => {
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations).toEqual([]);
-};
+export interface EmissionsValues {
+  version: string;
+  upstreamEmissions: {
+    employee: number;
+    server: number;
+    network: number;
+    software: number;
+  };
+  directEmissions: {
+    employee: number;
+    server: number;
+    network: number;
+  };
+  indirectEmissions: {
+    cloud: number;
+    saas: number;
+    managed: number;
+  };
+  downstreamEmissions: {
+    endUser: number;
+    networkTransfer: number;
+    downstreamInfrastructure: number;
+  };
+  totalEmissions: number;
+}
+
+export interface EmissionsPercentages {
+  version: string;
+  upstreamEmissions: {
+    employee: number;
+    server: number;
+    network: number;
+    software: number;
+  };
+  directEmissions: {
+    employee: number;
+    server: number;
+    network: number;
+  };
+  indirectEmissions: {
+    cloud: number;
+    saas: number;
+    managed: number;
+  };
+  downstreamEmissions: {
+    endUser: number;
+    networkTransfer: number;
+    downstreamInfrastructure: number;
+  };
+  totalEmissions: number;
+}
+
+export interface EmissionsData {
+  values: EmissionsValues;
+  percentages: EmissionsPercentages;
+}
