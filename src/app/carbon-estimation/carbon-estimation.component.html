@@ -37,7 +37,7 @@
     </button>
     <div *ngIf="isExportMenuOpen"
       (click)="$event.stopPropagation()">
-      <ul class="tce:z-50 tce:absolute tce:bg-sky-900 tce:rounded tce:px-2 tce:pb-1">
+      <ul class="tce-export-menu">
         <li>
           <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" tce-external-link>
             Export JSON

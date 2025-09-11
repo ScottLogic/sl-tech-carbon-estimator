@@ -40,3 +40,7 @@ input {
   border-color: var(--primary-turquoise);
   @apply tce:cursor-default;
 }
+
+.tce-export-menu {
+  @apply tce:bg-slate-200 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
+}

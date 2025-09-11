@@ -130,3 +130,7 @@ input.ng-invalid.ng-touched {
 .tce-export-button {
   @apply tce:cursor-pointer;
 }
+
+.tce-export-menu {
+  @apply tce:bg-sky-900 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
+}
