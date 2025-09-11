@@ -1,6 +1,3 @@
-import AxeBuilder from '@axe-core/playwright';
-import type { Page, Locator } from '@playwright/test';
-import { expect } from '@playwright/test';
 import { OrganisationSection } from './page-objects/organisation-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { EndUsersSection } from './page-objects/end-users-section';
@@ -74,32 +71,34 @@ interface EmissionPercentagesSchema {
   };
 }
 
-interface InputData {
-  upstream: {
-    headCount: number;
-    desktopPercentage: number;
-    employeeLocation: string;
-  };
-  onPremise: {
-    estimateServerCount: boolean;
-    serverLocation: string;
-    numberOfServers: number;
-  };
-  cloud: {
-    noCloudServices: boolean;
-    cloudLocation: string;
-    cloudPercentage: number;
-    monthlyCloudBill: {
-      min: number;
-      max: number;
+interface EmissionInputsSchema {
+  inputs: {
+    upstream: {
+      headCount: number;
+      desktopPercentage: number;
+      employeeLocation: string;
     };
-  };
-  downstream: {
-    noDownstream: boolean;
-    customerLocation: string;
-    monthlyActiveUsers: number;
-    mobilePercentage: number;
-    purposeOfSite: string;
+    onPremise: {
+      estimateServerCount: boolean;
+      serverLocation: string;
+      numberOfServers: number;
+    };
+    cloud: {
+      noCloudServices: boolean;
+      cloudLocation: string;
+      cloudPercentage: number;
+      monthlyCloudBill: {
+        min: number;
+        max: number;
+      };
+    };
+    downstream: {
+      noDownstream: boolean;
+      customerLocation: string;
+      monthlyActiveUsers: number;
+      mobilePercentage: number;
+      purposeOfSite: string;
+    };
   };
 }
 
@@ -171,4 +170,38 @@ export function createDefaultPercentagesJsonExport(
     },
   };
   return { ...defaultPercentagesJson, ...overrides };
+}
+
+export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSchema> = {}): EmissionInputsSchema {
+  const defaultInputsJson = {
+    inputs: {
+      upstream: {
+        headCount: 1000,
+        desktopPercentage: 50,
+        employeeLocation: 'WORLD',
+      },
+      onPremise: {
+        estimateServerCount: false,
+        serverLocation: 'WORLD',
+        numberOfServers: 10,
+      },
+      cloud: {
+        noCloudServices: false,
+        cloudLocation: 'GBR',
+        cloudPercentage: 50,
+        monthlyCloudBill: {
+          min: 500000,
+          max: 1000000,
+        },
+      },
+      downstream: {
+        noDownstream: false,
+        customerLocation: 'GBR',
+        monthlyActiveUsers: 100,
+        mobilePercentage: 50,
+        purposeOfSite: 'streaming',
+      },
+    },
+  };
+  return { ...defaultInputsJson, ...overrides };
 }
