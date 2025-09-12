@@ -30,19 +30,8 @@ test.describe('Export JSON files', () => {
   );
 
   test('T20 Export and read JSON', async ({ page }) => {
-    // const [download] = await Promise.all([
-    //   page.waitForEvent('download'),
-    //   page.getByRole('button', { name: 'Export ▼' }).click(),
-    //   page.getByRole('link', { name: 'Export JSON', exact: true }).click(),
-    // ]);
-
-    // const path = await download.path();
-    // if (!path) throw new Error('Download failed');
     const downloadPath = await exportJsonContent(page, 'Export JSON');
     const jsonParse = await readJsonFileContent(downloadPath);
-
-    // const fileContent = fs.readFileSync(path, 'utf-8');
-    // const json = JSON.parse(fileContent);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
@@ -52,24 +41,15 @@ test.describe('Export JSON files', () => {
   });
 
   test('T20 Export and read JSON with inputs', async ({ page }) => {
-    const [download] = await Promise.all([
-      page.waitForEvent('download'),
-      page.getByRole('button', { name: 'Export ▼' }).click(),
-      page.getByRole('link', { name: 'Export JSON with Inputs', exact: true }).click(),
-    ]);
-
-    const path = await download.path();
-    if (!path) throw new Error('Download failed');
-
-    const fileContent = fs.readFileSync(path, 'utf-8');
-    const json = JSON.parse(fileContent);
+    const downloadPath = await exportJsonContent(page, 'Export JSON with Inputs');
+    const jsonParse = await readJsonFileContent(downloadPath);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
     const expectedInputsJsonContent = createDefaultInputJsonExport({});
 
-    expect(json.estimate.values).toEqual(expectedValuesJsonContent.values);
-    expect(json.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
-    expect(json.input).toEqual(expectedInputsJsonContent.input);
+    expect(jsonParse.estimate.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+    expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
   });
 });
