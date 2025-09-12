@@ -71,9 +71,9 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-select, .tce-input {
-  @apply tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2
+  @apply tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2;
 }
 
 .tce-select > option {
-  @apply tce:dark:bg-slate-800 tce:dark:text-slate-50
+  @apply tce:dark:bg-slate-800 tce:dark:text-slate-50;
 }

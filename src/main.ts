@@ -3,6 +3,7 @@ import { appConfig } from './app/app.config';
 import { ApplicationRef } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { TechCarbonEstimatorComponent } from './app/tech-carbon-estimator/tech-carbon-estimator.component';
+import styles from './styles.generated.css';
 
 (async () => {
   const app: ApplicationRef = await createApplication(appConfig);
@@ -23,14 +24,9 @@ import { TechCarbonEstimatorComponent } from './app/tech-carbon-estimator/tech-c
       this.estimatorInstance = new techCarbonEstimatorComponent();
       shadow.appendChild(this.estimatorInstance);
 
-      // Fetch and inject styles
-      fetch(new URL('./app/styles.css', import.meta.url))
-        .then(response => response.text())
-        .then(css => {
-          const styleTag = document.createElement('style');
-          styleTag.textContent = css;
-          shadow.appendChild(styleTag);
-        });
+      const styleTag = document.createElement('style');
+      styleTag.textContent = styles;
+      shadow.appendChild(styleTag);
     }
 
     static get observedAttributes() {
