@@ -1,3 +1,6 @@
+import AxeBuilder from '@axe-core/playwright';
+import type { Page, Locator } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { OrganisationSection } from './page-objects/organisation-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { EndUsersSection } from './page-objects/end-users-section';
@@ -14,6 +17,11 @@ export async function assertAllSectionElementsAreVisible(
   await cloudServicesSection.assertDefaultCloudElementVisibility();
   await endUsersSection.assertEndUserSectionVisible();
 }
+
+export const expectNoA11yViolations = async (page: Page) => {
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+};
 
 interface EmissionValuesSchema {
   values: {
@@ -72,7 +80,7 @@ interface EmissionPercentagesSchema {
 }
 
 interface EmissionInputsSchema {
-  inputs: {
+  input: {
     upstream: {
       headCount: number;
       desktopPercentage: number;
@@ -173,10 +181,10 @@ export function createDefaultPercentagesJsonExport(
 }
 
 export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSchema> = {}): EmissionInputsSchema {
-  const defaultInputsJson = {
-    inputs: {
+  const defaultInputJson = {
+    input: {
       upstream: {
-        headCount: 1000,
+        headCount: 100,
         desktopPercentage: 50,
         employeeLocation: 'WORLD',
       },
@@ -187,21 +195,21 @@ export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSc
       },
       cloud: {
         noCloudServices: false,
-        cloudLocation: 'GBR',
+        cloudLocation: 'WORLD',
         cloudPercentage: 50,
         monthlyCloudBill: {
-          min: 500000,
-          max: 1000000,
+          min: 0,
+          max: 1000,
         },
       },
       downstream: {
         noDownstream: false,
-        customerLocation: 'GBR',
+        customerLocation: 'WORLD',
         monthlyActiveUsers: 100,
         mobilePercentage: 50,
-        purposeOfSite: 'streaming',
+        purposeOfSite: 'average',
       },
     },
   };
-  return { ...defaultInputsJson, ...overrides };
+  return { ...defaultInputJson, ...overrides };
 }
