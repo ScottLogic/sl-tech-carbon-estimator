@@ -5,6 +5,7 @@ import { OrganisationSection } from './page-objects/organisation-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { EndUsersSection } from './page-objects/end-users-section';
 import { OnPremSection } from './page-objects/on-prem-section';
+import * as fs from 'fs';
 
 export async function assertAllSectionElementsAreVisible(
   organisationSection: OrganisationSection,
@@ -22,6 +23,26 @@ export const expectNoA11yViolations = async (page: Page) => {
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 };
+
+export async function exportJsonContent(page: Page, exportType: 'Export JSON' | 'Export JSON with Inputs') {
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.getByRole('button', { name: 'Export ▼' }).click(),
+    page.getByRole('link', { name: exportType, exact: true }).click(),
+  ]);
+
+  const path = await download.path();
+  if (!path) throw new Error('Download failed');
+
+  return path;
+}
+
+export async function readJsonFileContent(path: string) {
+  const fileContent = fs.readFileSync(path, 'utf-8');
+  const json = JSON.parse(fileContent);
+
+  return json;
+}
 
 interface EmissionValuesSchema {
   values: {

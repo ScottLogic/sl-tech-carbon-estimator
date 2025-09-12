@@ -1,15 +1,13 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible, createDefaultInputJsonExport } from './test-helpers';
-// import { createDefaultCalculationJsonExport } from './test-helpers';
 import { createDefaultValuesJsonExport } from './test-helpers';
-import { createDefaultPercentagesJsonExport } from './test-helpers';
+import { createDefaultPercentagesJsonExport, exportJsonContent, readJsonFileContent } from './test-helpers';
 import * as fs from 'fs';
 
 test.describe('Export JSON files', () => {
   test.beforeEach(
     async ({
       organisationSection,
-      page,
       tcsEstimator,
       onPremSection,
       cloudServicesSection,
@@ -32,25 +30,25 @@ test.describe('Export JSON files', () => {
   );
 
   test('T20 Export and read JSON', async ({ page }) => {
-    const [download] = await Promise.all([
-      page.waitForEvent('download'),
-      page.getByRole('button', { name: 'Export ▼' }).click(),
-      page.getByRole('link', { name: 'Export JSON', exact: true }).click(),
-    ]);
+    // const [download] = await Promise.all([
+    //   page.waitForEvent('download'),
+    //   page.getByRole('button', { name: 'Export ▼' }).click(),
+    //   page.getByRole('link', { name: 'Export JSON', exact: true }).click(),
+    // ]);
 
-    const path = await download.path();
-    if (!path) throw new Error('Download failed');
+    // const path = await download.path();
+    // if (!path) throw new Error('Download failed');
+    const downloadPath = await exportJsonContent(page, 'Export JSON');
+    const jsonParse = await readJsonFileContent(downloadPath);
 
-
-
-    const fileContent = fs.readFileSync(path, 'utf-8');
-    const json = JSON.parse(fileContent);
+    // const fileContent = fs.readFileSync(path, 'utf-8');
+    // const json = JSON.parse(fileContent);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
 
-    expect(json.values).toEqual(expectedValuesJsonContent.values);
-    expect(json.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+    expect(jsonParse.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
   });
 
   test('T20 Export and read JSON with inputs', async ({ page }) => {
@@ -62,7 +60,6 @@ test.describe('Export JSON files', () => {
 
     const path = await download.path();
     if (!path) throw new Error('Download failed');
-
 
     const fileContent = fs.readFileSync(path, 'utf-8');
     const json = JSON.parse(fileContent);
