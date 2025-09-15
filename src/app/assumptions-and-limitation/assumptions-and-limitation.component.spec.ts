@@ -5,6 +5,9 @@ import { CarbonIntensityService } from '../services/carbon-intensity.service';
 import { WorldLocation } from '../types/carbon-estimator';
 import { gCo2ePerKwh } from '../types/units';
 
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
+import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
+
 const testIntensities: Record<WorldLocation, gCo2ePerKwh> = {
   WORLD: 100,
   GBR: 200,
@@ -28,7 +31,10 @@ describe('AssumptionsAndLimitationComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [AssumptionsAndLimitationComponent],
-      providers: [{ provide: CarbonIntensityService, useValue: intensityServiceStub }],
+      providers: [
+        { provide: CarbonIntensityService, useValue: intensityServiceStub },
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AssumptionsAndLimitationComponent);

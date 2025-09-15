@@ -10,14 +10,12 @@ import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
-import { Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
   averageMonthlyUserData: Gb;
 }
-
-const BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
 
 function addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<PurposeOfSite, SiteInformation> {
   let totalMonthlyUserTime = 0;
@@ -36,113 +34,118 @@ function addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<P
   };
 }
 
-// Needs source from our own research
-export const siteTypeInfo: Record<PurposeOfSite, SiteInformation> = addAverage({
-  information: {
-    averageMonthlyUserTime: 0.016,
-    averageMonthlyUserData: 0.000781,
-  },
-  eCommerce: {
-    averageMonthlyUserTime: 0.1,
-    averageMonthlyUserData: 0.01656,
-  },
-  socialMedia: {
-    averageMonthlyUserTime: 16.3,
-    averageMonthlyUserData: 4.4443,
-  },
-  streaming: {
-    averageMonthlyUserTime: 22.1429,
-    averageMonthlyUserData: 10.3912,
-  },
-});
-
+@Injectable({
+  providedIn: 'root',
+})
 export class DownstreamEmissionsEstimator {
-  constructor(
-    private downstream: Downstream,
-    private downstreamIntensity: gCo2ePerKwh,
-    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
-  ){}
+  private readonly BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
 
-  estimate(): DownstreamEstimation {
-    if (this.downstream.noDownstream) {
+  public readonly siteTypeInfo: Record<PurposeOfSite, SiteInformation>;
+
+  constructor(
+    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
+  ) {
+    // Needs source from our own research
+    this.siteTypeInfo = addAverage({
+      information: {
+        averageMonthlyUserTime: 0.016,
+        averageMonthlyUserData: 0.000781,
+      },
+      eCommerce: {
+        averageMonthlyUserTime: 0.1,
+        averageMonthlyUserData: 0.01656,
+      },
+      socialMedia: {
+        averageMonthlyUserTime: 16.3,
+        averageMonthlyUserData: 4.4443,
+      },
+      streaming: {
+        averageMonthlyUserTime: 22.1429,
+        averageMonthlyUserData: 10.3912,
+      },
+    });
+  }
+
+  estimate(downstream: Downstream, downstreamIntensity: gCo2ePerKwh): DownstreamEstimation {
+    if (downstream.noDownstream) {
       return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
     }
 
-    const downstreamDataTransfer = estimateDownstreamDataTransfer(
-      this.downstream.monthlyActiveUsers,
-      this.downstream.purposeOfSite
+    const downstreamDataTransfer = this.estimateDownstreamDataTransfer(
+      downstream.monthlyActiveUsers,
+      downstream.purposeOfSite
     );
-    const endUserEmissions = estimateEndUserEmissions(this.downstream, downstreamDataTransfer, this.downstreamIntensity);
-    const networkEmissions = estimateNetworkEmissions(this.downstream, downstreamDataTransfer, this.co2Calc);
-    const downstreamInfrastructureEmissions = estimateDownstreamInfrastructureEmissions(this.downstream, downstreamDataTransfer, this.downstreamIntensity);
+    const endUserEmissions = this.estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+    const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, this.co2Calc);
+    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
     return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
 
   }
-} 
 
-export function estimateDownstreamEmissions(
-  downstream: Downstream,
-  downstreamIntensity: gCo2ePerKwh,
-  co2Calc: ICO2Calculator
-): DownstreamEstimation {
-  if (downstream.noDownstream) {
-    return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
+  estimateDownstreamEmissions(
+    downstream: Downstream,
+    downstreamIntensity: gCo2ePerKwh,
+    co2Calc: ICO2Calculator
+  ): DownstreamEstimation {
+    if (downstream.noDownstream) {
+      return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
+    }
+
+    const downstreamDataTransfer = this.estimateDownstreamDataTransfer(
+      downstream.monthlyActiveUsers,
+      downstream.purposeOfSite
+    );
+    const endUserEmissions = this.estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+    const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, co2Calc);
+    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+    return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
   }
 
-  const downstreamDataTransfer = estimateDownstreamDataTransfer(
-    downstream.monthlyActiveUsers,
-    downstream.purposeOfSite
-  );
-  const endUserEmissions = estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-  const networkEmissions = estimateNetworkEmissions(downstream, downstreamDataTransfer, co2Calc);
-  const downstreamInfrastructureEmissions = estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-  return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
-}
-
-function estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
-  return siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
-}
-
-function estimateEndUserEmissions(
-  downstream: Downstream,
-  downstreamDataTransfer: number,
-  downstreamIntensity: gCo2ePerKwh
-) {
-  const endUserTime = estimateEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
-  const endUserEnergy = estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
-  return estimateEnergyEmissions(endUserEnergy, downstreamIntensity);
-}
-
-function estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
-  return siteTypeInfo[purposeOfSite].averageMonthlyUserTime * monthlyActiveUsers * 12;
-}
-
-function estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
-  const averageDevice = new AverageDeviceType(
-    { device: mobile, percentage: mobilePercentage },
-    { device: averagePersonalComputer, percentage: 100 - mobilePercentage }
-  );
-  return averageDevice.estimateEnergy(userTime);
-}
-
-function estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number, co2Calc: ICO2Calculator) {
-  const options = {
-    gridIntensity: {
-      device: 0,
-      network: { country: downstream.customerLocation },
-      dataCenter: 0,
-    },
-  };
-  const result = co2Calc.perByteTrace(downstreamDataTransfer * BYTES_IN_GIGABYTE, false, options);
-  if (typeof result.co2 !== 'number') {
-    return result.co2.networkCO2 / 1000;
+  estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
+    return this.siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
   }
-  throw new Error('perByteTrace should return CO2EstimateComponents for segment results');
-}
 
-function estimateDownstreamInfrastructureEmissions(
-  downstream: Downstream, 
-  downstreamDataTransfer: number,
-  downstreamIntensity: gCo2ePerKwh) {
-  return 0; //No method for estimation of IoT devices, etc. as of 12/08/25 for schema v0.0.2
+  estimateEndUserEmissions(
+    downstream: Downstream,
+    downstreamDataTransfer: number,
+    downstreamIntensity: gCo2ePerKwh
+  ) {
+    const endUserTime = this.estimateEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
+    const endUserEnergy = this.estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
+    return estimateEnergyEmissions(endUserEnergy, downstreamIntensity);
+  }
+
+  estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
+    return this.siteTypeInfo[purposeOfSite].averageMonthlyUserTime * monthlyActiveUsers * 12;
+  }
+
+  estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
+    const averageDevice = new AverageDeviceType(
+      { device: mobile, percentage: mobilePercentage },
+      { device: averagePersonalComputer, percentage: 100 - mobilePercentage }
+    );
+    return averageDevice.estimateEnergy(userTime);
+  }
+
+  estimateNetworkEmissions(downstream: Downstream, downstreamDataTransfer: number, co2Calc: ICO2Calculator) {
+    const options = {
+      gridIntensity: {
+        device: 0,
+        network: { country: downstream.customerLocation },
+        dataCenter: 0,
+      },
+    };
+    const result = co2Calc.perByteTrace(downstreamDataTransfer * this.BYTES_IN_GIGABYTE, false, options);
+    if (typeof result.co2 !== 'number') {
+      return result.co2.networkCO2 / 1000;
+    }
+    throw new Error('perByteTrace should return CO2EstimateComponents for segment results');
+  }
+
+  estimateDownstreamInfrastructureEmissions(
+    downstream: Downstream,
+    downstreamDataTransfer: number,
+    downstreamIntensity: gCo2ePerKwh) {
+    return 0; //No method for estimation of IoT devices, etc. as of 12/08/25 for schema v0.0.2
+  }
 }
