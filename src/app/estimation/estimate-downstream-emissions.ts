@@ -17,7 +17,15 @@ interface SiteInformation {
   averageMonthlyUserData: Gb;
 }
 
-function addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<PurposeOfSite, SiteInformation> {
+@Injectable({
+  providedIn: 'root',
+})
+export class DownstreamEmissionsEstimator {
+  private readonly BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
+
+  public readonly siteTypeInfo: Record<PurposeOfSite, SiteInformation>;
+
+  private static addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<PurposeOfSite, SiteInformation> {
   let totalMonthlyUserTime = 0;
   let totalMonthlyUserData = 0;
   for (const value of Object.values(input)) {
@@ -34,19 +42,11 @@ function addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<P
   };
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class DownstreamEmissionsEstimator {
-  private readonly BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
-
-  public readonly siteTypeInfo: Record<PurposeOfSite, SiteInformation>;
-
   constructor(
     @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
   ) {
     // Needs source from our own research
-    this.siteTypeInfo = addAverage({
+    this.siteTypeInfo = DownstreamEmissionsEstimator.addAverage({
       information: {
         averageMonthlyUserTime: 0.016,
         averageMonthlyUserData: 0.000781,
