@@ -1,8 +1,9 @@
 import { test, expect } from './fixtures';
-import { assertAllSectionElementsAreVisible, createDefaultInputJsonExport } from './test-helpers';
-import { createDefaultValuesJsonExport } from './test-helpers';
-import { createDefaultPercentagesJsonExport, exportJsonContent, readJsonFileContent } from './test-helpers';
-import * as fs from 'fs';
+import {
+  createDefaultPercentagesJsonExport,
+  createDefaultInputJsonExport,
+  createDefaultValuesJsonExport,
+} from './test-helpers';
 
 test.describe('Export JSON files', () => {
   test.beforeEach(
@@ -25,13 +26,14 @@ test.describe('Export JSON files', () => {
       await estimationsSection.tableViewButton.click();
       await tableSection.assertDefaultTableStructure();
       await estimationsSection.diagramViewButton.click();
+      await expect(estimationsSection.exportButton).toBeDisabled();
       await tcsEstimator.calculateButton.click();
     }
   );
 
-  test('T20 Export and read JSON', async ({ page }) => {
-    const downloadPath = await exportJsonContent(page, 'Export JSON');
-    const jsonParse = await readJsonFileContent(downloadPath);
+  test('T20 Export and read JSON', async ({ page, estimationsSection }) => {
+    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
+    const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
@@ -40,9 +42,9 @@ test.describe('Export JSON files', () => {
     expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
   });
 
-  test('T20 Export and read JSON with inputs', async ({ page }) => {
-    const downloadPath = await exportJsonContent(page, 'Export JSON with Inputs');
-    const jsonParse = await readJsonFileContent(downloadPath);
+  test('T20 Export and read JSON with inputs', async ({ page, estimationsSection }) => {
+    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
+    const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
