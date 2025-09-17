@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, Downstream, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
-import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
+import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
@@ -21,6 +21,7 @@ export class CarbonEstimationService {
   constructor(
     private carbonIntensityService: CarbonIntensityService,
     private loggingService: LoggingService,
+    private downstreamEmissionsEstimator: DownstreamEmissionsEstimator,
     @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
   ) {}
 
@@ -37,7 +38,8 @@ export class CarbonEstimationService {
     const indirectEmissions = estimateIndirectEmissions(formValue.cloud, indirectIntensity);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
     const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
-    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
+    // const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
+    const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity); 
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     const values = {
