@@ -12,39 +12,50 @@ import styles from './styles.generated.css';
   const techCarbonEstimatorComponent = createCustomElement(TechCarbonEstimatorComponent, {
      injector: app.injector
   });
+  customElements.define('tech-carbon-estimator-inner', techCarbonEstimatorComponent);
 
   class ShadowTechCarbonEstimator extends HTMLElement {
-    private estimatorInstance: InstanceType<typeof techCarbonEstimatorComponent> | null = null;
+    private estimatorInstance: HTMLElement | null = null;
+    private shadow: ShadowRoot;
 
     constructor() {
       super();
-      const shadow = this.attachShadow({ mode: 'open' });
-      
-      // Create Angular custom element and append to shadow root
-      this.estimatorInstance = new techCarbonEstimatorComponent();
-      shadow.appendChild(this.estimatorInstance);
+      this.shadow = this.attachShadow({ mode: 'open' });
 
+      console.log('styles:', styles);
       const styleTag = document.createElement('style');
       styleTag.textContent = styles;
-      shadow.appendChild(styleTag);
+      this.shadow.appendChild(styleTag);
     }
 
     static get observedAttributes() {
       return techCarbonEstimatorComponent.observedAttributes;
     }
+
     attributeChangedCallback(name: string, oldValue: string | null, newValue: string) {
-      if (this.estimatorInstance && typeof this.estimatorInstance.attributeChangedCallback === 'function') {
-        this.estimatorInstance.attributeChangedCallback(name, oldValue, newValue);
+      if (this.estimatorInstance && typeof (this.estimatorInstance as any).attributeChangedCallback === 'function') {
+        (this.estimatorInstance as any).attributeChangedCallback(name, oldValue, newValue);
       }
     }
+    
     connectedCallback() {
-      if (this.estimatorInstance && typeof this.estimatorInstance.connectedCallback === 'function') {
-        this.estimatorInstance.connectedCallback();
+      if (!this.estimatorInstance) {
+        // Create the Angular custom element and append to shadow root
+        this.estimatorInstance = document.createElement('tech-carbon-estimator-inner');
+        this.shadow.appendChild(this.estimatorInstance);
+      }
+      if (this.estimatorInstance && typeof (this.estimatorInstance as any).connectedCallback === 'function') {
+        (this.estimatorInstance as any).connectedCallback();
       }
     }
+
     disconnectedCallback() {
-      if (this.estimatorInstance && typeof this.estimatorInstance.disconnectedCallback === 'function') {
-        this.estimatorInstance.disconnectedCallback();
+      if (this.estimatorInstance) {
+        if (typeof (this.estimatorInstance as any).disconnectedCallback === 'function') {
+          (this.estimatorInstance as any).disconnectedCallback();
+        }
+        this.shadow.removeChild(this.estimatorInstance);
+        this.estimatorInstance = null;
       }
     }
   }
