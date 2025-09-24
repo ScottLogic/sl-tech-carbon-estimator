@@ -13,6 +13,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:npm-package": "ng serve --configuration npm-package",
+    "dev:npm-package": "vite --config vite.config.ts",
     "prepare": "bash ./scripts/prepare.sh",
     "build:css": "postcss src/styles.css -o src/styles.generated.css",
     "build": "npm run build:css && vite build",
@@ -21,7 +22,8 @@
     "lint": "ng lint",
     "playwright-install": "npx playwright install --with-deps",
     "playwright-test": "npx playwright test",
-    "verify-release": "bash ./scripts/verify-release.sh"
+    "verify-release": "bash ./scripts/verify-release.sh",
+    "build:npm-package": "vite build --config vite.config.ts"
   },
   "private": true,
   "dependencies": {
