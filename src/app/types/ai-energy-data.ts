@@ -10,13 +10,14 @@
  * @see https://arxiv.org/abs/2311.16863
  */
 
-import { AITaskType } from './carbon-estimator';
-
 /**
  * Raw energy data for all AI task types except mixed-usage
  * Mixed-usage is calculated dynamically as the average of all other task types
+ * 
+ * This is the single source of truth for AI task types and their energy data.
+ * Adding a new task only requires adding it here.
  */
-export const AI_TASK_ENERGY_DATA: Record<Exclude<AITaskType, 'mixed-usage'>, { mean: number; stdev: number }> = {
+export const AI_TASK_ENERGY_DATA = {
   // Natural Language Processing Tasks
   'text-classification': { 
     mean: 0.002, 
@@ -56,7 +57,22 @@ export const AI_TASK_ENERGY_DATA: Record<Exclude<AITaskType, 'mixed-usage'>, { m
     mean: 2.907, 
     stdev: 3.310 
   },
-};
+} as const;
+
+/**
+ * Derived types and arrays from the AI task energy data
+ * These are automatically generated from the data above
+ */
+export type AITaskTypeFromData = keyof typeof AI_TASK_ENERGY_DATA;
+export const aiTaskArrayFromData = Object.keys(AI_TASK_ENERGY_DATA) as (keyof typeof AI_TASK_ENERGY_DATA)[];
+
+// Mixed-usage is a special case calculated from other tasks
+export const AI_MIXED_USAGE_TASK = 'mixed-usage' as const;
+export type MixedUsageTaskType = typeof AI_MIXED_USAGE_TASK;
+
+// Complete list including mixed-usage
+export const allAiTaskArray = [...aiTaskArrayFromData, AI_MIXED_USAGE_TASK] as const;
+export type AITaskType = AITaskTypeFromData | MixedUsageTaskType;
 
 /**
  * Power Usage Effectiveness (PUE) values for AI service providers

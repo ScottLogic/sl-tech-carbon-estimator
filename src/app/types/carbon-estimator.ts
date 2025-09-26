@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e, KilowattHour, gCo2ePerKwh } from './units';
-import { AI_TASK_ENERGY_DATA, AI_PROVIDER_PUE_DATA } from './ai-energy-data';
+import { AI_TASK_ENERGY_DATA, AI_PROVIDER_PUE_DATA, AITaskType, allAiTaskArray } from './ai-energy-data';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -130,20 +130,8 @@ export type BasePurposeOfSite = (typeof basePurposeArray)[number];
 export const purposeOfSiteArray = [...basePurposeArray, 'average'] as const;
 export type PurposeOfSite = (typeof purposeOfSiteArray)[number];
 
-// AI Inference types for research-based estimation
-export const aiTaskArray = [
-  'text-generation',
-  'summarisation',
-  'extractive-qa', 
-  'text-classification',
-  'token-classification',
-  'image-classification',
-  'image-captioning',
-  'object-detection',
-  'image-generation',
-  'mixed-usage',
-] as const;
-export type AITaskType = (typeof aiTaskArray)[number];
+// AI task array is now imported from ai-energy-data.ts
+export const aiTaskArray = allAiTaskArray;
 
 export const aiProviderArray = [
   'openai',
