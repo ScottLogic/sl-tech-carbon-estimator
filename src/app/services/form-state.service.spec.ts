@@ -29,6 +29,13 @@ const formValues: EstimatorValues = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
+  aiInference: {
+    noAIInference: false,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 1000,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 const formBuilder = new FormBuilder();

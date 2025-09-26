@@ -41,6 +41,13 @@ export const defaultValues: Required<EstimatorValues> = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
+  aiInference: {
+    noAIInference: false,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 1000,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 export const formContext = {

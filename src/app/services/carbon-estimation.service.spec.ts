@@ -33,6 +33,13 @@ const emptyEstimatorValues: EstimatorValues = {
     mobilePercentage: 0,
     purposeOfSite: 'streaming',
   },
+  aiInference: {
+    noAIInference: true,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 0,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
@@ -169,6 +176,13 @@ describe('CarbonEstimationService', () => {
           monthlyActiveUsers: 0,
           mobilePercentage: 0,
           purposeOfSite: 'streaming',
+        },
+        aiInference: {
+          noAIInference: true,
+          primaryTaskType: 'text-generation',
+          monthlyInferences: 0,
+          aiServiceProvider: 'openai',
+          aiServiceLocation: 'WORLD',
         },
       };
       service.calculateCarbonEstimation(input);
