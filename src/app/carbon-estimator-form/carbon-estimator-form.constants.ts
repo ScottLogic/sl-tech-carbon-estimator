@@ -98,6 +98,18 @@ export const formContext = {
       hasUnknown: false,
     },
   },
+  aiInference: {
+    heading: 'AI Inference',
+    details:
+      'Tell us about your AI inference usage - this includes AI model inferences from services like OpenAI, Google AI, Anthropic, or other AI service providers. We estimate emissions based on the type of AI tasks, number of monthly inferences, and the location of the AI service infrastructure.',
+    formGroupName: 'aiInference',
+    location: {
+      label: 'Where are your AI services primarily located?',
+      helperText: 'AI inference infrastructure',
+      formControlName: 'aiServiceLocation',
+      hasUnknown: false,
+    },
+  },
 };
 
 export const questionPanelConfig: ExpansionPanelConfig = {
@@ -134,6 +146,10 @@ export const errorConfig = {
   monthlyActiveUsers: {
     inputId: 'monthlyActiveUsers',
     errorMessage: 'The number of monthly active users must be greater than 0',
+  },
+  monthlyInferences: {
+    inputId: 'monthlyInferences',
+    errorMessage: 'The number of monthly AI inferences must be greater than 0',
   },
 };
 

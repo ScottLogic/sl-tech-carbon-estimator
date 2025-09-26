@@ -6,6 +6,8 @@ export enum EmissionsColours {
   Direct = '#CB3775',
   Indirect = '#91234C',
   OperationLight = '#f2afd1',
+  AIInference = '#9B59B6',
+  AIInferenceLight = '#e4c7f2',
   Downstream = '#4B7E56',
   DownstreamLight = '#c1d9c3',
   Total = '#646464',
@@ -15,6 +17,7 @@ export enum PlaceholderEmissionsColours {
   Upstream = '#333',
   Direct = '#666',
   Indirect = '#888',
+  AIInference = '#999',
   Downstream = '#AAA',
 }
 
@@ -147,12 +150,14 @@ export enum SVG {
   STORAGE = 'storage-logo',
   CLOUD = 'cloud-logo',
   CELL_TOWER = 'cell-tower-logo',
+  AI = 'ai-logo',
 }
 
 export enum EmissionsLabels {
   Upstream = 'Upstream Emissions Estimate',
   Direct = 'Direct Emissions Estimate',
   Indirect = 'Indirect Emissions Estimate',
+  AIInference = 'AI Inference Emissions Estimate',
   Downstream = 'Downstream Emissions Estimate',
 }
 
@@ -182,6 +187,13 @@ export const placeholderData: ApexChartSeriesItem[] = [
     color: PlaceholderEmissionsColours.Indirect,
     data: [
       { x: EmissionsLabels.Indirect, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.Indirect } },
+    ],
+  },
+  {
+    name: `${EmissionsLabels.AIInference} - ?`,
+    color: PlaceholderEmissionsColours.AIInference,
+    data: [
+      { x: EmissionsLabels.AIInference, y: 1, meta: { svg: 'question-mark-logo', parent: EmissionsLabels.AIInference } },
     ],
   },
   {

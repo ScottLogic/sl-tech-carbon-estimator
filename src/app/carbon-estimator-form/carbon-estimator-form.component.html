@@ -260,6 +260,114 @@
     </div>
   </div>
 
+  <div formGroupName="aiInference">
+    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.aiInference"></ng-container>
+    <div class="tce:flex tce:flex-col tce:gap-4">
+      <div class="tce:flex tce:gap-2 tce:items-center">
+        <input
+          id="noAIInference"
+          type="checkbox"
+          formControlName="noAIInference"
+          class="tce:rounded-sm tce:cursor-pointer" />
+        <label for="noAIInference" class="cursor-pointer select-none"
+          >We don't use AI inference services</label
+        >
+      </div>
+
+      @if (!noAIInference) {
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <expansion-panel [configOverride]="questionPanelConfig">
+            <div header>
+              <div class="tce:flex">
+                <label for="primaryTaskType" class="tce:text-sm"
+                  >What's the primary type of AI tasks your organization performs?</label
+                >
+              </div>
+            </div>
+            <div content>
+              <p class="tce:text-sm">
+                Different AI task types have varying computational requirements and energy consumption patterns.
+                This helps estimate the carbon footprint of your AI inference workloads.
+              </p>
+            </div>
+          </expansion-panel>
+          <select
+            class="tce-select"
+            formControlName="primaryTaskType"
+            name="primaryTaskType"
+            id="primaryTaskType">
+            <option value="text-generation">Text Generation</option>
+            <option value="image-generation">Image Generation</option>
+            <option value="text-classification">Text Classification</option>
+            <option value="extractive-qa">Question Answering</option>
+            <option value="token-classification">Token Classification</option>
+            <option value="summarisation">Text Summarization</option>
+            <option value="image-classification">Image Classification</option>
+            <option value="object-detection">Object Detection</option>
+            <option value="image-captioning">Image Captioning</option>
+            <option value="mixed-usage">Mixed Usage (Average)</option>
+          </select>
+        </div>
+
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="monthlyInferences" class="tce:text-sm">
+            How many monthly AI inferences does your organization make?
+          </label>
+          <input
+            class="tce-input"
+            formControlName="monthlyInferences"
+            name="monthlyInferences"
+            type="number"
+            id="monthlyInferences"
+            required
+            [attr.aria-describedby]="(monthlyInferences | invalidated) ? 'monthlyInferencesError' : null" />
+          @if (monthlyInferences | invalidated) {
+            <div
+              class="tce-error-box tce:flex tce:items-center tce:gap-1"
+              aria-live="polite"
+              id="monthlyInferencesError">
+              <span class="material-icons-outlined">error</span>
+              <p>{{ errorConfig.monthlyInferences.errorMessage }}</p>
+            </div>
+          }
+        </div>
+
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <expansion-panel [configOverride]="questionPanelConfig">
+            <div header>
+              <div class="tce:flex">
+                <label for="aiServiceProvider" class="tce:text-sm">
+                  Which AI service provider do you primarily use?
+                </label>
+              </div>
+            </div>
+            <div content>
+              <p class="tce:text-sm">
+                Different AI service providers have varying energy efficiency and carbon footprint profiles.
+                This information helps provide more accurate estimates for your AI workloads.
+              </p>
+            </div>
+          </expansion-panel>
+          <select
+            class="tce-select"
+            formControlName="aiServiceProvider"
+            name="aiServiceProvider"
+            id="aiServiceProvider">
+            <option value="openai">OpenAI</option>
+            <option value="anthropic">Anthropic</option>
+            <option value="google">Google AI</option>
+            <option value="microsoft">Microsoft Azure AI</option>
+            <option value="amazon">Amazon Bedrock</option>
+            <option value="meta">Meta AI</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <ng-container *ngTemplateOutlet="locationInput; context: formContext.aiInference"></ng-container>
+      }
+    </div>
+  </div>
+
   <div>
     <div class="tce:flex tce:gap-4 tce:justify-end">
       <button class="tce-button-reset tce:px-3 tce:py-2" type="button" (click)="resetForm()">Reset</button>

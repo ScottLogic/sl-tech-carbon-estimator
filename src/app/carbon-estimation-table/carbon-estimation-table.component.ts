@@ -208,7 +208,7 @@ export class CarbonEstimationTableComponent {
             EmissionsColours.Upstream,
             EmissionsColours.UpstreamLight,
             1,
-            4,
+            5,
             this.expandedState[EmissionsLabels.Upstream]
           ),
           ...this.getParentTableItems(
@@ -218,7 +218,7 @@ export class CarbonEstimationTableComponent {
             EmissionsColours.Direct,
             EmissionsColours.OperationLight,
             2,
-            4,
+            5,
             this.expandedState[EmissionsLabels.Direct]
           ),
           ...this.getParentTableItems(
@@ -228,8 +228,18 @@ export class CarbonEstimationTableComponent {
             EmissionsColours.Indirect,
             EmissionsColours.OperationLight,
             3,
-            4,
+            5,
             this.expandedState[EmissionsLabels.Indirect]
+          ),
+          ...this.getParentTableItems(
+            EmissionsLabels.AIInference,
+            carbonEstimation.values.aiInferenceEmissions,
+            carbonEstimation.percentages.aiInferenceEmissions,
+            EmissionsColours.AIInference,
+            EmissionsColours.AIInferenceLight,
+            4,
+            5,
+            this.expandedState[EmissionsLabels.AIInference]
           ),
           ...this.getParentTableItems(
             EmissionsLabels.Downstream,
@@ -237,8 +247,8 @@ export class CarbonEstimationTableComponent {
             carbonEstimation.percentages.downstreamEmissions,
             EmissionsColours.Downstream,
             EmissionsColours.DownstreamLight,
-            4,
-            4,
+            5,
+            5,
             this.expandedState[EmissionsLabels.Downstream]
           ),
           {

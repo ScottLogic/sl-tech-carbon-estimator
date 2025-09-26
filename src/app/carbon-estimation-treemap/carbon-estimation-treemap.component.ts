@@ -98,6 +98,11 @@ export class CarbonEstimationTreemapComponent {
         data: this.getEmissionFigures(carbonEstimationPart.indirectEmissions, EmissionsLabels.Indirect),
       },
       {
+        name: `${EmissionsLabels.AIInference} - ${this.getOverallLabel(carbonEstimationPart.aiInferenceEmissions)}`,
+        color: EmissionsColours.AIInference,
+        data: this.getEmissionFigures(carbonEstimationPart.aiInferenceEmissions, EmissionsLabels.AIInference),
+      },
+      {
         name: `${EmissionsLabels.Downstream} - ${this.getOverallLabel(carbonEstimationPart.downstreamEmissions)}`,
         color: EmissionsColours.Downstream,
         data: this.getEmissionFigures(carbonEstimationPart.downstreamEmissions, EmissionsLabels.Downstream),

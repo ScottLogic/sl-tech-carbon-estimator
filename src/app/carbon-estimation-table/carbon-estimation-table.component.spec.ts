@@ -101,7 +101,7 @@ describe('CarbonEstimationTableComponent', () => {
 
   it('should get emissions when getEmissions called', () => {
     const tableData = component.tableData();
-    expect(tableData.length).toBe(17);
+    expect(tableData.length).toBe(18);
   });
 
   it('should call toggle when left arrow clicked on expanded parent row', () => {

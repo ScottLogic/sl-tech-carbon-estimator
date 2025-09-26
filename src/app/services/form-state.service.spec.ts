@@ -73,6 +73,13 @@ describe('FormStateService', () => {
         mobilePercentage: [formValues.downstream.mobilePercentage],
         purposeOfSite: [formValues.downstream.purposeOfSite],
       }),
+      aiInference: formBuilder.nonNullable.group({
+        noAIInference: [formValues.aiInference.noAIInference],
+        primaryTaskType: [formValues.aiInference.primaryTaskType],
+        monthlyInferences: [formValues.aiInference.monthlyInferences],
+        aiServiceProvider: [formValues.aiInference.aiServiceProvider],
+        aiServiceLocation: [formValues.aiInference.aiServiceLocation],
+      }),
     });
   });
 

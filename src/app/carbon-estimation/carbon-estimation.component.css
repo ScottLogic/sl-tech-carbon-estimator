@@ -39,6 +39,10 @@
   background-image: url('../../assets/cell-tower.svg');
 }
 
+::ng-deep .ai-logo {
+  background-image: url('../../assets/web.svg');
+}
+
 ::ng-deep .question-mark-logo {
   background-image: url('../../assets/question-mark.svg');
 }

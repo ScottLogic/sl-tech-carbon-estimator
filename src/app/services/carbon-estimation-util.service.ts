@@ -42,6 +42,8 @@ export class CarbonEstimationUtilService {
         return { label: 'Cloud Services', svg: SVG.CLOUD };
       case 'networkTransfer':
         return { label: 'Network Data Transfer', svg: SVG.CELL_TOWER };
+      case 'aiInference':
+        return { label: 'AI Inference', svg: SVG.AI };
       default:
         return { label: startCase(key), svg: '' };
     }

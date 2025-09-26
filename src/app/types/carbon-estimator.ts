@@ -84,6 +84,13 @@ export type EstimatorFormValues = {
     mobilePercentage: FormControl<number>;
     purposeOfSite: FormControl<PurposeOfSite>;
   }>;
+  aiInference: FormGroup<{
+    noAIInference: FormControl<boolean>;
+    primaryTaskType: FormControl<AITaskType>;
+    monthlyInferences: FormControl<number>;
+    aiServiceProvider: FormControl<AIProvider>;
+    aiServiceLocation: FormControl<WorldLocation>;
+  }>;
 };
 
 export type OnPremise = {
@@ -243,6 +250,10 @@ export function getTaskEnergyConsumption(taskType: AITaskType): TaskEnergyConsum
     data = calculateMixedUsageValues();
   } else {
     data = AI_TASK_ENERGY_DATA[taskType];
+  }
+  
+  if (!data) {
+    throw new Error(`No energy data found for task type: "${taskType}". Available types: ${Object.keys(AI_TASK_ENERGY_DATA).join(', ')}`);
   }
   
   const lowBand = Math.max(0, data.mean - data.stdev); // Clamp to 0 for negative values

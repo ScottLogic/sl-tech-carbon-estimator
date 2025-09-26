@@ -101,4 +101,69 @@ describe('CarbonEstimatorFormComponent', () => {
       expect(storageService.set).toHaveBeenCalled();
     });
   });
+
+  describe('AI Inference Form Section', () => {
+    it('should include AI inference form group in the form', () => {
+      expect(component.estimatorForm.get('aiInference')).toBeTruthy();
+    });
+
+    it('should have default AI inference form values', () => {
+      const aiInferenceForm = component.estimatorForm.get('aiInference');
+      expect(aiInferenceForm?.get('noAIInference')?.value).toBe(false);
+      expect(aiInferenceForm?.get('primaryTaskType')?.value).toBe('text-generation');
+      expect(aiInferenceForm?.get('monthlyInferences')?.value).toBe(1000);
+      expect(aiInferenceForm?.get('aiServiceProvider')?.value).toBe('openai');
+      expect(aiInferenceForm?.get('aiServiceLocation')?.value).toBe('WORLD');
+    });
+
+    it('should validate form when AI inference is disabled and monthly inferences is zero', () => {
+      const aiInferenceForm = component.estimatorForm.get('aiInference');
+      aiInferenceForm?.get('noAIInference')?.setValue(true);
+      aiInferenceForm?.get('monthlyInferences')?.setValue(0);
+      fixture.detectChanges();
+      expect(component.estimatorForm.valid).toBeTruthy();
+    });
+
+    it('should invalidate form when AI inference is enabled and monthly inferences is zero', () => {
+      const aiInferenceForm = component.estimatorForm.get('aiInference');
+      aiInferenceForm?.get('noAIInference')?.setValue(false);
+      aiInferenceForm?.get('monthlyInferences')?.setValue(0);
+      fixture.detectChanges();
+      expect(component.estimatorForm.valid).toBeFalsy();
+    });
+
+    it('should have noAIInference property that tracks the form state', () => {
+      expect(component.noAIInference).toBeDefined();
+      expect(typeof component.noAIInference).toBe('boolean');
+    });
+
+    it('should emit form values including AI inference data on submit', () => {
+      spyOn(component.formSubmit, 'emit');
+      
+      // Set up valid form data including AI inference
+      component.estimatorForm.patchValue({
+        aiInference: {
+          noAIInference: false,
+          primaryTaskType: 'image-classification',
+          monthlyInferences: 5000,
+          aiServiceProvider: 'google',
+          aiServiceLocation: 'NORTH AMERICA'
+        }
+      });
+      
+      component.handleSubmit();
+      
+      expect(component.formSubmit.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          aiInference: jasmine.objectContaining({
+            noAIInference: false,
+            primaryTaskType: 'image-classification',
+            monthlyInferences: 5000,
+            aiServiceProvider: 'google',
+            aiServiceLocation: 'NORTH AMERICA'
+          })
+        })
+      );
+    });
+  });
 });

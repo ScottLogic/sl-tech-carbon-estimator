@@ -84,6 +84,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
   public noDownstream: boolean = defaultValues.downstream.noDownstream;
+  public noAIInference: boolean = defaultValues.aiInference.noAIInference;
 
   public locationDescriptions = locationArray.map(location => ({
     value: location,
@@ -133,6 +134,13 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
+      aiInference: this.formBuilder.nonNullable.group({
+        noAIInference: [defaultValues.aiInference.noAIInference],
+        primaryTaskType: [defaultValues.aiInference.primaryTaskType],
+        monthlyInferences: [defaultValues.aiInference.monthlyInferences, [Validators.required, Validators.min(1)]],
+        aiServiceProvider: [defaultValues.aiInference.aiServiceProvider],
+        aiServiceLocation: [defaultValues.aiInference.aiServiceLocation],
+      }),
     });
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
@@ -169,6 +177,17 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         monthlyActiveUsers?.enable();
       }
       this.noDownstream = noDownstream;
+      this.changeDetector.detectChanges();
+    });
+
+    this.estimatorForm.get('aiInference.noAIInference')?.valueChanges.subscribe(noAIInference => {
+      const monthlyInferences = this.estimatorForm.get('aiInference.monthlyInferences');
+      if (noAIInference) {
+        monthlyInferences?.disable();
+      } else {
+        monthlyInferences?.enable();
+      }
+      this.noAIInference = noAIInference;
       this.changeDetector.detectChanges();
     });
 
@@ -248,6 +267,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return this.estimatorForm.get('downstream.monthlyActiveUsers');
   }
 
+  public get monthlyInferences() {
+    return this.estimatorForm.get('aiInference.monthlyInferences');
+  }
+
   private refreshPreviewServerCount() {
     if (this.estimateServerCount) {
       this.previewServerCount = this.estimationService.estimateServerCount(
@@ -266,6 +289,9 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
     if (this.monthlyActiveUsers?.invalid) {
       validationErrors.push(this.errorConfig.monthlyActiveUsers);
+    }
+    if (this.monthlyInferences?.invalid) {
+      validationErrors.push(this.errorConfig.monthlyInferences);
     }
 
     return validationErrors;
