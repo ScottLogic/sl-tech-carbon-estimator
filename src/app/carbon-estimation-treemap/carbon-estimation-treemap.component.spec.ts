@@ -502,6 +502,106 @@ describe('CarbonEstimationTreemapComponent', () => {
     expect(component.chartData()).toEqual(expectedEmissions);
   });
 
+  // Helper function to find the AI inference series in chart data
+  function findAIInferenceSeries(chartData: any[]) {
+    return chartData.find(series => series.name?.includes('AI Inference Emissions Estimate'));
+  }
+
+  it('should display AI inference emissions with correct colors and metadata', () => {
+    const carbonEstimationWithAI: CarbonEstimation = {
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: { software: 10, employee: 0, network: 0, server: 0 },
+        directEmissions: { employee: 15, network: 0, server: 0 },
+        indirectEmissions: { cloud: 20, saas: 0, managed: 0 },
+        aiInferenceEmissions: { aiInference: 25 },
+        downstreamEmissions: { endUser: 30, networkTransfer: 0, downstreamInfrastructure: 0 },
+      },
+      values: {
+        version: '1.0',
+        upstreamEmissions: { software: 1000, employee: 0, network: 0, server: 0 },
+        directEmissions: { employee: 1500, network: 0, server: 0 },
+        indirectEmissions: { cloud: 2000, saas: 0, managed: 0 },
+        aiInferenceEmissions: { aiInference: 2500 },
+        downstreamEmissions: { endUser: 3000, networkTransfer: 0, downstreamInfrastructure: 0 },
+        totalEmissions: 10000,
+      },
+    };
+
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimationWithAI);
+    fixture.componentRef.setInput('chartHeight', 400);
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', true);
+    fixture.detectChanges();
+
+    const chartData = component.chartData();
+    
+    // Find the AI inference series
+    const aiInferenceSeries = findAIInferenceSeries(chartData);
+    expect(aiInferenceSeries).toBeDefined();
+    expect(aiInferenceSeries!.color).toBe('#9B59B6'); // EmissionsColours.AIInference
+    expect(aiInferenceSeries!.name).toBe('AI Inference Emissions Estimate - 2500 kg');
+    
+    // Check AI inference data item
+    const aiInferenceData = aiInferenceSeries!.data;
+    expect(aiInferenceData.length).toBe(1);
+    expect(aiInferenceData[0]).toEqual({
+      x: 'AI Inference',
+      y: 2500,
+      meta: {
+        svg: 'ai-logo',
+        parent: 'AI Inference Emissions Estimate'
+      }
+    });
+
+    // Verify aria label includes AI inference
+    const ariaLabel = component.emissionAriaLabel();
+    expect(ariaLabel).toContain('AI Inference Emissions Estimate are 2500 kg, made up of AI Inference 2500 kg');
+  });
+
+  it('should display AI inference emissions in percentage mode with correct formatting', () => {
+    const carbonEstimationWithAI: CarbonEstimation = {
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: { software: 10, employee: 0, network: 0, server: 0 },
+        directEmissions: { employee: 15, network: 0, server: 0 },
+        indirectEmissions: { cloud: 20, saas: 0, managed: 0 },
+        aiInferenceEmissions: { aiInference: 25 },
+        downstreamEmissions: { endUser: 30, networkTransfer: 0, downstreamInfrastructure: 0 },
+      },
+      values: {
+        version: '1.0',
+        upstreamEmissions: { software: 1000, employee: 0, network: 0, server: 0 },
+        directEmissions: { employee: 1500, network: 0, server: 0 },
+        indirectEmissions: { cloud: 2000, saas: 0, managed: 0 },
+        aiInferenceEmissions: { aiInference: 2500 },
+        downstreamEmissions: { endUser: 3000, networkTransfer: 0, downstreamInfrastructure: 0 },
+        totalEmissions: 10000,
+      },
+    };
+
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimationWithAI);
+    fixture.componentRef.setInput('chartHeight', 400);
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', true);
+    fixture.detectChanges();
+
+    // Switch to percentage mode
+    component.toggleMassPercentages();
+    fixture.detectChanges();
+
+    const chartData = component.chartData();
+    const aiInferenceSeries = findAIInferenceSeries(chartData);
+    
+    expect(aiInferenceSeries).toBeDefined();
+    expect(aiInferenceSeries!.name).toBe('AI Inference Emissions Estimate - 25%');
+    
+    // Directly assert the data item type
+    const dataItem = aiInferenceSeries!.data[0] as { y: number };
+    expect(dataItem.y).toBe(25);
+
+    const ariaLabel = component.emissionAriaLabel();
+    expect(ariaLabel).toContain('AI Inference Emissions Estimate are 25%, made up of AI Inference 25%');
+  });
+
   it('should not render the units switch if shouldShowUnitsSwitch is false', () => {
     fixture.componentRef.setInput('shouldShowUnitsSwitch', false);
     fixture.detectChanges();
