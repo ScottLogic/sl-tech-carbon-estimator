@@ -15,6 +15,8 @@ export class TableSection {
   public readonly networkingInfrastructure: Locator;
   public readonly indirectEmissionsEstimate: Locator;
   public readonly cloudServices: Locator;
+  public readonly aiInferenceEmissionsEstimate: Locator;
+  public readonly aiInference: Locator;
   public readonly downstreamEmissionsEstimate: Locator;
   public readonly endUserDevices: Locator;
   public readonly networkDataTransfer: Locator;
@@ -40,6 +42,8 @@ export class TableSection {
     this.networkingInfrastructure = page.getByRole('gridcell', { name: 'Networking and Infrastructure', exact: true });
     this.indirectEmissionsEstimate = page.getByRole('gridcell', { name: 'Indirect Emissions Estimate', exact: true });
     this.cloudServices = page.getByRole('gridcell', { name: 'Cloud Services', exact: true });
+    this.aiInferenceEmissionsEstimate = page.getByRole('gridcell', { name: 'AI Inference Emissions Estimate', exact: true });
+    this.aiInference = page.getByRole('gridcell', { name: 'AI Inference', exact: true });
     this.downstreamEmissionsEstimate = page.getByRole('gridcell', {
       name: 'Downstream Emissions Estimate',
       exact: true,
@@ -80,5 +84,45 @@ export class TableSection {
 
   async assertCorrectPercentageColumnValues(expectedPercentageArray: string[]) {
     await expect(this.percentageColumn).toHaveText(expectedPercentageArray);
+  }
+
+  async assertTableContainsAIInference() {
+    await expect(this.aiInferenceEmissionsEstimate).toBeVisible();
+    await expect(this.aiInference).toBeVisible();
+  }
+
+  async assertTableDoesNotContainAIInference() {
+    await expect(this.aiInferenceEmissionsEstimate).not.toBeVisible();
+    await expect(this.aiInference).not.toBeVisible();
+  }
+
+  async assertAIInferenceHighContribution() {
+    // Assert that AI inference has a significant contribution (visible in table)
+    await expect(this.aiInferenceEmissionsEstimate).toBeVisible();
+    await expect(this.aiInference).toBeVisible();
+    
+    // Check that AI inference value is not zero or negligible
+    const aiInferenceText = await this.aiInference.textContent();
+    expect(aiInferenceText).not.toBe('0 kg');
+    expect(aiInferenceText).not.toBe('<1 kg');
+  }
+
+  async assertAIInferenceZeroValues() {
+    // Assert that AI inference appears in table but with zero values
+    await expect(this.aiInferenceEmissionsEstimate).toBeVisible();
+    await expect(this.aiInference).toBeVisible();
+    
+    // Check that AI inference value is zero or negligible
+    const aiInferenceText = await this.aiInference.textContent();
+    expect(aiInferenceText === '0 kg' || aiInferenceText === '<1 kg').toBeTruthy();
+  }
+
+  async assertAIInferenceNotInResults() {
+    // When AI inference is disabled, the category header exists but the AI inference value cell doesn't
+    // This is the expected behavior
+    await expect(this.aiInferenceEmissionsEstimate).toBeVisible();
+    
+    // The AI inference value cell should not exist when disabled
+    await expect(this.aiInference).not.toBeVisible();
   }
 }

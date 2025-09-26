@@ -3,6 +3,7 @@ import { OrganisationSection } from './page-objects/organisation-section';
 import { OnPremSection } from './page-objects/on-prem-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { EndUsersSection } from './page-objects/end-users-section';
+import { AIInferenceSection } from './page-objects/ai-inference-section';
 import { TcsEstimator } from './page-objects/tcs-estimator';
 import { EstimationsSection } from './page-objects/estimations-section';
 import { TableSection } from './page-objects/table-section';
@@ -17,6 +18,7 @@ type Fixtures = {
   onPremSection: OnPremSection;
   cloudServicesSection: CloudServicesSection;
   endUsersSection: EndUsersSection;
+  aiInferenceSection: AIInferenceSection;
 };
 
 export const test = base.extend<Fixtures>({
@@ -37,6 +39,10 @@ export const test = base.extend<Fixtures>({
 
   endUsersSection: async ({ page }, use) => {
     await use(new EndUsersSection(page));
+  },
+
+  aiInferenceSection: async ({ page }, use) => {
+    await use(new AIInferenceSection(page));
   },
 
   estimationsSection: async ({ page }, use) => {
