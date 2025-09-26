@@ -1,4 +1,4 @@
-import { AIInference, EstimatorValues, getTaskEnergyConsumption, getAIProviderPUE, estimateAIInferenceCO2e, estimateMultipleAITasksCO2e, AITaskUsage, estimateAIInferenceCO2eRange, estimateMultipleAITasksCO2eRange } from './carbon-estimator';
+import { AIInference, EstimatorValues, getTaskEnergyConsumption, getAIProviderPUE, estimateAIInferenceCO2e, estimateMultipleAITasksCO2e, AITaskUsage, estimateAIInferenceCO2eRange, estimateMultipleAITasksCO2eRange, clearMixedUsageCache } from './carbon-estimator';
 
 describe('AI Inference Types', () => {
   it('should define AIInference type with required properties', () => {
@@ -120,10 +120,37 @@ describe('AI Inference Types', () => {
     });
 
     it('should provide correct energy data for mixed-usage (dynamically calculated from all other task types)', () => {
+      // Clear cache to ensure fresh calculation
+      clearMixedUsageCache();
+      
       const energy = getTaskEnergyConsumption('mixed-usage');
       expect(energy.meanKwhPer1000Inferences).toBeCloseTo(0.347, 3); // Dynamically calculated average
       expect(energy.lowBandKwhPer1000Inferences).toBe(0); // ~0.347 - 0.377 = -0.030, clamped to 0
       expect(energy.highBandKwhPer1000Inferences).toBeCloseTo(0.724, 3); // ~0.347 + 0.377
+    });
+
+    it('should cache mixed-usage calculations for performance', () => {
+      // Clear cache to start fresh
+      clearMixedUsageCache();
+      
+      // Spy on Object.values to track how many times the calculation runs
+      const spy = spyOn(Object, 'values').and.callThrough();
+      
+      // First call should trigger calculation
+      const energy1 = getTaskEnergyConsumption('mixed-usage');
+      const callCountAfterFirst = spy.calls.count();
+      
+      // Second call should use cache (no additional Object.values calls)
+      const energy2 = getTaskEnergyConsumption('mixed-usage');
+      const callCountAfterSecond = spy.calls.count();
+      
+      // Results should be identical
+      expect(energy1.meanKwhPer1000Inferences).toBe(energy2.meanKwhPer1000Inferences);
+      expect(energy1.lowBandKwhPer1000Inferences).toBe(energy2.lowBandKwhPer1000Inferences);
+      expect(energy1.highBandKwhPer1000Inferences).toBe(energy2.highBandKwhPer1000Inferences);
+      
+      // Cache should prevent additional calculations
+      expect(callCountAfterSecond).toBe(callCountAfterFirst);
     });
   });
 

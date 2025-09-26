@@ -230,16 +230,30 @@ const taskEnergyData: Record<Exclude<AITaskType, 'mixed-usage'>, { mean: number;
   'image-generation': { mean: 2.907, stdev: 3.310 },
 };
 
+// Cache for mixed-usage values to avoid recalculation
+let mixedUsageCache: { mean: number; stdev: number } | null = null;
+
 // Calculate mixed-usage values as the average of all other task types
 function calculateMixedUsageValues(): { mean: number; stdev: number } {
+  if (mixedUsageCache !== null) {
+    return mixedUsageCache;
+  }
+
   const tasks = Object.values(taskEnergyData);
   const meanSum = tasks.reduce((sum, task) => sum + task.mean, 0);
   const stdevSum = tasks.reduce((sum, task) => sum + task.stdev, 0);
   
-  return {
+  mixedUsageCache = {
     mean: meanSum / tasks.length,
     stdev: stdevSum / tasks.length
   };
+  
+  return mixedUsageCache;
+}
+
+// Function to clear the mixed-usage cache (primarily for testing)
+export function clearMixedUsageCache(): void {
+  mixedUsageCache = null;
 }
 
 export function getTaskEnergyConsumption(taskType: AITaskType): TaskEnergyConsumption {
