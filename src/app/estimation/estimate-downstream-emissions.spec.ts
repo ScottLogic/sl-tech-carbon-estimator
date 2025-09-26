@@ -1,19 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { Downstream, DownstreamEstimation, PurposeOfSite, basePurposeArray } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { sumValues } from '../utils/number-object';
 import { DownstreamEmissionsEstimator } from './estimate-downstream-emissions';
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
 import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
 
-let co2Calc: ICO2Calculator
+let co2Calc: ICO2Calculator;
 let estimator: DownstreamEmissionsEstimator;
 
 describe('estimateDownstreamEmissions()', () => {
   beforeEach(() => {
-    co2Calc = new FakeCO2Calculator('object');
+    co2Calc = new FakeCO2Calculator();
     estimator = new DownstreamEmissionsEstimator(co2Calc);
-  })
+  });
 
   const carbonIntensity = 500;
 
@@ -25,11 +27,11 @@ describe('estimateDownstreamEmissions()', () => {
       mobilePercentage: 0,
       purposeOfSite: 'average',
     };
-    
+
     expect(estimator.estimate(input, carbonIntensity)).toEqual({
       endUser: 0,
       networkTransfer: 0,
-      downstreamInfrastructure: 0
+      downstreamInfrastructure: 0,
     });
   });
 
@@ -55,7 +57,7 @@ describe('estimateDownstreamEmissions()', () => {
 
   it('should return emissions for e-commerce site', () => {
     const result = estimator.estimate(createInput('eCommerce'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 3.18, networkTransfer: 198.72, downstreamInfrastructure: 0});
+    expectEmissionsCloseTo(result, { endUser: 3.18, networkTransfer: 198.72, downstreamInfrastructure: 0 });
   });
 
   it('should return emissions for social media site', () => {
@@ -64,8 +66,8 @@ describe('estimateDownstreamEmissions()', () => {
   });
 
   it('should return emissions for streaming site', () => {
-    const result =estimator.estimate(createInput('streaming'), carbonIntensity);
-    expectEmissionsCloseTo(result, { endUser: 703.48, networkTransfer: 124694.40, downstreamInfrastructure: 0 });
+    const result = estimator.estimate(createInput('streaming'), carbonIntensity);
+    expectEmissionsCloseTo(result, { endUser: 703.48, networkTransfer: 124694.4, downstreamInfrastructure: 0 });
   });
 
   it('should return emissions based on average values', () => {

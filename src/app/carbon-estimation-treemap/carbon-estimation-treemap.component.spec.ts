@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarbonEstimationTreemapComponent } from './carbon-estimation-treemap.component';
 import { CarbonEstimation } from '../types/carbon-estimator';
 
+const defaultAIInferenceEmissions = { aiInference: 0 };
+
 describe('CarbonEstimationTreemapComponent', () => {
   let component: CarbonEstimationTreemapComponent;
   let fixture: ComponentFixture<CarbonEstimationTreemapComponent>;
@@ -34,6 +36,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           saas: 8,
           managed: 8,
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
@@ -63,6 +66,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 1200,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         totalEmissions: 7000,
       },
     };
@@ -205,6 +209,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 12,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
       },
       values: {
         version: '1.0',
@@ -229,6 +234,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 1200,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         totalEmissions: 7000,
       },
     };
@@ -266,6 +272,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0.012,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
       },
       values: {
         version: '1.0',
@@ -290,6 +297,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 1.2,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         totalEmissions: 7,
       },
     };
@@ -325,6 +333,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
       },
       values: {
         version: '1.0',
@@ -349,6 +358,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         totalEmissions: 70,
       },
     };
@@ -431,6 +441,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
       },
       values: {
         version: '1.0',
@@ -455,6 +466,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         totalEmissions: 70,
       },
     };

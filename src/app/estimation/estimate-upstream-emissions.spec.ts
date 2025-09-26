@@ -1,4 +1,6 @@
 import { DeviceCategory } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { KgCo2e } from '../types/units';
 import { DeviceUsage } from './device-usage';
 import { estimateUpstreamEmissions } from './estimate-upstream-emissions';

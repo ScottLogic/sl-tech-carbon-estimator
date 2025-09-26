@@ -1,4 +1,6 @@
 import { CostRange } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { compareCostRanges } from './cost-range';
 
 describe('compareCostRanges', () => {

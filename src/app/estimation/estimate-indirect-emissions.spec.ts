@@ -1,4 +1,6 @@
 import { Cloud } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { estimateIndirectEmissions } from './estimate-indirect-emissions';
 
 describe('estimateIndirectEmissions()', () => {

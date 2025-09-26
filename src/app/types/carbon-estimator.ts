@@ -13,6 +13,7 @@ export type CarbonEstimationPercentages = {
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
+  aiInferenceEmissions: AIInferenceEstimation;
   downstreamEmissions: DownstreamEstimation;
 };
 
@@ -21,6 +22,7 @@ export type CarbonEstimationValues = {
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
+  aiInferenceEmissions: AIInferenceEstimation;
   downstreamEmissions: DownstreamEstimation;
   totalEmissions: KgCo2e;
 };
@@ -45,6 +47,9 @@ export type DownstreamEstimation = {
   endUser: number;
   networkTransfer: number;
   downstreamInfrastructure: number;
+};
+export type AIInferenceEstimation = {
+  aiInference: number;
 };
 
 export type EstimatorValues = {
@@ -389,4 +394,23 @@ export function estimateMultipleAITasksCO2eRange(
       high: totalHighCO2e,
     }
   };
+}
+
+export function estimateAIInferenceEmissions(
+  aiInference: AIInference,
+  carbonIntensity: gCo2ePerKwh
+): AIInferenceEstimation {
+  if (aiInference.noAIInference) {
+    return { aiInference: 0 };
+  }
+
+  // For the simple case (single task type), use the direct function
+  const result = estimateAIInferenceCO2e(
+    aiInference.primaryTaskType,
+    aiInference.monthlyInferences,
+    aiInference.aiServiceProvider,
+    carbonIntensity
+  );
+
+  return { aiInference: result };
 }

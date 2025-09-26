@@ -1,11 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import {
+  CarbonEstimation,
+  CarbonEstimationPercentages,
+  CarbonEstimationValues,
+  EstimatorValues,
+  WorldLocation,
+} from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
 import { CarbonIntensityService } from './carbon-intensity.service';
 import { gCo2ePerKwh } from '../types/units';
+import { defaultAIInferenceEmissions } from '../test-utils/carbon-estimation-test-helpers';
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
 import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
 
@@ -46,13 +53,21 @@ function checkTotalPercentage(estimation: CarbonEstimation) {
   expect(sumValues(estimation.percentages.upstreamEmissions)).toBeGreaterThanOrEqual(0);
   expect(sumValues(estimation.percentages.directEmissions)).toBeGreaterThanOrEqual(0);
   expect(sumValues(estimation.percentages.indirectEmissions)).toBeGreaterThanOrEqual(0);
+  expect(sumValues(estimation.percentages.aiInferenceEmissions)).toBeGreaterThanOrEqual(0);
   expect(sumValues(estimation.percentages.downstreamEmissions)).toBeGreaterThanOrEqual(0);
   const total =
     sumValues(estimation.percentages.upstreamEmissions) +
     sumValues(estimation.percentages.directEmissions) +
     sumValues(estimation.percentages.indirectEmissions) +
+    sumValues(estimation.percentages.aiInferenceEmissions) +
     sumValues(estimation.percentages.downstreamEmissions);
-  expect(total).toBeCloseTo(100);
+
+  // If total emissions are 0, percentages will all be 0, totaling 0
+  if (estimation.values.totalEmissions === 0) {
+    expect(total).toBe(0);
+  } else {
+    expect(total).toBeCloseTo(100);
+  }
 }
 
 type RecursivePartial<T> = {
@@ -65,7 +80,10 @@ function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject
   }
 }
 
-function expectPartialEstimationCloseTo(actual: CarbonEstimationPercentages, expected: RecursivePartial<CarbonEstimationPercentages>) {
+function expectPartialEstimationCloseTo(
+  actual: CarbonEstimationPercentages,
+  expected: RecursivePartial<CarbonEstimationPercentages>
+) {
   for (const [key, value] of Object.entries(expected)) {
     const trueKey = key as keyof CarbonEstimationPercentages;
     if (trueKey === 'version' || typeof value === 'string') {
@@ -99,7 +117,7 @@ describe('CarbonEstimationService', () => {
         CarbonEstimationService,
         { provide: LoggingService, useValue: logSpy },
         { provide: CarbonIntensityService, useValue: intensitySpy },
-        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object')}
+        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator() },
       ],
     });
     service = TestBed.inject(CarbonEstimationService);
@@ -294,6 +312,44 @@ describe('CarbonEstimationService', () => {
         },
       };
       expect(service.estimateServerCount(fiftyPercentCloudInput)).toBe(5);
+    });
+  });
+
+  describe('AI Inference Integration', () => {
+    it('should calculate carbon estimation including AI inference emissions when AI is used', () => {
+      const withAIInput: EstimatorValues = {
+        ...emptyEstimatorValues,
+        upstream: {
+          headCount: 10,
+          desktopPercentage: 50,
+          employeeLocation: 'WORLD',
+        },
+        aiInference: {
+          noAIInference: false,
+          primaryTaskType: 'text-generation',
+          monthlyInferences: 1000,
+          aiServiceProvider: 'openai',
+          aiServiceLocation: 'WORLD',
+        },
+      };
+
+      const result = service.calculateCarbonEstimation(withAIInput);
+
+      expect(result.values.aiInferenceEmissions).toBeDefined();
+      expect(result.values.aiInferenceEmissions.aiInference).toBeGreaterThan(0);
+      expect(result.percentages.aiInferenceEmissions).toBeDefined();
+      expect(result.percentages.aiInferenceEmissions.aiInference).toBeGreaterThan(0);
+      checkTotalPercentage(result);
+    });
+
+    it('should calculate zero AI inference emissions when AI is not used', () => {
+      const result = service.calculateCarbonEstimation(emptyEstimatorValues);
+
+      expect(result.values.aiInferenceEmissions).toBeDefined();
+      expect(result.values.aiInferenceEmissions.aiInference).toBe(0);
+      expect(result.percentages.aiInferenceEmissions).toBeDefined();
+      expect(result.percentages.aiInferenceEmissions.aiInference).toBe(0);
+      checkTotalPercentage(result);
     });
   });
 });

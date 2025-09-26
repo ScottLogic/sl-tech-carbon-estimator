@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationComponent } from './carbon-estimation.component';
 import { CarbonEstimation } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 
@@ -36,7 +38,7 @@ describe('CarbonEstimationComponent', () => {
           saas: 8,
           managed: 8,
         },
-        downstreamEmissions: {
+        aiInferenceEmissions: defaultAIInferenceEmissions, downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
           downstreamInfrastructure: 0
@@ -60,12 +62,11 @@ describe('CarbonEstimationComponent', () => {
           saas: 800,
           managed: 800,
         },
-        downstreamEmissions: {
+        aiInferenceEmissions: defaultAIInferenceEmissions, downstreamEmissions: {
           endUser: 1300,
           networkTransfer: 1200,
           downstreamInfrastructure: 0
-        },
-        totalEmissions: 7000,
+        }, totalEmissions: 7000,
       },
     };
 

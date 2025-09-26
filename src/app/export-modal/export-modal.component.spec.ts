@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExportModal } from './export-modal.component';
 import { CarbonEstimation } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { FormsModule } from '@angular/forms';
 import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
@@ -18,18 +20,18 @@ describe('ExportModal', () => {
       upstreamEmissions: { software: 100, employee: 200, network: 300, server: 400 },
       directEmissions: { employee: 500, network: 600, server: 700 },
       indirectEmissions: { cloud: 800, saas: 900, managed: 1000 },
-      downstreamEmissions: {
+        aiInferenceEmissions: defaultAIInferenceEmissions, downstreamEmissions: {
         endUser: 1100, networkTransfer: 1200,
         downstreamInfrastructure: 0
-      },
-      totalEmissions: 12345
+      }, totalEmissions: 12345
     },
     percentages: {
       version: '1.0',
       upstreamEmissions: { software: 10, employee: 20, network: 30, server: 40 },
       directEmissions: { employee: 50, network: 60, server: 70 },
       indirectEmissions: { cloud: 80, saas: 90, managed: 100 },
-      downstreamEmissions: {
+      
+    aiInferenceEmissions: defaultAIInferenceEmissions,downstreamEmissions: {
         endUser: 110, networkTransfer: 120,
         downstreamInfrastructure: 0
       }

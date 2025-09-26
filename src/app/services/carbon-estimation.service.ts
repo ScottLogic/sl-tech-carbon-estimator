@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, Downstream, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, Downstream, EstimatorValues, estimateAIInferenceEmissions } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
@@ -41,17 +41,22 @@ export class CarbonEstimationService {
     // const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
     const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity); 
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
+    const aiIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.aiInference.aiServiceLocation);
+    const aiInferenceEmissions = estimateAIInferenceEmissions(formValue.aiInference, aiIntensity);
+    this.loggingService.log(`Estimated AI Inference Emissions: ${formatCarbonEstimate(aiInferenceEmissions)}`);
 
     const values = {
       version,
       upstreamEmissions: upstreamEmissions,
       directEmissions: directEmissions,
       indirectEmissions: indirectEmissions,
+      aiInferenceEmissions: aiInferenceEmissions,
       downstreamEmissions: downstreamEmissions,
       totalEmissions:
         sumValues(upstreamEmissions) +
         sumValues(directEmissions) +
         sumValues(indirectEmissions) +
+        sumValues(aiInferenceEmissions) +
         sumValues(downstreamEmissions),
     };
 
@@ -102,6 +107,7 @@ function toPercentages(input: CarbonEstimationValues): CarbonEstimationPercentag
     sumValues(input.upstreamEmissions) +
     sumValues(input.directEmissions) +
     sumValues(input.indirectEmissions) +
+    sumValues(input.aiInferenceEmissions) +
     sumValues(input.downstreamEmissions);
   if (total === 0) {
     return input;
@@ -112,6 +118,7 @@ function toPercentages(input: CarbonEstimationValues): CarbonEstimationPercentag
     upstreamEmissions: multiplyValues(input.upstreamEmissions, percentRatio),
     directEmissions: multiplyValues(input.directEmissions, percentRatio),
     indirectEmissions: multiplyValues(input.indirectEmissions, percentRatio),
+    aiInferenceEmissions: multiplyValues(input.aiInferenceEmissions, percentRatio),
     downstreamEmissions: multiplyValues(input.downstreamEmissions, percentRatio),
   };
 }

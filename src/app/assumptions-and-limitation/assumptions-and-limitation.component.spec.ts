@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AssumptionsAndLimitationComponent } from './assumptions-and-limitation.component';
 import { CarbonIntensityService } from '../services/carbon-intensity.service';
 import { WorldLocation } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { gCo2ePerKwh } from '../types/units';
 
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
@@ -33,7 +35,7 @@ describe('AssumptionsAndLimitationComponent', () => {
       imports: [AssumptionsAndLimitationComponent],
       providers: [
         { provide: CarbonIntensityService, useValue: intensityServiceStub },
-        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator() },
       ],
     }).compileComponents();
 

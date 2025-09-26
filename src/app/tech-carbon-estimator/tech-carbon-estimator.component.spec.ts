@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TechCarbonEstimatorComponent } from './tech-carbon-estimator.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+
+const defaultAIInferenceEmissions = { aiInference: 0 };
 import { By } from '@angular/platform-browser';
 
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
@@ -27,10 +29,11 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       saas: 0,
       managed: 25,
     },
+    aiInferenceEmissions: defaultAIInferenceEmissions,
     downstreamEmissions: {
       endUser: 15,
       networkTransfer: 10,
-      downstreamInfrastructure: 0
+      downstreamInfrastructure: 0,
     },
     totalEmissions: 70,
   },
@@ -52,10 +55,11 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       saas: 800,
       managed: 800,
     },
+    aiInferenceEmissions: defaultAIInferenceEmissions,
     downstreamEmissions: {
       endUser: 1300,
       networkTransfer: 1200,
-      downstreamInfrastructure: 0
+      downstreamInfrastructure: 0,
     },
     totalEmissions: 7000,
   },
@@ -75,7 +79,7 @@ describe('TechCarbonEstimatorComponent', () => {
       imports: [TechCarbonEstimatorComponent],
       providers: [
         { provide: CarbonEstimationService, useValue: estimationServiceStub },
-        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator() },
       ],
     }).compileComponents();
 

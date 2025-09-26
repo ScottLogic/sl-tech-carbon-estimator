@@ -5,6 +5,8 @@ import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.
 import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 
+const defaultAIInferenceEmissions = { aiInference: 0 };
+
 describe('CarbonEstimationTableComponent', () => {
   let component: CarbonEstimationTableComponent;
   let fixture: ComponentFixture<CarbonEstimationTableComponent>;
@@ -36,6 +38,7 @@ describe('CarbonEstimationTableComponent', () => {
           saas: 8,
           managed: 8,
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
@@ -60,6 +63,7 @@ describe('CarbonEstimationTableComponent', () => {
           saas: 800,
           managed: 800,
         },
+        aiInferenceEmissions: defaultAIInferenceEmissions,
         downstreamEmissions: {
           endUser: 1300,
           networkTransfer: 1200,
