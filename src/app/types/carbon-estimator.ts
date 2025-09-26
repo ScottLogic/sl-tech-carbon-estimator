@@ -183,6 +183,19 @@ export type AITaskEmissions = {
   co2eKg: number;
 };
 
+export type AICO2eEstimate = {
+  low: KgCo2e;
+  mean: KgCo2e;
+  high: KgCo2e;
+};
+
+export type AITaskEmissionsRange = {
+  taskType: AITaskType;
+  monthlyInferences: number;
+  annualEnergyKwh: number;
+  co2e: AICO2eEstimate;
+};
+
 export type ChartOptions = {
   chart: ApexChart;
   plotOptions: ApexPlotOptions;
@@ -299,6 +312,31 @@ export function estimateAIInferenceCO2e(
   return co2ePer1000Inferences * annualInferences / 1000;
 }
 
+export function estimateAIInferenceCO2eRange(
+  taskType: AITaskType,
+  monthlyInferences: number,
+  provider: AIProvider,
+  carbonIntensity: gCo2ePerKwh
+): AICO2eEstimate {
+  const energyData = getTaskEnergyConsumption(taskType);
+  const pue = getAIProviderPUE(provider);
+  const annualInferences = monthlyInferences * 12;
+  
+  // Step 1: Calculate CO2e per 1,000 inferences for low, mean, and high energy values
+  // CO2e per 1,000 = energy per 1,000 (kWh) × PUE × CIF (kg/kWh)
+  const lowCo2ePer1000: KgCo2e = energyData.lowBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+  const meanCo2ePer1000: KgCo2e = energyData.meanKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+  const highCo2ePer1000: KgCo2e = energyData.highBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+  
+  // Step 2: Scale to actual usage over the year
+  // CO2e total = CO2e per 1,000 × number of requests ÷ 1,000
+  return {
+    low: lowCo2ePer1000 * annualInferences / 1000,
+    mean: meanCo2ePer1000 * annualInferences / 1000,
+    high: highCo2ePer1000 * annualInferences / 1000,
+  };
+}
+
 export function estimateMultipleAITasksCO2e(
   taskUsages: AITaskUsage[],
   provider: AIProvider,
@@ -334,4 +372,60 @@ export function estimateMultipleAITasksCO2e(
   }
   
   return { taskEmissions, totalCO2e };
+}
+
+export function estimateMultipleAITasksCO2eRange(
+  taskUsages: AITaskUsage[],
+  provider: AIProvider,
+  carbonIntensity: gCo2ePerKwh
+): { taskEmissions: AITaskEmissionsRange[]; totalCO2e: AICO2eEstimate } {
+  const pue = getAIProviderPUE(provider);
+  const taskEmissions: AITaskEmissionsRange[] = [];
+  let totalLowCO2e: KgCo2e = 0;
+  let totalMeanCO2e: KgCo2e = 0;
+  let totalHighCO2e: KgCo2e = 0;
+  
+  for (const taskUsage of taskUsages) {
+    const energyData = getTaskEnergyConsumption(taskUsage.taskType);
+    const annualInferences = taskUsage.monthlyInferences * 12;
+    
+    // Step 1: Calculate CO2e per 1,000 inferences for low, mean, and high energy values
+    // CO2e per 1,000 = energy per 1,000 (kWh) × PUE × CIF (kg/kWh)
+    const lowCo2ePer1000: KgCo2e = energyData.lowBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+    const meanCo2ePer1000: KgCo2e = energyData.meanKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+    const highCo2ePer1000: KgCo2e = energyData.highBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
+    
+    // Step 2: Scale to actual usage over the year
+    // CO2e total = CO2e per 1,000 × number of requests ÷ 1,000
+    const lowCO2e: KgCo2e = lowCo2ePer1000 * annualInferences / 1000;
+    const meanCO2e: KgCo2e = meanCo2ePer1000 * annualInferences / 1000;
+    const highCO2e: KgCo2e = highCo2ePer1000 * annualInferences / 1000;
+    
+    // Calculate total annual energy for reporting (using mean values)
+    const annualEnergyKwh: KilowattHour = (energyData.meanKwhPer1000Inferences * annualInferences * pue) / 1000;
+    
+    taskEmissions.push({
+      taskType: taskUsage.taskType,
+      monthlyInferences: taskUsage.monthlyInferences,
+      annualEnergyKwh: annualEnergyKwh,
+      co2e: {
+        low: lowCO2e,
+        mean: meanCO2e,
+        high: highCO2e,
+      },
+    });
+    
+    totalLowCO2e += lowCO2e;
+    totalMeanCO2e += meanCO2e;
+    totalHighCO2e += highCO2e;
+  }
+  
+  return { 
+    taskEmissions, 
+    totalCO2e: {
+      low: totalLowCO2e,
+      mean: totalMeanCO2e,
+      high: totalHighCO2e,
+    }
+  };
 }

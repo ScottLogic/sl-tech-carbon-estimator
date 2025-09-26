@@ -1,4 +1,4 @@
-import { AIInference, EstimatorValues, getTaskEnergyConsumption, getAIProviderPUE, estimateAIInferenceCO2e, estimateMultipleAITasksCO2e, AITaskUsage } from './carbon-estimator';
+import { AIInference, EstimatorValues, getTaskEnergyConsumption, getAIProviderPUE, estimateAIInferenceCO2e, estimateMultipleAITasksCO2e, AITaskUsage, estimateAIInferenceCO2eRange, estimateMultipleAITasksCO2eRange } from './carbon-estimator';
 
 describe('AI Inference Types', () => {
   it('should define AIInference type with required properties', () => {
@@ -285,6 +285,138 @@ describe('AI Inference Types', () => {
       // Ratio should be approximately PUE ratio (1.58/1.09 ≈ 1.45)
       const ratio = otherResult.totalCO2e / googleResult.totalCO2e;
       expect(ratio).toBeCloseTo(1.58 / 1.09, 2);
+    });
+  });
+
+  describe('estimateAIInferenceCO2eRange', () => {
+    const carbonIntensity = 500; // gCO2e/kWh - typical global average
+
+    it('should calculate low, mean, and high CO2e estimates for text-classification', () => {
+      // text-classification energy: mean=0.002, stdev=0.001 kWh per 1,000 inferences
+      // Low = max(0.002 - 0.001, 0) = 0.001, High = 0.002 + 0.001 = 0.003
+      // OpenAI PUE: 1.12, 1000 monthly inferences × 12 = 12,000 annual inferences
+      
+      // Step 1: CO2e per 1,000 = energy per 1,000 (kWh) × PUE × CIF (kg/kWh)
+      // Low: CO2e per 1,000 = 0.001 × 1.12 × (500/1000) = 0.00056 kg CO2e per 1,000 inferences
+      // Mean: CO2e per 1,000 = 0.002 × 1.12 × (500/1000) = 0.00112 kg CO2e per 1,000 inferences  
+      // High: CO2e per 1,000 = 0.003 × 1.12 × (500/1000) = 0.00168 kg CO2e per 1,000 inferences
+      
+      // Step 2: CO2e total = CO2e per 1,000 × number of requests ÷ 1,000
+      // Low: CO2e total = 0.00056 × 12,000 ÷ 1,000 = 0.00672 kg CO2e
+      // Mean: CO2e total = 0.00112 × 12,000 ÷ 1,000 = 0.01344 kg CO2e
+      // High: CO2e total = 0.00168 × 12,000 ÷ 1,000 = 0.02016 kg CO2e
+      const result = estimateAIInferenceCO2eRange('text-classification', 1000, 'openai', carbonIntensity);
+      
+      expect(result.low).toBeCloseTo(0.00672, 5);
+      expect(result.mean).toBeCloseTo(0.01344, 5);
+      expect(result.high).toBeCloseTo(0.02016, 5);
+      
+      // Sanity checks
+      expect(result.low).toBeLessThan(result.mean);
+      expect(result.mean).toBeLessThan(result.high);
+    });
+
+    it('should calculate ranges for image-generation with high standard deviation', () => {
+      // image-generation energy: mean=2.907, stdev=3.310 kWh per 1,000 inferences
+      // Low = max(2.907 - 3.310, 0) = 0, High = 2.907 + 3.310 = 6.217
+      // Google PUE: 1.09, 500 monthly inferences × 12 = 6,000 annual inferences
+      
+      // Step 1: CO2e per 1,000 = energy per 1,000 (kWh) × PUE × CIF (kg/kWh)
+      // Low: CO2e per 1,000 = 0 × 1.09 × (500/1000) = 0 kg CO2e per 1,000 inferences
+      // Mean: CO2e per 1,000 = 2.907 × 1.09 × (500/1000) = 1.58431 kg CO2e per 1,000 inferences
+      // High: CO2e per 1,000 = 6.217 × 1.09 × (500/1000) = 3.38827 kg CO2e per 1,000 inferences
+      
+      // Step 2: CO2e total = CO2e per 1,000 × number of requests ÷ 1,000
+      // Low: CO2e total = 0 × 6,000 ÷ 1,000 = 0 kg CO2e
+      // Mean: CO2e total = 1.58431 × 6,000 ÷ 1,000 = 9.50586 kg CO2e
+      // High: CO2e total = 3.38827 × 6,000 ÷ 1,000 = 20.3296 kg CO2e
+      const result = estimateAIInferenceCO2eRange('image-generation', 500, 'google', carbonIntensity);
+      
+      expect(result.low).toBeCloseTo(0, 5);
+      expect(result.mean).toBeCloseTo(9.50586, 4);
+      expect(result.high).toBeCloseTo(20.3296, 4);
+      
+      // Verify the range shows significant uncertainty
+      const range = result.high - result.low;
+      expect(range).toBeGreaterThan(result.mean);
+    });
+
+    it('should handle mixed-usage with dynamic calculation', () => {
+      // mixed-usage uses dynamic averaging, so we test the pattern rather than exact values
+      const result = estimateAIInferenceCO2eRange('mixed-usage', 2000, 'meta', carbonIntensity);
+      
+      expect(result.low).toBeGreaterThanOrEqual(0);
+      expect(result.low).toBeLessThan(result.mean);
+      expect(result.mean).toBeLessThan(result.high);
+      expect(result.high).toBeGreaterThan(0);
+      
+      // Verify the single task mean matches the range mean
+      const singleResult = estimateAIInferenceCO2e('mixed-usage', 2000, 'meta', carbonIntensity);
+      expect(result.mean).toBeCloseTo(singleResult, 10);
+    });
+  });
+
+  describe('estimateMultipleAITasksCO2eRange', () => {
+    const carbonIntensity = 500; // gCO2e/kWh - typical global average
+
+    it('should calculate ranges for multiple AI tasks', () => {
+      const taskUsages: AITaskUsage[] = [
+        { taskType: 'text-classification', monthlyInferences: 5000 },
+        { taskType: 'image-generation', monthlyInferences: 100 },
+      ];
+
+      const result = estimateMultipleAITasksCO2eRange(taskUsages, 'google', carbonIntensity);
+
+      // Verify structure
+      expect(result.taskEmissions.length).toBe(2);
+      
+      // Check first task (text-classification)
+      expect(result.taskEmissions[0].taskType).toBe('text-classification');
+      expect(result.taskEmissions[0].monthlyInferences).toBe(5000);
+      expect(result.taskEmissions[0].co2e.low).toBeLessThan(result.taskEmissions[0].co2e.mean);
+      expect(result.taskEmissions[0].co2e.mean).toBeLessThan(result.taskEmissions[0].co2e.high);
+      
+      // Check second task (image-generation)
+      expect(result.taskEmissions[1].taskType).toBe('image-generation');
+      expect(result.taskEmissions[1].monthlyInferences).toBe(100);
+      expect(result.taskEmissions[1].co2e.low).toBeLessThan(result.taskEmissions[1].co2e.mean);
+      expect(result.taskEmissions[1].co2e.mean).toBeLessThan(result.taskEmissions[1].co2e.high);
+      
+      // Verify totals are sums of individual tasks
+      const expectedTotalLow = result.taskEmissions[0].co2e.low + result.taskEmissions[1].co2e.low;
+      const expectedTotalMean = result.taskEmissions[0].co2e.mean + result.taskEmissions[1].co2e.mean;
+      const expectedTotalHigh = result.taskEmissions[0].co2e.high + result.taskEmissions[1].co2e.high;
+      
+      expect(result.totalCO2e.low).toBeCloseTo(expectedTotalLow, 10);
+      expect(result.totalCO2e.mean).toBeCloseTo(expectedTotalMean, 10);
+      expect(result.totalCO2e.high).toBeCloseTo(expectedTotalHigh, 10);
+    });
+
+    it('should handle empty task list', () => {
+      const taskUsages: AITaskUsage[] = [];
+      const result = estimateMultipleAITasksCO2eRange(taskUsages, 'google', carbonIntensity);
+      
+      expect(result.taskEmissions.length).toBe(0);
+      expect(result.totalCO2e.low).toBe(0);
+      expect(result.totalCO2e.mean).toBe(0);
+      expect(result.totalCO2e.high).toBe(0);
+    });
+
+    it('should have mean values matching non-range functions', () => {
+      const taskUsages: AITaskUsage[] = [
+        { taskType: 'text-generation', monthlyInferences: 1000 },
+        { taskType: 'object-detection', monthlyInferences: 500 },
+      ];
+
+      const rangeResult = estimateMultipleAITasksCO2eRange(taskUsages, 'aws', carbonIntensity);
+      const normalResult = estimateMultipleAITasksCO2e(taskUsages, 'aws', carbonIntensity);
+      
+      // Mean values should match
+      expect(rangeResult.totalCO2e.mean).toBeCloseTo(normalResult.totalCO2e, 10);
+      
+      // Individual task means should match
+      expect(rangeResult.taskEmissions[0].co2e.mean).toBeCloseTo(normalResult.taskEmissions[0].co2eKg, 10);
+      expect(rangeResult.taskEmissions[1].co2e.mean).toBeCloseTo(normalResult.taskEmissions[1].co2eKg, 10);
     });
   });
 });
