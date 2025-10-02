@@ -2,7 +2,8 @@
 
 set -e
 
-ng build --configuration npm-package
+npm run build:css
+npm run build-demo
 
 cp README.md package.json ./dist/tech-carbon-estimator/
 cd dist/tech-carbon-estimator

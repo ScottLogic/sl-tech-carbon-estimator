@@ -9,23 +9,27 @@
     "logic",
     "web"
   ],
+  "type": "module",
+  "module": "./dist/tech-carbon-estimator/main.js",
+  "files": [ "dist/tech-carbon-estimator/**" ],
+  "exports": {
+    ".": {
+      "import": "./dist/tech-carbon-estimator/main.js"
+    }
+  },
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "start:npm-package": "ng serve --configuration npm-package",
-    "dev:npm-package": "vite --config vite.config.ts",
     "prepare": "bash ./scripts/prepare.sh",
-    "build:css": "postcss src/styles.css -o src/styles.generated.css",
-    "build": "npm run build:css && vite build",
-    "watch": "npm run build:css && vite build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint",
     "playwright-install": "npx playwright install --with-deps",
     "playwright-test": "npx playwright test",
     "verify-release": "bash ./scripts/verify-release.sh",
-    "build:npm-package": "vite build --config vite.config.ts"
+    "build:css": "postcss src/styles.css -o src/styles.generated.css",
+    "dev": "vite --config vite.config.demo.ts",
+    "build-demo": "vite build --config vite.config.demo.ts",
+    "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0",
+    "preview-demo": "vite preview --config vite.config.demo.ts",
+    "build": "vite build"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^20.0.0",
     "@angular/cdk": "^20.0.0",
@@ -89,9 +93,6 @@
     "@web/test-runner-core": "^0.13.4",
     "@web/dev-server": "^0.4.6"
   },
-  "files": [
-    "dist/tech-carbon-estimator/**"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ScottLogic/sl-tech-carbon-estimator.git"

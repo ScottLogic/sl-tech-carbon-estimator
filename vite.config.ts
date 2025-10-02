@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 import string from 'vite-plugin-string';
-import {resolve} from 'path';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
@@ -12,34 +12,15 @@ export default defineConfig({
   ],
   root: 'src',
   build: {
-    outDir: '../dist/tech-carbon-estimator',
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/package-index.html'),
-      },
-      external: [
-        '@angular/core',
-        '@angular/common',
-        '@angular/elements',
-        'zone.js',
-      ],
-      output: {
-        globals: {
-          '@angular/core': 'ng.core',
-          '@angular/common': 'ng.common',
-          '@angular/elements': 'ng.elements',
-          'zone.js': 'Zone',
-        },
-      },
-    },
     lib: {
       entry: resolve(__dirname, 'src/main.ts'),
       name: 'TechCarbonEstimator',
       fileName: 'main',
       formats: ['es', 'umd'],
-    },    
+    }, 
+    outDir: './dist/tech-carbon-estimator',
   },
-  publicDir: false,
-  assetsInclude: ['**/*.ico', '**/*.css'],
+  server: {
+    port: 4200,
+  },
 });
