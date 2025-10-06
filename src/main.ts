@@ -3,7 +3,7 @@ import { appConfig } from './app/app.config';
 import { ApplicationRef } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { TechCarbonEstimatorComponent } from './app/tech-carbon-estimator/tech-carbon-estimator.component';
-import styles from './styles.generated.css';
+// import styles from './styles.generated.css';
 
 (async () => {
   const app: ApplicationRef = await createApplication(appConfig);

@@ -10,16 +10,10 @@ export default defineConfig({
       include: ['**/*.generated.css', '**/*.css'] // Import .css files as strings
     }),
   ],
-  root: 'src',
   build: {
-    outDir: '../dist/tech-carbon-estimator',
+    outDir: './dist/tech-carbon-estimator',
     emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/package-index.html'),
-      },
-    }
-  },  
+  },
   server: {
     port: 4200,
   },
