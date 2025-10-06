@@ -12,14 +12,14 @@ export default defineConfig({
   ],
   root: 'src',
   build: {
-    lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
-      name: 'TechCarbonEstimator',
-      fileName: 'main',
-      formats: ['es', 'umd'],
-    }, 
-    outDir: './dist/tech-carbon-estimator',
-  },
+    outDir: '../dist/tech-carbon-estimator',
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/package-index.html'),
+      },
+    }
+  },  
   server: {
     port: 4200,
   },

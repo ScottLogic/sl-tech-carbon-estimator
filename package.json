@@ -24,11 +24,11 @@
     "playwright-test": "npx playwright test",
     "verify-release": "bash ./scripts/verify-release.sh",
     "build:css": "postcss src/styles.css -o src/styles.generated.css",
-    "dev": "vite --config vite.config.demo.ts",
+    "dev": "vite --config vite.config.ts",
     "build-demo": "vite build --config vite.config.demo.ts",
     "lint": "eslint . --ext ts,js --report-unused-disable-directives --max-warnings 0",
     "preview-demo": "vite preview --config vite.config.demo.ts",
-    "build": "vite build"
+    "build": "vite build --config vite.config.ts"
   },
   "dependencies": {
     "@angular/animations": "^20.0.0",
