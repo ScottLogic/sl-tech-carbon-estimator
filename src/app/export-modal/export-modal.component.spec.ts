@@ -15,22 +15,22 @@ describe('ExportModal', () => {
   const mockCarbonEstimation: CarbonEstimation = {
     values: {
       version: '1.0',
-      upstreamEmissions: { software: 100, employee: 200, network: 300, server: 400 },
+      upstreamEmissions: { software: 100, employee: 200, network: 300, server: 400, foundationModels: 0, contentAndData: 0 },
       directEmissions: { employee: 500, network: 600, server: 700 },
       indirectEmissions: { cloud: 800, saas: 900, managed: 1000 },
       downstreamEmissions: {
-        endUser: 1100, networkTransfer: 1200,
+        customer: 1100, networkTransfer: 1200,
         downstreamInfrastructure: 0
       },
       totalEmissions: 12345
     },
     percentages: {
       version: '1.0',
-      upstreamEmissions: { software: 10, employee: 20, network: 30, server: 40 },
+      upstreamEmissions: { software: 10, employee: 20, network: 30, server: 40, foundationModels: 0, contentAndData: 0 },
       directEmissions: { employee: 50, network: 60, server: 70 },
       indirectEmissions: { cloud: 80, saas: 90, managed: 100 },
       downstreamEmissions: {
-        endUser: 110, networkTransfer: 120,
+        customer: 110, networkTransfer: 120,
         downstreamInfrastructure: 0
       }
     }
@@ -39,7 +39,7 @@ describe('ExportModal', () => {
   const mockInputValues = {
     upstream: { software: 1, employee: 2 },
     onPremise: { server: 3 },
-    downstream: { endUser: 4 },
+    downstream: { customer: 4 },
     cloud: {
       monthlyCloudBill: { min: 100, max: 200 },
       cloudPercentage: 50,

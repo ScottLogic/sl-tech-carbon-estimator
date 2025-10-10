@@ -16,6 +16,8 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       employee: 10,
       network: 10,
       server: 5,
+      foundationModels: 0,
+      contentAndData: 0
     },
     directEmissions: {
       employee: 10,
@@ -28,7 +30,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       managed: 25,
     },
     downstreamEmissions: {
-      endUser: 15,
+      customer: 15,
       networkTransfer: 10,
       downstreamInfrastructure: 0
     },
@@ -41,6 +43,8 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       employee: 600,
       network: 600,
       server: 600,
+      foundationModels: 0,
+      contentAndData: 0
     },
     directEmissions: {
       employee: 900,
@@ -53,7 +57,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       managed: 800,
     },
     downstreamEmissions: {
-      endUser: 1300,
+      customer: 1300,
       networkTransfer: 1200,
       downstreamInfrastructure: 0
     },

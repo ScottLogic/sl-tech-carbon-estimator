@@ -68,17 +68,17 @@ export class DownstreamEmissionsEstimator {
 
   estimate(downstream: Downstream, downstreamIntensity: gCo2ePerKwh): DownstreamEstimation {
     if (downstream.noDownstream) {
-      return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
+      return { customer: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
     }
 
     const downstreamDataTransfer = this.estimateDownstreamDataTransfer(
       downstream.monthlyActiveUsers,
       downstream.purposeOfSite
     );
-    const endUserEmissions = this.estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+    const customerEmissions = this.estimateCustomerEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
     const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, this.co2Calc);
     const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-    return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
+    return { customer: customerEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
 
   }
 
@@ -88,38 +88,38 @@ export class DownstreamEmissionsEstimator {
     co2Calc: ICO2Calculator
   ): DownstreamEstimation {
     if (downstream.noDownstream) {
-      return { endUser: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
+      return { customer: 0, networkTransfer: 0, downstreamInfrastructure: 0 };
     }
 
     const downstreamDataTransfer = this.estimateDownstreamDataTransfer(
       downstream.monthlyActiveUsers,
       downstream.purposeOfSite
     );
-    const endUserEmissions = this.estimateEndUserEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
+    const customerEmissions = this.estimateCustomerEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
     const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, co2Calc);
     const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-    return { endUser: endUserEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
+    return { customer: customerEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
   }
 
   estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
     return this.siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
   }
 
-  estimateEndUserEmissions(
+  estimateCustomerEmissions(
     downstream: Downstream,
     downstreamDataTransfer: number,
     downstreamIntensity: gCo2ePerKwh
   ) {
-    const endUserTime = this.estimateEndUserTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
-    const endUserEnergy = this.estimateEndUserEnergy(downstreamDataTransfer, endUserTime, downstream.mobilePercentage);
-    return estimateEnergyEmissions(endUserEnergy, downstreamIntensity);
+    const customerTime = this.estimateCustomerTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
+    const customerEnergy = this.estimateCustomerEnergy(downstreamDataTransfer, customerTime, downstream.mobilePercentage);
+    return estimateEnergyEmissions(customerEnergy, downstreamIntensity);
   }
 
-  estimateEndUserTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
+  estimateCustomerTime(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Hour {
     return this.siteTypeInfo[purposeOfSite].averageMonthlyUserTime * monthlyActiveUsers * 12;
   }
 
-  estimateEndUserEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
+  estimateCustomerEnergy(dataTransferred: Gb, userTime: Hour, mobilePercentage: number): KilowattHour {
     const averageDevice = new AverageDeviceType(
       { device: mobile, percentage: mobilePercentage },
       { device: averagePersonalComputer, percentage: 100 - mobilePercentage }

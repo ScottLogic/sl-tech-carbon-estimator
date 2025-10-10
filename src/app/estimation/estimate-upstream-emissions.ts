@@ -13,5 +13,7 @@ export function estimateUpstreamEmissions(deviceUsage: DeviceUsage[]): UpstreamE
   return {
     ...result,
     software: 0,
+    foundationModels: 0,
+    contentAndData: 0, //no method for these zero values fields yet as of 10/10/2025
   };
 }
