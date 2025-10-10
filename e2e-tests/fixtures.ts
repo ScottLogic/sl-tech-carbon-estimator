@@ -2,7 +2,7 @@ import { test as base } from '@playwright/test';
 import { OrganisationSection } from './page-objects/organisation-section';
 import { OnPremSection } from './page-objects/on-prem-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
-import { EndUsersSection } from './page-objects/end-users-section';
+import { CustomersSection } from './page-objects/customers-section';
 import { TcsEstimator } from './page-objects/tcs-estimator';
 import { EstimationsSection } from './page-objects/estimations-section';
 import { TableSection } from './page-objects/table-section';
@@ -16,7 +16,7 @@ type Fixtures = {
   organisationSection: OrganisationSection;
   onPremSection: OnPremSection;
   cloudServicesSection: CloudServicesSection;
-  endUsersSection: EndUsersSection;
+  customersSection: CustomersSection;
 };
 
 export const test = base.extend<Fixtures>({
@@ -35,8 +35,8 @@ export const test = base.extend<Fixtures>({
     await use(new CloudServicesSection(page));
   },
 
-  endUsersSection: async ({ page }, use) => {
-    await use(new EndUsersSection(page));
+  customersSection: async ({ page }, use) => {
+    await use(new CustomersSection(page));
   },
 
   estimationsSection: async ({ page }, use) => {

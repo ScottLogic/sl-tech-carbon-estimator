@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { OrganisationSection } from './page-objects/organisation-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
-import { EndUsersSection } from './page-objects/end-users-section';
+import { EndUsersSection } from './page-objects/customers-section';
 import { OnPremSection } from './page-objects/on-prem-section';
 
 export async function assertAllSectionElementsAreVisible(
