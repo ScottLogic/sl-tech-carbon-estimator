@@ -7,13 +7,13 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
   await organisationSection.percentageSlider.click();
   await organisationSection.percentageSliderSet('ArrowRight', 10);
   await expect(organisationSection.percentageSliderText).toHaveValue('100');
@@ -27,8 +27,8 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');
 
-  await endUsersSection.setPrimaryPurpose('information');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setPrimaryPurpose('information');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T5-apex-chart-kilograms.png');

@@ -28,26 +28,26 @@ export class CustomersSection {
 
   constructor(public readonly page: Page) {
     this.customersHeading = page.getByRole('heading', { name: 'Customers' });
-    this.customersSummary = page.getByText('Tell us about your end-users');
+    this.customersSummary = page.getByText('Tell us about your customers');
     this.noCustomersText = page.getByText("We don't have any external");
     this.customersUnusedTickbox = page.getByRole('checkbox', { name: "We don't have any external" });
-    this.percentageSlider = page.getByRole('slider', { name: 'What percentage of your end-' });
+    this.percentageSlider = page.getByRole('slider', { name: 'What percentage of your customers' });
     this.primaryPurposeQuestion = page.getByLabel("What's the primary purpose of");
     this.primaryPurposeField = page.getByLabel("What's the primary purpose of");
-    this.customerLocationQuestion = page.getByText('Where are your end-users');
-    this.customerLocationField = page.getByLabel('Where are your end-users');
+    this.customerLocationQuestion = page.getByText('Where are your customers');
+    this.customerLocationField = page.getByLabel('Where are your customers');
     this.monthlyActiveUsersQuestion = page.getByText('How many monthly active users');
     this.monthlyActiveUsersField = page.getByRole('spinbutton', { name: 'How many monthly active users' });
-    this.percentageSplitQuestion = page.getByText('What percentage of your end-');
+    this.percentageSplitQuestion = page.getByText('What percentage of your customers');
     this.defaultComputerUserPercentage = page.getByText('Computer 50%');
     this.defaultMobileUserPercentage = page.getByText('Mobile 50%');
     this.hideCustomersSection = page
       .locator('expansion-panel')
-      .filter({ hasText: 'End-Users expand_less Tell us' })
+      .filter({ hasText: 'Customers expand_less Tell us' })
       .getByLabel('Hide details');
     this.showCustomersSection = page
       .locator('expansion-panel')
-      .filter({ hasText: 'End-Users expand_more Tell us' })
+      .filter({ hasText: 'Customers expand_more Tell us' })
       .getByLabel('Show details');
     this.showPrimaryPurposeTooltip = page
       .locator('expansion-panel')
@@ -59,11 +59,11 @@ export class CustomersSection {
       .getByLabel('Hide details');
     this.showCustomersLocationTooltip = page
       .locator('expansion-panel')
-      .filter({ hasText: 'Where are your end-users' })
+      .filter({ hasText: 'Where are your customers' })
       .getByLabel('Show details');
     this.hideCustomersLocationTooltip = page
       .locator('expansion-panel')
-      .filter({ hasText: 'Where are your end-users' })
+      .filter({ hasText: 'Where are your customers' })
       .getByLabel('Hide details');
     this.showCustomersPercentageTooltip = page
       .locator('expansion-panel')
@@ -76,7 +76,7 @@ export class CustomersSection {
     this.monthlyActiveUsersError = page.locator('#monthlyActiveUsersError').getByText('The number of monthly active');
   }
 
-  async assertEndUserSectionVisible() {
+  async assertCustomersSectionVisible() {
     await expect(this.customersHeading).toBeVisible();
     await expect(this.customersSummary).toBeVisible();
     await expect(this.defaultMobileUserPercentage).toBeVisible();
@@ -98,7 +98,7 @@ export class CustomersSection {
     await this.primaryPurposeField.selectOption(text);
   }
 
-  async setEndUserLocation(text: string) {
+  async setCustomersLocation(text: string) {
     await this.customerLocationField.click();
     await this.customerLocationField.selectOption(text);
   }

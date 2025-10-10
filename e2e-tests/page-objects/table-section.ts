@@ -16,7 +16,7 @@ export class TableSection {
   public readonly indirectEmissionsEstimate: Locator;
   public readonly cloudServices: Locator;
   public readonly downstreamEmissionsEstimate: Locator;
-  public readonly endUserDevices: Locator;
+  public readonly customerDevices: Locator;
   public readonly networkDataTransfer: Locator;
   public readonly totalEmissionsEstimate: Locator;
   public readonly kilogramsColumn: Locator;
@@ -44,7 +44,7 @@ export class TableSection {
       name: 'Downstream Emissions Estimate',
       exact: true,
     });
-    this.endUserDevices = page.getByRole('gridcell', { name: 'End-User Devices', exact: true });
+    this.customerDevices = page.getByRole('gridcell', { name: 'Customer Devices', exact: true });
     this.networkDataTransfer = page.getByRole('gridcell', { name: 'Network Data Transfer', exact: true });
     this.totalEmissionsEstimate = page.getByRole('gridcell', { name: 'Total Emissions Estimate', exact: true });
     this.kilogramsColumn = page.getByRole('treegrid').locator('td:nth-child(2)');
@@ -69,7 +69,7 @@ export class TableSection {
     await expect(this.indirectEmissionsEstimate).toBeVisible();
     await expect(this.cloudServices).toBeVisible();
     await expect(this.downstreamEmissionsEstimate).toBeVisible();
-    await expect(this.endUserDevices).toBeVisible();
+    await expect(this.customerDevices).toBeVisible();
     await expect(this.networkDataTransfer).toBeVisible();
     await expect(this.totalEmissionsEstimate).toBeVisible();
   }

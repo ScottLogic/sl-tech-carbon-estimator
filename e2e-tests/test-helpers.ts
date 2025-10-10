@@ -15,7 +15,7 @@ export async function assertAllSectionElementsAreVisible(
   await organisationSection.assertOrganisationSectionVisible();
   await onPremSection.assertOnPremiseSectionVisible();
   await cloudServicesSection.assertDefaultCloudElementVisibility();
-  await customersSection.assertEndUserSectionVisible();
+  await customersSection.assertCustomersSectionVisible();
 }
 
 export const expectNoA11yViolations = async (page: Page) => {

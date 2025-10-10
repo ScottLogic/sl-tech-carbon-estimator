@@ -5,7 +5,7 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
@@ -13,7 +13,7 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
 
   await onPremSection.selectLocationOfServers('GBR');
   await onPremSection.selectLocationOfServers('WORLD');
@@ -22,9 +22,9 @@ test('T9 verify calculated values are coherent when on-prem is known and cloud i
   await expect(cloudServicesSection.cloudUnusedTickbox).toBeChecked();
   await expect(cloudServicesSection.percentageSplitQuestion).not.toBeVisible();
 
-  await endUsersSection.setEndUserLocation('Globally');
-  await endUsersSection.setPrimaryPurpose('socialMedia');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setCustomersLocation('Globally');
+  await customersSection.setPrimaryPurpose('socialMedia');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T9-apex-chart-kilograms.png');

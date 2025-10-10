@@ -7,14 +7,14 @@ test('T3 verify calculated values are coherent with selected options', async ({
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
   await organisationSection.selectNumberOfEmployess('100');
 
   await onPremSection.selectNumberOfServers('10');
@@ -25,10 +25,10 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await cloudServicesSection.setCloudLocation('WORLD');
   await cloudServicesSection.setMonthlyCloudBill('5: Object');
 
-  await endUsersSection.setPrimaryPurpose('socialMedia');
-  await endUsersSection.setEndUserLocation('GBR');
-  await endUsersSection.setEndUserLocation('WORLD');
-  await endUsersSection.setMonthlyActiveUsers('100');
+  await customersSection.setPrimaryPurpose('socialMedia');
+  await customersSection.setCustomersLocation('GBR');
+  await customersSection.setCustomersLocation('WORLD');
+  await customersSection.setMonthlyActiveUsers('100');
 
   await onPremSection.selectLocationOfServers('GBR');
   await onPremSection.selectLocationOfServers('Globally');
@@ -36,9 +36,9 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await cloudServicesSection.setMonthlyCloudBill('1: Object');
   await cloudServicesSection.setMonthlyCloudBill('0: Object');
 
-  await endUsersSection.setEndUserLocation('Globally');
-  await expect(endUsersSection.monthlyActiveUsersField).toHaveValue('100');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setCustomersLocation('Globally');
+  await expect(customersSection.monthlyActiveUsersField).toHaveValue('100');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms.png');

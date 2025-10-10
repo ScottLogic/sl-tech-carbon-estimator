@@ -7,7 +7,7 @@ test('T2 verify calculated values are coherent with selected options', async ({
   page,
   tcsEstimator,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
@@ -17,7 +17,7 @@ test('T2 verify calculated values are coherent with selected options', async ({
   await organisationSection.assertOrganisationSectionVisible();
   await onPremSection.assertOnPremiseSectionVisible();
   await cloudServicesSection.assertDefaultCloudElementVisibility();
-  await endUsersSection.assertEndUserSectionVisible();
+  await customersSection.assertCustomersSectionVisible();
 
   await organisationSection.selectNumberOfEmployess('100');
 
@@ -29,10 +29,10 @@ test('T2 verify calculated values are coherent with selected options', async ({
   await cloudServicesSection.setCloudLocation('WORLD');
   await cloudServicesSection.setMonthlyCloudBill('0: Object');
 
-  await endUsersSection.setPrimaryPurpose('average');
-  await endUsersSection.setEndUserLocation('GBR');
-  await endUsersSection.setEndUserLocation('Globally');
-  await endUsersSection.setMonthlyActiveUsers('100');
+  await customersSection.setPrimaryPurpose('average');
+  await customersSection.setCustomersLocation('GBR');
+  await customersSection.setCustomersLocation('Globally');
+  await customersSection.setMonthlyActiveUsers('100');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms.png');
