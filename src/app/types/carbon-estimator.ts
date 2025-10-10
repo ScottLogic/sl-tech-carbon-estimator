@@ -29,6 +29,8 @@ export type UpstreamEstimation = {
   employee: number;
   network: number;
   server: number;
+  foundationModels: number;
+  contentAndData: number;
 };
 export type IndirectEstimation = {
   cloud: number;
@@ -41,7 +43,7 @@ export type DirectEstimation = {
   server: number;
 };
 export type DownstreamEstimation = {
-  endUser: number;
+  customer: number;
   networkTransfer: number;
   downstreamInfrastructure: number;
 };

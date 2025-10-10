@@ -30,8 +30,8 @@ export class CarbonEstimationUtilService {
         return { label: 'SaaS', svg: SVG.WEB };
       case 'employee':
         return { label: this.getEmployeeLabel(parent), svg: SVG.DEVICES };
-      case 'endUser':
-        return { label: 'End-User Devices', svg: SVG.DEVICES };
+      case 'customer':
+        return { label: 'Customer Devices', svg: SVG.DEVICES };
       case 'network':
         return { label: this.getNetworkLabel(parent), svg: SVG.ROUTER };
       case 'server':

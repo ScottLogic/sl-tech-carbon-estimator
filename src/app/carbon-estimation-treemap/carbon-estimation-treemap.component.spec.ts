@@ -23,6 +23,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 6,
           network: 6,
           server: 6,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 9,
@@ -35,7 +37,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 8,
         },
         downstreamEmissions: {
-          endUser: 13,
+          customer: 13,
           networkTransfer: 12,
           downstreamInfrastructure: 0
         },
@@ -47,6 +49,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 600,
           network: 600,
           server: 600,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 900,
@@ -59,7 +63,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 800,
         },
         downstreamEmissions: {
-          endUser: 1300,
+          customer: 1300,
           networkTransfer: 1200,
           downstreamInfrastructure: 0
         },
@@ -149,7 +153,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         color: '#4B7E56',
         data: [
           {
-            x: 'End-User Devices',
+            x: 'Customer Devices',
             y: 1300,
             meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
@@ -189,6 +193,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0.1,
           network: 0.1,
           server: 0.1,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 34.5,
@@ -201,7 +207,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 8,
         },
         downstreamEmissions: {
-          endUser: 13,
+          customer: 13,
           networkTransfer: 12,
           downstreamInfrastructure: 0
         },
@@ -213,6 +219,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 600,
           network: 600,
           server: 600,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 900,
@@ -225,7 +233,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 800,
         },
         downstreamEmissions: {
-          endUser: 1300,
+          customer: 1300,
           networkTransfer: 1200,
           downstreamInfrastructure: 0
         },
@@ -250,6 +258,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0.0001,
           network: 0.0001,
           server: 0.0001,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 0.0345,
@@ -262,7 +272,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0.008,
         },
         downstreamEmissions: {
-          endUser: 0.013,
+          customer: 0.013,
           networkTransfer: 0.012,
           downstreamInfrastructure: 0
         },
@@ -274,6 +284,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0.0006,
           network: 0.000006,
           server: 0.00006,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 0.9,
@@ -286,7 +298,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0.8,
         },
         downstreamEmissions: {
-          endUser: 1.3,
+          customer: 1.3,
           networkTransfer: 1.2,
           downstreamInfrastructure: 0
         },
@@ -309,6 +321,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0,
           network: 0,
           server: 0,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 25,
@@ -321,7 +335,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0,
         },
         downstreamEmissions: {
-          endUser: 25,
+          customer: 25,
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
@@ -333,6 +347,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0,
           network: 0,
           server: 0,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 25,
@@ -345,7 +361,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0,
         },
         downstreamEmissions: {
-          endUser: 25,
+          customer: 25,
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
@@ -395,7 +411,7 @@ describe('CarbonEstimationTreemapComponent', () => {
         color: '#4B7E56',
         data: [
           {
-            x: 'End-User Devices',
+            x: 'Customer Devices',
             y: 25,
             meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
@@ -415,6 +431,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0,
           network: 0,
           server: 0,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 50,
@@ -427,7 +445,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0,
         },
         downstreamEmissions: {
-          endUser: 0,
+          customer: 0,
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },
@@ -439,6 +457,8 @@ describe('CarbonEstimationTreemapComponent', () => {
           employee: 0,
           network: 0,
           server: 0,
+          foundationModels: 0,
+          contentAndData: 0
         },
         directEmissions: {
           employee: 50,
@@ -451,7 +471,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           managed: 0,
         },
         downstreamEmissions: {
-          endUser: 0,
+          customer: 0,
           networkTransfer: 0,
           downstreamInfrastructure: 0
         },

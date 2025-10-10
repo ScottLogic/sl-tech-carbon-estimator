@@ -140,7 +140,7 @@ classDiagram
     server: number
   }
   class DownstreamEstimation {
-    endUser: number;
+    customer: number;
     networkTransfer: number;
   }
 ```
