@@ -67,11 +67,11 @@ export class CustomersSection {
       .getByLabel('Hide details');
     this.showCustomersPercentageTooltip = page
       .locator('expansion-panel')
-      .filter({ hasText: 'What percentage of your end-' })
+      .filter({ hasText: 'What percentage of your customers are mobile or personal computer users?' })
       .getByLabel('Show details');
     this.hideCustomersPercentageTooltip = page
       .locator('expansion-panel')
-      .filter({ hasText: 'What percentage of your end-' })
+      .filter({ hasText: 'What percentage of your customers are mobile or personal computer users?' })
       .getByLabel('Hide details');
     this.monthlyActiveUsersError = page.locator('#monthlyActiveUsersError').getByText('The number of monthly active');
   }

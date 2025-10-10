@@ -31,6 +31,8 @@ interface EmissionValuesSchema {
       server: number;
       network: number;
       software: number;
+      foundationModels: number;
+      contentAndData: number;
     };
     directEmissions: {
       employee: number;
@@ -43,7 +45,7 @@ interface EmissionValuesSchema {
       managed: number;
     };
     downstreamEmissions: {
-      endUser: number;
+      customer: number;
       networkTransfer: number;
       downstreamInfrastructure: number;
     };
@@ -71,7 +73,7 @@ interface EmissionPercentagesSchema {
       managed: number;
     };
     downstreamEmissions?: {
-      endUser: number;
+      customer: number;
       networkTransfer: number;
       downstreamInfrastructure: number;
     };
@@ -119,6 +121,8 @@ export function createDefaultValuesJsonExport(overrides: Partial<EmissionValuesS
         server: 3625,
         network: 1300,
         software: 0,
+        foundationModels: 0,
+        contentAndData: 0,
       },
       directEmissions: {
         employee: 6484.5694,
@@ -131,7 +135,7 @@ export function createDefaultValuesJsonExport(overrides: Partial<EmissionValuesS
         managed: 0,
       },
       downstreamEmissions: {
-        endUser: 147.60952776716255,
+        customer: 147.60952776716255,
         networkTransfer: 239.029161520401,
         downstreamInfrastructure: 0,
       },
@@ -152,6 +156,8 @@ export function createDefaultPercentagesJsonExport(
         server: 6.542347449149511,
         network: 2.346221154177756,
         software: 0,
+        foundationModels: 0,
+        contentAndData: 0,
       },
       directEmissions: {
         employee: 11.70325684770289,
@@ -164,7 +170,7 @@ export function createDefaultPercentagesJsonExport(
         managed: 0,
       },
       downstreamEmissions: {
-        endUser: 0.2664035358503889,
+        customer: 0.2664035358503889,
         networkTransfer: 0.4313963655573357,
         downstreamInfrastructure: 0,
       },
