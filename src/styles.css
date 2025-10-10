@@ -134,3 +134,7 @@ input.ng-invalid.ng-touched {
 .tce-export-menu {
   @apply tce:bg-slate-200 tce:dark:bg-sky-900 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
 }
+
+apx-chart .apexcharts-legend .apexcharts-legend-series:hover {
+  @apply tce:dark:bg-cyan-700;
+}
