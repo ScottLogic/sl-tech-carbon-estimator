@@ -8,7 +8,7 @@ test.describe('Assert errors based on input value', () => {
       organisationSection,
       onPremSection,
       cloudServicesSection,
-      endUsersSection,
+      customersSection,
       estimationsSection,
     }) => {
       await tcsEstimator.gotoHome();
@@ -16,7 +16,7 @@ test.describe('Assert errors based on input value', () => {
         organisationSection,
         onPremSection,
         cloudServicesSection,
-        endUsersSection
+        customersSection
       );
       await estimationsSection.assertResultsElementVisibility();
     }
@@ -71,24 +71,24 @@ test.describe('Assert errors based on input value', () => {
   test('Assert error when number of users is 0 ', async ({
     tcsEstimator,
 
-    endUsersSection,
+    customersSection,
   }) => {
-    await endUsersSection.setMonthlyActiveUsers('0');
-    await expect(endUsersSection.monthlyActiveUsersError).toBeVisible();
+    await customersSection.setMonthlyActiveUsers('0');
+    await expect(customersSection.monthlyActiveUsersError).toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(tcsEstimator.monthlyUsersCalculationError).toBeVisible();
   });
 
-  test('Assert error when number of users is -1 ', async ({ tcsEstimator, endUsersSection }) => {
-    await endUsersSection.setMonthlyActiveUsers('-1');
-    await expect(endUsersSection.monthlyActiveUsersError).toBeVisible();
+  test('Assert error when number of users is -1 ', async ({ tcsEstimator, customersSection }) => {
+    await customersSection.setMonthlyActiveUsers('-1');
+    await expect(customersSection.monthlyActiveUsersError).toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(tcsEstimator.monthlyUsersCalculationError).toBeVisible();
   });
 
-  test('Assert no error when number of users is 1 ', async ({ tcsEstimator, endUsersSection }) => {
-    await endUsersSection.setMonthlyActiveUsers('1');
-    await expect(endUsersSection.monthlyActiveUsersError).not.toBeVisible();
+  test('Assert no error when number of users is 1 ', async ({ tcsEstimator, customersSection }) => {
+    await customersSection.setMonthlyActiveUsers('1');
+    await expect(customersSection.monthlyActiveUsersError).not.toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(tcsEstimator.monthlyUsersCalculationError).not.toBeVisible();
   });

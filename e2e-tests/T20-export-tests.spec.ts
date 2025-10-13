@@ -12,7 +12,7 @@ test.describe('Export JSON files', () => {
       tcsEstimator,
       onPremSection,
       cloudServicesSection,
-      endUsersSection,
+      customersSection,
       estimationsSection,
       tableSection,
     }) => {
@@ -20,7 +20,7 @@ test.describe('Export JSON files', () => {
       await organisationSection.assertOrganisationSectionVisible();
       await onPremSection.assertOnPremiseSectionVisible();
       await cloudServicesSection.assertDefaultCloudElementVisibility();
-      await endUsersSection.assertEndUserSectionVisible();
+      await customersSection.assertCustomersSectionVisible();
 
       await estimationsSection.assertResultsElementVisibility();
       await estimationsSection.tableViewButton.click();

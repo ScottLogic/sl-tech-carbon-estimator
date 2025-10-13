@@ -5,14 +5,14 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
   organisationSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
 
   await onPremSection.selectNumberOfServers('555');
   await onPremSection.selectLocationOfServers('GBR');
@@ -22,9 +22,9 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await cloudServicesSection.setCloudLocation('WORLD');
   await expect(cloudServicesSection.monthlyCloudBill).toHaveValue('0: Object');
 
-  await endUsersSection.setEndUserLocation('Globally');
-  await endUsersSection.setPrimaryPurpose('socialMedia');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setCustomersLocation('Globally');
+  await customersSection.setPrimaryPurpose('socialMedia');
+  await customersSection.setPrimaryPurpose('average');
 
   // Calculate
   await tcsEstimator.calculateButton.click();
@@ -78,9 +78,9 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
 
   await cloudServicesSection.assertDefaultCloudElementVisibility();
 
-  await endUsersSection.assertEndUserSectionVisible();
-  await endUsersSection.setPrimaryPurpose('information');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.assertCustomersSectionVisible();
+  await customersSection.setPrimaryPurpose('information');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.kilogramsButton.click();

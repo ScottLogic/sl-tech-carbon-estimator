@@ -13,14 +13,19 @@ test.describe('Accessibility Dark Mode Tests', () => {
     organisationSection,
     onPremSection,
     cloudServicesSection,
-    endUsersSection,
+    customersSection,
     tcsEstimator,
     page,
     estimationsSection,
   }) => {
     await expectNoA11yViolations(page);
 
-    await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+    await assertAllSectionElementsAreVisible(
+      organisationSection,
+      onPremSection,
+      cloudServicesSection,
+      customersSection
+    );
 
     await tcsEstimator.calculateButton.click();
     await expectNoA11yViolations(page);
@@ -37,14 +42,14 @@ test.describe('Accessibility Dark Mode Tests', () => {
     organisationSection,
     onPremSection,
     cloudServicesSection,
-    endUsersSection,
+    customersSection,
   }) => {
     await organisationSection.showEmployeeLocationTooltip.click();
     await onPremSection.showServerLocationTooltip.click();
     await cloudServicesSection.showCloudServerLocationTooltip.click();
-    await endUsersSection.showPrimaryPurposeTooltip.click();
-    await endUsersSection.showEndUserLocationTooltip.click();
-    await endUsersSection.showEndUserPercentageTooltip.click();
+    await customersSection.showPrimaryPurposeTooltip.click();
+    await customersSection.showCustomersLocationTooltip.click();
+    await customersSection.showCustomersPercentageTooltip.click();
     await expectNoA11yViolations(page);
   });
 });

@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures';
 
 test('Expansion panel visibility', async ({
-  endUsersSection,
+  customersSection,
   organisationSection,
   onPremSection,
   cloudServicesSection,
@@ -26,9 +26,9 @@ test('Expansion panel visibility', async ({
   await cloudServicesSection.showCloudSection.click();
   await expect(cloudServicesSection.cloudServicesSummary).toBeVisible();
 
-  await endUsersSection.assertEndUserSectionVisible();
-  await endUsersSection.hideEndUsersSection.click();
-  await expect(endUsersSection.endUsersSummary).not.toBeVisible();
-  await endUsersSection.showEndUsersSection.click();
-  await expect(endUsersSection.endUsersSummary).toBeVisible();
+  await customersSection.assertCustomersSectionVisible();
+  await customersSection.hideCustomersSection.click();
+  await expect(customersSection.customersSummary).not.toBeVisible();
+  await customersSection.showCustomersSection.click();
+  await expect(customersSection.customersSummary).toBeVisible();
 });

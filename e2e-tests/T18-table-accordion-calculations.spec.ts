@@ -8,7 +8,7 @@ test.describe('Table Accordion Calculations', async () => {
       organisationSection,
       onPremSection,
       cloudServicesSection,
-      endUsersSection,
+      customersSection,
       estimationsSection,
       tableSection,
     }) => {
@@ -17,7 +17,7 @@ test.describe('Table Accordion Calculations', async () => {
         organisationSection,
         onPremSection,
         cloudServicesSection,
-        endUsersSection
+        customersSection
       );
 
       await estimationsSection.tableViewButton.click();
@@ -150,10 +150,10 @@ test.describe('Table Accordion Calculations', async () => {
     await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsCloudNotUsedArray);
     await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsCloudNotUsedArray);
   });
-  test('Table shows expected values (No external users)', async ({ tcsEstimator, endUsersSection, tableSection }) => {
-    await endUsersSection.endUserUnusedTickbox.check();
+  test('Table shows expected values (No external users)', async ({ tcsEstimator, customersSection, tableSection }) => {
+    await customersSection.customersUnusedTickbox.check();
     await tcsEstimator.calculateButton.click();
-    await expect(tableSection.endUserDevices).not.toBeVisible();
+    await expect(tableSection.customerDevices).not.toBeVisible();
     await expect(tableSection.networkDataTransfer).not.toBeVisible();
 
     const expectedEmissionsNoExternalUsersArray = [

@@ -6,13 +6,13 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   onPremSection,
   cloudServicesSection,
   organisationSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
 
   await onPremSection.onPremUnknownTickbox.check();
   await expect(onPremSection.numberOfServersContainer).toBeDisabled();
@@ -23,10 +23,10 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await cloudServicesSection.setCloudLocation('WORLD');
   await expect(cloudServicesSection.monthlyCloudBill).toHaveValue('0: Object');
 
-  await endUsersSection.setEndUserLocation('Globally');
-  await expect(endUsersSection.monthlyActiveUsersField).toHaveValue('100');
-  await endUsersSection.setPrimaryPurpose('socialMedia');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setCustomersLocation('Globally');
+  await expect(customersSection.monthlyActiveUsersField).toHaveValue('100');
+  await customersSection.setPrimaryPurpose('socialMedia');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms.png');

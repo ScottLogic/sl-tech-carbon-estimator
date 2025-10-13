@@ -3,17 +3,16 @@ import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({
   organisationSection,
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
   await organisationSection.percentageSlider.click();
   await organisationSection.percentageSliderSet('ArrowLeft', 10);
   await expect(organisationSection.percentageSliderText).toHaveValue('0');
@@ -27,8 +26,8 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');
 
-  await endUsersSection.setPrimaryPurpose('information');
-  await endUsersSection.setPrimaryPurpose('average');
+  await customersSection.setPrimaryPurpose('information');
+  await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms.png');

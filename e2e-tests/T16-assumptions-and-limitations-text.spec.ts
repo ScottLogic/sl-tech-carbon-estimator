@@ -5,12 +5,12 @@ test('T16 assert text for assumptions and limitations', async ({
   page,
   organisationSection,
   onPremSection,
-  endUsersSection,
+  customersSection,
   cloudServicesSection,
   tcsEstimator,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, endUsersSection);
+  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
 
   await page.getByRole('tab', { name: 'Assumptions and limitations' }).click();
   await expect(page.getByRole('heading', { name: 'Assumptions and Limitations' })).toBeVisible();
@@ -55,7 +55,7 @@ test('T16 assert text for assumptions and limitations', async ({
   await expect(page.getByText('These figures are combined')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Network Data Transfer' })).toBeVisible();
   await expect(page.getByText('Our outgoing network data')).toBeVisible();
-  await page.getByRole('heading', { name: 'End-User Devices' }).click();
+  await page.getByRole('heading', { name: 'Customer Devices' }).click();
   await expect(page.getByText('We combine device information')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Limitations', exact: true })).toBeVisible();
   await expect(page.getByText('Here are some aspects of the')).toBeVisible();

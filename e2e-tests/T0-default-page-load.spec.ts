@@ -4,7 +4,7 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   organisationSection,
   onPremSection,
   cloudServicesSection,
-  endUsersSection,
+  customersSection,
   tcsEstimator,
   estimationsSection,
   tableSection,
@@ -14,7 +14,7 @@ test('Default page screenshot assertion,elements are visible and apex chart disp
   await organisationSection.assertOrganisationSectionVisible();
   await onPremSection.assertOnPremiseSectionVisible();
   await cloudServicesSection.assertDefaultCloudElementVisibility();
-  await endUsersSection.assertEndUserSectionVisible();
+  await customersSection.assertCustomersSectionVisible();
 
   await estimationsSection.assertResultsElementVisibility();
   await estimationsSection.tableViewButton.click();
