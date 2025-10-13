@@ -1,4 +1,4 @@
-# sl-tech-carbon-estimator
+# Tech Carbon Standard Estimator
 
 The tech carbon estimator is a web component that allow you to estimate, at high level, your carbon emissions
 
