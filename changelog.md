@@ -8,9 +8,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - `#138 Add compatability with schema v0.0.2`
-- `#139 Add ability to display the CO~2~ values as well as percentages`
+- `#139 Add ability to display the CO2 values as well as percentages`
 - `#140 Add export as JSON and PDF`
-- `#182 Add wrapper around CO~2~ library`
+- `#182 Add wrapper around CO2 library`
 - `#179 Add tests to cover invalid input`
 - `#210 Add GitHub workflows for updating Playwright screenshots`
 - `#240 #242 Add compatability with schema v0.1.0`
