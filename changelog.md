@@ -7,43 +7,69 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
-- <!-- Add new features here. Example: `- Add export as PDF using pdf-lib` -->
+- `#138 Add compatability with schema v0.0.2`
+- `#139 Add ability to display the CO~2~ values as well as percentages`
+- `#140 Add export as JSON and PDF`
+- `#182 Add wrapper around CO~2~ library`
+- `#179 Add tests to cover invalid input`
+- `#210 Add GitHub workflows for updating Playwright screenshots`
+- `#240 #242 Add compatability with schema v0.1.0`
+- `#199 Add to test suite accessibility automation for expansion/dropdown options`
+- `#206 Add to test suite automation to handle Kg scenarios`
+- `#205 Add new Linux snapshots to cover Kg`
+- `#171 Add automate package versioning using semantic-release`
+- `#149 Add Develop branch protection`
+- `#215 Add Test suite POM conversion`
+- `#144 Add screenshot comparison to e2e tests`
 
 ### Changed
 - <!-- Add changes to existing functionality here. Example: `- Switch build to Vite` -->
+- `#220 Switch Downstream Emissions calculation into a class`
+- `#175 Switch optimise tests by moving repeated assertions into helper methods/files`
+- `#142 Switch update Playwright framework to use the Node.js version`
 
 ### Fixed
 - <!-- Add bug fixes. Example: `- Fix some buggy deficient thing` -->
+- `#232 Fix Incorrect background colour of export menu in lightmode`
+- `#204 Fix Table contrast for totals is insufficient`
+- `#231 Fix On-hover for quadrants legend has contrast issues when in darkmode`
+- `#208 Fix Diagram view disappears on screen resize`
+- `#183 Fix contrast for links is not suitable ratio in darkmode`
+- `#180 Fix colour contrast for expansion panels is not suitabe ratio in darkmode`
+- `#173 Fix Darkmode causes poor contrast in table view`
+- `#148 Fix broken Playwright framework`
+- `#198 Fix Dropdowmn contrast is insufficient in darkmode`
 
 ### Deprecated
 - <!-- Add items that are deprecated and will be removed in a future release. -->
 
 ### Removed
-- <!-- Add removed functionality here. -->
+- `#181 Removed unused imports`
 
 ### Security
-- <!-- Add security fixes here. -->
+- `#190 Add GitHub Code Analysis`
+- `#141 Review dependencies, vulnerabilities and additional security`
 
 ---
 
 ## [x.y.z] - YYYY-MM-DD
 ### Added
-- Example: `- Introduce new CarbonEstimation export modal`
+- Example: `- #123 Add new CarbonEstimation export modal`
 
 ### Changed
-- Example: `- Refactor downstream estimator to class-based API`
+- Example: `- #456 Switch downstream estimator to class-based API`
 
 ### Fixed
-- Example: `- Prevent ApexCharts rendering after component destroy in unit tests`
+- Example: `- #789 Fix ApexCharts rendering after component destroy in unit tests`
 
 ### Deprecated
-- Example: `- Deprecated old CSV export endpoint`
+- Example: `- #012 Deprecated old CSV export endpoint`
 
 ### Removed
-- Example: `- Remove legacy styling utilities`
+- Example: `- #345 Remove legacy styling utilities`
 
 ### Security
-- Example: `- Update dependency X to fix vulnerability Y`
+- Example: `- #678 Update dependency X to fix vulnerability Y`
 
 ---
 
