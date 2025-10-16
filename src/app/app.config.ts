@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import type { ApplicationConfig } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { CO2_CALCULATOR, CO2_CONFIG } from './facades/CO2InjectionToken';
 import { CO2Calculator } from './facades/CO2Calculator';

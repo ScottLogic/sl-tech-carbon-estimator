@@ -2,14 +2,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "moduleResolution": "bundler",
-    "module": "ES2022",
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2022", "dom"],
-
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
@@ -28,7 +29,8 @@
     "forceConsistentCasingInFileNames": true,
 
     "paths": {
-      "@/*": [ "./src/*"]
+      "@/*": [ "./*"],
+      "app/*": [ "./src/app/*"]
     }
   },
   "angularCompilerOptions": {
@@ -36,5 +38,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules", ".vscode"]
 }

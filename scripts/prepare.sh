@@ -2,7 +2,6 @@
 
 set -e
 
-npm run build:css
 npm run build
 
 cp README.md package.json ./dist/tech-carbon-estimator/
