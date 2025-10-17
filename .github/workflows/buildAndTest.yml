@@ -1,7 +1,7 @@
 name: Build and Test
 on:
   pull_request: 
-    types: [synchronize]
+    types: [opened, edited]
   workflow_dispatch:
   workflow_call:
   push:
