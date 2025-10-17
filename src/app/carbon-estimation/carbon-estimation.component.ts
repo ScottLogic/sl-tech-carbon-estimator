@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation, EstimatorValues, jsonExport } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, DirectEstimation, DownstreamEstimation, EstimatorValues, IndirectEstimation, jsonExport, UpstreamEstimation } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
@@ -35,6 +35,8 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public diagramActive = signal(true);
 
+  public monthlyCarbonEstimation = computed(() => this.getMonthlyEstimate());
+
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
   public chartHeight!: number;
@@ -43,6 +45,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   private resizeSubscription!: Subscription;
   private hasResized = true;
   private hasEstimationUpdated = false;
+
+  public isAnnual = signal(true);
+  public estimate = computed(() => this.isAnnual() ? this.carbonEstimation() : this.monthlyCarbonEstimation());
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
     effect(() => {
@@ -104,12 +109,12 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   get carbonEstimationDownloadUrl(): string {
-    const exportObject = this.carbonEstimation();
+    const exportObject = this.estimate();
     return this.getJSONExportUrl(exportObject);
   }
 
   get carbonEstimationWithInputDownloadUrl(): string {
-    const exportObject = {estimate: this.carbonEstimation(), input: this.inputValues()};
+    const exportObject = {estimate: this.estimate(), input: this.inputValues()};
     return this.getJSONExportUrl(exportObject);
   }
 
@@ -141,5 +146,31 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public handlePDFClick() {
     this.toggleExportMenu();
     this.showModal();
+  }
+
+  private getMonthlyEstimate(): CarbonEstimation | undefined {
+    // for our purposes monthly estimate is just the annual divided equally
+    // beteween 12 months
+
+    const copy = JSON.parse(JSON.stringify(this.carbonEstimation()));
+
+    copy.values.totalEmissions = copy.values.totalEmissions/12;
+
+    // loop over values only - percentages are the same regardless of time period
+    for ( const estimateKey of Object.keys(copy.values)) {
+
+      if (estimateKey === 'version' || estimateKey === 'totalEstimate') continue;
+
+      const estimate = copy.values[estimateKey];
+
+      for (const valueKey of Object.keys(estimate)) {
+        const value = estimate[valueKey];
+
+        copy.values[estimateKey][valueKey] = value/12;
+      }
+    }
+
+    return copy;
+
   }
 }
