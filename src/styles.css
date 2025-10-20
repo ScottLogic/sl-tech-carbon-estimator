@@ -52,7 +52,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-switch-container {
-  @apply tce:inline-flex tce:items-center tce:ml-4 tce:bg-gray-100 tce:rounded-2xl tce:px-2 tce:py-0.5;
+  @apply tce:inline-flex tce:items-center tce:ml-8 tce:bg-gray-100 tce:rounded-2xl tce:px-2 tce:py-0.5;
 }
 
 .tce-switch-label {
@@ -65,6 +65,16 @@ input.ng-invalid.ng-touched {
 
 .tce-switch-input {
   @apply tce:hidden;
+}
+
+.tce-switch-help {
+  @apply tce:absolute tce:top-full tce:left-1/2 tce:-translate-x-1/2 tce:translate-y-2 tce:bg-slate-900/95 tce:text-white tce:px-2 tce:py-1 tce:rounded-md tce:text-sm tce:shadow-lg tce:whitespace-nowrap tce:z-60 tce:opacity-0 tce:pointer-events-none tce:transition tce:duration-160 tce:ease-in-out;
+}
+
+/* show tooltip on hover or keyboard focus of the icon or container */
+.tce-switch-container:hover .tce-switch-help,
+.tce-switch-container:focus-within .tce-switch-help {
+  @apply tce:opacity-100 tce:pointer-events-auto tce:-translate-x-1/2 tce:translate-y-0;
 }
 
 .tce-no-ex-table-header {
