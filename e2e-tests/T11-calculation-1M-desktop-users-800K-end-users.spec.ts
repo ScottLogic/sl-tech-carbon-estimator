@@ -36,7 +36,9 @@ test('T11 verify calculated values are coherent with selected employees, servers
   await customersSection.setPrimaryPurpose('socialMedia');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T11-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T11-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T11-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T11-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -58,7 +60,7 @@ test('T11 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 168526971 kg ',
     ' 158333333 kg ',
     ' 36250 kg ',
@@ -74,6 +76,25 @@ test('T11 verify calculated values are coherent with selected employees, servers
     ' 2288731 kg ',
     ' 285757476 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+
+  const expectedEmissionKilogramsMonthly = [
+    ' 14043914 kg ',
+    ' 13194444 kg ',
+    ' 3021 kg ',
+    ' 846449 kg ',
+    ' 9298372 kg ',
+    ' 7398502 kg ',
+    ' 21825 kg ',
+    ' 1878045 kg ',
+    ' 1552 kg ',
+    ' 1552 kg ',
+    ' 469285 kg ',
+    ' 278557 kg ',
+    ' 190728 kg ',
+    ' 23813123 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

@@ -3,7 +3,6 @@ import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T3 verify calculated values are coherent with selected options', async ({
   organisationSection,
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -41,7 +40,9 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -63,7 +64,7 @@ test('T3 verify calculated values are coherent with selected options', async ({
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 18633 kg ',
     ' 13708 kg ',
     ' 3625 kg ',
@@ -80,6 +81,24 @@ test('T3 verify calculated values are coherent with selected options', async ({
     ' 55408 kg ',
   ];
 
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  const expectedEmissionKilogramsMonthly = [
+    ' 1553 kg ',
+    ' 1142 kg ',
+    ' 302 kg ',
+    ' 108 kg ',
+    ' 2981 kg ',
+    ' 540 kg ',
+    ' 2182 kg ',
+    ' 258 kg ',
+    ' 52 kg ',
+    ' 52 kg ',
+    ' 32 kg ',
+    ' 12 kg ',
+    ' 20 kg ',
+    ' 4617 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

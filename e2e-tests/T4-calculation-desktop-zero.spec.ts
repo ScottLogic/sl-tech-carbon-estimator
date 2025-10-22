@@ -1,3 +1,4 @@
+import { table } from 'console';
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
 
@@ -30,7 +31,9 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T4-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -52,7 +55,7 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 16508 kg ',
     ' 11583 kg ',
     ' 3625 kg ',
@@ -68,6 +71,26 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
     ' 239 kg ',
     ' 50890 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+
+  const expectedEmissionKilogramsMonthly = [
+    ' 1376 kg ',
+    ' 965 kg ',
+    ' 302 kg ',
+    ' 108 kg ',
+    ' 2781 kg ',
+    ' 341 kg ',
+    ' 2182 kg ',
+    ' 258 kg ',
+    ' 52 kg ',
+    ' 52 kg ',
+    ' 32 kg ',
+    ' 12 kg ',
+    ' 20 kg ',
+    ' 4241 kg ',
+  ];
+
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

@@ -29,7 +29,9 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T6-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T6-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -51,7 +53,7 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 16821 kg ',
     ' 13708 kg ',
     ' 1813 kg ',
@@ -67,6 +69,25 @@ test('T6 verify calculated values are coherent when on-prem is unknown', async (
     ' 239 kg ',
     ' 40501 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+
+  const expectedEmissionKilogramsMonthly = [
+    ' 1402 kg ',
+    ' 1142 kg ',
+    ' 151 kg ',
+    ' 108 kg ',
+    ' 1889 kg ',
+    ' 540 kg ',
+    ' 1091 kg ',
+    ' 258 kg ',
+    ' 52 kg ',
+    ' 52 kg ',
+    ' 32 kg ',
+    ' 12 kg ',
+    ' 20 kg ',
+    ' 3375 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });

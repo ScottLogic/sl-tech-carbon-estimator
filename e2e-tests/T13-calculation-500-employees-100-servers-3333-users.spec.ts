@@ -33,7 +33,9 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await customersSection.setPrimaryPurpose('information');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T13-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -53,7 +55,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 106879 kg ',
     ' 64292 kg ',
     ' 36250 kg ',
@@ -68,7 +70,25 @@ test('T13 verify calculated values are coherent with selected employees, servers
     ' <1 kg ',
     ' 411936 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+
+  const expectedEmissionKilogramsMonthly = [
+    ' 8907 kg ',
+    ' 5358 kg ',
+    ' 3021 kg ',
+    ' 528 kg ',
+    ' 25421 kg ',
+    ' 2303 kg ',
+    ' 21825 kg ',
+    ' 1294 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 34328 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 
   await estimationsSection.diagramViewButton.click();
@@ -79,7 +99,9 @@ test('T13 verify calculated values are coherent with selected employees, servers
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.percentageButton.click();
-  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1.png');
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-monthly.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
@@ -99,7 +121,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms1 = [
+  const expectedEmissionKilograms1Annual = [
     ' 106879 kg ',
     ' 64292 kg ',
     ' 36250 kg ',
@@ -115,6 +137,25 @@ test('T13 verify calculated values are coherent with selected employees, servers
     ' <1 kg ',
     ' 412557 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1);
+
+  const expectedEmissionKilograms1Monthly = [
+    ' 8907 kg ',
+    ' 5358 kg ',
+    ' 3021 kg ',
+    ' 528 kg ',
+    ' 25421 kg ',
+    ' 2303 kg ',
+    ' 21825 kg ',
+    ' 1294 kg ',
+    ' 52 kg ',
+    ' 52 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' <1 kg ',
+    ' 34380 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1Monthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1Annual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages1);
 });
