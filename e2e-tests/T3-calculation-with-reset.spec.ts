@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import * as TestData from './test-data';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T3 verify calculated values are coherent with selected options', async ({
@@ -48,57 +49,8 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure;
 
-  const expectedEmissionPercentages = [
-    '34%',
-    '25%',
-    '7%',
-    '2%',
-    '65%',
-    '12%',
-    '47%',
-    '6%',
-    '1%',
-    '1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilogramsAnnual = [
-    ' 18633 kg ',
-    ' 13708 kg ',
-    ' 3625 kg ',
-    ' 1300 kg ',
-    ' 35767 kg ',
-    ' 6485 kg ',
-    ' 26190 kg ',
-    ' 3093 kg ',
-    ' 621 kg ',
-    ' 621 kg ',
-    ' 387 kg ',
-    ' 148 kg ',
-    ' 239 kg ',
-    ' 55408 kg ',
-  ];
-
-  const expectedEmissionKilogramsMonthly = [
-    ' 1553 kg ',
-    ' 1142 kg ',
-    ' 302 kg ',
-    ' 108 kg ',
-    ' 2981 kg ',
-    ' 540 kg ',
-    ' 2182 kg ',
-    ' 258 kg ',
-    ' 52 kg ',
-    ' 52 kg ',
-    ' 32 kg ',
-    ' 12 kg ',
-    ' 20 kg ',
-    ' 4617 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t3ExpectedEmissionKilogramsMonthly);
   await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t3ExpectedEmissionKilogramsAnnual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t3ExpectedEmissionPercentages);
 });

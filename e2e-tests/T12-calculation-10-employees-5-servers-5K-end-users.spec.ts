@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
+import * as TestData from './test-data';
 
 test('T12 verify calculated values are coherent with selected employees, servers and users', async ({
   organisationSection,
@@ -42,54 +43,8 @@ test('T12 verify calculated values are coherent with selected employees, servers
   await diagramSection.assertDiagramScreenshot('T12-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
-  const expectedEmissionPercentages = [
-    '32%',
-    '11%',
-    '18%',
-    '3%',
-    '67%',
-    '4%',
-    '57%',
-    '6%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilogramsAnnual = [
-    ' 3296 kg ',
-    ' 1158 kg ',
-    ' 1813 kg ',
-    ' 325 kg ',
-    ' 6861 kg ',
-    ' 409 kg ',
-    ' 5838 kg ',
-    ' 614 kg ',
-    ' <1 kg ',
-    ' 45 kg ',
-    ' 21 kg ',
-    ' 24 kg ',
-    ' 10202 kg ',
-  ];
-
-  const expectedEmissionKilogramsMonthly = [
-    ' 275 kg ',
-    ' 97 kg ',
-    ' 151 kg ',
-    ' 27 kg ',
-    ' 572 kg ',
-    ' 34 kg ',
-    ' 486 kg ',
-    ' 51 kg ',
-    '<1 kg',
-    ' 4 kg ',
-    ' 2 kg ',
-    ' 2 kg ',
-    ' 850 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t12ExpectedEmissionKilogramsMonthly);
   await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t12ExpectedEmissionKilogramsAnnual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t12ExpectedEmissionPercentages);
 });

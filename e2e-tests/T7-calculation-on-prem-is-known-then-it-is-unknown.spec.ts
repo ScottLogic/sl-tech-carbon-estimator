@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
+import * as TestData from './test-data';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
   tcsEstimator,
@@ -36,59 +37,10 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
-  const expectedEmissionPercentages = [
-    '13%',
-    '<1%',
-    '12%',
-    '<1%',
-    '87%',
-    '<1%',
-    '85%',
-    '1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilograms = [
-    ' 221721 kg ',
-    ' 13708 kg ',
-    ' 201188 kg ',
-    ' 6825 kg ',
-    ' 1482466 kg ',
-    ' 6485 kg ',
-    ' 1453521 kg ',
-    ' 22460 kg ',
-    ' 621 kg ',
-    ' 621 kg ',
-    ' 387 kg ',
-    ' 148 kg ',
-    ' 239 kg ',
-    ' 1705194 kg ',
-  ];
-
-  const expectedEmissionKilogramsMonthly = [
-    ' 18477 kg ',
-    ' 1142 kg ',
-    ' 16766 kg ',
-    ' 569 kg ',
-    ' 123539 kg ',
-    ' 540 kg ',
-    ' 121127 kg ',
-    ' 1872 kg ',
-    ' 52 kg ',
-    ' 52 kg ',
-    ' 32 kg ',
-    ' 12 kg ',
-    ' 20 kg ',
-    ' 142100 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t7ExpectedEmissionKilogramsMonthly);
   await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t7ExpectedEmissionKilograms);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t7ExpectedEmissionPercentages);
 
   await estimationsSection.diagramViewButton.click();
 
@@ -113,58 +65,8 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
-  const expectedEmissionPercentages1 = [
-    '42%',
-    '34%',
-    '4%',
-    '3%',
-    '56%',
-    '16%',
-    '32%',
-    '8%',
-    '2%',
-    '2%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilograms1annual = [
-    ' 16821 kg ',
-    ' 13708 kg ',
-    ' 1813 kg ',
-    ' 1300 kg ',
-    ' 22673 kg ',
-    ' 6485 kg ',
-    ' 13095 kg ',
-    ' 3093 kg ',
-    ' 621 kg ',
-    ' 621 kg ',
-    ' 387 kg ',
-    ' 148 kg ',
-    ' 239 kg ',
-    ' 40501 kg ',
-  ];
-
-  const expectedEmissionKilograms1Monthly = [
-    ' 1402 kg ',
-    ' 1142 kg ',
-    ' 151 kg ',
-    ' 108 kg ',
-    ' 1889 kg ',
-    ' 540 kg ',
-    ' 1091 kg ',
-    ' 258 kg ',
-    ' 52 kg ',
-    ' 52 kg ',
-    ' 32 kg ',
-    ' 12 kg ',
-    ' 20 kg ',
-    ' 3375 kg ',
-  ];
-
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1Monthly);3731
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t7ExpectedEmissionKilograms1Monthly);
   await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms1annual);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages1);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t7ExpectedEmissionKilograms1annual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t7ExpectedEmissionPercentages1);
 });

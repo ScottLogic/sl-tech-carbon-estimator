@@ -1,8 +1,8 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
+import * as TestData from './test-data';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
-  page,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -41,54 +41,8 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   await diagramSection.assertDiagramScreenshot('T10-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
 
-  const expectedEmissionPercentages = [
-    '33%',
-    '24%',
-    '6%',
-    '2%',
-    '63%',
-    '11%',
-    '46%',
-    '5%',
-    '<1%',
-    '4%',
-    '2%',
-    '2%',
-    '100%',
-  ];
-  const expectedEmissionKilogramsAnnual = [
-    ' 18633 kg ',
-    ' 13708 kg ',
-    ' 3625 kg ',
-    ' 1300 kg ',
-    ' 35767 kg ',
-    ' 6485 kg ',
-    ' 26190 kg ',
-    ' 3093 kg ',
-    ' <1 kg ',
-    ' 2357 kg ',
-    ' 1292 kg ',
-    ' 1066 kg ',
-    ' 56758 kg ',
-  ];
-  const expectedEmissionKilogramsMonthly = [
-    ' 1553 kg ',
-    ' 1142 kg ',
-    ' 302 kg ',
-    ' 108 kg ',
-    ' 2981 kg ',
-    ' 540 kg ',
-    ' 2182 kg ',
-    ' 258 kg ',
-    ' 52 kg ',
-    ' 52 kg ',
-    ' 32 kg ',
-    ' 12 kg ',
-    ' 20 kg ',
-    ' 4617 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t10ExpectedEmissionKilogramsMonthly);
   await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t10ExpectedEmissionKilogramsAnnual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t10ExpectedEmissionPercentages);
 });

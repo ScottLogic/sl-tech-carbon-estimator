@@ -1,5 +1,7 @@
+import * as TestData from './test-data';
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
+import { table } from 'console';
 
 test.describe('Table Accordion Calculations', async () => {
   test.beforeEach(
@@ -24,43 +26,13 @@ test.describe('Table Accordion Calculations', async () => {
       await tableSection.assertDefaultTableStructure;
     }
   );
-  test('Table shows expected values (no checkboxes)', async ({ tcsEstimator, tableSection }) => {
+  test('Table shows expected values (no checkboxes)', async ({ estimationsSection, tcsEstimator, tableSection }) => {
     await tcsEstimator.calculateButton.click();
 
-    const expectedEmissionPercentages = [
-      '34%',
-      '25%',
-      '7%',
-      '2%',
-      '65%',
-      '12%',
-      '47%',
-      '6%',
-      '1%',
-      '1%',
-      '<1%',
-      '<1%',
-      '<1%',
-      '100%',
-    ];
-    const expectedEmissionKilograms = [
-      ' 18633 kg ',
-      ' 13708 kg ',
-      ' 3625 kg ',
-      ' 1300 kg ',
-      ' 35767 kg ',
-      ' 6485 kg ',
-      ' 26190 kg ',
-      ' 3093 kg ',
-      ' 621 kg ',
-      ' 621 kg ',
-      ' 387 kg ',
-      ' 148 kg ',
-      ' 239 kg ',
-      ' 55408 kg ',
-    ];
-    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
-    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+    await tableSection.assertCorrectKilogramColumnValues(TestData.t18NoCheckBoxesExpectedEmissionKilogramsAnnual);
+    await estimationsSection.monthlyViewButton.click();
+    await tableSection.assertCorrectKilogramColumnValues(TestData.t18NoCheckBoxesExpectedEmissionKilogramsMonthly);
+    await tableSection.assertCorrectPercentageColumnValues(TestData.t18NoCheckBoxesExpectedEmissionPercentages);
   });
   test('Table shows expected values (On-Premise is unknown)', async ({
     tcsEstimator,
@@ -72,119 +44,50 @@ test.describe('Table Accordion Calculations', async () => {
     await onPremSection.onPremUnknownTickbox.check();
     await tcsEstimator.calculateButton.click();
 
-    const expectedEmissionsOnPremiseUnknownArray = [
-      '42%',
-      '34%',
-      '4%',
-      '3%',
-      '56%',
-      '16%',
-      '32%',
-      '8%',
-      '2%',
-      '2%',
-      '<1%',
-      '<1%',
-      '<1%',
-      '100%',
-    ];
-
-    const expectedEmissionKilogramsOnPremiseUnknownArray = [
-      ' 16821 kg ',
-      ' 13708 kg ',
-      ' 1813 kg ',
-      ' 1300 kg ',
-      ' 22673 kg ',
-      ' 6485 kg ',
-      ' 13095 kg ',
-      ' 3093 kg ',
-      ' 621 kg ',
-      ' 621 kg ',
-      ' 387 kg ',
-      ' 148 kg ',
-      ' 239 kg ',
-      ' 40501 kg ',
-    ];
-    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsOnPremiseUnknownArray);
-    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsOnPremiseUnknownArray);
+    await tableSection.assertCorrectKilogramColumnValues(
+      TestData.t18ExpectedEmissionKilogramsAnnualOnPremiseUnknownArray
+    );
+    await estimationsSection.monthlyViewButton.click();
+    await tableSection.assertCorrectKilogramColumnValues(
+      TestData.t18ExpectedEmissionKilogramsMonthlyOnPremiseUnknownArray
+    );
+    await tableSection.assertCorrectPercentageColumnValues(
+      TestData.t18ExpectedEmissionsOnPremiseUnknownPercentagesArray
+    );
   });
   test('Table shows expected values (Cloud services not used)', async ({
     tcsEstimator,
     cloudServicesSection,
     tableSection,
+    estimationsSection,
   }) => {
     await cloudServicesSection.cloudUnusedTickbox.check();
     await tcsEstimator.calculateButton.click();
     await expect(tableSection.cloudServices).not.toBeVisible();
 
-    const expectedEmissionsCloudNotUsedArray = [
-      '34%',
-      '25%',
-      '7%',
-      '2%',
-      '65%',
-      '12%',
-      '48%',
-      '6%',
-      '<1%',
-      '<1%',
-      '<1%',
-      '<1%',
-      '100%',
-    ];
-    const expectedEmissionKilogramsCloudNotUsedArray = [
-      ' 18633 kg ',
-      ' 13708 kg ',
-      ' 3625 kg ',
-      ' 1300 kg ',
-      ' 35767 kg ',
-      ' 6485 kg ',
-      ' 26190 kg ',
-      ' 3093 kg ',
-      ' <1 kg ',
-      ' 387 kg ',
-      ' 148 kg ',
-      ' 239 kg ',
-      ' 54787 kg ',
-    ];
-    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsCloudNotUsedArray);
-    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsCloudNotUsedArray);
+    await tableSection.assertCorrectKilogramColumnValues(TestData.t18ExpectedAnnualEmissionKilogramsCloudNotUsedArray);
+    await estimationsSection.monthlyViewButton.click();
+    await tableSection.assertCorrectKilogramColumnValues(TestData.t18ExpectedMonthlyEmissionKilogramsCloudNotUsedArray);
+    await tableSection.assertCorrectPercentageColumnValues(TestData.t18ExpectedEmissionsCloudNotUsedPercentagesArray);
   });
-  test('Table shows expected values (No external users)', async ({ tcsEstimator, customersSection, tableSection }) => {
+  test('Table shows expected values (No external users)', async ({
+    estimationsSection,
+    tcsEstimator,
+    customersSection,
+    tableSection,
+  }) => {
     await customersSection.customersUnusedTickbox.check();
     await tcsEstimator.calculateButton.click();
     await expect(tableSection.customerDevices).not.toBeVisible();
     await expect(tableSection.networkDataTransfer).not.toBeVisible();
 
-    const expectedEmissionsNoExternalUsersArray = [
-      '34%',
-      '25%',
-      '7%',
-      '2%',
-      '65%',
-      '12%',
-      '48%',
-      '6%',
-      '1%',
-      '1%',
-      '<1%',
-      '100%',
-    ];
-    const expectedEmissionKilogramsNoExternalUsersArray = [
-      ' 18633 kg ',
-      ' 13708 kg ',
-      ' 3625 kg ',
-      ' 1300 kg ',
-      ' 35767 kg ',
-      ' 6485 kg ',
-      ' 26190 kg ',
-      ' 3093 kg ',
-      ' 621 kg ',
-      ' 621 kg ',
-      ' <1 kg ',
-      ' 55022 kg ',
-    ];
-    await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsNoExternalUsersArray);
-    await tableSection.assertCorrectPercentageColumnValues(expectedEmissionsNoExternalUsersArray);
+    await tableSection.assertCorrectKilogramColumnValues(
+      TestData.t18ExpectedAnnualEmissionKilogramsNoExternalUsersArray
+    );
+    await estimationsSection.monthlyViewButton.click();
+    await tableSection.assertCorrectKilogramColumnValues(
+      TestData.t18ExpectedMonthlyEmissionKilogramsNoExternalUsersArray
+    );
+    await tableSection.assertCorrectPercentageColumnValues(TestData.t18ExpectedEmissionPercentagesNoExternalUsersArray);
   });
 });
