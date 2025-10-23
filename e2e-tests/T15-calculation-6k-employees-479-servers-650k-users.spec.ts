@@ -39,7 +39,9 @@ test('T15 verify calculated values are coherent with selected employees, servers
   await customersSection.setPrimaryPurpose('eCommerce');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T15-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T15-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T15-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T15-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
@@ -61,7 +63,7 @@ test('T15 verify calculated values are coherent with selected employees, servers
     '<1%',
     '100%',
   ];
-  const expectedEmissionKilograms = [
+  const expectedEmissionKilogramsAnnual = [
     ' 1138450 kg ',
     ' 899000 kg ',
     ' 173638 kg ',
@@ -77,6 +79,24 @@ test('T15 verify calculated values are coherent with selected employees, servers
     ' 4162 kg ',
     ' 3217438 kg ',
   ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
+  const expectedEmissionKilogramsMonthly = [
+    ' 94871 kg ',
+    ' 74917 kg ',
+    ' 14470 kg ',
+    ' 5484 kg ',
+    ' 156834 kg ',
+    ' 39604 kg ',
+    ' 104540 kg ',
+    ' 12690 kg ',
+    ' 15522 kg ',
+    ' 15522 kg ',
+    ' 893 kg ',
+    ' 546 kg ',
+    ' 347 kg ',
+    ' 268120 kg ',
+  ];
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
 });
