@@ -51,7 +51,7 @@ export class TechCarbonEstimatorComponent {
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'styles.css';
+    link.href = 'styles.css'; // This is the `bundleName` of the concatenated styles file
 
     this.ref.nativeElement.shadowRoot.appendChild(link);
   }
