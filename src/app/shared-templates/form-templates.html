@@ -1,0 +1,10 @@
+<ng-template #sectionHeader let-heading="heading" let-sectionDetails="details">
+  <expansion-panel class="tce:flex tce:justify-between tce:gap-2 tce:flex-col tce:mb-4">
+    <div header>
+      <h2 class="tce:text-2xl">{{ heading }}</h2>
+    </div>
+    <div content>
+      <p>{{ sectionDetails }}</p>
+    </div>
+  </expansion-panel>
+</ng-template>

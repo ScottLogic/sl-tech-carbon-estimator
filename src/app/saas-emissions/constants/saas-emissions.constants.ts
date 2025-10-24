@@ -1,0 +1,5 @@
+export const EMISSION_CONVERSION = {
+  GRAMS_TO_KG: 0.001,
+  GRAMS_TO_TONNES: 0.000001,
+  MONTHS_PER_YEAR: 12
+} as const;
