@@ -22,7 +22,6 @@ You will need to import the following files to use the tech-carbon-estimator:
 
 - main.js
 - polyfill.js
-- styles.css
 
 These files can be found under dist/tech-carbon-estimator when developing locally.
 
