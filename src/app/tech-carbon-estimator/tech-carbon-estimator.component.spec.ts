@@ -90,8 +90,8 @@ describe('TechCarbonEstimatorComponent', () => {
   it('should show the form by default', () => {
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
+    const formElement = fixture.nativeElement.shadowRoot.querySelector('carbon-estimator-form');
+    const assumptionsElement = fixture.nativeElement.shadowRoot.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeTruthy();
     expect(assumptionsElement).toBeFalsy();

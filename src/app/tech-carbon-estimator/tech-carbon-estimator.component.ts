@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -24,6 +24,9 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
     TabItemComponent,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
+
+  // Protect against style interference by the hosting page
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class TechCarbonEstimatorComponent {
   @Input() public extraHeight?: string;
@@ -35,8 +38,21 @@ export class TechCarbonEstimatorComponent {
 
   constructor(
     private estimationService: CarbonEstimationService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    private changeDetector: ChangeDetectorRef,
+    private ref: ElementRef
+  ) {
+    this.insertShadowStylesLink()
+  }
+
+  private insertShadowStylesLink() {
+    // Not using static `styleUrl` to inject, as we vary stylesheets based on build configurations.
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'styles.css';
+
+    this.ref.nativeElement.shadowRoot.appendChild(link);
+  }
 
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
