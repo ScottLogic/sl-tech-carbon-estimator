@@ -40,7 +40,6 @@ import { FormStateService } from '../services/form-state.service';
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    FormsModule,
     CommonModule,
     NoteComponent,
     ExpansionPanelComponent,

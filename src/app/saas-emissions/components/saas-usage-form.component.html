@@ -1,0 +1,40 @@
+<div formGroupName="SaaS">
+  <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
+  <div class="tce:flex tce:flex-col tce:gap-4">
+    <div class="tce:flex tce:gap-2 tce:items-center">
+      <input
+        id="useSaaS"
+        type="checkbox"
+        formControlName="useSaaS"
+        class="tce:rounded-sm tce:cursor-pointer" />
+      <label for="useSaaS" class="cursor-pointer select-none"
+        >We use SaaS products</label
+      >
+    </div>
+
+    @if (useSaaS) {
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <p id="saas-users-question">How many users use SaaS products?</p>
+        <div class="tce:flex tce:gap-2 tce:items-center">
+          <input
+            id="estimateSaasUsers"
+            type="number"
+            class="tce:rounded-sm tce:cursor-pointer"
+            formControlName="estimateSaasUsers"
+            aria-describedby="on-prem-servers-question" />
+          <label for="estimateSaasUsers" class="tce:cursor-pointer tce:select-none">I don't know</label>
+        </div>
+
+        @if (numberOfUsers) {
+          <div
+            class="tce-error-box tce:flex tce:items-center tce:gap-1"
+            aria-live="polite"
+            id="monthlyActiveUsersError">
+            <span class="material-icons-outlined">error</span>
+            <p>{{ errorConfig.monthlyActiveUsers.errorMessage }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
