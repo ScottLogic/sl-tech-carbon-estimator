@@ -45,7 +45,9 @@ export class TechCarbonEstimatorComponent {
   }
 
   private insertShadowStylesLink() {
-    // Not using static `styleUrl` to inject, as we vary stylesheets based on build configurations.
+    // Reasons for this approach:
+    // 1. Angular global injection would insert the tag in the page root, so we disabled it.
+    // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
