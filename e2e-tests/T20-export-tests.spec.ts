@@ -4,6 +4,7 @@ import {
   createDefaultInputJsonExport,
   createDefaultValuesJsonExport,
 } from './test-helpers';
+import * as TestData from './test-data';
 
 test.describe('Export JSON files', () => {
   test.beforeEach(
@@ -35,10 +36,10 @@ test.describe('Export JSON files', () => {
     const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedValuesJsonContent = createDefaultValuesJsonExport({});
+    const expectedAnnualValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
 
-    expect(jsonParse.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.values).toEqual(expectedAnnualValuesJsonContent.values);
     expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
   });
 
@@ -47,10 +48,9 @@ test.describe('Export JSON files', () => {
     const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
 
-    expect(jsonParse.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
     expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
   });
 
@@ -72,11 +72,10 @@ test.describe('Export JSON files', () => {
     const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
     const expectedInputsJsonContent = createDefaultInputJsonExport({});
 
-    expect(jsonParse.estimate.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.estimate.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
     expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
     expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
   });

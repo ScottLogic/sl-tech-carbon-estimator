@@ -981,3 +981,33 @@ export const t18ExpectedMonthlyEmissionKilogramsNoExternalUsersArray = [
   ' <1 kg ',
   ' 4585 kg ',
 ];
+
+export const t20ExpectedMonthlyValuesJson = {
+  values: {
+    version: '0.0.0-semantically-released',
+    upstreamEmissions: {
+      employee: 1142.361111111111,
+      server: 302.0833333333333,
+      network: 108.33333333333333,
+      software: 0,
+      foundationModels: 0,
+      contentAndData: 0,
+    },
+    directEmissions: {
+      employee: 540.3807833333334,
+      server: 2182.46348,
+      network: 257.77241919,
+    },
+    indirectEmissions: {
+      cloud: 51.739522,
+      saas: 0,
+      managed: 0,
+    },
+    downstreamEmissions: {
+      customer: 12.300793980596879,
+      networkTransfer: 19.91909679336675,
+      downstreamInfrastructure: 0,
+    },
+    totalEmissions: 4617.353873075075,
+  },
+};
