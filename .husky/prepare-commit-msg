@@ -1,1 +1,7 @@
-exec < /dev/tty && npx cz --hook || true
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Only run if we have an interactive terminal
+if [ -t 1 ]; then
+  exec < /dev/tty && npx --no -- commitizen --hook || true
+fi
