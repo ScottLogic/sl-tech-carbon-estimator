@@ -5,7 +5,7 @@ import { OrganisationSection } from './page-objects/organisation-section';
 import { CloudServicesSection } from './page-objects/cloud-services-section';
 import { CustomersSection } from './page-objects/customers-section';
 import { OnPremSection } from './page-objects/on-prem-section';
-// commit test 3 via source control tab
+// pingus
 export async function assertAllSectionElementsAreVisible(
   organisationSection: OrganisationSection,
   onPremSection: OnPremSection,
