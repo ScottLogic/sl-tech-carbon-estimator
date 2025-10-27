@@ -6,11 +6,15 @@ export class EstimationsSection {
   public readonly diagramViewButton: Locator;
   public readonly tableViewButton: Locator;
   public readonly exportButton: Locator;
+  public readonly monthlyViewButton: Locator;
+  public readonly annualViewButton: Locator;
 
   constructor(public readonly page: Page) {
     this.diagramViewButton = page.getByRole('tab', { name: 'Diagram' });
     this.tableViewButton = page.getByRole('tab', { name: 'Table' });
     this.exportButton = page.getByRole('button', { name: 'Export ▼' });
+    this.monthlyViewButton = page.getByText('Monthly', { exact: true });
+    this.annualViewButton = page.getByText('Annual', { exact: true });
   }
   async assertResultsElementVisibility() {
     await expect(this.diagramViewButton).toBeVisible();

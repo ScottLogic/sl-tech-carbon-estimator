@@ -1,10 +1,9 @@
 import { test } from './fixtures';
-import { assertAllSectionElementsAreVisible } from './test-helpers';
+import * as TestData from './test-data';
 
 test('T2 verify calculated values are coherent with selected options', async ({
   organisationSection,
   onPremSection,
-  page,
   tcsEstimator,
   cloudServicesSection,
   customersSection,
@@ -35,44 +34,16 @@ test('T2 verify calculated values are coherent with selected options', async ({
   await customersSection.setMonthlyActiveUsers('100');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T2-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T2-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure;
 
-  const expectedEmissionPercentages = [
-    '34%',
-    '25%',
-    '7%',
-    '2%',
-    '65%',
-    '12%',
-    '47%',
-    '6%',
-    '1%',
-    '1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilograms = [
-    ' 18633 kg ',
-    ' 13708 kg ',
-    ' 3625 kg ',
-    ' 1300 kg ',
-    ' 35767 kg ',
-    ' 6485 kg ',
-    ' 26190 kg ',
-    ' 3093 kg ',
-    ' 621 kg ',
-    ' 621 kg ',
-    ' 387 kg ',
-    ' 148 kg ',
-    ' 239 kg ',
-    ' 55408 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t2ExpectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t2ExpectedEmissionKilogramsAnnual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t2ExpectedEmissionPercentages);
 });

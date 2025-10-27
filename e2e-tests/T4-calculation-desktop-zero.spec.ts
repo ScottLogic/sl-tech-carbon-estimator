@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
+import * as TestData from './test-data';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({
   organisationSection,
@@ -30,44 +31,16 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T4-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T4-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
-  const expectedEmissionPercentages = [
-    '32%',
-    '23%',
-    '7%',
-    '3%',
-    '66%',
-    '8%',
-    '51%',
-    '6%',
-    '1%',
-    '1%',
-    '<1%',
-    '<1%',
-    '<1%',
-    '100%',
-  ];
-  const expectedEmissionKilograms = [
-    ' 16508 kg ',
-    ' 11583 kg ',
-    ' 3625 kg ',
-    ' 1300 kg ',
-    ' 33374 kg ',
-    ' 4091 kg ',
-    ' 26190 kg ',
-    ' 3093 kg ',
-    ' 621 kg ',
-    ' 621 kg ',
-    ' 387 kg ',
-    ' 148 kg ',
-    ' 239 kg ',
-    ' 50890 kg ',
-  ];
-  await tableSection.assertCorrectKilogramColumnValues(expectedEmissionKilograms);
-  await tableSection.assertCorrectPercentageColumnValues(expectedEmissionPercentages);
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t4ExpectedEmissionKilogramsMonthly);
+  await estimationsSection.annualViewButton.click();
+  await tableSection.assertCorrectKilogramColumnValues(TestData.t4ExpectedEmissionKilogramsAnnual);
+  await tableSection.assertCorrectPercentageColumnValues(TestData.t4ExpectedEmissionPercentages);
 });

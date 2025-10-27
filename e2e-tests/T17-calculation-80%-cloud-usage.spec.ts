@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import { EstimationsSection } from './page-objects/estimations-section';
 import { assertAllSectionElementsAreVisible } from './test-helpers';
 
 test('T17 calculations show 80% cloud usage', async ({
@@ -9,6 +10,7 @@ test('T17 calculations show 80% cloud usage', async ({
   cloudServicesSection,
   customersSection,
   diagramSection,
+  estimationsSection,
 }) => {
   await tcsEstimator.gotoHome();
   await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
@@ -29,7 +31,9 @@ test('T17 calculations show 80% cloud usage', async ({
   await customersSection.setPrimaryPurpose('streaming');
 
   await tcsEstimator.calculateButton.click();
-  await diagramSection.assertDiagramScreenshot('T17-apex-chart-kilograms.png');
+  await diagramSection.assertDiagramScreenshot('T17-apex-chart-kilograms-annual.png');
+  await estimationsSection.monthlyViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T17-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T17-apex-chart-percentages.png');
 });
