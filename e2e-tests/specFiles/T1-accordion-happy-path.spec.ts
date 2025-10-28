@@ -1,4 +1,5 @@
-import { test, expect } from './fixtures';
+// import { test, expect } from './fixtures';
+import { test, expect } from '../utilities/fixtures';
 
 test('Expansion panel visibility', async ({
   customersSection,

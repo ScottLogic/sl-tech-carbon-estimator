@@ -1,6 +1,6 @@
-import { test, expect } from './fixtures';
-import { assertAllSectionElementsAreVisible } from './test-helpers';
-import * as TestData from './test-data';
+import { test, expect } from '../utilities/fixtures';
+import { assertAllSectionElementsAreVisible } from '../test-helpers';
+import * as TestData from '../test-data';
 
 test('T6 verify calculated values are coherent when on-prem is unknown', async ({
   tcsEstimator,

@@ -1,6 +1,6 @@
-import { test, expect } from './fixtures';
-import { assertAllSectionElementsAreVisible } from './test-helpers';
-import * as TestData from './test-data';
+import { test, expect } from '../utilities/fixtures';
+import { assertAllSectionElementsAreVisible } from '../test-helpers';
+import * as TestData from '../test-data';
 
 test('T5 verify calculated values are coherent when laptop is 0%', async ({
   organisationSection,

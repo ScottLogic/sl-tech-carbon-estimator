@@ -1,4 +1,4 @@
-import { test } from './fixtures';
+import { test } from './utilities/fixtures';
 
 import { expectNoA11yViolations } from './test-helpers';
 import { assertAllSectionElementsAreVisible } from './test-helpers';

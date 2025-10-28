@@ -1,12 +1,12 @@
 import { test as base } from '@playwright/test';
-import { OrganisationSection } from './page-objects/organisation-section';
-import { OnPremSection } from './page-objects/on-prem-section';
-import { CloudServicesSection } from './page-objects/cloud-services-section';
-import { CustomersSection } from './page-objects/customers-section';
-import { TcsEstimator } from './page-objects/tcs-estimator';
-import { EstimationsSection } from './page-objects/estimations-section';
-import { TableSection } from './page-objects/table-section';
-import { DiagramSection } from './page-objects/diagram-section';
+import { OrganisationSection } from '../page-objects/organisation-section';
+import { OnPremSection } from '../page-objects/on-prem-section';
+import { CloudServicesSection } from '../page-objects/cloud-services-section';
+import { CustomersSection } from '../page-objects/customers-section';
+import { TcsEstimator } from '../page-objects/tcs-estimator';
+import { EstimationsSection } from '../page-objects/estimations-section';
+import { TableSection } from '../page-objects/table-section';
+import { DiagramSection } from '../page-objects/diagram-section';
 
 type Fixtures = {
   diagramSection: DiagramSection;
