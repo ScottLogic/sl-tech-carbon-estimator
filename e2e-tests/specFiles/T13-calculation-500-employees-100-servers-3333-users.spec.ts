@@ -34,6 +34,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await customersSection.setPrimaryPurpose('information');
 
   await tcsEstimator.calculateButton.click();
+  await diagramSection.kilogramsButton.click();
   await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms-annual.png');
   await estimationsSection.monthlyViewButton.click();
   await diagramSection.assertDiagramScreenshot('T13-apex-chart-kilograms-monthly.png');
@@ -54,9 +55,12 @@ test('T13 verify calculated values are coherent with selected employees, servers
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.percentageButton.click();
-  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-annual.png');
+  await estimationsSection.annualViewButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-percentages.png');
+  await diagramSection.kilogramsButton.click();
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-kilograms-annual.png');
   await estimationsSection.monthlyViewButton.click();
-  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-monthly.png');
+  await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-kilograms-monthly.png');
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
