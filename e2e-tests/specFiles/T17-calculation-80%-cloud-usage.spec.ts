@@ -1,5 +1,5 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../test-helpers';
+import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test('T17 calculations show 80% cloud usage', async ({
   organisationSection,

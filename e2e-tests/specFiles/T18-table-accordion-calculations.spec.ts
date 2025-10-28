@@ -1,6 +1,6 @@
-import * as TestData from '../test-data';
+import * as TestData from '../utilities/test-data';
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../test-helpers';
+import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test.describe('Table Accordion Calculations', async () => {
   test.beforeEach(

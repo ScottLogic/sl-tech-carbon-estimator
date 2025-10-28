@@ -1,5 +1,5 @@
 import { test } from '../utilities/fixtures';
-import * as TestData from '../test-data';
+import * as TestData from '../utilities/test-data';
 
 test('T2 verify calculated values are coherent with selected options', async ({
   organisationSection,

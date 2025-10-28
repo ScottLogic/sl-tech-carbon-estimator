@@ -1,6 +1,6 @@
 import { test, expect } from '../utilities/fixtures';
-import * as TestData from '../test-data';
-import { assertAllSectionElementsAreVisible } from '../test-helpers';
+import * as TestData from '../utilities/test-data';
+import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test('T3 verify calculated values are coherent with selected options', async ({
   organisationSection,

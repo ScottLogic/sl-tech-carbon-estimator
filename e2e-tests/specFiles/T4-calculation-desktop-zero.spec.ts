@@ -1,6 +1,6 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../test-helpers';
-import * as TestData from '../test-data';
+import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
+import * as TestData from '../utilities/test-data';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({
   organisationSection,

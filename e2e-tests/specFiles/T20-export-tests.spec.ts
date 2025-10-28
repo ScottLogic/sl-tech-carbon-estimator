@@ -3,8 +3,8 @@ import {
   createDefaultPercentagesJsonExport,
   createDefaultInputJsonExport,
   createDefaultValuesJsonExport,
-} from '../test-helpers';
-import * as TestData from '../test-data';
+} from '../utilities/test-helpers';
+import * as TestData from '../utilities/test-data';
 
 test.describe('Export JSON files', () => {
   test.beforeEach(
