@@ -1,1 +1,6 @@
-exec < /dev/tty && npx cz --hook || true
+# exec < /dev/tty && npx cz --hook || true
+
+# Only run if we have an interactive terminal
+if [ -t 1 ]; then
+  exec < /dev/tty && npx cz --hook || true
+fi
