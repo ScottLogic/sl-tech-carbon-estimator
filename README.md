@@ -80,6 +80,8 @@ This project follows the the [Conventional Commits](https://www.conventionalcomm
 
 Other prefixes are acceptable (`docs:`, `build:` etc.) but these are the only ones guaranteed to affect the version number. For more information on the Package release process see [Publishing Tech Carbon Estimator Package](docs/publish_process.md).
 
+For ease and consitency Husky and Commitizen have been added so that upon running `git commit` you will be presented with a step by step wizard in the terminal to guide you through creating a correctly formated commit message.
+
 ## Pull Requests / GitHub Actions
 
 The project uses [GitHub Actions](https://docs.github.com/en/actions) to automate certain workflows. One such workflow runs when opening a pull request and pushing changes to the related branch. The `develop` branch also has a ruleset that ensures that the status checks from this workflow have passed successfully before PRs can be merged into it. Ruleset details can be viewed [here](https://github.com/ScottLogic/sl-tech-carbon-estimator/rules).

@@ -4,6 +4,7 @@ import {
   createDefaultInputJsonExport,
   createDefaultValuesJsonExport,
 } from './test-helpers';
+import * as TestData from './test-data';
 
 test.describe('Export JSON files', () => {
   test.beforeEach(
@@ -31,18 +32,29 @@ test.describe('Export JSON files', () => {
     }
   );
 
-  test('T20 Export and read JSON', async ({ page, estimationsSection }) => {
+  test('T20 Export and read JSON (Annual)', async ({ page, estimationsSection }) => {
     const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedValuesJsonContent = createDefaultValuesJsonExport({});
+    const expectedAnnualValuesJsonContent = createDefaultValuesJsonExport({});
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
 
-    expect(jsonParse.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.values).toEqual(expectedAnnualValuesJsonContent.values);
     expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
   });
 
-  test('T20 Export and read JSON with inputs', async ({ page, estimationsSection }) => {
+  test('T20 Export and read JSON (Monthly)', async ({ page, estimationsSection }) => {
+    await estimationsSection.monthlyViewButton.click();
+    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
+    const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
+
+    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
+
+    expect(jsonParse.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
+    expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+  });
+
+  test('T20 Export and read JSON with inputs (Annual)', async ({ page, estimationsSection }) => {
     const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
@@ -51,6 +63,19 @@ test.describe('Export JSON files', () => {
     const expectedInputsJsonContent = createDefaultInputJsonExport({});
 
     expect(jsonParse.estimate.values).toEqual(expectedValuesJsonContent.values);
+    expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+    expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
+  });
+
+  test('T20 Export and read JSON with inputs (Monthly)', async ({ page, estimationsSection }) => {
+    await estimationsSection.monthlyViewButton.click();
+    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
+    const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
+
+    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
+    const expectedInputsJsonContent = createDefaultInputJsonExport({});
+
+    expect(jsonParse.estimate.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
     expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
     expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
   });
