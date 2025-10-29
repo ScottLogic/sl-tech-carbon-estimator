@@ -46,6 +46,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await estimationsSection.annualViewButton.click();
   await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilogramsAnnual);
   await tableSection.assertCorrectPercentageColumnValues(TestData.t13ExpectedEmissionPercentages);
+  await estimationsSection.monthlyViewButton.click();
   await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilogramsMonthly);
   await estimationsSection.annualViewButton.click();
   await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilogramsAnnual);
@@ -59,7 +60,6 @@ test('T13 verify calculated values are coherent with selected employees, servers
 
   await tcsEstimator.calculateButton.click();
   await diagramSection.percentageButton.click();
-  await estimationsSection.annualViewButton.click();
   await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-percentages.png');
   await diagramSection.kilogramsButton.click();
   await diagramSection.assertDiagramScreenshot('T13-apex-chart-1-kilograms-annual.png');
@@ -68,10 +68,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await estimationsSection.tableViewButton.click();
   await tableSection.assertPopulatedTableStructure();
 
-  await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilograms1Monthly);
-  await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilograms1Annual);
-  await tableSection.assertCorrectPercentageColumnValues(TestData.t13ExpectedEmissionPercentages1);
+  await estimationsSection.monthlyViewButton.click();
   await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilograms1Monthly);
   await estimationsSection.annualViewButton.click();
   await tableSection.assertCorrectKilogramColumnValues(TestData.t13ExpectedEmissionKilograms1Annual);
