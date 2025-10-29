@@ -49,11 +49,22 @@ export class TechCarbonEstimatorComponent {
     // 1. Angular global injection would insert the tag in the page root, so we disabled it.
     // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'styles.css'; // This is the `bundleName` of the concatenated styles file
+    const tailwindShadowDomStylesLink = document.createElement('link');
+    tailwindShadowDomStylesLink.rel = 'stylesheet';
+    tailwindShadowDomStylesLink.type = 'text/css';
+    tailwindShadowDomStylesLink.href = 'tailwind-shadowdom-styles.css'; // This is the `bundleName` of the concatenated styles file
 
-    this.ref.nativeElement.shadowRoot.appendChild(link);
+    const stylesLink = document.createElement('link');
+    stylesLink.rel = 'stylesheet';
+    stylesLink.type = 'text/css';
+    stylesLink.href = 'styles.css'; // This is the `bundleName` of the concatenated styles file
+
+    const googleFontsLink = document.createElement('link');
+    googleFontsLink.rel = 'stylesheet';
+    googleFontsLink.href = 'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined';
+
+    this.ref.nativeElement.shadowRoot.appendChild(googleFontsLink);
+    this.ref.nativeElement.shadowRoot.appendChild(stylesLink);
   }
 
   public handleFormSubmit(formValue: EstimatorValues) {

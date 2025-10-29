@@ -1,18 +1,20 @@
 @import "tailwindcss" prefix(tce);
 
-:root {
-  --primary-charcoal: #252525;
-  --primary-turquoise: #2bb3bb;
-  --primary-pink: #c41565;
-  --primary-orange: #ef8547;
-  --secondary-yellow: #f8be4f;
-  --secondary-green: #7fc45f;
-  --secondary-turquoise: #dff0f3;
-  --secondary-pink: #f9eaf1;
-  --secondary-orange: #fdede4;
-  --secondary-light-yellow: #fef9ef;
-  --secondary-light-green: #f2faef;
-  color: var(--primary-charcoal);
+@layer theme {
+  :root, :host {
+    --primary-charcoal: #252525;
+    --primary-turquoise: #2bb3bb;
+    --primary-pink: #c41565;
+    --primary-orange: #ef8547;
+    --secondary-yellow: #f8be4f;
+    --secondary-green: #7fc45f;
+    --secondary-turquoise: #dff0f3;
+    --secondary-pink: #f9eaf1;
+    --secondary-orange: #fdede4;
+    --secondary-light-yellow: #fef9ef;
+    --secondary-light-green: #f2faef;
+    color: var(--primary-charcoal);
+  }
 }
 
 .tce-note {
@@ -28,7 +30,7 @@ input {
 .tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
   color: var(--primary-charcoal);
   border-color: var(--primary-turquoise);
-  @apply tce:rounded-none tce:border-b-[3px] tce:bg-transparent tce:p-0.5;
+  @apply tce:rounded-sm tce:bg-transparent;
 }
 
 .tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {
@@ -39,4 +41,9 @@ input {
 .tce-active-tab, .tce-active-tab:hover {
   border-color: var(--primary-turquoise);
   @apply tce:cursor-default;
+}
+
+.tce-switch-label.tce-switch-active {
+  background-color: var(--primary-turquoise);
+  color: white;
 }

@@ -52,15 +52,15 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-switch-container {
-  @apply tce:inline-flex tce:items-center tce:ml-8 tce:bg-gray-100 tce:rounded-2xl tce:px-2 tce:py-0.5;
+  @apply tce:inline-flex tce:items-center tce:ml-8 tce:bg-gray-100 tce:rounded-2xl tce:py-0.5;
 }
 
 .tce-switch-label {
-  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
+  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-2xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
 }
 
 .tce-switch-label.tce-switch-active {
-  @apply tce:bg-cyan-400 tce:text-slate-800;
+  @apply tce:bg-sky-800 tce:text-slate-800;
 }
 
 .tce-switch-input {
