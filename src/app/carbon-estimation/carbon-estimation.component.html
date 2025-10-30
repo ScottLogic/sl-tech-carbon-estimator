@@ -30,9 +30,10 @@
       </p>
     </div>
   </expansion-panel>
-  <div class="tce:flex tce:items-center ">
+  <div class="tce:flex tce:items-center tce:pt-2">
     <div >
       <button
+        type="button"
         [disabled]="!carbonEstimation()"
         class="tce-export-button"
         (click)="toggleExportMenu()"
@@ -42,11 +43,11 @@
         Export ▼
       </button>
 
-      <div
-        *ngIf="isExportMenuOpen"
-        class="tce:top-full tce:left-0 tce-mt-2 tce:bg-white tce:shadow-lg tce:rounded tce:z-50"
-        (click)="$event.stopPropagation()"
-      >
+      @if(isExportMenuOpen) 
+      {
+        <div class="tce:top-full tce:left-0 tce-mt-2 tce:bg-white tce:shadow-lg tce:rounded tce:z-50"
+          (click)="$event.stopPropagation()"
+        >
         <ul class="tce-export-menu">
           <li>
             <a [href]="carbonEstimationDownloadUrl" download="carbon-estimation.json" tce-external-link>
@@ -63,12 +64,13 @@
             </a>
           </li>
           <li>
-            <button (click)="handlePDFClick()" class="tce-export-button">
+            <button type="button" (click)="handlePDFClick()" class="tce-export-button">
               Export PDF
             </button>
           </li>
         </ul>
       </div>
+    }
     </div>
     <span class="tce-switch-container">
       <label class="tce-switch-label" [class.tce-switch-active]="isAnnual()">
@@ -92,11 +94,11 @@
       </span>
 
       <button
+        type="button"
         aria-describedby="annualMonthlyInfo"
         title="Monthly = raw Annual ÷ 12"
         class="tce:size-[44px] tce:flex tce:items-center tce:justify-center"
       >
-
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="img">
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -125,10 +127,11 @@
       <carbon-estimation-table [carbonEstimation]="estimate()" [shouldShowSvgs]="true"></carbon-estimation-table
     ></tab-item>
   </tabs>
+  @if(isModalVisible) {
   <export-modal
-    *ngIf="isModalVisible"
     (close)="hideModal()"
     [carbonEstimation]="estimate()"
     [inputValues]="inputValues()"
-  ></export-modal>
+  />
+  }
 </div>

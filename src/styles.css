@@ -60,7 +60,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-switch-label.tce-switch-active {
-  @apply tce:bg-sky-800 tce:text-slate-800;
+  @apply tce:bg-sky-800 tce:text-slate-50;
 }
 
 .tce-switch-input {
@@ -134,7 +134,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-export-button:disabled {
-  @apply tce:opacity-50 tce:text-slate-400 tce:cursor-default;
+  @apply tce:opacity-50 tce:cursor-default;
 }
 
 .tce-export-button {
@@ -148,3 +148,46 @@ input.ng-invalid.ng-touched {
 apx-chart .apexcharts-legend .apexcharts-legend-series:hover {
   @apply tce:dark:bg-cyan-700;
 }
+
+@media (prefers-color-scheme: dark) {
+    .apexcharts-legend-text {
+        --tw-text-opacity: 1 !important;
+        color: rgb(248 250 252 / var(--tw-text-opacity))!important;
+    }
+
+    input,select {
+        --tw-text-opacity: 1;
+        color: rgb(71 85 105 / var(--tw-text-opacity))
+    }
+
+    input.ng-invalid.ng-touched {
+        --tw-border-opacity: 1;
+        border-color: rgb(185 28 28 / var(--tw-border-opacity))
+    }
+
+    .tce-error-box {
+        border-radius: .25rem;
+        border-width: 1px;
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        padding: .25rem;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary {
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary-link {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+  }
