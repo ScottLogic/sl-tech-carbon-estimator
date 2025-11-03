@@ -54,11 +54,7 @@ export class TechCarbonEstimatorComponent {
     // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
     let basePath = this.assetsBasePath;
-    if (!basePath.startsWith('http://') && !basePath.startsWith('https://')) {
-      // Remove leading slash if present, then construct full URL
-      basePath = basePath.replace(/^\//, '');
-      basePath = `${window.location.origin}/${basePath}`;
-    }
+    basePath = `${window.location.origin}/${basePath}`;
     // Ensure trailing slash
     basePath = basePath.replace(/\/$/, '') + '/';
 
