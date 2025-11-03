@@ -30,6 +30,7 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 })
 export class TechCarbonEstimatorComponent {
   @Input() public extraHeight?: string;
+  @Input({ alias: 'assets-base-path' }) public assetsBasePath: string = '';
 
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;
@@ -41,7 +42,10 @@ export class TechCarbonEstimatorComponent {
     private changeDetector: ChangeDetectorRef,
     private ref: ElementRef
   ) {
-    this.insertShadowStylesLink()
+  }
+
+  ngOnInit() {
+    this.insertShadowStylesLink();
   }
 
   private insertShadowStylesLink() {
@@ -49,15 +53,19 @@ export class TechCarbonEstimatorComponent {
     // 1. Angular global injection would insert the tag in the page root, so we disabled it.
     // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
-    const tailwindShadowDomStylesLink = document.createElement('link');
-    tailwindShadowDomStylesLink.rel = 'stylesheet';
-    tailwindShadowDomStylesLink.type = 'text/css';
-    tailwindShadowDomStylesLink.href = 'tailwind-shadowdom-styles.css'; // This is the `bundleName` of the concatenated styles file
+    let basePath = this.assetsBasePath;
+    if (!basePath.startsWith('http://') && !basePath.startsWith('https://')) {
+      // Remove leading slash if present, then construct full URL
+      basePath = basePath.replace(/^\//, '');
+      basePath = `${window.location.origin}/${basePath}`;
+    }
+    // Ensure trailing slash
+    basePath = basePath.replace(/\/$/, '') + '/';
 
     const stylesLink = document.createElement('link');
     stylesLink.rel = 'stylesheet';
     stylesLink.type = 'text/css';
-    stylesLink.href = 'styles.css'; // This is the `bundleName` of the concatenated styles file
+    stylesLink.href = `${basePath}styles.css`; // This is the `bundleName` of the concatenated styles file
 
     const googleFontsLink = document.createElement('link');
     googleFontsLink.rel = 'stylesheet';
