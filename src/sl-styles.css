@@ -28,9 +28,12 @@ input {
 }
 
 .tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
-  color: var(--primary-charcoal);
   border-color: var(--primary-turquoise);
-  @apply tce:rounded-sm tce:bg-transparent;
+  @apply tce:rounded-sm;
+}
+
+.tce-button-calculate {
+  @apply tce:text-white;
 }
 
 .tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {

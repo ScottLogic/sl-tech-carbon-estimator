@@ -74,7 +74,17 @@
                 "bundleName": "styles",
                 "inject": false
               }
-            ]
+              ],
+              "optimization": {
+                  "scripts": true,
+                  "styles": {
+                    "minify": true,
+                    "inlineCritical": false
+                  },
+                  "fonts": true
+                },
+                "extractLicenses": true,
+                "sourceMap": false
             },
             "development": {
               "optimization": false,
