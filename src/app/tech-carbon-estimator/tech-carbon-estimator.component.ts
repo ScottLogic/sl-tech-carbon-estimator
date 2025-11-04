@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -28,8 +28,9 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
   // Protect against style interference by the hosting page
   encapsulation: ViewEncapsulation.ShadowDom
 })
-export class TechCarbonEstimatorComponent {
+export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
+  @Input({ alias: 'assets-base-path' }) public assetsBasePath?: string;
 
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;
@@ -40,8 +41,10 @@ export class TechCarbonEstimatorComponent {
     private estimationService: CarbonEstimationService,
     private changeDetector: ChangeDetectorRef,
     private ref: ElementRef
-  ) {
-    this.insertShadowStylesLink()
+  ) {}
+
+  ngOnInit() {
+    this.insertShadowStylesLink();
   }
 
   private insertShadowStylesLink() {
@@ -49,22 +52,31 @@ export class TechCarbonEstimatorComponent {
     // 1. Angular global injection would insert the tag in the page root, so we disabled it.
     // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
-    const tailwindShadowDomStylesLink = document.createElement('link');
-    tailwindShadowDomStylesLink.rel = 'stylesheet';
-    tailwindShadowDomStylesLink.type = 'text/css';
-    tailwindShadowDomStylesLink.href = 'tailwind-shadowdom-styles.css'; // This is the `bundleName` of the concatenated styles file
-
-    const stylesLink = document.createElement('link');
-    stylesLink.rel = 'stylesheet';
-    stylesLink.type = 'text/css';
-    stylesLink.href = 'styles.css'; // This is the `bundleName` of the concatenated styles file
-
-    const googleFontsLink = document.createElement('link');
-    googleFontsLink.rel = 'stylesheet';
-    googleFontsLink.href = 'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined';
+    let stylesLink = this.createShadowStylesLink('styles.css');
+    let googleFontsLink = this.createShadowStylesLink('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
     this.ref.nativeElement.shadowRoot.appendChild(googleFontsLink);
     this.ref.nativeElement.shadowRoot.appendChild(stylesLink);
+  }
+
+  private createShadowStylesLink(styleHref: string) {
+
+    let assetPath = '';
+
+    if(this.assetsBasePath && styleHref.startsWith('http') === false) {
+      assetPath = this.assetsBasePath;
+      if(!assetPath.endsWith('/')) {
+        assetPath += '/';
+      }
+    }
+
+    let stylesPath = assetPath + styleHref;
+
+    let stylesLink = document.createElement('link');
+    stylesLink.rel = 'stylesheet';
+    stylesLink.type = 'text/css';
+    stylesLink.href = stylesPath;
+    return stylesLink;
   }
 
   public handleFormSubmit(formValue: EstimatorValues) {
