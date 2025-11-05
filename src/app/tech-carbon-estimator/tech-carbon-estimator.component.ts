@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -24,9 +24,13 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
     TabItemComponent,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
+
+  // Protect against style interference by the hosting page
+  encapsulation: ViewEncapsulation.ShadowDom
 })
-export class TechCarbonEstimatorComponent {
+export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
+  @Input({ alias: 'assets-base-path' }) public assetsBasePath?: string;
 
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;
@@ -35,8 +39,39 @@ export class TechCarbonEstimatorComponent {
 
   constructor(
     private estimationService: CarbonEstimationService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private ref: ElementRef
   ) {}
+
+  ngOnInit() {
+    this.insertShadowStylesLink();
+  }
+
+  private insertShadowStylesLink() {
+    // Reasons for this approach:
+    // 1. Angular global injection would insert the tag in the page root, so we disabled it.
+    // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
+
+    let stylesLink = this.createShadowStylesLink('styles.css');
+    let googleFontsLink = this.createShadowStylesLink('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+    this.ref.nativeElement.shadowRoot.appendChild(googleFontsLink);
+    this.ref.nativeElement.shadowRoot.appendChild(stylesLink);
+  }
+
+  private createShadowStylesLink(styleHref: string) {
+
+    const isAbsoluteUrl = styleHref.startsWith('http://') || styleHref.startsWith('https://');
+    const basePath = this.assetsBasePath && !isAbsoluteUrl ? this.assetsBasePath.replace(/\/?$/, '/')  : '';
+
+    const stylesPath = `${basePath}${styleHref}`;
+
+    let stylesLink = document.createElement('link');
+    stylesLink.rel = 'stylesheet';
+    stylesLink.type = 'text/css';
+    stylesLink.href = stylesPath;
+    return stylesLink;
+  }
 
   public handleFormSubmit(formValue: EstimatorValues) {
     this.formValue = formValue;
