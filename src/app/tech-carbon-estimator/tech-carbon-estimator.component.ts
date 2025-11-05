@@ -9,6 +9,7 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'tech-carbon-estimator',
@@ -61,16 +62,10 @@ export class TechCarbonEstimatorComponent implements OnInit {
 
   private createShadowStylesLink(styleHref: string) {
 
-    let assetPath = '';
+    const isAbsoluteUrl = styleHref.startsWith('http://') || styleHref.startsWith('https://');
+    const basePath = this.assetsBasePath && !isAbsoluteUrl ? this.assetsBasePath.replace(/\/?$/, '/')  : '';
 
-    if(this.assetsBasePath && styleHref.startsWith('http') === false) {
-      assetPath = this.assetsBasePath;
-      if(!assetPath.endsWith('/')) {
-        assetPath += '/';
-      }
-    }
-
-    let stylesPath = assetPath + styleHref;
+    const stylesPath = `${basePath}${styleHref}`;
 
     let stylesLink = document.createElement('link');
     stylesLink.rel = 'stylesheet';

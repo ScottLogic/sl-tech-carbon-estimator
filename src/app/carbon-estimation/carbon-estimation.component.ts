@@ -152,6 +152,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     // for our purposes monthly estimate is just the annual divided equally
     // beteween 12 months
 
+    // if no estimation, return undefined
     if(this.carbonEstimation() == null) {
       return undefined;
     }

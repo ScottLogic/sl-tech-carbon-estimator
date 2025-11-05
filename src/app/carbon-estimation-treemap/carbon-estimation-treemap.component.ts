@@ -86,7 +86,6 @@ export class CarbonEstimationTreemapComponent {
         name: `${EmissionsLabels.Upstream} - ${this.getOverallLabel(carbonEstimationPart.upstreamEmissions)}`,
         color: EmissionsColours.Upstream,
         data: this.getEmissionFigures(carbonEstimationPart.upstreamEmissions, EmissionsLabels.Upstream),
-
       },
       {
         name: `${EmissionsLabels.Direct} - ${this.getOverallLabel(carbonEstimationPart.directEmissions)}`,
