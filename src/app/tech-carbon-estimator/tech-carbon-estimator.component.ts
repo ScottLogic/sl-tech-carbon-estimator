@@ -9,7 +9,6 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
-import { style } from '@angular/animations';
 
 @Component({
   selector: 'tech-carbon-estimator',
