@@ -2,10 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
-
-
 ## [Unreleased]
 
+### Added
+
+
+### Changed
+
+
+### Fixed
+
+
+### Deprecated
+
+
+### Removed
+
+
+### Security
+
+
+---
+
+## [0.5.0] - 2025-11-06
 ### Added
 - `#138 Add compatability with schema v0.0.2`
 - `#139 Add ability to display the CO2 values as well as percentages`
@@ -21,12 +40,15 @@ All notable changes to this project will be documented in this file.
 - `#149 Add Develop branch protection`
 - `#215 Add Test suite POM conversion`
 - `#144 Add screenshot comparison to e2e tests`
+- `#219 Add styling isolation via Shadow DOM`
+- `#237 Add monthly view for emission figures`
 
 ### Changed
 - <!-- Add changes to existing functionality here. Example: `- Switch build to Vite` -->
 - `#220 Switch Downstream Emissions calculation into a class`
 - `#175 Switch optimise tests by moving repeated assertions into helper methods/files`
 - `#142 Switch update Playwright framework to use the Node.js version`
+- `#255 Switch update Playwright file structure`
 
 ### Fixed
 - <!-- Add bug fixes. Example: `- Fix some buggy deficient thing` -->
@@ -39,6 +61,7 @@ All notable changes to this project will be documented in this file.
 - `#173 Fix Darkmode causes poor contrast in table view`
 - `#148 Fix broken Playwright framework`
 - `#198 Fix Dropdowmn contrast is insufficient in darkmode`
+- `#251 Fix tooltip and assumption statement`
 
 ### Deprecated
 - <!-- Add items that are deprecated and will be removed in a future release. -->
@@ -49,27 +72,6 @@ All notable changes to this project will be documented in this file.
 ### Security
 - `#190 Add GitHub Code Analysis`
 - `#141 Review dependencies, vulnerabilities and additional security`
-
----
-
-## [x.y.z] - YYYY-MM-DD
-### Added
-- Example: `- #123 Add new CarbonEstimation export modal`
-
-### Changed
-- Example: `- #456 Switch downstream estimator to class-based API`
-
-### Fixed
-- Example: `- #789 Fix ApexCharts rendering after component destroy in unit tests`
-
-### Deprecated
-- Example: `- #012 Deprecated old CSV export endpoint`
-
-### Removed
-- Example: `- #345 Remove legacy styling utilities`
-
-### Security
-- Example: `- #678 Update dependency X to fix vulnerability Y`
 
 ---
 
