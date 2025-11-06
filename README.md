@@ -17,6 +17,7 @@ For more information on why this is necessary, see the section on [Line Endings]
 exposed as a web component `tech-carbon-estimator`. The component takes the follow optional input:
 
 - `extra-height` - this is extra height to be taken into account when calculating the height of the chart. E.g. the height of a header/footer that will be visible on the page.
+- `assets-base-path` - this is the path to the folder which contains the styles.css file in the bundle, usually within an assets folder. e.g. 'assets/'
 
 You will need to import the following files to use the tech-carbon-estimator:
 
@@ -80,6 +81,8 @@ This project follows the the [Conventional Commits](https://www.conventionalcomm
 `BREAKING CHANGE: <reason for breaking change>` - Results in a major version increase (ie. 0.0.1 => 1.0.0). This must be the footer/final line of the commit message.
 
 Other prefixes are acceptable (`docs:`, `build:` etc.) but these are the only ones guaranteed to affect the version number. For more information on the Package release process see [Publishing Tech Carbon Estimator Package](docs/publish_process.md).
+
+For ease and consitency Husky and Commitizen have been added so that upon running `git commit` you will be presented with a step by step wizard in the terminal to guide you through creating a correctly formated commit message.
 
 ## Pull Requests / GitHub Actions
 

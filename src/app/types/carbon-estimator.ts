@@ -1,7 +1,13 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
+import { KgCo2e } from './units';
 
 export type CarbonEstimation = {
+  values: CarbonEstimationValues;
+  percentages: CarbonEstimationPercentages;
+};
+
+export type CarbonEstimationPercentages = {
   version: string;
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
@@ -9,11 +15,22 @@ export type CarbonEstimation = {
   downstreamEmissions: DownstreamEstimation;
 };
 
+export type CarbonEstimationValues = {
+  version: string;
+  upstreamEmissions: UpstreamEstimation;
+  indirectEmissions: IndirectEstimation;
+  directEmissions: DirectEstimation;
+  downstreamEmissions: DownstreamEstimation;
+  totalEmissions: KgCo2e;
+};
+
 export type UpstreamEstimation = {
   software: number;
   employee: number;
   network: number;
   server: number;
+  foundationModels: number;
+  contentAndData: number;
 };
 export type IndirectEstimation = {
   cloud: number;
@@ -26,8 +43,9 @@ export type DirectEstimation = {
   server: number;
 };
 export type DownstreamEstimation = {
-  endUser: number;
+  customer: number;
   networkTransfer: number;
+  downstreamInfrastructure: number;
 };
 
 export type EstimatorValues = {
@@ -120,3 +138,8 @@ export type ChartOptions = {
   states: ApexStates;
   dataLabels: ApexDataLabels;
 };
+
+export type jsonExport = {
+  estimate: CarbonEstimation | undefined;
+  input: EstimatorValues | undefined;
+}; 

@@ -1,0 +1,56 @@
+name: Update Playwright Screenshots
+on:
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: 'Commit message'
+        required: false
+        default: 'chore(automation): update screenshots'
+permissions:
+  contents: write
+
+jobs:
+  playwright_screenshots:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+
+      - name: Run Playwright
+        uses: ./.github/actions/update-playwright-screenshots
+
+      - name: Check for changes
+        id: changes
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --local user.name "${{ github.actor }}"
+          git add .
+          git commit --no-verify -m "${{ github.event.inputs.commit_message || 'chore(automation): update screenshots' }} (by @${{ github.actor }})"
+
+          for i in 1 2; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}"; then
+              if git push; then
+                echo "Push successful"
+                break
+              fi
+            fi
+            echo "Push failed, retrying in 10s..."
+            sleep 10
+          done

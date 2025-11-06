@@ -1,0 +1,12 @@
+
+<div class="tce:text-left tce:mx-6">
+	<h3>Inputs for {{ group() }} estimates</h3>
+<ul>
+	@for (pair of displayEntries(); track pair) {
+	  <li>
+		  <span class="tce:font-bold tce:mb-2 tce:mr-2">{{ pair[0] }}:</span>
+		  <span class="tce:float-right">{{ pair[1] }}</span>
+	  </li>
+	}
+</ul>
+</div>

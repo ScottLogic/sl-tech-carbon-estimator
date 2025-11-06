@@ -25,7 +25,8 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-button-calculate,
-.tce-button-close {
+.tce-button-close,
+.tce-button-download-pdf {
   @apply tce:bg-sky-800 tce:text-white tce:hover:bg-sky-900 tce:rounded-sm;
 }
 
@@ -37,3 +38,151 @@ input.ng-invalid.ng-touched {
 .tce-active-tab, .tce-active-tab:hover {
   @apply tce:cursor-default tce:border-sky-800;
 }
+
+.tce-totalchart-header {
+  @apply tce:flex tce:items-center;
+}
+
+#tce-chart-total-text {
+  @apply tce:text-[20px] tce:font-normal tce:font-sans tce:inline-block tce:leading-[20px];
+}
+
+.tce-chart-total-colour {
+  @apply tce:bg-neutral-500 tce:h-[16px] tce:w-[16px] tce:rounded-full tce:mr-1 tce:inline-block tce:border-2 tce:border-white;
+}
+
+.tce-switch-container {
+  @apply tce:inline-flex tce:items-center tce:ml-8 tce:bg-gray-100 tce:rounded-2xl;
+}
+
+.tce-switch-label {
+  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-2xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
+}
+
+.tce-switch-label.tce-switch-active {
+  @apply tce:bg-sky-800 tce:text-slate-50;
+}
+
+.tce-switch-input {
+  @apply tce:hidden;
+}
+
+.tce-switch-help {
+  @apply tce:absolute tce:top-full tce:left-1/2 tce:-translate-x-1/2 tce:translate-y-2 tce:bg-slate-900/95 tce:text-white tce:px-2 tce:py-1 tce:rounded-md tce:text-sm tce:shadow-lg tce:whitespace-nowrap tce:z-60 tce:opacity-0 tce:pointer-events-none tce:transition tce:duration-160 tce:ease-in-out;
+}
+
+/* show tooltip on hover or keyboard focus of the icon or container */
+.tce-switch-container:hover .tce-switch-help,
+.tce-switch-container:focus-within .tce-switch-help {
+  @apply tce:opacity-100 tce:pointer-events-auto tce:-translate-x-1/2 tce:translate-y-0;
+}
+
+.tce-no-ex-table-header {
+  @apply tce:pl-3 tce:h-8;
+}
+
+.tce-export-modal-overlay {
+  @apply tce:fixed tce:top-0 tce:left-0 tce:w-full tce:h-full tce:bg-black/70 tce:flex tce:justify-center tce:items-start tce:overflow-auto;
+}
+
+.tce-export-modal-content {
+  @apply tce:text-slate-950 tce:bg-slate-300 tce:rounded-lg tce:px-8;
+}
+
+.tce-export-modal-export-area-colour-provider {
+  @apply tce:bg-white tce:shadow-lg;
+}
+
+.tce-export-modal-export-area {
+  @apply tce:text-center tce:p-8 tce:min-h-[1209px] tce:min-w-[300px] tce:max-w-[900px] tce:aspect-[1/1.414];
+}
+
+.tce-export-modal-content #tce-chart-total-text {
+  @apply tce:!text-slate-950;
+}
+
+.tce-export-modal-content .apexcharts-legend-text{
+  @apply tce:!text-slate-950;
+}
+
+.tce-export-modal-close {
+  @apply tce:h-5 tce:w-5 tce:mt-4 tce:font-bold tce:float-right;
+}
+
+.tce-export-modal-report-name {
+  @apply tce:text-slate-950 tce:font-normal tce:w-2/3 tce:border-0 tce:outline-none tce:border-b-1 tce:text-center tce:mb-4;
+}
+
+.tce-export-modal-report-name-input {
+  @apply tce:text-slate-950 tce:font-normal tce:w-1/2 tce:outline-none tce:border-1 tce:text-center tce:mt-4 tce:mb-1;
+}
+
+.tce-export-modal-report-name-input:focus {
+  @apply tce:border-blue-700;
+}
+
+.tce-export-modal-input-display-container {
+  @apply tce:grid tce:grid-cols-2 tce:grid-rows-2 tce:gap-4 tce:grid-flow-col;
+}
+
+.tce-select, .tce-input {
+  @apply tce:border tce:border-slate-400 tce:rounded-sm tce:px-3 tce:py-2
+}
+
+.tce-select > option {
+  @apply tce:dark:bg-slate-800 tce:dark:text-slate-50
+}
+
+.tce-export-button:disabled {
+  @apply tce:opacity-50 tce:cursor-default;
+}
+
+.tce-export-button {
+  @apply tce:cursor-pointer;
+}
+
+.tce-export-menu {
+  @apply tce:bg-slate-200 tce:dark:bg-sky-900 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
+}
+
+apx-chart .apexcharts-legend .apexcharts-legend-series:hover {
+  @apply tce:dark:bg-cyan-700;
+}
+
+@media (prefers-color-scheme: dark) {
+    .apexcharts-legend-text {
+        --tw-text-opacity: 1 !important;
+        color: rgb(248 250 252 / var(--tw-text-opacity))!important;
+    }
+
+    input.ng-invalid.ng-touched {
+        --tw-border-opacity: 1;
+        border-color: rgb(185 28 28 / var(--tw-border-opacity))
+    }
+
+    .tce-error-box {
+        border-radius: .25rem;
+        border-width: 1px;
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        padding: .25rem;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary {
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary-link {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+  }

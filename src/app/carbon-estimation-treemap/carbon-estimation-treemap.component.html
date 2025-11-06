@@ -1,3 +1,30 @@
+<div class="tce-totalchart-header">
+  <span class="tce-chart-total-colour"></span>
+  <span class="apexcharts-legend-text" id="tce-chart-total-text">Total Emissions Estimate {{ totalEmissions() }}</span>
+  <!--span><button (click)="toggleMassPercentages()">toggle</button></span-->
+  @if(shouldShowUnitsSwitch()) {
+    <span class="tce-switch-container">
+      <label class="tce-switch-label" [class.tce-switch-active]="isMass()">
+        <input
+          type="radio"
+          name="massPercentSwitch"
+          [checked]="isMass()"
+          (change)="isMass.set(true)"
+          class="tce-switch-input" />
+        kg
+      </label>
+      <label class="tce-switch-label" [class.tce-switch-active]="!isMass()">
+        <input
+          type="radio"
+          name="massPercentSwitch"
+          [checked]="!isMass()"
+          (change)="isMass.set(false)"
+          class="tce-switch-input" />
+        %
+      </label>
+    </span>
+  }
+</div>
 <figure [attr.aria-label]="emissionAriaLabel()" tabindex="0">
   <apx-chart
     #chart
@@ -8,6 +35,5 @@
     [legend]="chartOptions().legend"
     [states]="chartOptions().states"
     [dataLabels]="chartOptions().dataLabels"
-    [tooltip]="chartOptions().tooltip"
-    (chartReady)="onChartReady()"></apx-chart>
+    [tooltip]="chartOptions().tooltip"></apx-chart>
 </figure>

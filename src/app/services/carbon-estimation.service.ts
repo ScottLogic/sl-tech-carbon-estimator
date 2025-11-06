@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { Inject, Injectable } from '@angular/core';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, Downstream, EstimatorValues } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
-import { estimateDownstreamEmissions } from '../estimation/estimate-downstream-emissions';
+import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
@@ -11,6 +11,8 @@ import { desktop, laptop, monitor, network, server } from '../estimation/device-
 import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
+import { ICO2Calculator } from '../facades/ICO2Calculator';
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,9 @@ import { CarbonIntensityService } from './carbon-intensity.service';
 export class CarbonEstimationService {
   constructor(
     private carbonIntensityService: CarbonIntensityService,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private downstreamEmissionsEstimator: DownstreamEmissionsEstimator,
+    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
   ) {}
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
@@ -34,16 +38,26 @@ export class CarbonEstimationService {
     const indirectEmissions = estimateIndirectEmissions(formValue.cloud, indirectIntensity);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
     const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
-    const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity);
+    // const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
+    const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity); 
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
-    return toPercentages({
+    const values = {
       version,
       upstreamEmissions: upstreamEmissions,
       directEmissions: directEmissions,
       indirectEmissions: indirectEmissions,
       downstreamEmissions: downstreamEmissions,
-    });
+      totalEmissions:
+        sumValues(upstreamEmissions) +
+        sumValues(directEmissions) +
+        sumValues(indirectEmissions) +
+        sumValues(downstreamEmissions),
+    };
+
+    const percentages = toPercentages(values);
+
+    return { values: values, percentages: percentages } as CarbonEstimation;
   }
 
   estimateServerCount(formValue: EstimatorValues): number {
@@ -83,7 +97,7 @@ export class CarbonEstimationService {
   }
 }
 
-function toPercentages(input: CarbonEstimation): CarbonEstimation {
+function toPercentages(input: CarbonEstimationValues): CarbonEstimationPercentages {
   const total =
     sumValues(input.upstreamEmissions) +
     sumValues(input.directEmissions) +

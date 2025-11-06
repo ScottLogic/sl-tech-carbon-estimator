@@ -5,27 +5,63 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { By } from '@angular/platform-browser';
 
+import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
+import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
+
 const getMockCarbonEstimation: () => CarbonEstimation = () => ({
-  version: '0.0.0',
-  upstreamEmissions: {
-    software: 0,
-    employee: 10,
-    network: 10,
-    server: 5,
+  percentages: {
+    version: '0.0.0',
+    upstreamEmissions: {
+      software: 0,
+      employee: 10,
+      network: 10,
+      server: 5,
+      foundationModels: 0,
+      contentAndData: 0
+    },
+    directEmissions: {
+      employee: 10,
+      network: 10,
+      server: 5,
+    },
+    indirectEmissions: {
+      cloud: 0,
+      saas: 0,
+      managed: 25,
+    },
+    downstreamEmissions: {
+      customer: 15,
+      networkTransfer: 10,
+      downstreamInfrastructure: 0
+    },
+    totalEmissions: 70,
   },
-  indirectEmissions: {
-    saas: 0,
-    managed: 0,
-    cloud: 25,
-  },
-  directEmissions: {
-    employee: 10,
-    network: 10,
-    server: 5,
-  },
-  downstreamEmissions: {
-    endUser: 15,
-    networkTransfer: 10,
+  values: {
+    version: '1.0',
+    upstreamEmissions: {
+      software: 700,
+      employee: 600,
+      network: 600,
+      server: 600,
+      foundationModels: 0,
+      contentAndData: 0
+    },
+    directEmissions: {
+      employee: 900,
+      network: 800,
+      server: 800,
+    },
+    indirectEmissions: {
+      cloud: 900,
+      saas: 800,
+      managed: 800,
+    },
+    downstreamEmissions: {
+      customer: 1300,
+      networkTransfer: 1200,
+      downstreamInfrastructure: 0
+    },
+    totalEmissions: 7000,
   },
 });
 
@@ -41,7 +77,10 @@ describe('TechCarbonEstimatorComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TechCarbonEstimatorComponent],
-      providers: [{ provide: CarbonEstimationService, useValue: estimationServiceStub }],
+      providers: [
+        { provide: CarbonEstimationService, useValue: estimationServiceStub },
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TechCarbonEstimatorComponent);
@@ -51,8 +90,8 @@ describe('TechCarbonEstimatorComponent', () => {
   it('should show the form by default', () => {
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
+    const formElement = fixture.nativeElement.shadowRoot.querySelector('carbon-estimator-form');
+    const assumptionsElement = fixture.nativeElement.shadowRoot.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeTruthy();
     expect(assumptionsElement).toBeFalsy();

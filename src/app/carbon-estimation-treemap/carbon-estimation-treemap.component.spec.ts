@@ -16,118 +16,151 @@ describe('CarbonEstimationTreemapComponent', () => {
     component = fixture.componentInstance;
 
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 7,
-        employee: 6,
-        network: 6,
-        server: 6,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 7,
+          employee: 6,
+          network: 6,
+          server: 6,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 9,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          customer: 13,
+          networkTransfer: 12,
+          downstreamInfrastructure: 0
+        },
       },
-      directEmissions: {
-        employee: 9,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          customer: 1300,
+          networkTransfer: 1200,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 7000,
       },
     };
 
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
     fixture.componentRef.setInput('chartHeight', 700);
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', true);
 
     fixture.detectChanges();
   });
 
-  it('should set emissions with total % and category breakdown', () => {
+  it('should by default set emissions with total kg and category breakdown', () => {
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 25%',
+        name: 'Upstream Emissions Estimate - 2500 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
-            y: 7,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            y: 700,
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Employee Hardware',
-            y: 6,
-            meta: { svg: 'devices-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'devices-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Networking and Infrastructure Hardware',
-            y: 6,
-            meta: { svg: 'router-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'router-logo', parent: 'Upstream Emissions Estimate' },
           },
           {
             x: 'Servers and Storage Hardware',
-            y: 6,
-            meta: { svg: 'storage-logo', parent: 'Upstream Emissions' },
+            y: 600,
+            meta: { svg: 'storage-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 25%',
+        name: 'Direct Emissions Estimate - 2500 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
-            y: 9,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            y: 900,
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
           {
             x: 'Networking and Infrastructure',
-            y: 8,
-            meta: { svg: 'router-logo', parent: 'Direct Emissions' },
+            y: 800,
+            meta: { svg: 'router-logo', parent: 'Direct Emissions Estimate' },
           },
           {
             x: 'Servers and Storage',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Direct Emissions' },
+            y: 800,
+            meta: { svg: 'storage-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Indirect Emissions - 25%',
+        name: 'Indirect Emissions Estimate - 2500 kg',
         color: '#91234C',
         data: [
           {
             x: 'Cloud Services',
-            y: 9,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
+            y: 900,
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions Estimate' },
           },
           {
             x: 'SaaS',
-            y: 8,
-            meta: { svg: 'web-logo', parent: 'Indirect Emissions' },
+            y: 800,
+            meta: { svg: 'web-logo', parent: 'Indirect Emissions Estimate' },
           },
           {
             x: 'Managed Services',
-            y: 8,
-            meta: { svg: 'storage-logo', parent: 'Indirect Emissions' },
+            y: 800,
+            meta: { svg: 'storage-logo', parent: 'Indirect Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Downstream Emissions - 25%',
+        name: 'Downstream Emissions Estimate - 2500 kg',
         color: '#4B7E56',
         data: [
           {
-            x: 'End-User Devices',
-            y: 13,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
+            x: 'Customer Devices',
+            y: 1300,
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
           {
             x: 'Network Data Transfer',
-            y: 12,
-            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions' },
+            y: 1200,
+            meta: { svg: 'cell-tower-logo', parent: 'Downstream Emissions Estimate' },
           },
         ],
       },
@@ -142,59 +175,197 @@ describe('CarbonEstimationTreemapComponent', () => {
     expect(component.emissionAriaLabel().length).toBeGreaterThan(25);
   });
 
+  it('should toggle between mass and percentage emissions', () => {
+    expect(component.isMass()).toBeTrue();
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - 2500 kg');
+    component.toggleMassPercentages();
+    fixture.detectChanges();
+    expect(component.isMass()).toBeFalse();
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - 25%');
+  });
+
   it('should set label to <1% if emission is less than 1', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 0.2,
-        employee: 0.1,
-        network: 0.1,
-        server: 0.1,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.2,
+          employee: 0.1,
+          network: 0.1,
+          server: 0.1,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 34.5,
+          network: 8,
+          server: 8,
+        },
+        indirectEmissions: {
+          cloud: 9,
+          saas: 8,
+          managed: 8,
+        },
+        downstreamEmissions: {
+          customer: 13,
+          networkTransfer: 12,
+          downstreamInfrastructure: 0
+        },
       },
-      directEmissions: {
-        employee: 34.5,
-        network: 8,
-        server: 8,
-      },
-      indirectEmissions: {
-        cloud: 9,
-        saas: 8,
-        managed: 8,
-      },
-      downstreamEmissions: {
-        endUser: 13,
-        networkTransfer: 12,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 700,
+          employee: 600,
+          network: 600,
+          server: 600,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 900,
+          network: 800,
+          server: 800,
+        },
+        indirectEmissions: {
+          cloud: 900,
+          saas: 800,
+          managed: 800,
+        },
+        downstreamEmissions: {
+          customer: 1300,
+          networkTransfer: 1200,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 7000,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
 
+    component.toggleMassPercentages(); // Switch to percentages;
+
     fixture.detectChanges();
 
-    expect(component.chartData()[0].name).toBe('Upstream Emissions - <1%');
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - <1%');
+  });
+
+  it('should set label to <1 kg if emission is less than 1', () => {
+    const carbonEstimation: CarbonEstimation = {
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.0002,
+          employee: 0.0001,
+          network: 0.0001,
+          server: 0.0001,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 0.0345,
+          network: 0.008,
+          server: 0.008,
+        },
+        indirectEmissions: {
+          cloud: 0.009,
+          saas: 0.008,
+          managed: 0.008,
+        },
+        downstreamEmissions: {
+          customer: 0.013,
+          networkTransfer: 0.012,
+          downstreamInfrastructure: 0
+        },
+      },
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 0.0007,
+          employee: 0.0006,
+          network: 0.000006,
+          server: 0.00006,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 0.9,
+          network: 0.8,
+          server: 0.8,
+        },
+        indirectEmissions: {
+          cloud: 0.9,
+          saas: 0.8,
+          managed: 0.8,
+        },
+        downstreamEmissions: {
+          customer: 1.3,
+          networkTransfer: 1.2,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 7,
+      },
+    };
+
+    fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
+    fixture.detectChanges();
+
+    expect(component.chartData()[0].name).toBe('Upstream Emissions Estimate - <1 kg');
   });
 
   it('should remove categories when they are 0', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 25,
-        employee: 0,
-        network: 0,
-        server: 0,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 25,
+          employee: 0,
+          network: 0,
+          server: 0,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 25,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 25,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          customer: 25,
+          networkTransfer: 0,
+          downstreamInfrastructure: 0
+        },
       },
-      directEmissions: {
-        employee: 25,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 25,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 25,
-        networkTransfer: 0,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 25,
+          employee: 0,
+          network: 0,
+          server: 0,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 25,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 25,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          customer: 25,
+          networkTransfer: 0,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 70,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -203,46 +374,46 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 25%',
+        name: 'Upstream Emissions Estimate - 25 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
             y: 25,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 25%',
+        name: 'Direct Emissions Estimate - 25 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
             y: 25,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Indirect Emissions - 25%',
+        name: 'Indirect Emissions Estimate - 25 kg',
         color: '#91234C',
         data: [
           {
             x: 'Cloud Services',
             y: 25,
-            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions' },
+            meta: { svg: 'cloud-logo', parent: 'Indirect Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Downstream Emissions - 25%',
+        name: 'Downstream Emissions Estimate - 25 kg',
         color: '#4B7E56',
         data: [
           {
-            x: 'End-User Devices',
+            x: 'Customer Devices',
             y: 25,
-            meta: { svg: 'devices-logo', parent: 'Downstream Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Downstream Emissions Estimate' },
           },
         ],
       },
@@ -253,26 +424,58 @@ describe('CarbonEstimationTreemapComponent', () => {
 
   it('should remove parent categories when all values are 0', () => {
     const carbonEstimation: CarbonEstimation = {
-      version: '1.0',
-      upstreamEmissions: {
-        software: 50,
-        employee: 0,
-        network: 0,
-        server: 0,
+      percentages: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 50,
+          employee: 0,
+          network: 0,
+          server: 0,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 50,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 0,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          customer: 0,
+          networkTransfer: 0,
+          downstreamInfrastructure: 0
+        },
       },
-      directEmissions: {
-        employee: 50,
-        network: 0,
-        server: 0,
-      },
-      indirectEmissions: {
-        cloud: 0,
-        saas: 0,
-        managed: 0,
-      },
-      downstreamEmissions: {
-        endUser: 0,
-        networkTransfer: 0,
+      values: {
+        version: '1.0',
+        upstreamEmissions: {
+          software: 50,
+          employee: 0,
+          network: 0,
+          server: 0,
+          foundationModels: 0,
+          contentAndData: 0
+        },
+        directEmissions: {
+          employee: 50,
+          network: 0,
+          server: 0,
+        },
+        indirectEmissions: {
+          cloud: 0,
+          saas: 0,
+          managed: 0,
+        },
+        downstreamEmissions: {
+          customer: 0,
+          networkTransfer: 0,
+          downstreamInfrastructure: 0
+        },
+        totalEmissions: 70,
       },
     };
     fixture.componentRef.setInput('carbonEstimation', carbonEstimation);
@@ -281,29 +484,36 @@ describe('CarbonEstimationTreemapComponent', () => {
 
     const expectedEmissions = [
       {
-        name: 'Upstream Emissions - 50%',
+        name: 'Upstream Emissions Estimate - 50 kg',
         color: '#40798C',
         data: [
           {
             x: 'Software - Off the Shelf',
             y: 50,
-            meta: { svg: 'web-logo', parent: 'Upstream Emissions' },
+            meta: { svg: 'web-logo', parent: 'Upstream Emissions Estimate' },
           },
         ],
       },
       {
-        name: 'Direct Emissions - 50%',
+        name: 'Direct Emissions Estimate - 50 kg',
         color: '#CB3775',
         data: [
           {
             x: 'Employee Devices',
             y: 50,
-            meta: { svg: 'devices-logo', parent: 'Direct Emissions' },
+            meta: { svg: 'devices-logo', parent: 'Direct Emissions Estimate' },
           },
         ],
       },
     ];
 
     expect(component.chartData()).toEqual(expectedEmissions);
+  });
+
+  it('should not render the units switch if shouldShowUnitsSwitch is false', () => {
+    fixture.componentRef.setInput('shouldShowUnitsSwitch', false);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('.tce-switch-container')).toBeNull();
   });
 });

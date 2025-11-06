@@ -3,15 +3,17 @@ import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
-import { NgClass, NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
+import html2canvas from 'html2canvas-pro';
 
 export type TableItem = TableItemLevel1 | TableItemLevel2;
 
-type TableItemLevel1 = { level: 1; expanded: boolean } & BaseTableItem;
+type TableItemLevel1 = { level: 1; expanded: boolean; expandable: boolean } & BaseTableItem;
 type TableItemLevel2 = { level: 2; parent: string; svg: string } & BaseTableItem;
 type BaseTableItem = {
   category: string;
-  emissions: string;
+  emissionsValue: string;
+  emissionsPercentage: string;
   colour: ItemColour;
   display: boolean;
   positionInSet: number;
@@ -31,11 +33,12 @@ type ArrowDirectionVertical = 'up' | 'down';
 @Component({
   selector: 'carbon-estimation-table',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
   public carbonEstimation = input<CarbonEstimation>();
+  public shouldShowSvgs = input.required<boolean>();
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
@@ -194,13 +197,14 @@ export class CarbonEstimationTableComponent {
     }
   }
 
-  private getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
+  public getTableData(carbonEstimation?: CarbonEstimation): TableItem[] {
     return !carbonEstimation ?
         []
       : [
           ...this.getParentTableItems(
             EmissionsLabels.Upstream,
-            carbonEstimation.upstreamEmissions,
+            carbonEstimation.values.upstreamEmissions,
+            carbonEstimation.percentages.upstreamEmissions,
             EmissionsColours.Upstream,
             EmissionsColours.UpstreamLight,
             1,
@@ -209,7 +213,8 @@ export class CarbonEstimationTableComponent {
           ),
           ...this.getParentTableItems(
             EmissionsLabels.Direct,
-            carbonEstimation.directEmissions,
+            carbonEstimation.values.directEmissions,
+            carbonEstimation.percentages.directEmissions,
             EmissionsColours.Direct,
             EmissionsColours.OperationLight,
             2,
@@ -218,7 +223,8 @@ export class CarbonEstimationTableComponent {
           ),
           ...this.getParentTableItems(
             EmissionsLabels.Indirect,
-            carbonEstimation.indirectEmissions,
+            carbonEstimation.values.indirectEmissions,
+            carbonEstimation.percentages.indirectEmissions,
             EmissionsColours.Indirect,
             EmissionsColours.OperationLight,
             3,
@@ -227,31 +233,50 @@ export class CarbonEstimationTableComponent {
           ),
           ...this.getParentTableItems(
             EmissionsLabels.Downstream,
-            carbonEstimation.downstreamEmissions,
+            carbonEstimation.values.downstreamEmissions,
+            carbonEstimation.percentages.downstreamEmissions,
             EmissionsColours.Downstream,
             EmissionsColours.DownstreamLight,
             4,
             4,
             this.expandedState[EmissionsLabels.Downstream]
           ),
+          {
+            level: 1,
+            expanded: false,
+            expandable: false,
+            category: 'Total Emissions Estimate',
+            emissionsValue: this.carbonEstimationUtilService.getAbsoluteValueLabel(
+              carbonEstimation.values.totalEmissions
+            ),
+            emissionsPercentage: this.carbonEstimationUtilService.getPercentageLabel(
+              100
+            ),
+            colour: { background: EmissionsColours.Total },
+            display: true,
+            positionInSet: 5,
+            setSize: 1,
+          },
         ];
   }
 
   private getEmissionsBreakdown(
-    emissions: NumberObject,
+    values: NumberObject,
+    percentages: NumberObject,
     parent: string,
     svgColour: string,
     backgroundColour: string,
     display = true
   ): TableItem[] {
     return (
-      Object.entries(emissions)
+      Object.entries(values)
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([_key, value]) => value !== 0)
         .map(([key, value], index, array) =>
           this.getChildTableItem(
             key,
             value,
+            percentages[key],
             parent,
             { background: backgroundColour, svg: svgColour },
             display,
@@ -265,6 +290,7 @@ export class CarbonEstimationTableComponent {
   private getParentTableItems(
     label: string,
     value: NumberObject,
+    percentage: NumberObject,
     parentColour: string,
     childColour: string,
     positionInSet: number,
@@ -274,21 +300,24 @@ export class CarbonEstimationTableComponent {
     return [
       {
         category: label,
-        emissions: this.carbonEstimationUtilService.getOverallPercentageLabel(value),
+        emissionsValue: this.carbonEstimationUtilService.getOverallAbsoluteValueLabel(value),
+        emissionsPercentage: this.carbonEstimationUtilService.getOverallPercentageLabel(percentage),
         colour: { background: parentColour },
         display: true,
         expanded,
+        expandable: true,
         positionInSet,
         setSize,
         level: 1,
       },
-      ...this.getEmissionsBreakdown(value, label, parentColour, childColour, expanded),
+      ...this.getEmissionsBreakdown(value, percentage, label, parentColour, childColour, expanded),
     ];
   }
 
   private getChildTableItem(
     key: string,
     value: number,
+    percentage: number,
     parent: string,
     colour: ItemColour,
     display: boolean,
@@ -298,7 +327,8 @@ export class CarbonEstimationTableComponent {
     const { label, svg } = this.carbonEstimationUtilService.getLabelAndSvg(key, parent);
     return {
       category: label,
-      emissions: this.carbonEstimationUtilService.getPercentageLabel(value),
+      emissionsValue: this.carbonEstimationUtilService.getAbsoluteValueLabel(value),
+      emissionsPercentage: this.carbonEstimationUtilService.getPercentageLabel(percentage),
       parent,
       svg,
       colour,
