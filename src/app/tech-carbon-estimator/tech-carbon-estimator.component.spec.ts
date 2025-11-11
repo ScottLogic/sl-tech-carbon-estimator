@@ -17,7 +17,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       network: 10,
       server: 5,
       foundationModels: 0,
-      contentAndData: 0
+      contentAndData: 0,
     },
     directEmissions: {
       employee: 10,
@@ -32,7 +32,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
     downstreamEmissions: {
       customer: 15,
       networkTransfer: 10,
-      downstreamInfrastructure: 0
+      downstreamInfrastructure: 0,
     },
     totalEmissions: 70,
   },
@@ -44,7 +44,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       network: 600,
       server: 600,
       foundationModels: 0,
-      contentAndData: 0
+      contentAndData: 0,
     },
     directEmissions: {
       employee: 900,
@@ -59,7 +59,7 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
     downstreamEmissions: {
       customer: 1300,
       networkTransfer: 1200,
-      downstreamInfrastructure: 0
+      downstreamInfrastructure: 0,
     },
     totalEmissions: 7000,
   },
@@ -79,7 +79,7 @@ describe('TechCarbonEstimatorComponent', () => {
       imports: [TechCarbonEstimatorComponent],
       providers: [
         { provide: CarbonEstimationService, useValue: estimationServiceStub },
-        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') },
       ],
     }).compileComponents();
 

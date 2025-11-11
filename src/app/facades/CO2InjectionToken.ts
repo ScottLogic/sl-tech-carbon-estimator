@@ -1,9 +1,9 @@
-import { InjectionToken } from "@angular/core";
-import { ICO2Calculator } from "./ICO2Calculator";
+import { InjectionToken } from '@angular/core';
+import { ICO2Calculator } from './ICO2Calculator';
 
 export interface Co2CalculatorOptions {
-  model: '1byte' | 'swd',
-  results: 'segment'
+  model: '1byte' | 'swd';
+  results: 'segment';
 }
 
 export const CO2_CONFIG = new InjectionToken<Co2CalculatorOptions>('CO2_CONFIG');

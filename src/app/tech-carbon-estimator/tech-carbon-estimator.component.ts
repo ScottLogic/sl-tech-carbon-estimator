@@ -26,7 +26,7 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
   templateUrl: './tech-carbon-estimator.component.html',
 
   // Protect against style interference by the hosting page
-  encapsulation: ViewEncapsulation.ShadowDom
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
@@ -52,21 +52,22 @@ export class TechCarbonEstimatorComponent implements OnInit {
     // 1. Angular global injection would insert the tag in the page root, so we disabled it.
     // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
 
-    let stylesLink = this.createShadowStylesLink('styles.css');
-    let googleFontsLink = this.createShadowStylesLink('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+    const stylesLink = this.createShadowStylesLink('styles.css');
+    const googleFontsLink = this.createShadowStylesLink(
+      'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined'
+    );
 
     this.ref.nativeElement.shadowRoot.appendChild(googleFontsLink);
     this.ref.nativeElement.shadowRoot.appendChild(stylesLink);
   }
 
   private createShadowStylesLink(styleHref: string) {
-
     const isAbsoluteUrl = styleHref.startsWith('http://') || styleHref.startsWith('https://');
-    const basePath = this.assetsBasePath && !isAbsoluteUrl ? this.assetsBasePath.replace(/\/?$/, '/')  : '';
+    const basePath = this.assetsBasePath && !isAbsoluteUrl ? this.assetsBasePath.replace(/\/?$/, '/') : '';
 
     const stylesPath = `${basePath}${styleHref}`;
 
-    let stylesLink = document.createElement('link');
+    const stylesLink = document.createElement('link');
     stylesLink.rel = 'stylesheet';
     stylesLink.type = 'text/css';
     stylesLink.href = stylesPath;

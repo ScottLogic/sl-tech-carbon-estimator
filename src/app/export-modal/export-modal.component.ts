@@ -10,7 +10,13 @@ import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.comp
 @Component({
   selector: 'export-modal',
   templateUrl: './export-modal.component.html',
-  imports: [CarbonEstimationTreemapComponent, CarbonEstimationTableComponent, FormsModule, InputGroupDisplay, DisclaimerTextComponent],
+  imports: [
+    CarbonEstimationTreemapComponent,
+    CarbonEstimationTableComponent,
+    FormsModule,
+    InputGroupDisplay,
+    DisclaimerTextComponent,
+  ],
 })
 export class ExportModal {
   @Output() close = new EventEmitter<void>();
@@ -30,10 +36,8 @@ export class ExportModal {
 
   public reportName = this.placeHolder;
 
-  
-
   closeModal(): void {
-	  this.close.emit();
+    this.close.emit();
   }
 
   public async exportToPDF() {
@@ -59,6 +63,4 @@ export class ExportModal {
     pdf.addImage(page2URL, 'PNG', 0, 0, imgWidth, imgHeight2);
     pdf.save(`${this.reportName}.pdf`);
   }
-
-  
 }

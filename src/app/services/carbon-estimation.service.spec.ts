@@ -1,6 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { CarbonEstimationService } from './carbon-estimation.service';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import {
+  CarbonEstimation,
+  CarbonEstimationPercentages,
+  CarbonEstimationValues,
+  EstimatorValues,
+  WorldLocation,
+} from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
@@ -58,7 +64,10 @@ function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject
   }
 }
 
-function expectPartialEstimationCloseTo(actual: CarbonEstimationPercentages, expected: RecursivePartial<CarbonEstimationPercentages>) {
+function expectPartialEstimationCloseTo(
+  actual: CarbonEstimationPercentages,
+  expected: RecursivePartial<CarbonEstimationPercentages>
+) {
   for (const [key, value] of Object.entries(expected)) {
     const trueKey = key as keyof CarbonEstimationPercentages;
     if (trueKey === 'version' || typeof value === 'string') {
@@ -92,7 +101,7 @@ describe('CarbonEstimationService', () => {
         CarbonEstimationService,
         { provide: LoggingService, useValue: logSpy },
         { provide: CarbonIntensityService, useValue: intensitySpy },
-        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object')}
+        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object') },
       ],
     });
     service = TestBed.inject(CarbonEstimationService);

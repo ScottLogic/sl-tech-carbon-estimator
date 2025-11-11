@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, Downstream, EstimatorValues } from '../types/carbon-estimator';
+import {
+  CarbonEstimation,
+  CarbonEstimationPercentages,
+  CarbonEstimationValues,
+  Downstream,
+  EstimatorValues,
+} from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
@@ -39,7 +45,7 @@ export class CarbonEstimationService {
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
     const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
     // const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
-    const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity); 
+    const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity);
     this.loggingService.log(`Estimated Downstream Emissions: ${formatCarbonEstimate(downstreamEmissions)}`);
 
     const values = {
