@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CarbonEstimation,
   CarbonEstimationPercentages,
@@ -24,12 +24,11 @@ import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
   providedIn: 'root',
 })
 export class CarbonEstimationService {
-  constructor(
-    private carbonIntensityService: CarbonIntensityService,
-    private loggingService: LoggingService,
-    private downstreamEmissionsEstimator: DownstreamEmissionsEstimator,
-    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
-  ) {}
+  private carbonIntensityService = inject(CarbonIntensityService);
+  private loggingService = inject(LoggingService);
+  private downstreamEmissionsEstimator = inject(DownstreamEmissionsEstimator);
+  private co2Calc = inject<ICO2Calculator>(CO2_CALCULATOR);
+
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${formatObject(formValue)}`);

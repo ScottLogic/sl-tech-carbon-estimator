@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateComponents } from './ICO2Calculator';
 
 @Injectable()
 export class FakeCO2Calculator implements ICO2Calculator {
-  constructor(private readonly returnType: 'number' | 'object' = 'number') {}
+  private readonly returnType = inject('number') ?? 'number';
+
 
   perByte(bytes: number): NumberOrCO2EstimateComponents {
     if (this.returnType === 'number') {

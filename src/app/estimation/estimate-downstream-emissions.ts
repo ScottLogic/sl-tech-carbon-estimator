@@ -10,7 +10,7 @@ import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
 import { ICO2Calculator } from '../facades/ICO2Calculator';
 import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 interface SiteInformation {
   averageMonthlyUserTime: Hour;
@@ -21,6 +21,8 @@ interface SiteInformation {
   providedIn: 'root',
 })
 export class DownstreamEmissionsEstimator {
+  private co2Calc = inject<ICO2Calculator>(CO2_CALCULATOR);
+
   private readonly BYTES_IN_GIGABYTE = 1000 * 1000 * 1000;
 
   public readonly siteTypeInfo: Record<PurposeOfSite, SiteInformation>;
@@ -42,7 +44,7 @@ export class DownstreamEmissionsEstimator {
     };
   }
 
-  constructor(@Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator) {
+  constructor() {
     // Needs source from our own research
     this.siteTypeInfo = DownstreamEmissionsEstimator.addAverage({
       information: {

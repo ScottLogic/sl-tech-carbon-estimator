@@ -1,15 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild, inject } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
@@ -50,6 +39,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./carbon-estimation.component.css'],
 })
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
   public inputValues = input<EstimatorValues | undefined>();
@@ -70,7 +61,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public isAnnual = signal(true);
   public estimate = computed(() => (this.isAnnual() ? this.carbonEstimation() : this.monthlyCarbonEstimation()));
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  constructor() {
     effect(() => {
       this.carbonEstimation();
       this.hasEstimationUpdated = true;

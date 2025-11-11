@@ -1,11 +1,13 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[tce-external-link]',
   standalone: true,
 })
 export class ExternalLinkDirective {
-  constructor(private element: ElementRef) {
+  private element = inject(ElementRef);
+
+  constructor() {
     this.element.nativeElement.setAttribute('target', '_blank');
     this.element.nativeElement.setAttribute('rel', 'noreferrer');
   }
