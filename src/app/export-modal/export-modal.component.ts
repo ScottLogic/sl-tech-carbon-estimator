@@ -1,9 +1,8 @@
 import { Component, computed, EventEmitter, input, Output } from '@angular/core';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
-import { CarbonEstimation, Cloud, Downstream, EstimatorValues, OnPremise, Upstream } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
-import { pairwise } from 'rxjs';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
 import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
 
@@ -19,7 +18,7 @@ import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.comp
   ],
 })
 export class ExportModal {
-  @Output() close = new EventEmitter<void>();
+  @Output() closeOpenModal = new EventEmitter<void>();
 
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = 734;
@@ -37,7 +36,7 @@ export class ExportModal {
   public reportName = this.placeHolder;
 
   closeModal(): void {
-    this.close.emit();
+    this.closeOpenModal.emit();
   }
 
   public async exportToPDF() {

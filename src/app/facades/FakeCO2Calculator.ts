@@ -5,7 +5,6 @@ import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateCompo
 export class FakeCO2Calculator implements ICO2Calculator {
   private readonly returnType = inject('number') ?? 'number';
 
-
   perByte(bytes: number): NumberOrCO2EstimateComponents {
     if (this.returnType === 'number') {
       return 0;

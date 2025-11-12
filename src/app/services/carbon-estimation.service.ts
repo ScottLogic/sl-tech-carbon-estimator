@@ -29,7 +29,6 @@ export class CarbonEstimationService {
   private downstreamEmissionsEstimator = inject(DownstreamEmissionsEstimator);
   private co2Calc = inject<ICO2Calculator>(CO2_CALCULATOR);
 
-
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${formatObject(formValue)}`);
 

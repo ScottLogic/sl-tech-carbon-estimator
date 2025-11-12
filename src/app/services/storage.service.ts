@@ -11,7 +11,6 @@ export const BROWSER_STORAGE = new InjectionToken<Storage>('Browser Storage', {
 export class StorageService {
   storage = inject<Storage>(BROWSER_STORAGE);
 
-
   get(key: string): string | null {
     return this.storage.getItem(key);
   }

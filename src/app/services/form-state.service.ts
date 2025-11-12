@@ -10,7 +10,6 @@ import { EstimatorFormValues } from '../types/carbon-estimator';
 export class FormStateService {
   private storageService = inject(StorageService);
 
-
   getControlStates(estimatorForm: FormGroup<EstimatorFormValues>) {
     const controlStates: Record<string, ControlState> = {};
 

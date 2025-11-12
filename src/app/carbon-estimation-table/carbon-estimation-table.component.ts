@@ -3,8 +3,7 @@ import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
-import { CommonModule, NgClass, NgStyle } from '@angular/common';
-import html2canvas from 'html2canvas-pro';
+import { CommonModule } from '@angular/common';
 
 export type TableItem = TableItemLevel1 | TableItemLevel2;
 

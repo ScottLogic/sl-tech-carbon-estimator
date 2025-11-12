@@ -1,19 +1,21 @@
-import { ChangeDetectorRef, Component, computed, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import {
-  CarbonEstimation,
-  CarbonEstimationPercentages,
-  CarbonEstimationValues,
-  DirectEstimation,
-  DownstreamEstimation,
-  EstimatorValues,
-  IndirectEstimation,
-  jsonExport,
-  UpstreamEstimation,
-} from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, jsonExport } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
