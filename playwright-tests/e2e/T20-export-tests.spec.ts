@@ -86,9 +86,14 @@ test.describe('Export JSON files', () => {
     await page.getByRole('button', { name: 'Export PDF' }).click();
     await expect(page.getByRole('button', { name: 'Download PDF' })).toBeVisible();
 
-    const [download] = await Promise.all([
-      page.waitForEvent('download'),
-      page.getByRole('button', { name: 'Download PDF' }).click(),
-    ]);
+    let download;
+    try {
+      [download] = await Promise.all([
+        page.waitForEvent('download', { timeout: 10000 }),
+        page.getByRole('button', { name: 'Download PDF' }).click(),
+      ]);
+    } catch (error) {
+      throw new Error('Download failed: no file was downloaded within 10 seconds.');
+    }
   });
 });
