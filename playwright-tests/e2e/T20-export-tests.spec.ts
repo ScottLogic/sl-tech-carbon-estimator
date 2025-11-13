@@ -82,15 +82,15 @@ test.describe('Export JSON files', () => {
 
   test('T20 Verify that download is executed for PDF files', async ({ page, estimationsSection }) => {
     await estimationsSection.monthlyViewButton.click();
-    await page.getByRole('button', { name: 'Export ▼' }).click();
-    await page.getByRole('button', { name: 'Export PDF' }).click();
-    await expect(page.getByRole('button', { name: 'Download PDF' })).toBeVisible();
+    await estimationsSection.exportButton.click();
+    await estimationsSection.exportPdfButton.click();
+    await expect(estimationsSection.downloadPdfButton).toBeVisible();
 
     let download;
     try {
       [download] = await Promise.all([
         page.waitForEvent('download', { timeout: 10000 }),
-        page.getByRole('button', { name: 'Download PDF' }).click(),
+        estimationsSection.downloadPdfButton.click(),
       ]);
     } catch (error) {
       throw new Error('Download failed: no file was downloaded within 10 seconds.');
