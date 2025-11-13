@@ -79,4 +79,16 @@ test.describe('Export JSON files', () => {
     expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
     expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
   });
+
+  test('T20 Verify that download is executed for PDF files', async ({ page, estimationsSection }) => {
+    await estimationsSection.monthlyViewButton.click();
+    await page.getByRole('button', { name: 'Export ▼' }).click();
+    await page.getByRole('button', { name: 'Export PDF' }).click();
+    await expect(page.getByRole('button', { name: 'Download PDF' })).toBeVisible();
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('button', { name: 'Download PDF' }).click(),
+    ]);
+  });
 });
