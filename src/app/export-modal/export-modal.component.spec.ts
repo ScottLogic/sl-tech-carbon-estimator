@@ -91,10 +91,10 @@ describe('ExportModal', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit close event when closeModal is called', () => {
-    spyOn(component.close, 'emit');
+  it('should emit closePreview event when closeModal is called', () => {
+    spyOn(component.closePreview, 'emit');
     component.closeModal();
-    expect(component.close.emit).toHaveBeenCalled();
+    expect(component.closePreview.emit).toHaveBeenCalled();
   });
 
   it('should bind reportName to input and update value', () => {
