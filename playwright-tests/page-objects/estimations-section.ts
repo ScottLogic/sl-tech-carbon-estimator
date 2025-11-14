@@ -30,23 +30,13 @@ export class EstimationsSection {
     await expect(this.exportButton).toBeVisible();
   }
 
-  // async exportJsonContent(page: Page, exportType: 'Export JSON' | 'Export JSON with Inputs' | 'Export PDF') {
-  //   const [download] = await Promise.all([
-  //     page.waitForEvent('download'),
-  //     this.exportButton.click(),
-  //     page.getByRole('link', { name: exportType, exact: true }).click(),
-  //   ]);
-
-  //   const path = await download.path();
-  //   if (!path) throw new Error('Download failed');
-
-  //   return path;
-  // }
-
   async downloadFile(page: Page, exportType: 'Export JSON' | 'Export JSON with Inputs' | 'Export PDF') {
     const downloadPromise = page.waitForEvent('download', { timeout: 10000 });
     await this.exportButton.click();
-    await page.getByRole('link', { name: exportType, exact: true }).click();
+    const exportListOption = page
+      .getByRole('link', { name: exportType, exact: true })
+      .or(page.getByRole('button', { name: exportType, exact: true }));
+    await exportListOption.click();
 
     if (exportType === 'Export PDF') {
       await this.downloadPdfButton.click();
