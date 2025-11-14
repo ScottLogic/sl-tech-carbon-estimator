@@ -6,7 +6,7 @@ import {
 } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
-test.describe('Export JSON files', () => {
+test.describe('Download and read files', () => {
   test.beforeEach(
     async ({
       organisationSection,
@@ -33,7 +33,7 @@ test.describe('Export JSON files', () => {
   );
 
   test('T20 Export and read JSON (Annual)', async ({ page, estimationsSection }) => {
-    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
+    const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedAnnualValuesJsonContent = createDefaultValuesJsonExport({});
@@ -45,7 +45,7 @@ test.describe('Export JSON files', () => {
 
   test('T20 Export and read JSON (Monthly)', async ({ page, estimationsSection }) => {
     await estimationsSection.monthlyViewButton.click();
-    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON');
+    const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
@@ -55,7 +55,7 @@ test.describe('Export JSON files', () => {
   });
 
   test('T20 Export and read JSON with inputs (Annual)', async ({ page, estimationsSection }) => {
-    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
+    const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedValuesJsonContent = createDefaultValuesJsonExport({});
@@ -69,7 +69,7 @@ test.describe('Export JSON files', () => {
 
   test('T20 Export and read JSON with inputs (Monthly)', async ({ page, estimationsSection }) => {
     await estimationsSection.monthlyViewButton.click();
-    const downloadPath = await estimationsSection.exportJsonContent(page, 'Export JSON with Inputs');
+    const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
     const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
@@ -78,22 +78,18 @@ test.describe('Export JSON files', () => {
     expect(jsonParse.estimate.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
     expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
     expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
+    console.log(downloadPath);
   });
 
-  test('T20 Verify that download is executed for PDF files', async ({ page, estimationsSection }) => {
+  test('T20 Verify that download is executed for PDF file (Monthly)', async ({ page, estimationsSection }) => {
     await estimationsSection.monthlyViewButton.click();
-    await estimationsSection.exportButton.click();
-    await estimationsSection.exportPdfButton.click();
-    await expect(estimationsSection.downloadPdfButton).toBeVisible();
+    const path = await estimationsSection.downloadFile(page, 'Export PDF');
+    expect(path).toBeTruthy();
+  });
 
-    let download;
-    try {
-      [download] = await Promise.all([
-        page.waitForEvent('download', { timeout: 10000 }),
-        estimationsSection.downloadPdfButton.click(),
-      ]);
-    } catch (error) {
-      throw new Error('Download failed: no file was downloaded within 10 seconds.');
-    }
+  test('T20 Verify that download is executed for PDF file (Annual)', async ({ page, estimationsSection }) => {
+    await estimationsSection.annualViewButton.click();
+    const path = await estimationsSection.downloadFile(page, 'Export PDF');
+    expect(path).toBeTruthy();
   });
 });
