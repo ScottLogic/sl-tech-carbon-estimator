@@ -1,9 +1,31 @@
-import { ChangeDetectorRef, Component, computed, effect, ElementRef, input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues, DirectEstimation, DownstreamEstimation, EstimatorValues, IndirectEstimation, jsonExport, UpstreamEstimation } from '../types/carbon-estimator';
+import {
+  CarbonEstimation,
+  CarbonEstimationPercentages,
+  CarbonEstimationValues,
+  DirectEstimation,
+  DownstreamEstimation,
+  EstimatorValues,
+  IndirectEstimation,
+  jsonExport,
+  UpstreamEstimation,
+} from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
@@ -32,6 +54,9 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();
   public extraHeight = input<string>();
   public inputValues = input<EstimatorValues | undefined>();
+  public isAnnual = signal(true);
+  public isModalVisible = false;
+  public chartHeight!: number;
 
   public diagramActive = signal(true);
 
@@ -39,24 +64,21 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   @ViewChild('detailsPanel', { static: true, read: ElementRef }) detailsPanel!: ElementRef;
 
-  public chartHeight!: number;
-
   private estimatorBaseHeight = sumValues(estimatorHeights);
   private resizeSubscription!: Subscription;
   private hasResized = true;
   private hasEstimationUpdated = false;
 
-  public isAnnual = signal(true);
-  public estimate = computed(() => this.isAnnual() ? this.carbonEstimation() : this.monthlyCarbonEstimation());
+  public estimate = computed(() => (this.isAnnual() ? this.carbonEstimation() : this.monthlyCarbonEstimation()));
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
+  constructor() {
     effect(() => {
       this.carbonEstimation();
       this.hasEstimationUpdated = true;
     });
   }
-
-  public isModalVisible = false;
 
   public ngOnInit(): void {
     this.chartHeight = this.getChartHeight(window.innerHeight, window.innerWidth, window.screen.height);
@@ -114,11 +136,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   get carbonEstimationWithInputDownloadUrl(): string {
-    const exportObject = {estimate: this.estimate(), input: this.inputValues()};
+    const exportObject = { estimate: this.estimate(), input: this.inputValues() };
     return this.getJSONExportUrl(exportObject);
   }
 
-  private getJSONExportUrl(exportObject: CarbonEstimation|jsonExport|undefined): string {
+  private getJSONExportUrl(exportObject: CarbonEstimation | jsonExport | undefined): string {
     if (typeof exportObject === 'undefined') {
       return '';
     }
@@ -134,7 +156,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   }
 
   public hideModal() {
-	  this.isModalVisible = false;
+    this.isModalVisible = false;
   }
 
   public isExportMenuOpen = false;
@@ -153,17 +175,16 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     // beteween 12 months
 
     // if no estimation, return undefined
-    if(this.carbonEstimation() == null) {
+    if (this.carbonEstimation() == null) {
       return undefined;
     }
 
     const copy = JSON.parse(JSON.stringify(this.carbonEstimation()));
 
-    copy.values.totalEmissions = copy.values.totalEmissions/12;
+    copy.values.totalEmissions = copy.values.totalEmissions / 12;
 
     // loop over values only - percentages are the same regardless of time period
-    for ( const estimateKey of Object.keys(copy.values)) {
-
+    for (const estimateKey of Object.keys(copy.values)) {
       if (estimateKey === 'version' || estimateKey === 'totalEstimate') continue;
 
       const estimate = copy.values[estimateKey];
@@ -171,11 +192,10 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
       for (const valueKey of Object.keys(estimate)) {
         const value = estimate[valueKey];
 
-        copy.values[estimateKey][valueKey] = value/12;
+        copy.values[estimateKey][valueKey] = value / 12;
       }
     }
 
     return copy;
-
   }
 }

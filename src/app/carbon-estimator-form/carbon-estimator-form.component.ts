@@ -47,8 +47,8 @@ import { FormStateService } from '../services/form-state.service';
     FormatCostRangePipe,
     InvalidatedPipe,
     ErrorSummaryComponent,
-    ExternalLinkDirective
-],
+    ExternalLinkDirective,
+  ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public formValue = input<EstimatorValues>();
