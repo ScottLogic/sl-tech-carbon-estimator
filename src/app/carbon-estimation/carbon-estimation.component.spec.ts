@@ -26,7 +26,7 @@ describe('CarbonEstimationComponent', () => {
           network: 6,
           server: 6,
           foundationModels: 0,
-          contentAndData: 0
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 9,
@@ -41,7 +41,7 @@ describe('CarbonEstimationComponent', () => {
         downstreamEmissions: {
           customer: 13,
           networkTransfer: 12,
-          downstreamInfrastructure: 0
+          downstreamInfrastructure: 0,
         },
       },
       values: {
@@ -52,7 +52,7 @@ describe('CarbonEstimationComponent', () => {
           network: 600,
           server: 600,
           foundationModels: 0,
-          contentAndData: 0
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 900,
@@ -67,7 +67,7 @@ describe('CarbonEstimationComponent', () => {
         downstreamEmissions: {
           customer: 1300,
           networkTransfer: 1200,
-          downstreamInfrastructure: 0
+          downstreamInfrastructure: 0,
         },
         totalEmissions: 7000,
       },
@@ -158,7 +158,7 @@ describe('CarbonEstimationComponent', () => {
   });
 
   it('should enable the export button if there is a carbon estimation', () => {
-    let compiled = fixture.nativeElement as HTMLElement;
+    const compiled = fixture.nativeElement as HTMLElement;
     const buttons = compiled.querySelectorAll('button');
     const exportButton = Array.from(buttons).find(button => button.classList.contains('tce-export-button'));
 

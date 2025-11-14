@@ -15,25 +15,41 @@ describe('ExportModal', () => {
   const mockCarbonEstimation: CarbonEstimation = {
     values: {
       version: '1.0',
-      upstreamEmissions: { software: 100, employee: 200, network: 300, server: 400, foundationModels: 0, contentAndData: 0 },
+      upstreamEmissions: {
+        software: 100,
+        employee: 200,
+        network: 300,
+        server: 400,
+        foundationModels: 0,
+        contentAndData: 0,
+      },
       directEmissions: { employee: 500, network: 600, server: 700 },
       indirectEmissions: { cloud: 800, saas: 900, managed: 1000 },
       downstreamEmissions: {
-        customer: 1100, networkTransfer: 1200,
-        downstreamInfrastructure: 0
+        customer: 1100,
+        networkTransfer: 1200,
+        downstreamInfrastructure: 0,
       },
-      totalEmissions: 12345
+      totalEmissions: 12345,
     },
     percentages: {
       version: '1.0',
-      upstreamEmissions: { software: 10, employee: 20, network: 30, server: 40, foundationModels: 0, contentAndData: 0 },
+      upstreamEmissions: {
+        software: 10,
+        employee: 20,
+        network: 30,
+        server: 40,
+        foundationModels: 0,
+        contentAndData: 0,
+      },
       directEmissions: { employee: 50, network: 60, server: 70 },
       indirectEmissions: { cloud: 80, saas: 90, managed: 100 },
       downstreamEmissions: {
-        customer: 110, networkTransfer: 120,
-        downstreamInfrastructure: 0
-      }
-    }
+        customer: 110,
+        networkTransfer: 120,
+        downstreamInfrastructure: 0,
+      },
+    },
   };
 
   const mockInputValues = {
@@ -44,8 +60,8 @@ describe('ExportModal', () => {
       monthlyCloudBill: { min: 100, max: 200 },
       cloudPercentage: 50,
       cloudLocation: 'UK',
-      noCloudServices: false
-    }
+      noCloudServices: false,
+    },
   };
 
   beforeEach(async () => {
@@ -56,15 +72,15 @@ describe('ExportModal', () => {
         DisclaimerTextComponent,
         InputGroupDisplay,
         CarbonEstimationTreemapComponent,
-        CarbonEstimationTableComponent
-      ]
+        CarbonEstimationTableComponent,
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ExportModal,{
+    fixture = TestBed.createComponent(ExportModal, {
       bindings: [
         inputBinding('carbonEstimation', () => mockCarbonEstimation),
-        inputBinding('inputValues', () => mockInputValues)
-      ]
+        inputBinding('inputValues', () => mockInputValues),
+      ],
     });
     component = fixture.componentInstance;
     // Set required inputs
@@ -75,10 +91,10 @@ describe('ExportModal', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit close event when closeModal is called', () => {
-    spyOn(component.close, 'emit');
+  it('should emit closePreview event when closeModal is called', () => {
+    spyOn(component.closePreview, 'emit');
     component.closeModal();
-    expect(component.close.emit).toHaveBeenCalled();
+    expect(component.closePreview.emit).toHaveBeenCalled();
   });
 
   it('should bind reportName to input and update value', () => {
@@ -127,9 +143,9 @@ describe('ExportModal', () => {
     const mockCanvas = {
       width: 100,
       height: 200,
-      toDataURL: () => 'data:image/png;base64,mock'
+      toDataURL: () => 'data:image/png;base64,mock',
     };
-    spyOn(document, 'getElementById').and.callFake((id: string) => ({ ...mockCanvas } as any));
+    spyOn(document, 'getElementById').and.callFake((id: string) => ({ ...mockCanvas }) as any);
     const jsPDFMock = jasmine.createSpyObj('jsPDF', ['addImage', 'addPage', 'save']);
     spyOn<any>(component, 'exportToPDF').and.callFake(async () => {
       jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);

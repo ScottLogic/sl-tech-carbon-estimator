@@ -1,6 +1,6 @@
 # Best Practice Guide for Estimation Inputs
 
-Use this guide to assist when entering your Estimate Inputs
+Use this guide to assist you when entering your Estimate Inputs
 
 ## Data Collection
 
@@ -18,7 +18,7 @@ Use this guide to assist when entering your Estimate Inputs
 
 #### Specific service/project within the organisation:
 
-- Enter the number of user actively enagaged in this service/project who are using any devices
+- Enter the number of users actively engaged in this service/project who are using any devices
 - Select the percentage of device usage as accurately as possible
 - Select the location where the MAJORITY of these users are located
 
@@ -32,12 +32,12 @@ On-Premise servers include any physical servers either located directly in-house
 
 Data regarding the number of on-premise and cloud provider servers should be available from your IT/Technology team.
 
-All major cloud providers provide tooling that allow billing data to be obtained. Your IT/Technology team should also be able to tell you where the majority of your cloud provider servers are locaated.
+All major cloud providers provide tooling that allows billing data to be obtained. Your IT/Technology team should also be able to tell you where the majority of your cloud provider servers are located.
 
 
 ## Customers
 
-Determining the primary purpose of your digital service can often be challenging. The TSCE provides 4 specific categrories for you to choose from, each one with increasing emission impacts:
+Determining the primary purpose of your digital service can often be challenging. The TSCE provides 4 specific categories for you to choose from, each one with increasing emission impacts:
 
 - Information
 - E-Commerce
@@ -48,6 +48,6 @@ Information is a very broad category but can cover everything up to and includin
 
 E-Commerce sites tend to be more involved, with users spending much more time navigating/browsing the site and more involved checkout/payment processes.
 
-Social Media services will usually involve much more content, images and short videos, along with fairly extended user engagment times.
+Social Media services will usually involve much more content, images and short videos, along with fairly extended user engagement times.
 
-Streaming services (audio and video) are generally thought as providing longer form digital content of a high quality (lossless audio, 4k video).
+Streaming services (audio and video) are generally thought of as providing longer form digital content of a high quality (lossless audio, 4k video).#

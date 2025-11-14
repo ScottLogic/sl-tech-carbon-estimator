@@ -33,7 +33,7 @@ describe('AssumptionsAndLimitationComponent', () => {
       imports: [AssumptionsAndLimitationComponent],
       providers: [
         { provide: CarbonIntensityService, useValue: intensityServiceStub },
-        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') }
+        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') },
       ],
     }).compileComponents();
 

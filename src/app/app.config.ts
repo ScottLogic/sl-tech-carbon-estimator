@@ -7,6 +7,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     { provide: CO2_CONFIG, useValue: { model: 'swd', results: 'segment' } },
-    { provide: CO2_CALCULATOR, useClass: CO2Calculator }
-  ]
+    { provide: CO2_CALCULATOR, useClass: CO2Calculator },
+  ],
 };

@@ -26,25 +26,23 @@ export class DownstreamEmissionsEstimator {
   public readonly siteTypeInfo: Record<PurposeOfSite, SiteInformation>;
 
   private static addAverage(input: Record<BasePurposeOfSite, SiteInformation>): Record<PurposeOfSite, SiteInformation> {
-  let totalMonthlyUserTime = 0;
-  let totalMonthlyUserData = 0;
-  for (const value of Object.values(input)) {
-    totalMonthlyUserTime += value.averageMonthlyUserTime;
-    totalMonthlyUserData += value.averageMonthlyUserData;
+    let totalMonthlyUserTime = 0;
+    let totalMonthlyUserData = 0;
+    for (const value of Object.values(input)) {
+      totalMonthlyUserTime += value.averageMonthlyUserTime;
+      totalMonthlyUserData += value.averageMonthlyUserData;
+    }
+    const count = basePurposeArray.length;
+    return {
+      ...input,
+      average: {
+        averageMonthlyUserTime: totalMonthlyUserTime / count,
+        averageMonthlyUserData: totalMonthlyUserData / count,
+      },
+    };
   }
-  const count = basePurposeArray.length;
-  return {
-    ...input,
-    average: {
-      averageMonthlyUserTime: totalMonthlyUserTime / count,
-      averageMonthlyUserData: totalMonthlyUserData / count,
-    },
-  };
-}
 
-  constructor(
-    @Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator
-  ) {
+  constructor(@Inject(CO2_CALCULATOR) private co2Calc: ICO2Calculator) {
     // Needs source from our own research
     this.siteTypeInfo = DownstreamEmissionsEstimator.addAverage({
       information: {
@@ -77,9 +75,16 @@ export class DownstreamEmissionsEstimator {
     );
     const customerEmissions = this.estimateCustomerEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
     const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, this.co2Calc);
-    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-    return { customer: customerEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
-
+    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(
+      downstream,
+      downstreamDataTransfer,
+      downstreamIntensity
+    );
+    return {
+      customer: customerEmissions,
+      networkTransfer: networkEmissions,
+      downstreamInfrastructure: downstreamInfrastructureEmissions,
+    };
   }
 
   estimateDownstreamEmissions(
@@ -97,21 +102,29 @@ export class DownstreamEmissionsEstimator {
     );
     const customerEmissions = this.estimateCustomerEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
     const networkEmissions = this.estimateNetworkEmissions(downstream, downstreamDataTransfer, co2Calc);
-    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(downstream, downstreamDataTransfer, downstreamIntensity);
-    return { customer: customerEmissions, networkTransfer: networkEmissions, downstreamInfrastructure: downstreamInfrastructureEmissions };
+    const downstreamInfrastructureEmissions = this.estimateDownstreamInfrastructureEmissions(
+      downstream,
+      downstreamDataTransfer,
+      downstreamIntensity
+    );
+    return {
+      customer: customerEmissions,
+      networkTransfer: networkEmissions,
+      downstreamInfrastructure: downstreamInfrastructureEmissions,
+    };
   }
 
   estimateDownstreamDataTransfer(monthlyActiveUsers: number, purposeOfSite: PurposeOfSite): Gb {
     return this.siteTypeInfo[purposeOfSite].averageMonthlyUserData * monthlyActiveUsers * 12;
   }
 
-  estimateCustomerEmissions(
-    downstream: Downstream,
-    downstreamDataTransfer: number,
-    downstreamIntensity: gCo2ePerKwh
-  ) {
+  estimateCustomerEmissions(downstream: Downstream, downstreamDataTransfer: number, downstreamIntensity: gCo2ePerKwh) {
     const customerTime = this.estimateCustomerTime(downstream.monthlyActiveUsers, downstream.purposeOfSite);
-    const customerEnergy = this.estimateCustomerEnergy(downstreamDataTransfer, customerTime, downstream.mobilePercentage);
+    const customerEnergy = this.estimateCustomerEnergy(
+      downstreamDataTransfer,
+      customerTime,
+      downstream.mobilePercentage
+    );
     return estimateEnergyEmissions(customerEnergy, downstreamIntensity);
   }
 
@@ -145,7 +158,8 @@ export class DownstreamEmissionsEstimator {
   estimateDownstreamInfrastructureEmissions(
     downstream: Downstream,
     downstreamDataTransfer: number,
-    downstreamIntensity: gCo2ePerKwh) {
+    downstreamIntensity: gCo2ePerKwh
+  ) {
     return 0; //No method for estimation of IoT devices, etc. as of 12/08/25 for schema v0.0.2
   }
 }
