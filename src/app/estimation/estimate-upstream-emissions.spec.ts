@@ -19,7 +19,7 @@ describe('estimateUpstreamEmissions', () => {
       server: 0,
       network: 0,
       foundationModels: 0,
-      contentAndData: 0
+      contentAndData: 0,
     });
   });
 
@@ -36,7 +36,7 @@ describe('estimateUpstreamEmissions', () => {
       server: 2,
       network: 3,
       foundationModels: 0,
-      contentAndData: 0
+      contentAndData: 0,
     });
   });
 
@@ -52,7 +52,7 @@ describe('estimateUpstreamEmissions', () => {
       server: 0,
       network: 0,
       foundationModels: 0,
-      contentAndData: 0
+      contentAndData: 0,
     });
   });
 });

@@ -1,19 +1,26 @@
-import { Component, computed, EventEmitter, input, Output } from '@angular/core';
+import { Component, computed, ElementRef, EventEmitter, input, Output, ViewChild } from '@angular/core';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
-import { CarbonEstimation, Cloud, Downstream, EstimatorValues, OnPremise, Upstream } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
-import { pairwise } from 'rxjs';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
 import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
 
 @Component({
   selector: 'export-modal',
   templateUrl: './export-modal.component.html',
-  imports: [CarbonEstimationTreemapComponent, CarbonEstimationTableComponent, FormsModule, InputGroupDisplay, DisclaimerTextComponent],
+  imports: [
+    CarbonEstimationTreemapComponent,
+    CarbonEstimationTableComponent,
+    FormsModule,
+    InputGroupDisplay,
+    DisclaimerTextComponent,
+  ],
 })
 export class ExportModal {
-  @Output() close = new EventEmitter<void>();
+  @Output() closePreview = new EventEmitter<void>();
+  @ViewChild('pageOne', { static: false }) pageOne!: ElementRef;
+  @ViewChild('pageTwo', { static: false }) pageTwo!: ElementRef;
 
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = 734;
@@ -30,10 +37,9 @@ export class ExportModal {
 
   public reportName = this.placeHolder;
 
-  
 
   closeModal(): void {
-	  this.close.emit();
+    this.closePreview.emit();
   }
 
   public async exportToPDF() {
@@ -41,7 +47,19 @@ export class ExportModal {
     const html2canvasModule = await import('html2canvas-pro');
     const html2canvas = html2canvasModule.default;
 
-    const page1 = document.getElementById('tceExportPageOne');
+    const page1 = this.pageOne?.nativeElement;
+    const page2 = this.pageTwo?.nativeElement;
+
+    if (!page1) {
+      console.error('Page 1 element not found');
+      return;
+    }
+
+    if (!page2) {
+      console.error('Page 2 element not found');
+      return;
+    }
+
     const page1Canvas = await html2canvas(page1!);
     const pdf = new jsPDF('p', 'mm', 'a4');
     const imgWidth = 208;
@@ -51,7 +69,6 @@ export class ExportModal {
     pdf.addImage(page1URL, 'PNG', 0, 0, imgWidth, imgHeight);
     pdf.addPage();
 
-    const page2 = document.getElementById('tceExportPageTwo');
     const page2Canvas = await html2canvas(page2!);
     const imgHeight2 = (page2Canvas.height * imgWidth) / page2Canvas.width;
     const page2URL = page2Canvas.toDataURL('image/png');
@@ -59,6 +76,4 @@ export class ExportModal {
     pdf.addImage(page2URL, 'PNG', 0, 0, imgWidth, imgHeight2);
     pdf.save(`${this.reportName}.pdf`);
   }
-
-  
 }

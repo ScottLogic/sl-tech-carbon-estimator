@@ -142,4 +142,4 @@ export type ChartOptions = {
 export type jsonExport = {
   estimate: CarbonEstimation | undefined;
   input: EstimatorValues | undefined;
-}; 
+};

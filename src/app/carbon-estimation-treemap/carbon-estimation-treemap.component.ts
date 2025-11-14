@@ -80,7 +80,9 @@ export class CarbonEstimationTreemapComponent {
       : this.carbonEstimationUtilService.getOverallPercentageLabel(emissions);
   }
 
-  private getOverallEmissionFigures(carbonEstimationPart: CarbonEstimationValues|CarbonEstimationPercentages): ApexAxisChartSeries {
+  private getOverallEmissionFigures(
+    carbonEstimationPart: CarbonEstimationValues | CarbonEstimationPercentages
+  ): ApexAxisChartSeries {
     return [
       {
         name: `${EmissionsLabels.Upstream} - ${this.getOverallLabel(carbonEstimationPart.upstreamEmissions)}`,

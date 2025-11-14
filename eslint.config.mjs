@@ -23,7 +23,11 @@ export default defineConfig([globalIgnores(["projects/**/*"]), {
         "plugin:prettier/recommended",
     ),
 
-    rules: {},
+    rules: {
+        "prettier/prettier": ["error", {
+            "endOfLine": "auto",
+        }],
+    },
 }, {
     files: ["**/*.html"],
 
@@ -45,6 +49,7 @@ export default defineConfig([globalIgnores(["projects/**/*"]), {
     rules: {
         "prettier/prettier": ["error", {
             parser: "angular",
+            "endOfLine": "auto",
         }],
     },
 }]);
