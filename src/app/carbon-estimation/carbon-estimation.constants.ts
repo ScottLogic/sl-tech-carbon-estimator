@@ -116,7 +116,7 @@ export const getBaseChartOptions = (isPlaceholder: boolean, isMass: boolean) => 
     states: {
       active: {
         filter: {
-          type: 'none'
+          type: 'none',
         },
       },
     },
