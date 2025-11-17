@@ -44,9 +44,9 @@ Determining the primary purpose of your digital service can often be challenging
 - Social Media
 - Streaming 
 
-Information is a very broad category but can cover everything up to and including capturing data from users (forms, user account creation) and simple checkout/payment services (paying a bill or invoice).
+Information is a very broad category but can cover everything up to and including capturing data from users (forms, user account creation) and simple checkout/payment services or basic digital transactions (paying invoices, bills etc).
 
-E-Commerce sites tend to be more involved, with users spending much more time navigating/browsing the site and more involved checkout/payment processes.
+E-Commerce sites tend to be more involved, with users spending much more time navigating/browsing the site and more involved checkout/payment processes. The services will often also have more media content so data transfer is higher.
 
 Social Media services will usually involve much more content, images and short videos, along with fairly extended user engagement times.
 
