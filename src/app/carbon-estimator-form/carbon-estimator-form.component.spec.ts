@@ -30,7 +30,7 @@ describe('CarbonEstimatorFormComponent', () => {
       imports: [CarbonEstimatorFormComponent],
       providers: [
         { provide: StorageService, useClass: MockStorageService },
-        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object') }
+        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object') },
       ],
     }).compileComponents();
 

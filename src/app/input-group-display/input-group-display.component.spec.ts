@@ -7,7 +7,7 @@ describe('InputGroupDisplay', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InputGroupDisplay]
+      imports: [InputGroupDisplay],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputGroupDisplay);
@@ -44,7 +44,7 @@ describe('InputGroupDisplay', () => {
       monthlyCloudBill: { min: 100, max: 200 },
       cloudPercentage: 50,
       cloudLocation: 'UK',
-      noCloudServices: false
+      noCloudServices: false,
     });
     fixture.detectChanges();
     const items = fixture.nativeElement.querySelectorAll('li');

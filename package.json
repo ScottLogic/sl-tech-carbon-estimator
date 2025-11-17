@@ -12,6 +12,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration development",
     "start:npm-package": "ng serve --configuration npm-package",
     "prepare": "bash ./scripts/prepare.sh",
     "build": "ng build",

@@ -249,9 +249,7 @@ export class CarbonEstimationTableComponent {
             emissionsValue: this.carbonEstimationUtilService.getAbsoluteValueLabel(
               carbonEstimation.values.totalEmissions
             ),
-            emissionsPercentage: this.carbonEstimationUtilService.getPercentageLabel(
-              100
-            ),
+            emissionsPercentage: this.carbonEstimationUtilService.getPercentageLabel(100),
             colour: { background: EmissionsColours.Total },
             display: true,
             positionInSet: 5,
