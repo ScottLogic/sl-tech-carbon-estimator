@@ -79,7 +79,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",
-    "semantic-release": "^24.2.7",
+    "semantic-release": "^25.0.2",
     "semantic-release-unsquash": "^0.3.0",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.8.0"
