@@ -7,5 +7,5 @@
   "bracketSameLine": true,
   "printWidth": 120,
   "experimentalTernaries": true,
-  "endOfLine": "auto"
+  "endOfLine": "lf"
 }
