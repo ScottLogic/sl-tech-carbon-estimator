@@ -8,8 +8,6 @@ We have created the Tech Carbon Estimator so that it can be used in multiple sit
 
 The semantic-release configuration is currently set to only work successfully against `main` so it is important to follow these steps in preparation for releasing and publishing a new version of the Tech Carbon Estimator.
 
-To confirm the release version, you can run the `publish-dry-run` workflow on the develop branch before creating your branch.
-
 1. Once the code on `develop` has been signed off for release, take a release cut by creating a branch off `develop` with the following naming convention `release/vX.X.X`. The semantic version you use in this branch name should follow the pattern below. 
 
 **To confirm the release version, you can run the `publish-dry-run` workflow on the develop branch before creating your branch.**
