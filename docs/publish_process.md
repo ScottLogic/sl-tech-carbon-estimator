@@ -8,11 +8,13 @@ We have created the Tech Carbon Estimator so that it can be used in multiple sit
 
 The semantic-release configuration is currently set to only work sucessfully against `main` so it is important to follow these steps in prepartion for releasing and publishing a new version of the Tech Carbon Estimator.
 
-1. Once the code on `develop` has been signed off for release, take a release cut by creating a branch off `develop` with the following naming convention `release/vX.X.X`. The semantic version you use in this branch name should follow the pattern below. If you have assessed the commits in the release cut correctly then this will match the version that semantic-release assigns when the publish workflow is run.
+1. Once the code on `develop` has been signed off for release, take a release cut by creating a branch off `develop` with the following naming convention `release/vX.X.X`. The semantic version you use in this branch name should follow the pattern below. 
 
   > - Fix release (contains `fix` commit messages) - increase the patch versaion
   > - Feature (contains  `feat` commit messages) - increase the minor version
   > - Breaking Change (contains `BREAKING CHANGE` commit message) - increase the major version
+
+  To confirm this, you can run the `publish-dry-run` workflow on the release branch and check the output. If you have incorrectly named your release branch, recreate it with the right version.
 
 2. The release branch should then be tested as per the release testing plan. Any issues that are discovered can be fixed directly on the release branch.
 3. Once the release cut has passed the required qaulity gates, it can then be merged into `main`.
