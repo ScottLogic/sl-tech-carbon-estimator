@@ -4,6 +4,22 @@
 
 We have created the Tech Carbon Estimator so that it can be used in multiple sites, by including its package from npm. This document outlines the publishing process, including details on version numbering.
 
+## Creating a new release
+
+The semantic-release configuration is currently set to only work sucessfully against `main` so it is important to follow these steps in prepartion for releasing and publishing a new version of the Tech Carbon Estimator.
+
+1. Once the code on `develop` has been signed off for release, take a release cut by creating a branch off `develop` with the following naming convention `release/vX.X.X`. The semantic version you use in this branch name should follow the pattern below. 
+
+  > - Fix release (contains `fix` commit messages) - increase the patch versaion
+  > - Feature (contains  `feat` commit messages) - increase the minor version
+  > - Breaking Change (contains `BREAKING CHANGE` commit message) - increase the major version
+
+  To confirm this, you can run the `publish-dry-run` workflow on the release branch and check the output. If you have incorrectly named your release branch, recreate it with the right version.
+
+2. The release branch should then be tested as per the release testing plan. Any issues that are discovered can be fixed directly on the release branch.
+3. Once the release cut has passed the required qaulity gates, it can then be merged into `main`.
+4. Publish the release by following the [Publishing via GitHub Action](#publishing-via-github-action) guide below
+
 ## Publish process
 
 We rely on the [semantic-release](https://semantic-release.gitbook.io/semantic-release/) package to take care of determining version numbers and publishing the package to NPM/creating a GitHub release. This means that the version listed in the root `package.json` file is not used within the package process and is set to `0.0.0-semantically-released` for clarity. We also make use of a semantic-release plugin called [semantic-release-unsquash](https://github.com/romap0/semantic-release-unsquash) to ensure that squashed commits can still be analysed to determine the new version number.
