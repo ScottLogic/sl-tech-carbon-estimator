@@ -87,13 +87,13 @@ export const formContext = {
     },
   },
   downstream: {
-    heading: 'End-Users',
+    heading: 'Customers',
     details:
-      'Tell us about your end-users - this refers to any users of your digital services outside of your organisation. This includes visitors to your web sites, web applications and services like B2B API requests. At present we focus on the downstream impact of web based services, estimating an amount of time spent in hours and of Data transferred in GB per month.',
+      'Tell us about your customers - this refers to any users of your digital services outside of your organisation. This includes visitors to your web sites, web applications and services like B2B API requests. At present we focus on the downstream impact of web based services, estimating an amount of time spent in hours and of Data transferred in GB per month.',
     formGroupName: 'downstream',
     location: {
-      label: 'Where are your end-users primarily located?',
-      helperText: 'end-user devices and network infrastructure',
+      label: 'Where are your customers primarily located?',
+      helperText: 'customer devices and network infrastructure',
       formControlName: 'customerLocation',
       hasUnknown: false,
     },
@@ -115,7 +115,8 @@ export const formContext = {
 export const questionPanelConfig: ExpansionPanelConfig = {
   startsExpanded: false,
   buttonStyles: 'material-icons-outlined tce:text-base tce:hover:bg-slate-200 tce:hover:rounded',
-  contentContainerStyles: 'tce:px-3 tce:py-2 tce:bg-slate-100 tce:border tce:border-slate-400 tce:rounded-sm tce:text-sm tce:dark:text-slate-800',
+  contentContainerStyles:
+    'tce:px-3 tce:py-2 tce:bg-slate-100 tce:border tce:border-slate-400 tce:rounded-sm tce:text-sm tce:dark:text-slate-800',
 };
 
 export const locationDescriptions: Record<WorldLocation, string> = {

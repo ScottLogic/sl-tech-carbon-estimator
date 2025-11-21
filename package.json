@@ -12,6 +12,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration development",
     "start:npm-package": "ng serve --configuration npm-package",
     "prepare": "bash ./scripts/prepare.sh",
     "build": "ng build",
@@ -55,6 +56,10 @@
     "@angular/cli": "^20.0.0",
     "@angular/compiler-cli": "^20.0.0",
     "@axe-core/playwright": "^4.10.2",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.54.1",
     "@types/jasmine": "~5.1.0",
     "@types/lodash-es": "^4.17.12",
@@ -63,15 +68,18 @@
     "@typescript-eslint/eslint-plugin": "8.38.0",
     "@typescript-eslint/parser": "8.38.0",
     "@web/test-runner": "^0.20.2",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
     "ng-mocks": "^14.13.0",
     "postcss": "^8.5.6",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",
-    "semantic-release": "^24.2.7",
+    "semantic-release": "^25.0.2",
     "semantic-release-unsquash": "^0.3.0",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.8.0"
@@ -90,5 +98,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ScottLogic/sl-tech-carbon-estimator.git"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

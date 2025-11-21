@@ -27,6 +27,8 @@ describe('CarbonEstimationComponent', () => {
           employee: 6,
           network: 6,
           server: 6,
+          foundationModels: 0,
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 9,
@@ -41,7 +43,7 @@ describe('CarbonEstimationComponent', () => {
         aiInferenceEmissions: defaultAIInferenceEmissions, downstreamEmissions: {
           endUser: 13,
           networkTransfer: 12,
-          downstreamInfrastructure: 0
+          downstreamInfrastructure: 0,
         },
       },
       values: {
@@ -51,6 +53,8 @@ describe('CarbonEstimationComponent', () => {
           employee: 600,
           network: 600,
           server: 600,
+          foundationModels: 0,
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 900,
@@ -155,10 +159,45 @@ describe('CarbonEstimationComponent', () => {
   });
 
   it('should enable the export button if there is a carbon estimation', () => {
-    let compiled = fixture.nativeElement as HTMLElement;
+    const compiled = fixture.nativeElement as HTMLElement;
     const buttons = compiled.querySelectorAll('button');
     const exportButton = Array.from(buttons).find(button => button.classList.contains('tce-export-button'));
 
     expect(exportButton?.disabled).toBeFalse();
+  });
+
+  it('should default to annual and use the annual estimate for estimate()', () => {
+    expect(component.isAnnual()).toBeTrue();
+    expect(component.estimate()).toBe(component.carbonEstimation());
+  });
+
+  it('should return a monthly estimate (annual ÷ 12) when switched to monthly', () => {
+    component.isAnnual.set(false);
+    fixture.detectChanges();
+
+    const monthly = component.estimate();
+    expect(monthly).toBeTruthy();
+
+    expect(monthly!.values.totalEmissions).toBeCloseTo(7000 / 12);
+
+    expect(monthly!.values.upstreamEmissions.software).toBeCloseTo(700 / 12);
+
+    expect(component.carbonEstimation()!.values.totalEmissions).toBe(7000);
+  });
+
+  it('should update the active label classes in the DOM when switching', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const labels = Array.from(compiled.querySelectorAll('.tce-switch-label')) as HTMLElement[];
+    expect(labels.length).toBeGreaterThanOrEqual(2);
+
+    expect(labels[0].classList.contains('tce-switch-active')).toBeTrue();
+    expect(labels[1].classList.contains('tce-switch-active')).toBeFalse();
+
+    component.isAnnual.set(false);
+    fixture.detectChanges();
+
+    expect(labels[0].classList.contains('tce-switch-active')).toBeFalse();
+    expect(labels[1].classList.contains('tce-switch-active')).toBeTrue();
   });
 });

@@ -18,6 +18,8 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       employee: 10,
       network: 10,
       server: 5,
+      foundationModels: 0,
+      contentAndData: 0,
     },
     directEmissions: {
       employee: 10,
@@ -31,8 +33,9 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
     },
     aiInferenceEmissions: defaultAIInferenceEmissions,
     downstreamEmissions: {
-      endUser: 15,
+      customer: 15,
       networkTransfer: 10,
+      downstreamInfrastructure: 0,
       downstreamInfrastructure: 0,
     },
     totalEmissions: 70,
@@ -44,6 +47,8 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       employee: 600,
       network: 600,
       server: 600,
+      foundationModels: 0,
+      contentAndData: 0,
     },
     directEmissions: {
       employee: 900,
@@ -57,8 +62,9 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
     },
     aiInferenceEmissions: defaultAIInferenceEmissions,
     downstreamEmissions: {
-      endUser: 1300,
+      customer: 1300,
       networkTransfer: 1200,
+      downstreamInfrastructure: 0,
       downstreamInfrastructure: 0,
     },
     totalEmissions: 7000,
@@ -90,8 +96,8 @@ describe('TechCarbonEstimatorComponent', () => {
   it('should show the form by default', () => {
     fixture.detectChanges();
 
-    const formElement = fixture.nativeElement.querySelector('carbon-estimator-form');
-    const assumptionsElement = fixture.nativeElement.querySelector('assumptions-and-limitation');
+    const formElement = fixture.nativeElement.shadowRoot.querySelector('carbon-estimator-form');
+    const assumptionsElement = fixture.nativeElement.shadowRoot.querySelector('assumptions-and-limitation');
 
     expect(formElement).toBeTruthy();
     expect(assumptionsElement).toBeFalsy();

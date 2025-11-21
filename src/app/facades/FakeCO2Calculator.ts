@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateComponents } from './ICO2Calculator';
+import { Injectable } from '@angular/core';
+import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateComponents } from './ICO2Calculator';
 
 @Injectable()
 export class FakeCO2Calculator implements ICO2Calculator {

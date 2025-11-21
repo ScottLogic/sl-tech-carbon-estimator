@@ -5,7 +5,7 @@ on:
       commit_message:
         description: 'Commit message'
         required: false
-        default: 'Auto-commit: Update screenshots'
+        default: 'chore(automation): update screenshots'
 permissions:
   contents: write
 
@@ -15,16 +15,16 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up environment
         uses: ./.github/actions/set-up-environment
-        
+
       - name: Run Playwright
         uses: ./.github/actions/update-playwright-screenshots
-        
+
       - name: Check for changes
         id: changes
         shell: bash
@@ -34,7 +34,7 @@ jobs:
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-         
+
       - name: Commit and push changes
         if: steps.changes.outputs.changed == 'true'
         shell: bash
@@ -42,8 +42,8 @@ jobs:
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           git config --local user.name "${{ github.actor }}"
           git add .
-          git commit -m "${{ github.event.inputs.commit_message || 'Auto-commit: Update screenshots' }} (by @${{ github.actor }})"
-          
+          git commit --no-verify -m "${{ github.event.inputs.commit_message || 'chore(automation): update screenshots' }} (by @${{ github.actor }})"
+
           for i in 1 2; do
             if git pull --rebase origin "${GITHUB_REF_NAME}"; then
               if git push; then

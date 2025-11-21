@@ -21,8 +21,23 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico"],
-            "styles": ["src/styles.css", "src/sl-styles.css"],
-            "scripts": []
+            "styles": [
+              {
+                "input": "src/tce-global-styles.css",
+                "bundleName": "tce-global-styles",
+                "inject": true
+              },
+              {
+                "input": "src/styles.css",
+                "bundleName": "styles",
+                "inject": false
+              },
+               {
+                "input": "src/sl-styles.css",
+                "bundleName": "styles",
+                "inject": false
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -43,7 +58,33 @@
             "npm-package": {
               "index": {"input": "src/package-index.html", "output": "index.html"},
               "assets": [],
-              "styles": ["src/styles.css", "src/package-styles.css"]
+              "styles": [
+              {
+                "input": "src/tce-global-styles.css",
+                "bundleName": "tce-global-styles",
+                "inject": true
+              },
+              {
+                "input": "src/styles.css",
+                "bundleName": "styles",
+                "inject": false
+              },
+              {
+                "input": "src/package-styles.css",
+                "bundleName": "styles",
+                "inject": false
+              }
+              ],
+              "optimization": {
+                  "scripts": true,
+                  "styles": {
+                    "minify": true,
+                    "inlineCritical": false
+                  },
+                  "fonts": true
+                },
+                "extractLicenses": true,
+                "sourceMap": false
             },
             "development": {
               "optimization": false,
@@ -82,7 +123,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": [],
-            "exclude": ["e2e-tests", "playwright"]
+            "exclude": ["playwright-tests", "playwright"]
           }
         },
         "lint": {

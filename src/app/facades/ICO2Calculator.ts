@@ -1,4 +1,4 @@
-import { co2 } from "@tgwf/co2";
+import { co2 } from '@tgwf/co2';
 
 export type NumberOrCO2EstimateComponents = ReturnType<InstanceType<typeof co2>['perByte']>;
 

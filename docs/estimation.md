@@ -260,7 +260,7 @@ Exported so that [`DeviceUsage`](#deviceusage) can reference the type internally
 
 #### `AverageDeviceType`
 
-Exported to allow an average device to be created based on mobile end-user ratio.
+Exported to allow an average device to be created based on mobile customer ratio.
 
 ## device-usage
 

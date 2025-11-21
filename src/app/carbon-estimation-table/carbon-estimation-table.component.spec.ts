@@ -27,6 +27,8 @@ describe('CarbonEstimationTableComponent', () => {
           employee: 6,
           network: 6,
           server: 6,
+          foundationModels: 0,
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 9,
@@ -40,9 +42,9 @@ describe('CarbonEstimationTableComponent', () => {
         },
         aiInferenceEmissions: defaultAIInferenceEmissions,
         downstreamEmissions: {
-          endUser: 13,
+          customer: 13,
           networkTransfer: 12,
-          downstreamInfrastructure: 0
+          downstreamInfrastructure: 0,
         },
       },
       values: {
@@ -52,6 +54,8 @@ describe('CarbonEstimationTableComponent', () => {
           employee: 600,
           network: 600,
           server: 600,
+          foundationModels: 0,
+          contentAndData: 0,
         },
         directEmissions: {
           employee: 900,
@@ -65,9 +69,9 @@ describe('CarbonEstimationTableComponent', () => {
         },
         aiInferenceEmissions: defaultAIInferenceEmissions,
         downstreamEmissions: {
-          endUser: 1300,
+          customer: 1300,
           networkTransfer: 1200,
-          downstreamInfrastructure: 0
+          downstreamInfrastructure: 0,
         },
         totalEmissions: 7000,
       },

@@ -139,7 +139,7 @@ describe('CarbonEstimatorFormComponent', () => {
 
     it('should emit form values including AI inference data on submit', () => {
       spyOn(component.formSubmit, 'emit');
-      
+
       // Set up valid form data including AI inference
       component.estimatorForm.patchValue({
         aiInference: {
@@ -147,12 +147,12 @@ describe('CarbonEstimatorFormComponent', () => {
           primaryTaskType: 'image-classification',
           monthlyInferences: 5000,
           aiServiceProvider: 'google',
-          aiServiceLocation: 'NORTH AMERICA'
-        }
+          aiServiceLocation: 'NORTH AMERICA',
+        },
       });
-      
+
       component.handleSubmit();
-      
+
       expect(component.formSubmit.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({
           aiInference: jasmine.objectContaining({
@@ -160,8 +160,8 @@ describe('CarbonEstimatorFormComponent', () => {
             primaryTaskType: 'image-classification',
             monthlyInferences: 5000,
             aiServiceProvider: 'google',
-            aiServiceLocation: 'NORTH AMERICA'
-          })
+            aiServiceLocation: 'NORTH AMERICA',
+          }),
         })
       );
     });

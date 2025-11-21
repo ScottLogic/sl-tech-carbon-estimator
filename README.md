@@ -1,4 +1,4 @@
-# sl-tech-carbon-estimator
+# Tech Carbon Standard Estimator
 
 The tech carbon estimator is a web component that allow you to estimate, at high level, your carbon emissions
 
@@ -17,6 +17,7 @@ For more information on why this is necessary, see the section on [Line Endings]
 exposed as a web component `tech-carbon-estimator`. The component takes the follow optional input:
 
 - `extra-height` - this is extra height to be taken into account when calculating the height of the chart. E.g. the height of a header/footer that will be visible on the page.
+- `assets-base-path` - this is the path to the folder which contains the styles.css file in the bundle, usually within an assets folder. e.g. 'assets/'
 
 You will need to import the following files to use the tech-carbon-estimator:
 
@@ -52,7 +53,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
 
-If working on WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
+### Option 1: Google Chrome
+
+If working on Debian-based WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
 
 In `/tmp` download .deb\
 `sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
@@ -70,6 +73,18 @@ In `~/.bashrc` add `export CHROME_PATH=/usr/bin/google-chrome-stable`
 
 N.B. These steps assume there isn't a Chrome install on the Windows host machine 
 
+### Option 2: Chromium
+
+This method is compatible with non-Debian WSL and works even if Chrome is installed on the Windows host machine:
+
+Install Chromium using your distribution's package manager
+> Note: Availability out-of-the-box can differ between distributions, e.g. RHEL/CentOS users may need to install `epel-release` first.
+
+Set the environment variable in your shell configuration (e.g. `~/.bashrc` or `~/.zshrc`)\
+`export CHROME_PATH=/usr/bin/chromium`
+
+Reload your shell\
+`source ~/.bashrc`
 
 ## Git Commit messages
 
@@ -80,6 +95,8 @@ This project follows the the [Conventional Commits](https://www.conventionalcomm
 `BREAKING CHANGE: <reason for breaking change>` - Results in a major version increase (ie. 0.0.1 => 1.0.0). This must be the footer/final line of the commit message.
 
 Other prefixes are acceptable (`docs:`, `build:` etc.) but these are the only ones guaranteed to affect the version number. For more information on the Package release process see [Publishing Tech Carbon Estimator Package](docs/publish_process.md).
+
+For ease and consitency Husky and Commitizen have been added so that upon running `git commit` you will be presented with a step by step wizard in the terminal to guide you through creating a correctly formated commit message.
 
 ## Pull Requests / GitHub Actions
 

@@ -7,6 +7,13 @@ import {
   EstimatorValues,
   WorldLocation,
 } from '../types/carbon-estimator';
+import {
+  CarbonEstimation,
+  CarbonEstimationPercentages,
+  CarbonEstimationValues,
+  EstimatorValues,
+  WorldLocation,
+} from '../types/carbon-estimator';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
@@ -80,6 +87,10 @@ function expectPartialNumberCloseTo(actual: NumberObject, expected: NumberObject
   }
 }
 
+function expectPartialEstimationCloseTo(
+  actual: CarbonEstimationPercentages,
+  expected: RecursivePartial<CarbonEstimationPercentages>
+) {
 function expectPartialEstimationCloseTo(
   actual: CarbonEstimationPercentages,
   expected: RecursivePartial<CarbonEstimationPercentages>

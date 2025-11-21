@@ -1,0 +1,4 @@
+# Only run if we have an interactive terminal - allows use of IDE source control as an alternative
+if [ -t 1 ]; then
+  exec < /dev/tty && npx cz --hook || true
+fi

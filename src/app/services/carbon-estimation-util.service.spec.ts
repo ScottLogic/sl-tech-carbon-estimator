@@ -53,7 +53,7 @@ describe('CarbonEstimationUtilService', () => {
       label: 'Employee Hardware',
       svg: 'devices-logo',
     });
-    expect(service.getLabelAndSvg('endUser')).toEqual({ label: 'End-User Devices', svg: 'devices-logo' });
+    expect(service.getLabelAndSvg('customer')).toEqual({ label: 'Customer Devices', svg: 'devices-logo' });
     expect(service.getLabelAndSvg('network', 'Direct Emissions Estimate')).toEqual({
       label: 'Networking and Infrastructure',
       svg: 'router-logo',

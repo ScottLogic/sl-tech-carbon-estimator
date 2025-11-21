@@ -52,19 +52,29 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-switch-container {
-  @apply tce:inline-flex tce:items-center tce:ml-4 tce:bg-gray-100 tce:rounded-2xl tce:px-2 tce:py-0.5;
+  @apply tce:inline-flex tce:items-center tce:ml-8 tce:bg-gray-100 tce:rounded-2xl;
 }
 
 .tce-switch-label {
-  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
+  @apply tce:cursor-pointer tce:px-3 tce:py-1 tce:rounded-2xl tce:font-medium tce:text-slate-800 tce:transition-colors tce:font-sans;
 }
 
 .tce-switch-label.tce-switch-active {
-  @apply tce:bg-cyan-400 tce:text-slate-800;
+  @apply tce:bg-sky-800 tce:text-slate-50;
 }
 
 .tce-switch-input {
   @apply tce:hidden;
+}
+
+.tce-switch-help {
+  @apply tce:absolute tce:top-full tce:left-1/2 tce:-translate-x-1/2 tce:translate-y-2 tce:bg-slate-900/95 tce:text-white tce:px-2 tce:py-1 tce:rounded-md tce:text-sm tce:shadow-lg tce:whitespace-nowrap tce:z-60 tce:opacity-0 tce:pointer-events-none tce:transition tce:duration-160 tce:ease-in-out;
+}
+
+/* show tooltip on hover or keyboard focus of the icon or container */
+.tce-switch-container:hover .tce-switch-help,
+.tce-switch-container:focus-within .tce-switch-help {
+  @apply tce:opacity-100 tce:pointer-events-auto tce:-translate-x-1/2 tce:translate-y-0;
 }
 
 .tce-no-ex-table-header {
@@ -124,7 +134,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-export-button:disabled {
-  @apply tce:opacity-50 tce:text-slate-400 tce:cursor-default;
+  @apply tce:opacity-50 tce:cursor-default;
 }
 
 .tce-export-button {
@@ -134,3 +144,45 @@ input.ng-invalid.ng-touched {
 .tce-export-menu {
   @apply tce:bg-slate-200 tce:dark:bg-sky-900 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
 }
+
+apx-chart .apexcharts-legend .apexcharts-legend-series:hover {
+  @apply tce:dark:bg-cyan-700;
+}
+
+@media (prefers-color-scheme: dark) {
+    .apexcharts-legend-text {
+        --tw-text-opacity: 1 !important;
+        color: rgb(248 250 252 / var(--tw-text-opacity))!important;
+    }
+
+    input.ng-invalid.ng-touched {
+        --tw-border-opacity: 1;
+        border-color: rgb(185 28 28 / var(--tw-border-opacity))
+    }
+
+    .tce-error-box {
+        border-radius: .25rem;
+        border-width: 1px;
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        padding: .25rem;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary {
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+
+    .tce-error-summary-link {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+    }
+  }
