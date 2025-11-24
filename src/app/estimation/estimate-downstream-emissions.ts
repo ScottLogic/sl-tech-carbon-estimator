@@ -156,9 +156,9 @@ export class DownstreamEmissionsEstimator {
   }
 
   estimateDownstreamInfrastructureEmissions(
-    downstream: Downstream,
-    downstreamDataTransfer: number,
-    downstreamIntensity: gCo2ePerKwh
+    _downstream: Downstream,
+    _downstreamDataTransfer: number,
+    _downstreamIntensity: gCo2ePerKwh
   ) {
     return 0; //No method for estimation of IoT devices, etc. as of 12/08/25 for schema v0.0.2
   }

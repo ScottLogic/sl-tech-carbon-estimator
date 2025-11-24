@@ -30,7 +30,7 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 })
 export class TechCarbonEstimatorComponent implements OnInit {
   @Input() public extraHeight?: string;
-  @Input({ alias: 'assets-base-path' }) public assetsBasePath?: string;
+  @Input() public assetsBasePath?: string;
 
   public formValue: EstimatorValues | undefined;
   public carbonEstimation: CarbonEstimation | null = null;

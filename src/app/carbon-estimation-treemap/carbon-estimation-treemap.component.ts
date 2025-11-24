@@ -131,12 +131,9 @@ export class CarbonEstimationTreemapComponent {
   }
 
   private getEmissionFigures(emissions: NumberObject, parent: string): ApexChartDataItem[] {
-    return (
-      Object.entries(emissions)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_key, value]) => value !== 0)
-        .map(([_key, value]) => this.getDataItem(_key, value, parent))
-    );
+    return Object.entries(emissions)
+      .filter(([_key, value]) => value !== 0)
+      .map(([_key, value]) => this.getDataItem(_key, value, parent));
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {

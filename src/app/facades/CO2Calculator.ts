@@ -15,7 +15,7 @@ export class CO2Calculator implements ICO2Calculator {
     return this.calculator.perByte(bytes);
   }
 
-  perByteTrace(bytes: number, green?: boolean | undefined, options?: any): CO2EstimateTraceResultPerByte {
+  perByteTrace(bytes: number, green?: boolean | undefined, options?: unknown): CO2EstimateTraceResultPerByte {
     return this.calculator.perByteTrace(bytes, green, options);
   }
 

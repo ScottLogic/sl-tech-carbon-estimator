@@ -265,23 +265,20 @@ export class CarbonEstimationTableComponent {
     backgroundColour: string,
     display = true
   ): TableItem[] {
-    return (
-      Object.entries(values)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_key, value]) => value !== 0)
-        .map(([key, value], index, array) =>
-          this.getChildTableItem(
-            key,
-            value,
-            percentages[key],
-            parent,
-            { background: backgroundColour, svg: svgColour },
-            display,
-            index + 1,
-            array.length
-          )
+    return Object.entries(values)
+      .filter(([_key, value]) => value !== 0)
+      .map(([key, value], index, array) =>
+        this.getChildTableItem(
+          key,
+          value,
+          percentages[key],
+          parent,
+          { background: backgroundColour, svg: svgColour },
+          display,
+          index + 1,
+          array.length
         )
-    );
+      );
   }
 
   private getParentTableItems(

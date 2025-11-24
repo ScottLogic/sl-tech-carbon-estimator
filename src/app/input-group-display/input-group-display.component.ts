@@ -7,7 +7,7 @@ import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimato
   templateUrl: './input-group-display.component.html',
 })
 export class InputGroupDisplay {
-  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | {}>();
+  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | Record<string, never>>();
   public group = input<string>();
 
   public displayEntries = computed(() => {
