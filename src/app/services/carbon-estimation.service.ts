@@ -3,7 +3,6 @@ import {
   CarbonEstimation,
   CarbonEstimationPercentages,
   CarbonEstimationValues,
-  Downstream,
   EstimatorValues,
 } from '../types/carbon-estimator';
 import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';

@@ -1,6 +1,5 @@
 import { Component, computed, input } from '@angular/core';
 import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimator';
-import { entries } from 'lodash-es';
 
 @Component({
   selector: 'input-group-display',

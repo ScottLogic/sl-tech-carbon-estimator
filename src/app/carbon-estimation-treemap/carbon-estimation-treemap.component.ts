@@ -11,7 +11,6 @@ import {
 } from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../utils/number-object';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
-import html2canvas from 'html2canvas-pro';
 import { CommonModule } from '@angular/common';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };

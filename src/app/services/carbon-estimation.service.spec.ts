@@ -3,7 +3,6 @@ import { CarbonEstimationService } from './carbon-estimation.service';
 import {
   CarbonEstimation,
   CarbonEstimationPercentages,
-  CarbonEstimationValues,
   EstimatorValues,
   WorldLocation,
 } from '../types/carbon-estimator';
