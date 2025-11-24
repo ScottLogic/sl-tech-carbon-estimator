@@ -37,7 +37,6 @@ export class ExportModal {
 
   public reportName = this.placeHolder;
 
-
   closeModal(): void {
     this.closePreview.emit();
   }
