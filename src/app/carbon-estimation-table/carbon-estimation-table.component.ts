@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, input } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, input, inject } from '@angular/core';
 import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
@@ -36,17 +36,15 @@ type ArrowDirectionVertical = 'up' | 'down';
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
+  private carbonEstimationUtilService = inject(CarbonEstimationUtilService);
+  private changeDetector = inject(ChangeDetectorRef);
+
   public carbonEstimation = input<CarbonEstimation>();
   public shouldShowSvgs = input.required<boolean>();
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
   private expandedState: { [key: string]: boolean } = {};
-
-  constructor(
-    private carbonEstimationUtilService: CarbonEstimationUtilService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
 
   public toggle(category: string): void {
     this.tableData().forEach(emission => {

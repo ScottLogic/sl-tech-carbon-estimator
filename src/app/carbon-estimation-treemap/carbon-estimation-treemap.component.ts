@@ -1,4 +1,4 @@
-import { Component, ViewChild, computed, effect, input, signal } from '@angular/core';
+import { Component, ViewChild, computed, effect, input, signal, inject } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../types/carbon-estimator';
 import {
@@ -28,6 +28,8 @@ type ApexChartSeries = {
   templateUrl: './carbon-estimation-treemap.component.html',
 })
 export class CarbonEstimationTreemapComponent {
+  private carbonEstimationUtilService = inject(CarbonEstimationUtilService);
+
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = input.required<number>();
   public shouldShowUnitsSwitch = input.required<boolean>();
@@ -41,7 +43,7 @@ export class CarbonEstimationTreemapComponent {
 
   @ViewChild('chart') private chart: ChartComponent | undefined;
 
-  constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {
+  constructor() {
     effect(() => {
       const chartHeight = this.chartHeight();
       if (chartHeight !== this.chartOptions().chart.height) {

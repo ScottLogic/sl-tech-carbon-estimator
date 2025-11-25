@@ -5,8 +5,7 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { By } from '@angular/platform-browser';
 
-import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
-import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
+import { provideFakeCO2CalculatorMock } from '../test-utils/fake-co2-calculator.testing';
 
 const getMockCarbonEstimation: () => CarbonEstimation = () => ({
   percentages: {
@@ -77,10 +76,7 @@ describe('TechCarbonEstimatorComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TechCarbonEstimatorComponent],
-      providers: [
-        { provide: CarbonEstimationService, useValue: estimationServiceStub },
-        { provide: CO2_CALCULATOR, useValue: new FakeCO2Calculator('object') },
-      ],
+      providers: [{ provide: CarbonEstimationService, useValue: estimationServiceStub }, provideFakeCO2CalculatorMock],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TechCarbonEstimatorComponent);

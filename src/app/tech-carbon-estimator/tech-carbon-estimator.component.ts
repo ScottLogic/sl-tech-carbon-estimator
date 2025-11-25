@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
@@ -29,6 +38,10 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class TechCarbonEstimatorComponent implements OnInit {
+  private estimationService = inject(CarbonEstimationService);
+  private changeDetector = inject(ChangeDetectorRef);
+  private ref = inject(ElementRef);
+
   @Input() public extraHeight?: string;
   @Input() public assetsBasePath?: string;
 
@@ -36,12 +49,6 @@ export class TechCarbonEstimatorComponent implements OnInit {
   public carbonEstimation: CarbonEstimation | null = null;
 
   @ViewChild('estimations') estimations!: ElementRef;
-
-  constructor(
-    private estimationService: CarbonEstimationService,
-    private changeDetector: ChangeDetectorRef,
-    private ref: ElementRef
-  ) {}
 
   ngOnInit() {
     this.insertShadowStylesLink();

@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
   input,
+  inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
@@ -51,6 +52,11 @@ import { FormStateService } from '../services/form-state.service';
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
+  private formBuilder = inject(FormBuilder);
+  private changeDetector = inject(ChangeDetectorRef);
+  private estimationService = inject(CarbonEstimationService);
+  private formStateService = inject(FormStateService);
+
   public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
@@ -100,13 +106,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public submitted = false;
 
   public compareCostRanges = compareCostRanges;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private changeDetector: ChangeDetectorRef,
-    private estimationService: CarbonEstimationService,
-    private formStateService: FormStateService
-  ) {}
 
   public ngOnInit() {
     this.estimatorForm = this.formBuilder.nonNullable.group({
