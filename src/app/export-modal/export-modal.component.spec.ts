@@ -145,9 +145,9 @@ describe('ExportModal', () => {
       height: 200,
       toDataURL: () => 'data:image/png;base64,mock',
     };
-    spyOn(document, 'getElementById').and.callFake((id: string) => ({ ...mockCanvas }) as any);
+    spyOn(document, 'getElementById').and.returnValue(mockCanvas as HTMLCanvasElement);
     const jsPDFMock = jasmine.createSpyObj('jsPDF', ['addImage', 'addPage', 'save']);
-    spyOn<any>(component, 'exportToPDF').and.callFake(async () => {
+    spyOn(component, 'exportToPDF').and.callFake(async () => {
       jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);
       jsPDFMock.addPage();
       jsPDFMock.save('mock.pdf');

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, EventEmitter, input, model, Output } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
   selector: 'tab-item',

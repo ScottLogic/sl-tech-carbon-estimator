@@ -3,9 +3,13 @@ import { CO2EstimateTraceResultPerByte, ICO2Calculator, NumberOrCO2EstimateCompo
 
 @Injectable()
 export class FakeCO2Calculator implements ICO2Calculator {
-  constructor(private readonly returnType: 'number' | 'object' = 'number') {}
+  private returnType: 'number' | 'object' = 'number';
 
-  perByte(bytes: number): NumberOrCO2EstimateComponents {
+  public setReturnType(type: 'number' | 'object'): void {
+    this.returnType = type;
+  }
+
+  perByte(_bytes: number): NumberOrCO2EstimateComponents {
     if (this.returnType === 'number') {
       return 0;
     } else {
@@ -19,7 +23,7 @@ export class FakeCO2Calculator implements ICO2Calculator {
     }
   }
 
-  perByteTrace(bytes: number, green?: boolean | undefined, options?: any): CO2EstimateTraceResultPerByte {
+  perByteTrace(bytes: number, green?: boolean | undefined, _options?: unknown): CO2EstimateTraceResultPerByte {
     return {
       co2:
         this.returnType == 'number' ?

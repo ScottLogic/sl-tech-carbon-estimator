@@ -1,4 +1,4 @@
-import { Component, ViewChild, computed, effect, input, signal } from '@angular/core';
+import { Component, ViewChild, computed, effect, input, signal, inject } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../types/carbon-estimator';
 import {
@@ -11,7 +11,6 @@ import {
 } from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../utils/number-object';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
-import html2canvas from 'html2canvas-pro';
 import { CommonModule } from '@angular/common';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };
@@ -29,6 +28,8 @@ type ApexChartSeries = {
   templateUrl: './carbon-estimation-treemap.component.html',
 })
 export class CarbonEstimationTreemapComponent {
+  private carbonEstimationUtilService = inject(CarbonEstimationUtilService);
+
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = input.required<number>();
   public shouldShowUnitsSwitch = input.required<boolean>();
@@ -42,7 +43,7 @@ export class CarbonEstimationTreemapComponent {
 
   @ViewChild('chart') private chart: ChartComponent | undefined;
 
-  constructor(private carbonEstimationUtilService: CarbonEstimationUtilService) {
+  constructor() {
     effect(() => {
       const chartHeight = this.chartHeight();
       if (chartHeight !== this.chartOptions().chart.height) {
@@ -132,12 +133,9 @@ export class CarbonEstimationTreemapComponent {
   }
 
   private getEmissionFigures(emissions: NumberObject, parent: string): ApexChartDataItem[] {
-    return (
-      Object.entries(emissions)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_key, value]) => value !== 0)
-        .map(([_key, value]) => this.getDataItem(_key, value, parent))
-    );
+    return Object.entries(emissions)
+      .filter(([_key, value]) => value !== 0)
+      .map(([_key, value]) => this.getDataItem(_key, value, parent));
   }
 
   private getDataItem(key: string, value: number, parent: string): ApexChartDataItem {

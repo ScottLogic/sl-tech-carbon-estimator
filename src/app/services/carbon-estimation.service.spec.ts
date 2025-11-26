@@ -3,7 +3,6 @@ import { CarbonEstimationService } from './carbon-estimation.service';
 import {
   CarbonEstimation,
   CarbonEstimationPercentages,
-  CarbonEstimationValues,
   EstimatorValues,
   WorldLocation,
 } from '../types/carbon-estimator';
@@ -12,8 +11,7 @@ import { NumberObject, sumValues } from '../utils/number-object';
 import { version } from '../../../package.json';
 import { CarbonIntensityService } from './carbon-intensity.service';
 import { gCo2ePerKwh } from '../types/units';
-import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
-import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
+import { provideFakeCO2CalculatorMock } from '../test-utils/fake-co2-calculator.testing';
 
 const emptyEstimatorValues: EstimatorValues = {
   upstream: {
@@ -101,7 +99,7 @@ describe('CarbonEstimationService', () => {
         CarbonEstimationService,
         { provide: LoggingService, useValue: logSpy },
         { provide: CarbonIntensityService, useValue: intensitySpy },
-        { provide: CO2_CALCULATOR, useFactory: () => new FakeCO2Calculator('object') },
+        provideFakeCO2CalculatorMock,
       ],
     });
     service = TestBed.inject(CarbonEstimationService);

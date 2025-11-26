@@ -13,7 +13,7 @@ const compat = new FlatCompat({
 });
 
 export default defineConfig([
-  globalIgnores(['projects/**/*']),
+  globalIgnores(['.angular/**', 'dist/**', 'node_modules/**', 'test-results/**', 'playwright-report/**']),
   {
     files: ['**/*.ts'],
     extends: compat.extends(
@@ -25,6 +25,13 @@ export default defineConfig([
     ),
     rules: {
       'prettier/prettier': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {

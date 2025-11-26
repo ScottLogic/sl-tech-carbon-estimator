@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { FormGroup } from '@angular/forms';
 import { ControlState, FormState } from '../carbon-estimator-form/carbon-estimator-form.constants';
@@ -8,7 +8,7 @@ import { EstimatorFormValues } from '../types/carbon-estimator';
   providedIn: 'root',
 })
 export class FormStateService {
-  constructor(private storageService: StorageService) {}
+  private storageService = inject(StorageService);
 
   getControlStates(estimatorForm: FormGroup<EstimatorFormValues>) {
     const controlStates: Record<string, ControlState> = {};

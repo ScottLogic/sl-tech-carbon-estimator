@@ -1,6 +1,5 @@
 import { Component, computed, input } from '@angular/core';
 import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimator';
-import { entries } from 'lodash-es';
 
 @Component({
   selector: 'input-group-display',
@@ -8,7 +7,7 @@ import { entries } from 'lodash-es';
   templateUrl: './input-group-display.component.html',
 })
 export class InputGroupDisplay {
-  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | {}>();
+  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | Record<string, never>>();
   public group = input<string>();
 
   public displayEntries = computed(() => {

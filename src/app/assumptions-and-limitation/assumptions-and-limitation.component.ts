@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
 import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
@@ -33,6 +33,9 @@ const locationDescriptions: Record<WorldLocation, string> = {
   imports: [DecimalPipe, ExternalLinkDirective],
 })
 export class AssumptionsAndLimitationComponent {
+  private intensityService = inject(CarbonIntensityService);
+  private downstreamEstimator = inject(DownstreamEmissionsEstimator);
+
   readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
   readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
   readonly siteTypeInfo;
@@ -68,10 +71,7 @@ export class AssumptionsAndLimitationComponent {
     },
   ];
 
-  constructor(
-    private intensityService: CarbonIntensityService,
-    private downstreamEstimator: DownstreamEmissionsEstimator
-  ) {
+  constructor() {
     this.siteTypeInfo = purposeOfSiteArray.map(purpose => ({
       type: purposeDescriptions[purpose],
       time: this.downstreamEstimator.siteTypeInfo[purpose].averageMonthlyUserTime,
