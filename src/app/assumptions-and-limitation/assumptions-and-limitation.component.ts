@@ -6,6 +6,7 @@ import { DecimalPipe } from '@angular/common';
 import { CarbonIntensityService } from '../services/carbon-intensity.service';
 import { desktop, laptop, mobile, monitor, network, server, tablet } from '../estimation/device-type';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { TestBed } from '@angular/core/testing';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',
@@ -71,7 +72,7 @@ export class AssumptionsAndLimitationComponent {
     },
   ];
 
-  constructor() {
+  constructor(test: TestBed) {
     this.siteTypeInfo = purposeOfSiteArray.map(purpose => ({
       type: purposeDescriptions[purpose],
       time: this.downstreamEstimator.siteTypeInfo[purpose].averageMonthlyUserTime,

@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   workflow_call:
   push:
-    branches:
-      - main
-      - develop
-      - 'release/**'
+    # branches:
+    #   - main
+    #   - develop
+    #   - 'release/**'
 jobs:
   lint:
     runs-on: ubuntu-latest
