@@ -1,18 +1,17 @@
-import { TestBed } from '@angular/core/testing';
+import { provideFakeCO2CalculatorMock } from '../test-utils/fake-co2-calculator.testing';
 import { Downstream, DownstreamEstimation, PurposeOfSite, basePurposeArray } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { DownstreamEmissionsEstimator } from './estimate-downstream-emissions';
-import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
-import { FakeCO2Calculator } from '../facades/FakeCO2Calculator';
-import { ICO2Calculator } from '../facades/ICO2Calculator';
+import { TestBed } from '@angular/core/testing';
 
-let co2Calc: ICO2Calculator;
 let estimator: DownstreamEmissionsEstimator;
 
 describe('estimateDownstreamEmissions()', () => {
   beforeEach(() => {
-    co2Calc = new FakeCO2Calculator('object');
-    estimator = new DownstreamEmissionsEstimator(co2Calc);
+    TestBed.configureTestingModule({
+      providers: [provideFakeCO2CalculatorMock, DownstreamEmissionsEstimator],
+    });
+    estimator = TestBed.inject(DownstreamEmissionsEstimator);
   });
 
   const carbonIntensity = 500;

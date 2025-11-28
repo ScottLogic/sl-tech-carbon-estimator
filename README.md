@@ -53,7 +53,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
 
-If working on WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
+### Option 1: Google Chrome
+
+If working on Debian-based WSL the following steps establish a Chrome instance that can be used by Web Test Runner:
 
 In `/tmp` download .deb\
 `sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
@@ -71,6 +73,18 @@ In `~/.bashrc` add `export CHROME_PATH=/usr/bin/google-chrome-stable`
 
 N.B. These steps assume there isn't a Chrome install on the Windows host machine 
 
+### Option 2: Chromium
+
+This method is compatible with non-Debian WSL and works even if Chrome is installed on the Windows host machine:
+
+Install Chromium using your distribution's package manager
+> Note: Availability out-of-the-box can differ between distributions, e.g. RHEL/CentOS users may need to install `epel-release` first.
+
+Set the environment variable in your shell configuration (e.g. `~/.bashrc` or `~/.zshrc`)\
+`export CHROME_PATH=/usr/bin/chromium`
+
+Reload your shell\
+`source ~/.bashrc`
 
 ## Git Commit messages
 

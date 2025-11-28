@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, computed, input } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, input, inject } from '@angular/core';
 import { CarbonEstimation } from '../types/carbon-estimator';
 import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
 import { NumberObject } from '../utils/number-object';
-import { CommonModule, NgClass, NgStyle } from '@angular/common';
-import html2canvas from 'html2canvas-pro';
+import { CommonModule } from '@angular/common';
 
 export type TableItem = TableItemLevel1 | TableItemLevel2;
 
@@ -37,17 +36,15 @@ type ArrowDirectionVertical = 'up' | 'down';
   templateUrl: './carbon-estimation-table.component.html',
 })
 export class CarbonEstimationTableComponent {
+  private carbonEstimationUtilService = inject(CarbonEstimationUtilService);
+  private changeDetector = inject(ChangeDetectorRef);
+
   public carbonEstimation = input<CarbonEstimation>();
   public shouldShowSvgs = input.required<boolean>();
 
   public tableData = computed(() => this.getTableData(this.carbonEstimation()));
 
   private expandedState: { [key: string]: boolean } = {};
-
-  constructor(
-    private carbonEstimationUtilService: CarbonEstimationUtilService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
 
   public toggle(category: string): void {
     this.tableData().forEach(emission => {
@@ -266,23 +263,20 @@ export class CarbonEstimationTableComponent {
     backgroundColour: string,
     display = true
   ): TableItem[] {
-    return (
-      Object.entries(values)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_key, value]) => value !== 0)
-        .map(([key, value], index, array) =>
-          this.getChildTableItem(
-            key,
-            value,
-            percentages[key],
-            parent,
-            { background: backgroundColour, svg: svgColour },
-            display,
-            index + 1,
-            array.length
-          )
+    return Object.entries(values)
+      .filter(([_key, value]) => value !== 0)
+      .map(([key, value], index, array) =>
+        this.getChildTableItem(
+          key,
+          value,
+          percentages[key],
+          parent,
+          { background: backgroundColour, svg: svgColour },
+          display,
+          index + 1,
+          array.length
         )
-    );
+      );
   }
 
   private getParentTableItems(

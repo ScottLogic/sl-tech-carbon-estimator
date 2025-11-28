@@ -9,7 +9,17 @@ on:
       - develop
       - 'release/**'
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up environment
+        uses: ./.github/actions/set-up-environment
+      - name: Run ESLint
+        run: npm run lint
   build:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Check out code

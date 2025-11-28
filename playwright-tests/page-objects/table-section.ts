@@ -23,8 +23,8 @@ export class TableSection {
   public readonly percentageColumn: Locator;
 
   constructor(public page: Page) {
-    this.categoryHeading = page.getByRole('gridcell', { name: 'Category' });
-    this.emissionsHeading = page.getByRole('gridcell', { name: 'Emissions' });
+    this.categoryHeading = page.getByRole('columnheader', { name: 'Category' });
+    this.emissionsHeading = page.getByRole('columnheader', { name: 'Emissions' });
     this.noEstimationsText = page.getByRole('gridcell', { name: 'No estimation available' });
     this.upstreamEmissionsEstimate = page.getByRole('gridcell', { name: 'Upstream Emissions Estimate', exact: true });
     this.employeeHardware = page.getByRole('gridcell', { name: 'Employee Hardware', exact: true });
