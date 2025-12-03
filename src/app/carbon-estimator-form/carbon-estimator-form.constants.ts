@@ -43,7 +43,23 @@ export const defaultValues: Required<EstimatorValues> = {
   },
 };
 
-export const formContext = {
+export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream';
+
+export type FormContextSection = {
+  heading: string;
+  details: string;
+  formGroupName: string;
+  location: {
+    label: string;
+    helperText: string;
+    formControlName: string;
+    hasUnknown: boolean;
+  };
+};
+
+export type FormContext = Record<FormContextKey, FormContextSection>;
+
+export const formContext: FormContext = {
   upstream: {
     heading: 'Organisation',
     details:
