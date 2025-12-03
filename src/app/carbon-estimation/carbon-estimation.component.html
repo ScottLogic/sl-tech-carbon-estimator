@@ -43,6 +43,8 @@
       </button>
 
       @if (isExportMenuOpen) {
+        <!-- disabling accessibility linting for the following div because it's only supposed to stop click event propagation up the DOM and not actually be clicked or focussed -->
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
         <div
           class="tce:top-full tce:left-0 tce-mt-2 tce:bg-white tce:shadow-lg tce:rounded tce:z-50"
           (click)="$event.stopPropagation()">

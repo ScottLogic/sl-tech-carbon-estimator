@@ -8,6 +8,7 @@
   </thead>
   @if (tableData().length > 0) {
     <tbody
+      tabindex="0"
       (keydown.home)="homeEndKeyBoardEvent($event)"
       (keydown.end)="homeEndKeyBoardEvent($event)"
       (keydown.control.home)="homeEndKeyBoardEvent($event)"

@@ -1,4 +1,6 @@
-<div class="tce-export-modal-overlay" (click)="closeModal()">
+<div class="tce-export-modal-overlay" (click)="closeModal()" (keydown.escape)="closeModal()" tabindex="0">
+  <!-- disabling accessibility linting for the following div because it's only supposed to stop click event propagation up the DOM and not actually be clicked or focussed -->
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div class="tce-export-modal-content" (click)="$event.stopPropagation()">
     <div class="tce:mb-2">
       <label
