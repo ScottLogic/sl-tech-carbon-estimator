@@ -1,0 +1,61 @@
+<form [formGroup]="estimatorForm()">
+  <div formGroupName="cloud">
+    <section-header [heading]="formContext.cloud.heading" [sectionDetails]="formContext.cloud.details" />
+
+    <div class="tce:flex tce:flex-col tce:gap-4">
+      <div class="tce:flex tce:gap-2 tce:items-center">
+        <input
+          id="noCloudServices"
+          type="checkbox"
+          formControlName="noCloudServices"
+          class="tce:rounded-sm tce:cursor-pointer" />
+        <label for="noCloudServices" class="tce:cursor-pointer tce:select-none">We don't use cloud services</label>
+      </div>
+
+      @if (!noCloudServices()) {
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="cloudPercentage" class="tce:text-sm"
+            >What percentage of your servers are cloud services vs on-premise?</label
+          >
+          <input
+            id="cloudPercentage"
+            class="tce:cursor-pointer tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
+            formControlName="cloudPercentage"
+            name="cloudPercentage"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
+          <div class="tce:flex tce:justify-between tce:text-sm">
+            <span>Cloud {{ cloudPercentage() }}%</span>
+            <span>On-premise {{ onPremisePercentage() }}%</span>
+          </div>
+        </div>
+
+        <location-input formContextKey="cloud" [locationForm]="estimatorForm()"></location-input>
+
+        <div>
+          <p>
+            We have derived a rough figure to give a ratio from US dollars spent to kWh of energy used in data centres.
+          </p>
+        </div>
+
+        <div class="tce:flex tce:flex-col tce:gap-2">
+          <label for="monthlyCloudBill" class="tce:text-sm">What is your monthly cloud bill?</label>
+          <select
+            id="monthlyCloudBill"
+            class="tce-select tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
+            formControlName="monthlyCloudBill"
+            name="monthlyCloudBill"
+            required
+            [compareWith]="compareCostRanges">
+            @for (range of costRanges; track $index) {
+              <option [ngValue]="range">{{ range | formatCostRange }}</option>
+            }
+          </select>
+        </div>
+      }
+    </div>
+  </div>
+</form>
