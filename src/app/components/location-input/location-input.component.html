@@ -1,0 +1,37 @@
+<form [formGroup]="locationForm()">
+  <div formGroupName="{{ formContextKey() }}" class="tce:flex tce:flex-col tce:gap-2">
+    <expansion-panel [configOverride]="questionPanelConfig">
+      <div header>
+        <div class="tce:flex">
+          <label for="{{ formControlName() }}" class="tce:text-sm">{{ label() }} </label>
+        </div>
+      </div>
+      <div content>
+        <p class="tce:text-sm">
+          This will affect the average
+          <a class="tce:underline" href="https://www.techcarbonstandard.org/glossary#carbon-intensity" tce-external-link
+            >Carbon Intensity</a
+          >
+          of the energy used by your {{ helperText() }}.
+        </p>
+      </div>
+    </expansion-panel>
+    <select
+      class="tce-select"
+      name="{{ formControlName() }}"
+      formControlName="{{ formControlName() }}"
+      id="{{ formControlName() }}">
+      @for (item of locationDescriptions; track $index) {
+        <option value="{{ item.value }}">{{ item.description }}</option>
+      }
+      @if (hasUnknown()) {
+        <option value="unknown">I don't know</option>
+      }
+    </select>
+    @if (locationForm().get(formContextKey + '.' + formControlName)?.value === 'unknown') {
+      <note>
+        <p>We'll use the assumption that any servers you use are located globally.</p>
+      </note>
+    }
+  </div>
+</form>
