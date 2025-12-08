@@ -1,7 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e } from './units';
-import { Saas } from '../features/saas/components/saas.constants';
+import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -81,9 +81,7 @@ export type EstimatorFormValues = {
     mobilePercentage: FormControl<number>;
     purposeOfSite: FormControl<PurposeOfSite>;
   }>;
-  saas: FormGroup<{
-    microsoft365: FormGroup<{ useMicrosoft365: FormControl<boolean>; organisationUserCount: FormControl<number> }>;
-  }>;
+  saas: SaasFormGroup;
 };
 
 export type OnPremise = {
