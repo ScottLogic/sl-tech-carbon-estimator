@@ -29,6 +29,12 @@ const formValues: EstimatorValues = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
+  saas: {
+    microsoft365: {
+      useMicrosoft365: false,
+      organisationUserCount: 0,
+    },
+  },
 };
 
 const formBuilder = new FormBuilder();
@@ -63,6 +69,12 @@ describe('FormStateService', () => {
         monthlyActiveUsers: [formValues.downstream.monthlyActiveUsers],
         mobilePercentage: [formValues.downstream.mobilePercentage],
         purposeOfSite: [formValues.downstream.purposeOfSite],
+      }),
+      saas: formBuilder.nonNullable.group({
+        microsoft365: formBuilder.nonNullable.group({
+          useMicrosoft365: [false],
+          organisationUserCount: [0],
+        }),
       }),
     });
   });
