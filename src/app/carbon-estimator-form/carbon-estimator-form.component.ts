@@ -33,6 +33,7 @@ import { ErrorSummaryComponent } from '../error-summary/error-summary.component'
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { compareCostRanges } from '../utils/cost-range';
 import { FormStateService } from '../services/form-state.service';
+import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -49,6 +50,7 @@ import { FormStateService } from '../services/form-state.service';
     ErrorSummaryComponent,
     ExternalLinkDirective,
     CloudFormSectionComponent,
+    SaasFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {

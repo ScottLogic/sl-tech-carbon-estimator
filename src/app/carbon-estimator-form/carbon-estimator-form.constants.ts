@@ -41,15 +41,18 @@ export const defaultValues: Required<EstimatorValues> = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
+  saas: {
+    noSaasServices: false,
+  },
 };
 
-export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream';
+export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream' | 'saas';
 
 export type FormContextSection = {
   heading: string;
   details: string;
   formGroupName: string;
-  location: {
+  location?: {
     label: string;
     helperText: string;
     formControlName: string;
@@ -106,6 +109,11 @@ export const formContext: FormContext = {
       formControlName: 'customerLocation',
       hasUnknown: false,
     },
+  },
+  saas: {
+    heading: 'SaaS Services',
+    details: 'Tell us about the SaaS services you use.',
+    formGroupName: 'saas',
   },
 };
 

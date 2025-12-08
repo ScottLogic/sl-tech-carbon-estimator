@@ -25,19 +25,19 @@ export class LocationInputComponent {
   public formContext = formContext;
 
   public formControlName = computed(() => {
-    return this.formContext[this.formContextKey()].location.formControlName;
+    return this.formContext[this.formContextKey()].location?.formControlName;
   });
 
   public label = computed(() => {
-    return this.formContext[this.formContextKey()].location.label;
+    return this.formContext[this.formContextKey()].location?.label;
   });
 
   public helperText = computed(() => {
-    return this.formContext[this.formContextKey()].location.helperText;
+    return this.formContext[this.formContextKey()].location?.helperText;
   });
 
   public hasUnknown = computed(() => {
-    return this.formContext[this.formContextKey()].location.hasUnknown;
+    return this.formContext[this.formContextKey()].location?.hasUnknown;
   });
 
   public locationDescriptions = locationArray.map(location => ({
