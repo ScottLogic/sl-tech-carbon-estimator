@@ -1,6 +1,7 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e } from './units';
+import { Saas } from '../features/saas/components/saas.constants';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -107,14 +108,6 @@ export type Downstream = {
   monthlyActiveUsers: number;
   mobilePercentage: number;
   purposeOfSite: PurposeOfSite;
-};
-export type Saas = {
-  microsoft365: Microsoft365;
-};
-
-export type Microsoft365 = {
-  useMicrosoft365: boolean;
-  organisationUserCount: number;
 };
 
 export type DeviceCategory = 'employee' | 'server' | 'network';

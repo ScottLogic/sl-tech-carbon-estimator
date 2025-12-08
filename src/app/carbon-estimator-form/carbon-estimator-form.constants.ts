@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
 import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import { defaultSaasValues } from '../features/saas/components/saas.constants';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -41,15 +42,10 @@ export const defaultValues: Required<EstimatorValues> = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
-  saas: {
-    microsoft365: {
-      useMicrosoft365: false,
-      organisationUserCount: 100,
-    },
-  },
+  saas: defaultSaasValues,
 };
 
-export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream' | 'saas';
+export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream';
 
 export type FormContextSection = {
   heading: string;
@@ -113,11 +109,6 @@ export const formContext: FormContext = {
       hasUnknown: false,
     },
   },
-  saas: {
-    heading: 'SaaS Services',
-    details: 'Tell us about the SaaS services you use.',
-    formGroupName: 'saas',
-  },
 };
 
 export const questionPanelConfig: ExpansionPanelConfig = {
@@ -154,10 +145,6 @@ export const errorConfig = {
   },
   monthlyActiveUsers: {
     inputId: 'monthlyActiveUsers',
-    errorMessage: 'The number of monthly active users must be greater than 0',
-  },
-  organisationUserCount: {
-    inputId: 'organisationUserCount',
     errorMessage: 'The number of monthly active users must be greater than 0',
   },
 };
