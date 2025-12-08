@@ -53,6 +53,7 @@ export type EstimatorValues = {
   onPremise: OnPremise;
   cloud: Cloud;
   downstream: Downstream;
+  saas: Saas;
 };
 
 export type EstimatorFormValues = {
@@ -79,6 +80,9 @@ export type EstimatorFormValues = {
     mobilePercentage: FormControl<number>;
     purposeOfSite: FormControl<PurposeOfSite>;
   }>;
+  saas: FormGroup<{
+    microsoft365: FormGroup<{ useMicrosoft365: FormControl<boolean>; organisationUserCount: FormControl<number> }>;
+  }>;
 };
 
 export type OnPremise = {
@@ -103,6 +107,14 @@ export type Downstream = {
   monthlyActiveUsers: number;
   mobilePercentage: number;
   purposeOfSite: PurposeOfSite;
+};
+export type Saas = {
+  microsoft365: Microsoft365;
+};
+
+export type Microsoft365 = {
+  useMicrosoft365: boolean;
+  organisationUserCount: number;
 };
 
 export type DeviceCategory = 'employee' | 'server' | 'network';

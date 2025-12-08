@@ -42,7 +42,10 @@ export const defaultValues: Required<EstimatorValues> = {
     purposeOfSite: 'average',
   },
   saas: {
-    noSaasServices: false,
+    microsoft365: {
+      useMicrosoft365: false,
+      organisationUserCount: 100,
+    },
   },
 };
 
@@ -151,6 +154,10 @@ export const errorConfig = {
   },
   monthlyActiveUsers: {
     inputId: 'monthlyActiveUsers',
+    errorMessage: 'The number of monthly active users must be greater than 0',
+  },
+  organisationUserCount: {
+    inputId: 'organisationUserCount',
     errorMessage: 'The number of monthly active users must be greater than 0',
   },
 };

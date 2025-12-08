@@ -130,6 +130,15 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
+      saas: this.formBuilder.nonNullable.group({
+        microsoft365: this.formBuilder.nonNullable.group({
+          useMicrosoft365: [defaultValues.saas.microsoft365.useMicrosoft365],
+          organisationUserCount: [
+            defaultValues.saas.microsoft365.organisationUserCount,
+            [Validators.required, Validators.min(1)],
+          ],
+        }),
+      }),
     });
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
