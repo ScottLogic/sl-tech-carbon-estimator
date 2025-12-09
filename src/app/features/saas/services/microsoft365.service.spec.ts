@@ -4,7 +4,7 @@ import { Microsoft365 } from '../components/microsoft365-form.component.html/mic
 
 describe('Microsoft365Service', () => {
   let service: Microsoft365Service;
-  const EMISSIONS_PER_USER = 0.164854;
+  const EMISSIONS_PER_USER = 0.1451746121;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
