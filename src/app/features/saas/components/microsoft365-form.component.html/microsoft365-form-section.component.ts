@@ -21,8 +21,8 @@ export class Microsoft365FormSectionComponent {
   }
 
   public context = {
-    toggleLabel: 'Use Microsoft 365',
-    userCountLabel: ' How many users are there in the organisation?',
+    toggleLabel: 'Do you use Microsoft 365?',
+    userCountLabel: 'On average, how many user do you have?',
   };
 
   public errorConfig = {
