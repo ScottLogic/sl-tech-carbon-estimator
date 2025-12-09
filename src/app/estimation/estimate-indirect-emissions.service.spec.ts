@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { EstimatorValues } from '../types/carbon-estimator';
 import { EstimateIndirectEmissionsService } from './estimate-indirect-emissions.service';
-import { CarbonIntensityService } from '../services/carbon-intensity.service';
+import { EstimateCloudEmissionsService } from '../features/cloud/services/estimate-cloud-emissions.service';
 
 let estimator: EstimateIndirectEmissionsService;
-let mockCarbonIntensities: jasmine.SpyObj<CarbonIntensityService>;
+let mockCloudEmissions: jasmine.SpyObj<EstimateCloudEmissionsService>;
 
-const emptyEstimatorValues: EstimatorValues = {
+const defaultValues: EstimatorValues = {
   upstream: {
     headCount: 0,
     desktopPercentage: 0,
@@ -34,50 +34,24 @@ const emptyEstimatorValues: EstimatorValues = {
 
 describe('estimateIndirectEmissions()', () => {
   beforeEach(() => {
-    mockCarbonIntensities = jasmine.createSpyObj<CarbonIntensityService>('CarbonIntensityService', [
-      'getCarbonIntensity',
+    mockCloudEmissions = jasmine.createSpyObj<EstimateCloudEmissionsService>('EstimateCloudEmissionsService', [
+      'estimateEmissions',
     ]);
-    mockCarbonIntensities.getCarbonIntensity.and.returnValue(500);
+    mockCloudEmissions.estimateEmissions.and.returnValue(500);
 
     TestBed.configureTestingModule({
-      providers: [{ provide: CarbonIntensityService, useValue: mockCarbonIntensities }],
+      providers: [{ provide: EstimateCloudEmissionsService, useValue: mockCloudEmissions }],
     });
 
     estimator = TestBed.inject(EstimateIndirectEmissionsService);
   });
-  it('should return no emissions if cloud not used', () => {
-    const input: EstimatorValues = {
-      ...emptyEstimatorValues,
-      cloud: {
-        noCloudServices: true,
-        cloudPercentage: 0,
-        monthlyCloudBill: { min: 0, max: 200 },
-        cloudLocation: 'WORLD',
-      },
-    };
 
-    const result = estimator.estimateIndirectEmissions(input);
+  it('should return cloud emissions', () => {
+    const result = estimator.estimateIndirectEmissions(defaultValues);
     expect(result).toEqual({
-      cloud: 0,
+      cloud: 500,
       saas: 0,
       managed: 0,
     });
-  });
-
-  it('should return emissions based on ratio of costs, expanded to a years usage', () => {
-    const input: EstimatorValues = {
-      ...emptyEstimatorValues,
-      cloud: {
-        noCloudServices: false,
-        cloudPercentage: 50,
-        monthlyCloudBill: { min: 0, max: 200 },
-        cloudLocation: 'WORLD',
-      },
-    };
-
-    const result = estimator.estimateIndirectEmissions(input);
-    expect(result.cloud).toBeCloseTo(130.13);
-    expect(result.saas).toBe(0);
-    expect(result.managed).toBe(0);
   });
 });
