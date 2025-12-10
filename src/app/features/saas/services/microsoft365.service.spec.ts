@@ -4,7 +4,7 @@ import { Microsoft365 } from '../components/microsoft365-form/microsoft365.const
 
 describe('Microsoft365Service', () => {
   let service: Microsoft365Service;
-  const EMISSIONS_PER_USER = 0.1451746121;
+  const EMISSIONS_KG_PER_USER_PER_YEAR = 1.935;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +35,7 @@ describe('Microsoft365Service', () => {
         useMicrosoft365: true,
         organisationUserCount: 100,
       };
-      const expected = 100 * EMISSIONS_PER_USER;
+      const expected = 100 * EMISSIONS_KG_PER_USER_PER_YEAR;
       expect(service.calculateEmissions(form)).toBeCloseTo(expected);
     });
 
@@ -44,7 +44,7 @@ describe('Microsoft365Service', () => {
         useMicrosoft365: true,
         organisationUserCount: 1,
       };
-      expect(service.calculateEmissions(form)).toBeCloseTo(EMISSIONS_PER_USER);
+      expect(service.calculateEmissions(form)).toBeCloseTo(EMISSIONS_KG_PER_USER_PER_YEAR);
     });
 
     it('should handle large user counts', () => {
@@ -52,7 +52,7 @@ describe('Microsoft365Service', () => {
         useMicrosoft365: true,
         organisationUserCount: 10000,
       };
-      const expected = 10000 * EMISSIONS_PER_USER;
+      const expected = 10000 * EMISSIONS_KG_PER_USER_PER_YEAR;
       expect(service.calculateEmissions(form)).toBeCloseTo(expected);
     });
 
