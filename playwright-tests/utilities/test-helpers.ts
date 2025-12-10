@@ -109,6 +109,12 @@ interface EmissionInputsSchema {
       mobilePercentage: number;
       purposeOfSite: string;
     };
+    saas: {
+      microsoft365: {
+        useMicrosoft365: boolean;
+        organisationUserCount: number;
+      };
+    };
   };
 }
 
@@ -208,6 +214,12 @@ export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSc
         monthlyActiveUsers: 100,
         mobilePercentage: 50,
         purposeOfSite: 'average',
+      },
+      saas: {
+        microsoft365: {
+          useMicrosoft365: false,
+          organisationUserCount: 100,
+        },
       },
     },
   };

@@ -1,0 +1,36 @@
+<form [formGroup]="form()">
+  <div class="tce:flex tce:flex-col tce:gap-4">
+    <div class="tce:flex tce:gap-2 tce:items-center">
+      <input
+        id="useMicrosoft365"
+        type="checkbox"
+        formControlName="useMicrosoft365"
+        class="tce:rounded-sm tce:cursor-pointer" />
+      <label for="useMicrosoft365" class="tce:cursor-pointer tce:select-none">{{ context.toggleLabel }}</label>
+    </div>
+
+    @if (useMicrosoft365) {
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <label for="organisationUserCount" class="tce:text-sm"> {{ context.userCountLabel }} </label>
+        <input
+          class="tce-input"
+          formControlName="organisationUserCount"
+          name="organisationUserCount"
+          type="number"
+          id="organisationUserCount"
+          required
+          [attr.aria-describedby]="(organisationUserCount | invalidated) ? 'organisationUserCountError' : null" />
+
+        @if (organisationUserCount | invalidated) {
+          <div
+            class="tce-error-box tce:flex tce:items-center tce:gap-1"
+            aria-live="polite"
+            id="organisationUserCountError">
+            <span class="material-icons-outlined">error</span>
+            <p>{{ errorConfig.organisationUserCount.errorMessage }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</form>

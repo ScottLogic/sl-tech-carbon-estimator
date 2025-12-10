@@ -98,6 +98,8 @@
 
   <app-cloud-form-section [estimatorForm]="estimatorForm" />
 
+  <saas-form-section [estimatorForm]="estimatorForm"></saas-form-section>
+
   <div formGroupName="downstream">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.downstream"></ng-container>
     <div class="tce:flex tce:flex-col tce:gap-4">

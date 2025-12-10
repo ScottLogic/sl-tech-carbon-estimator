@@ -37,6 +37,12 @@ const emptyEstimatorValues: EstimatorValues = {
     mobilePercentage: 0,
     purposeOfSite: 'streaming',
   },
+  saas: {
+    microsoft365: {
+      useMicrosoft365: false,
+      organisationUserCount: 0,
+    },
+  },
 };
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
@@ -176,6 +182,12 @@ describe('CarbonEstimationService', () => {
           monthlyActiveUsers: 0,
           mobilePercentage: 0,
           purposeOfSite: 'streaming',
+        },
+        saas: {
+          microsoft365: {
+            useMicrosoft365: false,
+            organisationUserCount: 0,
+          },
         },
       };
       service.calculateCarbonEstimation(input);

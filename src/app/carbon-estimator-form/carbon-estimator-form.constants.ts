@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
 import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
+import { defaultSaasValues } from '../features/saas/components/saas.constants';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -41,6 +42,7 @@ export const defaultValues: Required<EstimatorValues> = {
     mobilePercentage: 50,
     purposeOfSite: 'average',
   },
+  saas: defaultSaasValues,
 };
 
 export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream';
@@ -49,7 +51,7 @@ export type FormContextSection = {
   heading: string;
   details: string;
   formGroupName: string;
-  location: {
+  location?: {
     label: string;
     helperText: string;
     formControlName: string;
