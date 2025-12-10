@@ -4,7 +4,7 @@ import {
   defaultMicrosoft365Values,
   Microsoft365,
   Microsoft365FormValues as Microsoft365FormGroup,
-} from './microsoft365-form.component.html/microsoft365.constants';
+} from './microsoft365-form/microsoft365.constants';
 
 export type Saas = {
   microsoft365: Microsoft365;

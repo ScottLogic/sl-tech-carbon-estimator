@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';
-import { Microsoft365FormSectionComponent } from './microsoft365-form.component.html/microsoft365-form-section.component';
+import { Microsoft365FormSectionComponent } from './microsoft365-form/microsoft365-form-section.component';
 import { saasContext } from './saas.constants';
 
 @Component({

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Microsoft365Service } from './microsoft365.service';
-import { Microsoft365 } from '../components/microsoft365-form.component.html/microsoft365.constants';
+import { Microsoft365 } from '../components/microsoft365-form/microsoft365.constants';
 
 describe('Microsoft365Service', () => {
   let service: Microsoft365Service;

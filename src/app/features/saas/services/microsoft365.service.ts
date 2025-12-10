@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Microsoft365 } from '../components/microsoft365-form.component.html/microsoft365.constants';
+import { Microsoft365 } from '../components/microsoft365-form/microsoft365.constants';
 
 @Injectable({
   providedIn: 'root',
