@@ -1020,3 +1020,57 @@ export const t20ExpectedMonthlyValuesJson = {
     totalEmissions: 4617.353873075075,
   },
 };
+
+export const t21ExpectedEmissionKilogramsAnnual = [
+  '18633 kg',
+  '13708 kg',
+  '3625 kg',
+  '1300 kg',
+  '35767 kg',
+  '6485 kg',
+  '26190 kg',
+  '3093 kg',
+  '2556 kg',
+  '621 kg',
+  '1935 kg',
+  '387 kg',
+  '148 kg',
+  '239 kg',
+  '57343 kg',
+];
+
+export const t21ExpectedEmissionKilogramsMonthly = [
+  '1553 kg',
+  '1142 kg',
+  '302 kg',
+  '108 kg',
+  '2981 kg',
+  '540 kg',
+  '2182 kg',
+  '258 kg',
+  '213 kg',
+  '52 kg',
+  '161 kg',
+  '32 kg',
+  '12 kg',
+  '20 kg',
+  '4779 kg',
+];
+
+export const t21ExpectedEmissionPercentages = [
+  '32%',
+  '24%',
+  '6%',
+  '2%',
+  '62%',
+  '11%',
+  '46%',
+  '5%',
+  '4%',
+  '1%',
+  '3%',
+  '<1%',
+  '<1%',
+  '<1%',
+  '100%',
+];
