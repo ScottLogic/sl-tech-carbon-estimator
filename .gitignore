@@ -52,3 +52,5 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 allure-results/
+.allure/
+
