@@ -7,5 +7,5 @@ runs:
       run: npm run playwright-install
       shell: bash
     - name: Run Playwright tests
-      run: npm run playwright-test -- --update-snapshots
+      run: npm run playwright-update-screenshots
       shell: bash

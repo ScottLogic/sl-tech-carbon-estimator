@@ -75,10 +75,10 @@ export class TableSection {
   }
 
   async assertCorrectKilogramColumnValues(expectedKilogramsArray: string[]) {
-    await expect(this.kilogramsColumn).toHaveText(expectedKilogramsArray);
+    await expect(this.kilogramsColumn).toHaveText(expectedKilogramsArray, { useInnerText: true });
   }
 
   async assertCorrectPercentageColumnValues(expectedPercentageArray: string[]) {
-    await expect(this.percentageColumn).toHaveText(expectedPercentageArray);
+    await expect(this.percentageColumn).toHaveText(expectedPercentageArray, { useInnerText: true });
   }
 }

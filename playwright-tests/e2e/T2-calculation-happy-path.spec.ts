@@ -6,6 +6,7 @@ test('T2 verify calculated values are coherent with selected options', async ({
   onPremSection,
   tcsEstimator,
   cloudServicesSection,
+  saasSection,
   customersSection,
   estimationsSection,
   tableSection,
@@ -27,6 +28,9 @@ test('T2 verify calculated values are coherent with selected options', async ({
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');
   await cloudServicesSection.setMonthlyCloudBill('0: Object');
+
+  await saasSection.m365CheckBox.click();
+  await saasSection.setM365UsersCount('100');
 
   await customersSection.setPrimaryPurpose('average');
   await customersSection.setCustomersLocation('GBR');

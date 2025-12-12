@@ -25,6 +25,7 @@ test.describe('Table Accordion Calculations', async () => {
       await tableSection.assertDefaultTableStructure;
     }
   );
+
   test('Table shows expected values (no checkboxes)', async ({ estimationsSection, tcsEstimator, tableSection }) => {
     await tcsEstimator.calculateButton.click();
 
@@ -33,6 +34,7 @@ test.describe('Table Accordion Calculations', async () => {
     await tableSection.assertCorrectKilogramColumnValues(TestData.t18NoCheckBoxesExpectedEmissionKilogramsMonthly);
     await tableSection.assertCorrectPercentageColumnValues(TestData.t18NoCheckBoxesExpectedEmissionPercentages);
   });
+
   test('Table shows expected values (On-Premise is unknown)', async ({
     tcsEstimator,
     onPremSection,
@@ -54,6 +56,7 @@ test.describe('Table Accordion Calculations', async () => {
       TestData.t18ExpectedEmissionsOnPremiseUnknownPercentagesArray
     );
   });
+
   test('Table shows expected values (Cloud services not used)', async ({
     tcsEstimator,
     cloudServicesSection,
@@ -69,6 +72,7 @@ test.describe('Table Accordion Calculations', async () => {
     await tableSection.assertCorrectKilogramColumnValues(TestData.t18ExpectedMonthlyEmissionKilogramsCloudNotUsedArray);
     await tableSection.assertCorrectPercentageColumnValues(TestData.t18ExpectedEmissionsCloudNotUsedPercentagesArray);
   });
+
   test('Table shows expected values (No external users)', async ({
     estimationsSection,
     tcsEstimator,

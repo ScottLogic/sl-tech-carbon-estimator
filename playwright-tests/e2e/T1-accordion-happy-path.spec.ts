@@ -5,6 +5,7 @@ test('Expansion panel visibility', async ({
   organisationSection,
   onPremSection,
   cloudServicesSection,
+  saasSection,
   tcsEstimator,
 }) => {
   await tcsEstimator.gotoHome();
@@ -25,6 +26,12 @@ test('Expansion panel visibility', async ({
   await expect(cloudServicesSection.cloudServicesSummary).not.toBeVisible();
   await cloudServicesSection.showCloudSection.click();
   await expect(cloudServicesSection.cloudServicesSummary).toBeVisible();
+
+  await saasSection.assertSaasSectionVisible();
+  await saasSection.sectionHideExpansion.click();
+  await expect(saasSection.saasSummary).not.toBeVisible();
+  await saasSection.sectionShowExpansion.click();
+  await expect(saasSection.saasSummary).toBeVisible();
 
   await customersSection.assertCustomersSectionVisible();
   await customersSection.hideCustomersSection.click();

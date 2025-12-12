@@ -92,4 +92,11 @@ test.describe('Download and read files', () => {
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
   });
+
+  test('T20 Close Export Modal', async ({ estimationsSection }) => {
+    await estimationsSection.openPdfExportModal();
+    await expect(estimationsSection.exportModal).toBeVisible();
+    await estimationsSection.modalCloseButton.click();
+    await expect(estimationsSection.exportModal).not.toBeVisible();
+  });
 });
