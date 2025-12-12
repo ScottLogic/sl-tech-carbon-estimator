@@ -1,12 +1,12 @@
 import { test, expect } from '../utilities/fixtures';
-import * as TestData from '../utilities/test-data';
 import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
-test('T3 verify calculated values are coherent with selected options', async ({
+test('T3 - Verify reset functionality works as expected', async ({
   organisationSection,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
+  saasSection,
   customersSection,
   estimationsSection,
   tableSection,
@@ -36,21 +36,20 @@ test('T3 verify calculated values are coherent with selected options', async ({
   await cloudServicesSection.setMonthlyCloudBill('1: Object');
   await cloudServicesSection.setMonthlyCloudBill('0: Object');
 
+  await saasSection.m365CheckBox.click();
+  await saasSection.setM365UsersCount('1000');
+
   await customersSection.setCustomersLocation('Globally');
   await expect(customersSection.monthlyActiveUsersField).toHaveValue('100');
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();
+  await tcsEstimator.resetButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms-annual.png');
   await estimationsSection.monthlyViewButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms-monthly.png');
   await diagramSection.percentageButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-percentages.png');
   await estimationsSection.tableViewButton.click();
-  await tableSection.assertPopulatedTableStructure;
-
-  await tableSection.assertCorrectKilogramColumnValues(TestData.t3ExpectedEmissionKilogramsMonthly);
-  await estimationsSection.annualViewButton.click();
-  await tableSection.assertCorrectKilogramColumnValues(TestData.t3ExpectedEmissionKilogramsAnnual);
-  await tableSection.assertCorrectPercentageColumnValues(TestData.t3ExpectedEmissionPercentages);
+  await expect(tableSection.noEstimationsText).toBeVisible();
 });

@@ -21,6 +21,8 @@
     "lint": "ng lint",
     "playwright-install": "npx playwright install --with-deps",
     "playwright-test": "npx playwright test",
+    "playwright-update-screenshots": "npx playwright test --update-snapshots",
+    "playwright-allure": "npx allure generate ./allure-results -o ./playwright-report/allure-report && npx allure open ./playwright-report/allure-report",
     "verify-release": "bash ./scripts/verify-release.sh"
   },
   "private": true,
@@ -67,6 +69,7 @@
     "@typescript-eslint/eslint-plugin": "8.38.0",
     "@typescript-eslint/parser": "8.38.0",
     "@web/test-runner": "^0.20.2",
+    "allure-playwright": "^3.4.3",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.32.0",
