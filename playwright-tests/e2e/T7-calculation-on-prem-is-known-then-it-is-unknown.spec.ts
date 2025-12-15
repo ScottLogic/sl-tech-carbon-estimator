@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T7 verify calculated values are coherent when on-prem is known then recalulated when unknown ', async ({
+  allSections,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -10,10 +10,9 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   estimationsSection,
   tableSection,
   diagramSection,
-  organisationSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await onPremSection.selectNumberOfServers('555');
   await onPremSection.selectLocationOfServers('GBR');

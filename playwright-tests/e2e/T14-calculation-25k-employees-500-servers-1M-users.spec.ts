@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T14 verify calculated values are coherent with selected employees, servers and users', async ({
+  allSections,
   organisationSection,
   tcsEstimator,
   onPremSection,
@@ -13,17 +13,17 @@ test('T14 verify calculated values are coherent with selected employees, servers
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await organisationSection.selectNumberOfEmployess('25000');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowRight', 6);
+  await organisationSection.percentageSliderSet('80');
   await expect(organisationSection.percentageSliderText).toHaveValue('80');
 
   await onPremSection.selectNumberOfServers('500');
   await expect(onPremSection.locationOfServersField).toHaveValue('WORLD');
 
-  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
+  await cloudServicesSection.percentageSliderSet('45');
   await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');
@@ -32,7 +32,7 @@ test('T14 verify calculated values are coherent with selected employees, servers
   await customersSection.setCustomersLocation('in North America');
   await customersSection.setMonthlyActiveUsers('10000000');
   await customersSection.percentageSlider.click();
-  await customersSection.percentageSliderSet('ArrowRight', 6);
+  await customersSection.percentageSliderSet('80');
   await expect(customersSection.percentageSlider).toHaveValue('80');
   await await expect(customersSection.primaryPurposeQuestion).toBeVisible();
   await customersSection.setPrimaryPurpose('streaming');

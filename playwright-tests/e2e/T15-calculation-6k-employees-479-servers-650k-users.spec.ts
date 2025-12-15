@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T15 verify calculated values are coherent with selected employees, servers and users', async ({
+  allSections,
   organisationSection,
   tcsEstimator,
   onPremSection,
@@ -13,20 +13,20 @@ test('T15 verify calculated values are coherent with selected employees, servers
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await organisationSection.selectNumberOfEmployess('6000');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowRight', 6);
+  await organisationSection.percentageSliderSet('80');
   await expect(organisationSection.percentageSlider).toHaveValue('80');
 
   await onPremSection.selectNumberOfServers('479');
   await onPremSection.selectLocationOfServers('Globally');
 
   await cloudServicesSection.percentageSlider.click();
-  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
-  await cloudServicesSection.percentageSlider.fill('50');
-  await cloudServicesSection.percentageSliderSet('ArrowRight', 6);
+  await cloudServicesSection.percentageSliderSet('45');
+  await cloudServicesSection.percentageSliderSet('50');
+  await cloudServicesSection.percentageSliderSet('80');
   await expect(cloudServicesSection.percentageSlider).toHaveValue('80');
   await expect(cloudServicesSection.serverLocation).toHaveValue('WORLD');
   await cloudServicesSection.setMonthlyCloudBill('7: Object');
@@ -34,7 +34,7 @@ test('T15 verify calculated values are coherent with selected employees, servers
   await customersSection.setCustomersLocation('in Europe');
   await customersSection.setMonthlyActiveUsers('650000');
   await customersSection.percentageSlider.click();
-  await customersSection.percentageSliderSet('ArrowLeft', 1);
+  await customersSection.percentageSliderSet('45');
   await expect(customersSection.percentageSlider).toHaveValue('45');
   await expect(customersSection.primaryPurposeQuestion).toBeVisible();
   await customersSection.setPrimaryPurpose('eCommerce');

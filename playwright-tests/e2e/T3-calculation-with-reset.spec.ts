@@ -1,48 +1,36 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
+
+// Input values for test case
+const input_values = {
+  employees: '100',
+  hardware_percentage: '75',
+  employees_location: 'in the UK',
+  unknown_servers: false,
+  number_of_servers: '10',
+  server_location: 'in the UK',
+  no_cloud: false,
+  cloud_percentage: '50',
+  cloud_location: 'in the UK',
+  monthly_cloud_cost: '5: Object',
+  uses_m365: true,
+  m365_users: '1000',
+  no_downstream: false,
+  downstream_type: 'socialMedia',
+  downstream_location: 'Globally',
+  downstream_users: '100',
+  downstream_mobile_percentage: '25',
+};
 
 test('T3 - Verify reset functionality works as expected', async ({
-  organisationSection,
+  allSections,
   tcsEstimator,
-  onPremSection,
-  cloudServicesSection,
-  saasSection,
-  customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
-  await organisationSection.selectNumberOfEmployess('100');
-
-  await onPremSection.selectNumberOfServers('10');
-  await onPremSection.selectLocationOfServers('in the UK');
-  await onPremSection.selectLocationOfServers('Globally');
-
-  await cloudServicesSection.setCloudLocation('GBR');
-  await cloudServicesSection.setCloudLocation('WORLD');
-  await cloudServicesSection.setMonthlyCloudBill('5: Object');
-
-  await customersSection.setPrimaryPurpose('socialMedia');
-  await customersSection.setCustomersLocation('GBR');
-  await customersSection.setCustomersLocation('WORLD');
-  await customersSection.setMonthlyActiveUsers('100');
-
-  await onPremSection.selectLocationOfServers('GBR');
-  await onPremSection.selectLocationOfServers('Globally');
-
-  await cloudServicesSection.setMonthlyCloudBill('1: Object');
-  await cloudServicesSection.setMonthlyCloudBill('0: Object');
-
-  await saasSection.m365CheckBox.click();
-  await saasSection.setM365UsersCount('1000');
-
-  await customersSection.setCustomersLocation('Globally');
-  await expect(customersSection.monthlyActiveUsersField).toHaveValue('100');
-  await customersSection.setPrimaryPurpose('average');
-
+  await allSections.assertAllSectionElementsAreVisible();
+  await allSections.fillAllSections(input_values);
   await tcsEstimator.calculateButton.click();
   await tcsEstimator.resetButton.click();
   await diagramSection.assertDiagramScreenshot('T3-apex-chart-kilograms-annual.png');

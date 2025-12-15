@@ -32,10 +32,19 @@ export class SaasSection {
     await expect(this.m365Question).toBeVisible();
     await expect(this.m365CheckBox).toBeVisible();
     await expect(this.m365Users).toBeVisible();
+    // Uncheck after assertion
+    await this.m365CheckBox.click();
   }
 
   async setM365UsersCount(userCount: string) {
     await this.m365Users.click();
     await this.m365Users.fill(userCount);
+  }
+
+  async saasInputs(m365: boolean, users: string) {
+    if (m365 == true) {
+      await this.m365CheckBox.click();
+      await this.setM365UsersCount(users);
+    }
   }
 }

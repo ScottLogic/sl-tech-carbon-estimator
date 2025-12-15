@@ -1,30 +1,13 @@
 import * as TestData from '../utilities/test-data';
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test.describe('Table Accordion Calculations', async () => {
-  test.beforeEach(
-    async ({
-      tcsEstimator,
-      organisationSection,
-      onPremSection,
-      cloudServicesSection,
-      customersSection,
-      estimationsSection,
-      tableSection,
-    }) => {
-      await tcsEstimator.gotoHome();
-      await assertAllSectionElementsAreVisible(
-        organisationSection,
-        onPremSection,
-        cloudServicesSection,
-        customersSection
-      );
-
-      await estimationsSection.tableViewButton.click();
-      await tableSection.assertDefaultTableStructure;
-    }
-  );
+  test.beforeEach(async ({ allSections, tcsEstimator, estimationsSection, tableSection }) => {
+    await tcsEstimator.gotoHome();
+    await allSections.assertAllSectionElementsAreVisible();
+    await estimationsSection.tableViewButton.click();
+    await tableSection.assertDefaultTableStructure();
+  });
 
   test('Table shows expected values (no checkboxes)', async ({ estimationsSection, tcsEstimator, tableSection }) => {
     await tcsEstimator.calculateButton.click();

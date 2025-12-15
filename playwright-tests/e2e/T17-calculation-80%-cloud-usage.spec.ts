@@ -1,7 +1,7 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test('T17 calculations show 80% cloud usage', async ({
+  allSections,
   organisationSection,
   page,
   tcsEstimator,
@@ -12,7 +12,7 @@ test('T17 calculations show 80% cloud usage', async ({
   estimationsSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await organisationSection.selectNumberOfEmployess('1000');
   await expect(organisationSection.percentageSliderText).toBeVisible();
