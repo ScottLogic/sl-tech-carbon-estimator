@@ -68,3 +68,14 @@ Displays disclaimer about how the tool should be used.
 ## ExpansionPanelComponent
 
 Displays explanatory text that can be hidden if desired.
+
+## CloudFormSectionComponent
+
+Allows input of cloud based usage
+
+## SaaSFormSectionComponent
+
+Allows input of SaaS usage
+
+### Microsoft365FormSectionComponent
+Allows input of SaaS specific to Microsoft 365
