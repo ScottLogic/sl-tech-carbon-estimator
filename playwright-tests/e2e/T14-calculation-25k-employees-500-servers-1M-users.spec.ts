@@ -17,13 +17,13 @@ test('T14 verify calculated values are coherent with selected employees, servers
 
   await organisationSection.selectNumberOfEmployess('25000');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowRight', 6);
+  await organisationSection.percentageSliderSet('80');
   await expect(organisationSection.percentageSliderText).toHaveValue('80');
 
   await onPremSection.selectNumberOfServers('500');
   await expect(onPremSection.locationOfServersField).toHaveValue('WORLD');
 
-  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
+  await cloudServicesSection.percentageSliderSet('45');
   await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');

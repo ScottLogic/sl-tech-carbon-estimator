@@ -18,7 +18,7 @@ test('T12 verify calculated values are coherent with selected employees, servers
 
   await organisationSection.selectNumberOfEmployess('10');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowLeft', 10);
+  await organisationSection.percentageSliderSet('0');
 
   await onPremSection.selectNumberOfServers('5');
   await onPremSection.selectLocationOfServers('in the UK');

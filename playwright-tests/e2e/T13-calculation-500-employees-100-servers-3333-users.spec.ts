@@ -16,7 +16,7 @@ test('T13 verify calculated values are coherent with selected employees, servers
   await allSections.assertAllSectionElementsAreVisible();
   await organisationSection.selectNumberOfEmployess('500');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowLeft', 4);
+  await organisationSection.percentageSliderSet('30');
   await expect(organisationSection.percentageSliderText).toHaveValue('30');
 
   await onPremSection.selectNumberOfServers('100');

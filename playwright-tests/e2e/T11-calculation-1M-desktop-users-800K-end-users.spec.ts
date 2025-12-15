@@ -18,13 +18,13 @@ test('T11 verify calculated values are coherent with selected employees, servers
 
   await organisationSection.selectNumberOfEmployess('1000000');
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowRight', 10);
+  await organisationSection.percentageSliderSet('100');
   await expect(organisationSection.percentageSliderText).toHaveValue('100');
 
   await onPremSection.selectNumberOfServers('100');
   await onPremSection.selectLocationOfServers('unknown');
   await cloudServicesSection.percentageSlider.click();
-  await cloudServicesSection.percentageSliderSet('ArrowLeft', 7);
+  await cloudServicesSection.percentageSliderSet('15');
   await expect(cloudServicesSection.percentageSlider).toHaveValue('15');
   await cloudServicesSection.setMonthlyCloudBill('4: Object');
 
