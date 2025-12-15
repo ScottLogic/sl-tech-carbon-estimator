@@ -1,26 +1,12 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test.describe('Assert errors based on input value', () => {
-  test.beforeEach(
-    async ({
-      tcsEstimator,
-      organisationSection,
-      onPremSection,
-      cloudServicesSection,
-      customersSection,
-      estimationsSection,
-    }) => {
-      await tcsEstimator.gotoHome();
-      await assertAllSectionElementsAreVisible(
-        organisationSection,
-        onPremSection,
-        cloudServicesSection,
-        customersSection
-      );
-      await estimationsSection.assertResultsElementVisibility();
-    }
-  );
+  test.beforeEach(async ({ allSections, tcsEstimator, estimationsSection }) => {
+    await tcsEstimator.gotoHome();
+    await allSections.assertAllSectionElementsAreVisible();
+    await estimationsSection.assertResultsElementVisibility();
+  });
+
   test('Assert error when number of servers is -1', async ({ tcsEstimator, onPremSection }) => {
     await onPremSection.selectNumberOfServers('-1');
     await expect(onPremSection.numberOfServersError).toBeVisible();
@@ -35,44 +21,28 @@ test.describe('Assert errors based on input value', () => {
     await expect(tcsEstimator.serversCalculationError).not.toBeVisible();
   });
 
-  test('Assert error when number of employees is 0 ', async ({
-    tcsEstimator,
-
-    organisationSection,
-  }) => {
+  test('Assert error when number of employees is 0 ', async ({ tcsEstimator, organisationSection }) => {
     await organisationSection.selectNumberOfEmployess('0');
     await expect(organisationSection.headCountError).toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(organisationSection.employeesCalculationError).toBeVisible();
   });
 
-  test('Assert error when number of employees is -1 ', async ({
-    tcsEstimator,
-
-    organisationSection,
-  }) => {
+  test('Assert error when number of employees is -1 ', async ({ tcsEstimator, organisationSection }) => {
     await organisationSection.selectNumberOfEmployess('-1');
     await expect(organisationSection.headCountError).toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(organisationSection.employeesCalculationError).toBeVisible();
   });
 
-  test('Assert no error when number of employees is 1 ', async ({
-    tcsEstimator,
-
-    organisationSection,
-  }) => {
+  test('Assert no error when number of employees is 1 ', async ({ tcsEstimator, organisationSection }) => {
     await organisationSection.selectNumberOfEmployess('1');
     await expect(organisationSection.headCountError).not.toBeVisible();
     await tcsEstimator.calculateButton.click();
     await expect(organisationSection.employeesCalculationError).not.toBeVisible();
   });
 
-  test('Assert error when number of users is 0 ', async ({
-    tcsEstimator,
-
-    customersSection,
-  }) => {
+  test('Assert error when number of users is 0 ', async ({ tcsEstimator, customersSection }) => {
     await customersSection.setMonthlyActiveUsers('0');
     await expect(customersSection.monthlyActiveUsersError).toBeVisible();
     await tcsEstimator.calculateButton.click();

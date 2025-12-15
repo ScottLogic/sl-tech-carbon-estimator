@@ -1,7 +1,5 @@
 import { test } from '../utilities/fixtures';
-
 import { expectNoA11yViolations } from '../utilities/test-helpers';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test.describe('Accessibility Dark Mode Tests', () => {
   test.beforeEach(async ({ page, tcsEstimator }) => {
@@ -9,29 +7,16 @@ test.describe('Accessibility Dark Mode Tests', () => {
     await page.emulateMedia({ colorScheme: 'dark' });
   });
 
-  test('Darkmode default Accessibility test', async ({
-    organisationSection,
-    onPremSection,
-    cloudServicesSection,
-    customersSection,
-    tcsEstimator,
-    page,
-    estimationsSection,
-  }) => {
+  test('Dark mode default Accessibility test', async ({ tcsEstimator, page, allSections, estimationsSection }) => {
     await expectNoA11yViolations(page);
 
-    await assertAllSectionElementsAreVisible(
-      organisationSection,
-      onPremSection,
-      cloudServicesSection,
-      customersSection
-    );
+    await allSections.assertAllSectionElementsAreVisible();
 
     await tcsEstimator.calculateButton.click();
     await expectNoA11yViolations(page);
 
     await estimationsSection.tableViewButton.click();
-    await await expectNoA11yViolations(page);
+    await expectNoA11yViolations(page);
 
     await tcsEstimator.assumptionsAndLimitationsTab.click();
     await expectNoA11yViolations(page);

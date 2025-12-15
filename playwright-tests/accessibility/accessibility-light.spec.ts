@@ -1,37 +1,19 @@
 import { test } from '../utilities/fixtures';
-
 import { expectNoA11yViolations } from '../utilities/test-helpers';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 
 test.describe('Accessibility Light Mode Tests', () => {
   test.beforeEach(async ({ page, tcsEstimator }) => {
     await tcsEstimator.gotoHome();
     await page.emulateMedia({ colorScheme: 'light' });
   });
-  test('Lightmode Accessibility test', async ({
-    page,
-    organisationSection,
-    onPremSection,
-    cloudServicesSection,
-    customersSection,
-    tcsEstimator,
-    estimationsSection,
-  }) => {
-    await assertAllSectionElementsAreVisible(
-      organisationSection,
-      onPremSection,
-      cloudServicesSection,
-      customersSection
-    );
 
+  test('Light mode Accessibility test', async ({ page, allSections, tcsEstimator, estimationsSection }) => {
+    await allSections.assertAllSectionElementsAreVisible();
     await expectNoA11yViolations(page);
-
     await tcsEstimator.calculateButton.click();
     await expectNoA11yViolations(page);
-
     await estimationsSection.tableViewButton.click();
     await expectNoA11yViolations(page);
-
     await tcsEstimator.assumptionsAndLimitationsTab.click();
     await expectNoA11yViolations(page);
   });

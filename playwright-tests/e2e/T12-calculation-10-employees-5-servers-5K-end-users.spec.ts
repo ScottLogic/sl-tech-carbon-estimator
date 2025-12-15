@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T12 verify calculated values are coherent with selected employees, servers and users', async ({
+  allSections,
   organisationSection,
   tcsEstimator,
   onPremSection,
@@ -14,7 +14,7 @@ test('T12 verify calculated values are coherent with selected employees, servers
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await organisationSection.selectNumberOfEmployess('10');
   await organisationSection.percentageSlider.click();
@@ -30,8 +30,8 @@ test('T12 verify calculated values are coherent with selected employees, servers
   await customersSection.setCustomersLocation('in the UK');
   await customersSection.setMonthlyActiveUsers('5000');
   await customersSection.percentageSlider.click();
-  await customersSection.percentageSliderSet('ArrowLeft', 1);
-  await customersSection.percentageSliderSet('ArrowRight', 5);
+  await customersSection.percentageSliderSet('45');
+  await customersSection.percentageSliderSet('70');
   await expect(customersSection.percentageSlider).toHaveValue('70');
   await customersSection.setPrimaryPurpose('eCommerce');
 

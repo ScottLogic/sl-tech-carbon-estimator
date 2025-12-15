@@ -108,9 +108,24 @@ export class CustomersSection {
     await this.monthlyActiveUsersField.fill(text);
   }
 
-  async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    for (let i = 0; i < clickCount; i++) {
-      await this.percentageSlider.press(direction);
+  async percentageSliderSet(value: string) {
+    await this.percentageSlider.fill(value);
+  }
+
+  async customerInputs(
+    unknown: boolean,
+    purpose: string,
+    location: string,
+    number_of_users: string,
+    percentage: string
+  ) {
+    if (unknown == true) {
+      await this.noCustomersText.click();
+    } else {
+      await this.setPrimaryPurpose(purpose);
+      await this.setCustomersLocation(location);
+      await this.setMonthlyActiveUsers(number_of_users);
+      await this.percentageSliderSet(percentage);
     }
   }
 }

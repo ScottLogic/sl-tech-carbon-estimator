@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T5 verify calculated values are coherent when laptop is 0%', async ({
+  allSections,
   organisationSection,
   tcsEstimator,
   onPremSection,
@@ -13,7 +13,7 @@ test('T5 verify calculated values are coherent when laptop is 0%', async ({
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
   await organisationSection.percentageSlider.click();
   await organisationSection.percentageSliderSet('ArrowRight', 10);
   await expect(organisationSection.percentageSliderText).toHaveValue('100');

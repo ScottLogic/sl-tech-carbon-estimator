@@ -50,16 +50,6 @@ export class CloudServicesSection {
       .getByLabel('Hide details');
   }
 
-  async setCloudLocation(text: string) {
-    await this.serverLocation.click();
-    await this.serverLocation.selectOption(text);
-  }
-
-  async setMonthlyCloudBill(text: string) {
-    await this.monthlyCloudBill.click();
-    await this.monthlyCloudBill.selectOption(text);
-  }
-
   async assertDefaultCloudElementVisibility() {
     await expect(this.cloudServicesHeading).toBeVisible();
     await expect(this.cloudServicesSummary).toBeVisible();
@@ -74,9 +64,27 @@ export class CloudServicesSection {
     await expect(this.derivedRoughEstimateText).toBeVisible();
   }
 
-  async percentageSliderSet(direction: 'ArrowRight' | 'ArrowLeft', clickCount: number) {
-    for (let i = 0; i < clickCount; i++) {
-      await this.percentageSlider.press(direction);
+  async setCloudLocation(text: string) {
+    await this.serverLocation.click();
+    await this.serverLocation.selectOption(text);
+  }
+
+  async setMonthlyCloudBill(text: string) {
+    await this.monthlyCloudBill.click();
+    await this.monthlyCloudBill.selectOption(text);
+  }
+
+  async percentageSliderSet(value: string) {
+    await this.percentageSlider.fill(value);
+  }
+
+  async cloudInputs(unknown: boolean, percentage: string, location: string, bill: string) {
+    if (unknown == true) {
+      await this.cloudUnusedTickbox.click();
+    } else {
+      await this.percentageSliderSet(percentage);
+      await this.setCloudLocation(location);
+      await this.setMonthlyCloudBill(bill);
     }
   }
 }

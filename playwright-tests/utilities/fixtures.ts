@@ -8,6 +8,7 @@ import { TcsEstimator } from '../page-objects/tcs-estimator';
 import { EstimationsSection } from '../page-objects/estimations-section';
 import { TableSection } from '../page-objects/table-section';
 import { DiagramSection } from '../page-objects/diagram-section';
+import { AllSections } from '../page-objects/all-sections';
 
 type Fixtures = {
   diagramSection: DiagramSection;
@@ -19,12 +20,14 @@ type Fixtures = {
   cloudServicesSection: CloudServicesSection;
   saasSection: SaasSection;
   customersSection: CustomersSection;
+  allSections: AllSections;
 };
 
 export const test = base.extend<Fixtures>({
   tcsEstimator: async ({ page }, use) => {
     await use(new TcsEstimator(page));
   },
+
   organisationSection: async ({ page }, use) => {
     await use(new OrganisationSection(page));
   },
@@ -52,8 +55,21 @@ export const test = base.extend<Fixtures>({
   tableSection: async ({ page }, use) => {
     await use(new TableSection(page));
   },
+
   diagramSection: async ({ page }, use) => {
     await use(new DiagramSection(page));
+  },
+
+  allSections: async ({ page }, use) => {
+    await use(
+      new AllSections(
+        new OrganisationSection(page),
+        new OnPremSection(page),
+        new CloudServicesSection(page),
+        new SaasSection(page),
+        new CustomersSection(page)
+      )
+    );
   },
 });
 
