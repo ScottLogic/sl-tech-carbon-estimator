@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   Input,
   OnInit,
   ViewChild,
@@ -18,6 +19,7 @@ import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
+import { ExportModal } from '../export-modal/export-modal.component';
 
 @Component({
   selector: 'tech-carbon-estimator',
@@ -31,6 +33,7 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
     DisclaimerComponent,
     TabsComponent,
     TabItemComponent,
+    ExportModal,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
 
@@ -38,6 +41,8 @@ import { TabItemComponent } from '../tab/tab-item/tab-item.component';
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class TechCarbonEstimatorComponent implements OnInit {
+  @HostBinding('style.position') position = 'relative';
+
   private estimationService = inject(CarbonEstimationService);
   private changeDetector = inject(ChangeDetectorRef);
   private ref = inject(ElementRef);
@@ -49,6 +54,20 @@ export class TechCarbonEstimatorComponent implements OnInit {
   public carbonEstimation: CarbonEstimation | null = null;
 
   @ViewChild('estimations') estimations!: ElementRef;
+
+  public isExportModalVisible = false;
+  public modalCarbonEstimation: CarbonEstimation | null = null;
+  public modalInputValues: EstimatorValues | undefined;
+
+  public openExportModal(estimation: CarbonEstimation, inputValues: EstimatorValues | undefined) {
+    this.modalCarbonEstimation = estimation;
+    this.modalInputValues = inputValues;
+    this.isExportModalVisible = true;
+  }
+
+  public closeExportModal() {
+    this.isExportModalVisible = false;
+  }
 
   ngOnInit() {
     this.insertShadowStylesLink();

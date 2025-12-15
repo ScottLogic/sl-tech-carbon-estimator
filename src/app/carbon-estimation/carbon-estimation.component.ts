@@ -21,8 +21,8 @@ import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import { ExportModal } from '../export-modal/export-modal.component';
 import { CommonModule } from '@angular/common';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'carbon-estimation',
@@ -35,7 +35,6 @@ import { CommonModule } from '@angular/common';
     CarbonEstimationTreemapComponent,
     CarbonEstimationTableComponent,
     ExternalLinkDirective,
-    ExportModal,
   ],
   templateUrl: './carbon-estimation.component.html',
   styleUrls: ['./carbon-estimation.component.css'],
@@ -62,6 +61,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public estimate = computed(() => (this.isAnnual() ? this.carbonEstimation() : this.monthlyCarbonEstimation()));
 
   private changeDetectorRef = inject(ChangeDetectorRef);
+
+  @Output() public pdfExportClicked = new EventEmitter<{
+    estimation: CarbonEstimation;
+    inputValues: EstimatorValues | undefined;
+  }>();
 
   constructor() {
     effect(() => {
@@ -157,7 +161,11 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   public handlePDFClick() {
     this.toggleExportMenu();
-    this.showModal();
+
+    this.pdfExportClicked.emit({
+      estimation: this.estimate() as CarbonEstimation,
+      inputValues: this.inputValues(),
+    });
   }
 
   private getMonthlyEstimate(): CarbonEstimation | undefined {
