@@ -10,8 +10,8 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EstimatorFormValues, EstimatorValues, locationArray } from '../types/carbon-estimator';
 import {
   defaultValues,
   formContext,
@@ -30,6 +30,7 @@ import { ErrorSummaryComponent } from '../error-summary/error-summary.component'
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -50,7 +51,7 @@ import { SaasFormSectionComponent } from '../features/saas/components/saas-form-
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
-  private formBuilder = inject(FormBuilder);
+  private formService = inject(FormService);
   private changeDetector = inject(ChangeDetectorRef);
   private estimationService = inject(CarbonEstimationService);
   private formStateService = inject(FormStateService);
@@ -97,40 +98,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   private submitted = false;
 
   public ngOnInit() {
-    this.estimatorForm = this.formBuilder.nonNullable.group({
-      upstream: this.formBuilder.nonNullable.group({
-        headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
-        desktopPercentage: [defaultValues.upstream.desktopPercentage],
-        employeeLocation: [defaultValues.upstream.employeeLocation],
-      }),
-      onPremise: this.formBuilder.nonNullable.group({
-        estimateServerCount: [defaultValues.onPremise.estimateServerCount],
-        serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
-        numberOfServers: [defaultValues.onPremise.numberOfServers, [Validators.required, Validators.min(0)]],
-      }),
-      cloud: this.formBuilder.nonNullable.group({
-        noCloudServices: [false],
-        cloudLocation: [defaultValues.cloud.cloudLocation as WorldLocation | 'unknown'],
-        cloudPercentage: [defaultValues.cloud.cloudPercentage],
-        monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
-      }),
-      downstream: this.formBuilder.nonNullable.group({
-        noDownstream: [false],
-        customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, [Validators.required, Validators.min(1)]],
-        mobilePercentage: [defaultValues.downstream.mobilePercentage],
-        purposeOfSite: [defaultValues.downstream.purposeOfSite],
-      }),
-      saas: this.formBuilder.nonNullable.group({
-        microsoft365: this.formBuilder.nonNullable.group({
-          useMicrosoft365: [defaultValues.saas.microsoft365.useMicrosoft365],
-          organisationUserCount: [
-            defaultValues.saas.microsoft365.organisationUserCount,
-            [Validators.required, Validators.min(1)],
-          ],
-        }),
-      }),
-    });
+    this.estimatorForm = this.formService.estimatorForm;
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
@@ -208,7 +176,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   public resetForm() {
-    this.estimatorForm.reset();
+    this.formService.reset();
     this.submitted = false;
     this.resetValidationErrors();
     this.clearStoredFormState();
