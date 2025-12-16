@@ -19,7 +19,6 @@ import {
   locationDescriptions,
   ValidationError,
   errorConfig,
-  ControlState,
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
@@ -176,20 +175,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.computerPercentage = 100 - this.mobilePercentage;
     });
 
-    const formValue = this.formValue();
-    if (formValue !== undefined) {
-      this.estimatorForm.setValue(formValue);
-    }
-
-    const storedFormState = this.getStoredFormState();
-
-    if (storedFormState) {
-      this.estimatorForm.setValue(storedFormState.formValue);
-      this.setControlStates(storedFormState.controlStates);
-      if (storedFormState.submitted) {
-        this.handleSubmit();
-      }
-    }
+    this.loadStoredFormState();
   }
 
   ngOnDestroy(): void {
@@ -271,16 +257,20 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  private setControlStates(controlStates: Record<string, ControlState>) {
-    this.formStateService.setControlStates(this.estimatorForm, controlStates);
-  }
-
   private storeFormState() {
     this.formStateService.storeFormState(this.estimatorForm, this.submitted);
   }
 
-  private getStoredFormState() {
-    return this.formStateService.getStoredFormState();
+  private loadStoredFormState() {
+    const storedState = this.formStateService.getStoredFormState();
+    if (storedState) {
+      this.formService.load(storedState.formValue);
+      this.formStateService.setControlStates(this.estimatorForm, storedState.controlStates);
+
+      if (storedState.submitted) {
+        this.handleSubmit();
+      }
+    }
   }
 
   private clearStoredFormState() {
