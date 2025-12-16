@@ -8,13 +8,11 @@ import {
   OnInit,
   Output,
   ViewChild,
-  input,
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
 import {
-  costRanges,
   defaultValues,
   formContext,
   questionPanelConfig,
@@ -31,7 +29,6 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import { compareCostRanges } from '../utils/cost-range';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
 
@@ -59,8 +56,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   private estimationService = inject(CarbonEstimationService);
   private formStateService = inject(FormStateService);
 
-  public formValue = input<EstimatorValues>();
-
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
   @Output() public formReset: EventEmitter<void> = new EventEmitter();
 
@@ -76,7 +71,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
   public formContext = formContext;
-  public costRanges = costRanges;
 
   public desktopPercentage = defaultValues.upstream.desktopPercentage;
   public laptopPercentage: number = 100 - this.desktopPercentage;
@@ -101,9 +95,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     showErrorSummary: false,
     validationErrors: [],
   };
-  public submitted = false;
-
-  public compareCostRanges = compareCostRanges;
+  private submitted = false;
 
   public ngOnInit() {
     this.estimatorForm = this.formBuilder.nonNullable.group({
