@@ -91,7 +91,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-export-modal-content {
-  @apply tce:text-slate-950 tce:bg-slate-300 tce:rounded-lg tce:px-8;
+  @apply tce:text-slate-950 tce:bg-slate-300 tce:rounded-lg tce:px-8 tce:mt-32 tce:mb-32;
 }
 
 .tce-export-modal-export-area-colour-provider {
