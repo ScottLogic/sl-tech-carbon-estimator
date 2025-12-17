@@ -18,15 +18,26 @@ classDiagram
 
     class estimate-indirect-emissions{
       <<module>>
-      +estimateIndirectEmissions(input: Cloud, intensity: gCo2ePerKwh) IndirectEstimation
+      +estimateIndirectEmissions(input: EstimatorValues) IndirectEstimation
     }
-
+    
     class estimate-downstream-emissions{
       <<module>>
       +siteTypeInfo: Record~PurposeOfSite, SiteInformation~
       +estimateDownstreamEmissions(downstream: Downstream, ...) DownstreamEstimation
     }
   }
+
+  
+    class estimate-cloud-emissions{
+      <<module>>
+      +estimateEmissions(input: Cloud) KgCo2e
+    }
+    
+    class estimate-saas-emissions{
+      <<module>>
+      +estimateEmissions(input: Saas) KgCo2e
+    }
 
   namespace supporting-modules{
     class device-usage {
@@ -57,6 +68,8 @@ classDiagram
 
   estimate-upstream-emissions ..> device-usage
   estimate-direct-emissions ..> device-usage
+  estimate-saas-emissions ..> estimate-indirect-emissions
+  estimate-cloud-emissions ..> estimate-indirect-emissions
   estimate-indirect-emissions ..> estimate-energy-emissions
   estimate-downstream-emissions ..> device-type
   estimate-downstream-emissions ..> estimate-energy-emissions
@@ -106,8 +119,7 @@ Estimate emissions from Indirect categories
 
 ##### Parameters
 
-`input:`[`Cloud`](types.md#estimatorvalues) - The inputs relevant to cloud.
-`intensity:`[`gCo2ePerKwh`](types.md#units) - The Carbon intensity of the cloud region.
+`input:`[`EstimatorValues`](types.md#estimatorvalues) - The inputs relevant to cloud and SaaS.
 
 ##### Returns
 

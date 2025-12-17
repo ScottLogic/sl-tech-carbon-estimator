@@ -1,116 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { OrganisationSection } from '../page-objects/organisation-section';
-import { CloudServicesSection } from '../page-objects/cloud-services-section';
-import { CustomersSection } from '../page-objects/customers-section';
-import { OnPremSection } from '../page-objects/on-prem-section';
-
-export async function assertAllSectionElementsAreVisible(
-  organisationSection: OrganisationSection,
-  onPremSection: OnPremSection,
-  cloudServicesSection: CloudServicesSection,
-  customersSection: CustomersSection
-) {
-  await organisationSection.assertOrganisationSectionVisible();
-  await onPremSection.assertOnPremiseSectionVisible();
-  await cloudServicesSection.assertDefaultCloudElementVisibility();
-  await customersSection.assertCustomersSectionVisible();
-}
+import { EmissionInputsSchema, EmissionPercentagesSchema, EmissionValuesSchema } from './types';
 
 export const expectNoA11yViolations = async (page: Page) => {
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 };
-
-interface EmissionValuesSchema {
-  values: {
-    version: string;
-    upstreamEmissions: {
-      employee: number;
-      server: number;
-      network: number;
-      software: number;
-      foundationModels: number;
-      contentAndData: number;
-    };
-    directEmissions: {
-      employee: number;
-      server: number;
-      network: number;
-    };
-    indirectEmissions: {
-      cloud: number;
-      saas: number;
-      managed: number;
-    };
-    downstreamEmissions: {
-      customer: number;
-      networkTransfer: number;
-      downstreamInfrastructure: number;
-    };
-    totalEmissions: number;
-  };
-}
-
-interface EmissionPercentagesSchema {
-  percentages: {
-    version: string;
-    upstreamEmissions?: {
-      employee: number;
-      server: number;
-      network: number;
-      software: number;
-    };
-    directEmissions?: {
-      employee: number;
-      server: number;
-      network: number;
-    };
-    indirectEmissions?: {
-      cloud: number;
-      saas: number;
-      managed: number;
-    };
-    downstreamEmissions?: {
-      customer: number;
-      networkTransfer: number;
-      downstreamInfrastructure: number;
-    };
-    totalEmissions?: number;
-  };
-}
-
-interface EmissionInputsSchema {
-  input: {
-    upstream: {
-      headCount: number;
-      desktopPercentage: number;
-      employeeLocation: string;
-    };
-    onPremise: {
-      estimateServerCount: boolean;
-      serverLocation: string;
-      numberOfServers: number;
-    };
-    cloud: {
-      noCloudServices: boolean;
-      cloudLocation: string;
-      cloudPercentage: number;
-      monthlyCloudBill: {
-        min: number;
-        max: number;
-      };
-    };
-    downstream: {
-      noDownstream: boolean;
-      customerLocation: string;
-      monthlyActiveUsers: number;
-      mobilePercentage: number;
-      purposeOfSite: string;
-    };
-  };
-}
 
 export function createDefaultValuesJsonExport(overrides: Partial<EmissionValuesSchema> = {}): EmissionValuesSchema {
   const defaultValuesJson = {
@@ -208,6 +104,12 @@ export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSc
         monthlyActiveUsers: 100,
         mobilePercentage: 50,
         purposeOfSite: 'average',
+      },
+      saas: {
+        microsoft365: {
+          useMicrosoft365: false,
+          organisationUserCount: 100,
+        },
       },
     },
   };

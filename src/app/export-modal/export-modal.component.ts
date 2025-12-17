@@ -5,6 +5,7 @@ import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
 import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'export-modal',
@@ -15,6 +16,7 @@ import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.comp
     FormsModule,
     InputGroupDisplay,
     DisclaimerTextComponent,
+    A11yModule,
   ],
 })
 export class ExportModal {

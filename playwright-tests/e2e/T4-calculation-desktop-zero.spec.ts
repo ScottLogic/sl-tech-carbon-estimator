@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T4 verify calculated values are coherent when desktop is 0%', async ({
+  allSections,
   organisationSection,
   tcsEstimator,
   onPremSection,
@@ -13,16 +13,16 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
   await organisationSection.percentageSlider.click();
-  await organisationSection.percentageSliderSet('ArrowLeft', 10);
+  await organisationSection.percentageSliderSet('0');
   await expect(organisationSection.percentageSliderText).toHaveValue('0');
 
   await onPremSection.selectLocationOfServers('GBR');
   await onPremSection.selectLocationOfServers('Globally');
 
   await cloudServicesSection.percentageSlider.click();
-  await cloudServicesSection.percentageSliderSet('ArrowLeft', 1);
+  await cloudServicesSection.percentageSliderSet('45');
   await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');

@@ -77,4 +77,13 @@ export class OnPremSection {
     await this.locationOfServersField.press('Enter');
     await this.locationOfServersField.selectOption(text);
   }
+
+  async onPremInputs(unknown: boolean, number_of_servers: string, location: string) {
+    if (unknown == true) {
+      await this.onPremUnknownTickbox.click();
+    } else {
+      await this.selectNumberOfServers(number_of_servers);
+      await this.selectLocationOfServers(location);
+    }
+  }
 }

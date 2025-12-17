@@ -1,19 +1,18 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T6 verify calculated values are coherent when on-prem is unknown', async ({
+  allSections,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
-  organisationSection,
   customersSection,
   estimationsSection,
   tableSection,
   diagramSection,
 }) => {
   await tcsEstimator.gotoHome();
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await onPremSection.onPremUnknownTickbox.check();
   await expect(onPremSection.numberOfServersContainer).toBeDisabled();

@@ -1,8 +1,8 @@
 import { test, expect } from '../utilities/fixtures';
-import { assertAllSectionElementsAreVisible } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test('T10 verify calculated values are coherent when on-prem is unknown, cloud is not used, and 100% computers', async ({
+  allSections,
   tcsEstimator,
   onPremSection,
   cloudServicesSection,
@@ -10,11 +10,10 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
   estimationsSection,
   tableSection,
   diagramSection,
-  organisationSection,
 }) => {
   await tcsEstimator.gotoHome();
 
-  await assertAllSectionElementsAreVisible(organisationSection, onPremSection, cloudServicesSection, customersSection);
+  await allSections.assertAllSectionElementsAreVisible();
 
   await onPremSection.onPremUnknownTickbox.check();
   await expect(onPremSection.assumptionText).toBeVisible();
@@ -29,8 +28,8 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
 
   await customersSection.setCustomersLocation('in the UK');
   await customersSection.setMonthlyActiveUsers('1000');
-  await customersSection.percentageSlider.click();
-  await customersSection.percentageSliderSet('ArrowLeft', 10);
+  //await customersSection.percentageSlider.click();
+  await customersSection.percentageSliderSet('0');
   await customersSection.setPrimaryPurpose('average');
 
   await tcsEstimator.calculateButton.click();

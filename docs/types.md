@@ -13,12 +13,15 @@ classDiagram
     upstream: Upstream
     onPremise: OnPremise
     cloud: Cloud
+    saas: SaaS
     downstream: Downstream
   }
+  
   EstimatorValues --> "upstream" Upstream
   EstimatorValues --> "onPremise" OnPremise
   EstimatorValues --> "cloud" Cloud
   EstimatorValues --> "downstream" Downstream
+  EstimatorValues --> "SaaS" Saas
 
   class OnPremise {
     estimateServerCount: boolean
@@ -84,6 +87,15 @@ classDiagram
     'average'
   }
   PurposeOfSite --|> BasePurposeOfSite
+  Saas --> Microsoft365
+  class Saas {
+    microsoft365: Microsoft365
+  }
+
+  class Microsoft365 {
+    useMicrosoft365: boolean
+    organisationUserCount: number
+  }
 ```
 
 This is the input data that the [CarbonEstimationService](services.md#carbonestimationservice) requires.

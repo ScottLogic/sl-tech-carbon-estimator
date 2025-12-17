@@ -1,6 +1,7 @@
 <div
   id="techCarbonEstimator"
-  class="tce:p-4 tce:flex tce:flex-col tce:h-full tce:dark:bg-slate-800 tce:dark:text-slate-50">
+  class="tce:relative tce:p-4 tce:flex tce:flex-col tce:h-full tce:dark:bg-slate-800 tce:dark:text-slate-50"
+  [class.tce-no-scroll]="isExportModalVisible">
   <h1 class="tce:text-3xl tce:mb-6">Technology Carbon Estimator</h1>
   <div class="tce:flex tce:w-full tce:grow tce:flex-wrap tce:lg:flex-nowrap">
     <div class="tce:w-full tce:lg:w-1/2 tce:pb-4 tce:lg:pb-0 tce:lg:pr-4">
@@ -23,7 +24,15 @@
       <carbon-estimation
         [carbonEstimation]="carbonEstimation ? carbonEstimation : undefined"
         [extraHeight]="extraHeight"
-        [inputValues]="formValue"></carbon-estimation>
+        [inputValues]="formValue"
+        (pdfExportClicked)="openExportModal($event.estimation, $event.inputValues)">
+      </carbon-estimation>
     </div>
   </div>
+  @if (isExportModalVisible) {
+    <export-modal
+      (closePreview)="closeExportModal()"
+      [carbonEstimation]="modalCarbonEstimation === null ? undefined : modalCarbonEstimation"
+      [inputValues]="modalInputValues" />
+  }
 </div>

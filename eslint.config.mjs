@@ -36,7 +36,11 @@ export default defineConfig([
   },
   {
     files: ['**/*.html'],
-    extends: compat.extends('plugin:@angular-eslint/template/recommended', 'plugin:prettier/recommended'),
+    extends: compat.extends(
+      'plugin:@angular-eslint/template/recommended',
+      'plugin:prettier/recommended',
+      'plugin:@angular-eslint/template/accessibility'
+    ),
     rules: {
       'prettier/prettier': [
         'error',

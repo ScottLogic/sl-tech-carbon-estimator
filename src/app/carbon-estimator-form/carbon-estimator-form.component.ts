@@ -25,14 +25,15 @@ import {
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
+import { CloudFormSectionComponent } from '../features/cloud/components/cloud-form-section.component';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
-import { FormatCostRangePipe } from '../pipes/format-cost-range.pipe';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { compareCostRanges } from '../utils/cost-range';
 import { FormStateService } from '../services/form-state.service';
+import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -45,10 +46,11 @@ import { FormStateService } from '../services/form-state.service';
     CommonModule,
     NoteComponent,
     ExpansionPanelComponent,
-    FormatCostRangePipe,
     InvalidatedPipe,
     ErrorSummaryComponent,
     ExternalLinkDirective,
+    CloudFormSectionComponent,
+    SaasFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
@@ -79,16 +81,12 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public desktopPercentage = defaultValues.upstream.desktopPercentage;
   public laptopPercentage: number = 100 - this.desktopPercentage;
 
-  public cloudPercentage = defaultValues.cloud.cloudPercentage;
-  public onPremisePercentage: number = 100 - this.cloudPercentage;
-
   public mobilePercentage = defaultValues.downstream.mobilePercentage;
   public computerPercentage: number = 100 - this.mobilePercentage;
 
   public estimateServerCount = false;
   public previewServerCount = 0;
 
-  public noCloudServices: boolean = defaultValues.cloud.noCloudServices;
   public noDownstream: boolean = defaultValues.downstream.noDownstream;
 
   public locationDescriptions = locationArray.map(location => ({
@@ -132,6 +130,15 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
         mobilePercentage: [defaultValues.downstream.mobilePercentage],
         purposeOfSite: [defaultValues.downstream.purposeOfSite],
       }),
+      saas: this.formBuilder.nonNullable.group({
+        microsoft365: this.formBuilder.nonNullable.group({
+          useMicrosoft365: [defaultValues.saas.microsoft365.useMicrosoft365],
+          organisationUserCount: [
+            defaultValues.saas.microsoft365.organisationUserCount,
+            [Validators.required, Validators.min(1)],
+          ],
+        }),
+      }),
     });
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
@@ -154,8 +161,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(noCloudServices => {
-      this.noCloudServices = noCloudServices;
+    this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
       this.changeDetector.detectChanges();
     });
@@ -171,11 +177,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.changeDetector.detectChanges();
     });
 
-    this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(cloudPercentage => {
-      this.cloudPercentage = cloudPercentage;
-      this.onPremisePercentage = 100 - this.cloudPercentage;
-      this.refreshPreviewServerCount();
-    });
+    this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(() => this.refreshPreviewServerCount());
 
     this.estimatorForm.get('downstream.mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
       this.mobilePercentage = mobilePercentage;

@@ -5,7 +5,6 @@ import {
   CarbonEstimationValues,
   EstimatorValues,
 } from '../types/carbon-estimator';
-import { estimateIndirectEmissions } from '../estimation/estimate-indirect-emissions';
 import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
 import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
 import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
@@ -16,6 +15,7 @@ import { desktop, laptop, monitor, network, server } from '../estimation/device-
 import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
 import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
+import { EstimateIndirectEmissionsService } from '../estimation/estimate-indirect-emissions.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,7 @@ export class CarbonEstimationService {
   private carbonIntensityService = inject(CarbonIntensityService);
   private loggingService = inject(LoggingService);
   private downstreamEmissionsEstimator = inject(DownstreamEmissionsEstimator);
+  private indirectEmissionsEstimator = inject(EstimateIndirectEmissionsService);
 
   calculateCarbonEstimation(formValue: EstimatorValues): CarbonEstimation {
     this.loggingService.log(`Input Values: ${formatObject(formValue)}`);
@@ -32,11 +33,13 @@ export class CarbonEstimationService {
 
     const upstreamEmissions = estimateUpstreamEmissions(deviceUsage);
     this.loggingService.log(`Estimated Upstream Emissions: ${formatCarbonEstimate(upstreamEmissions)}`);
+
     const directEmissions = estimateDirectEmissions(deviceUsage);
     this.loggingService.log(`Estimated Direct Emissions: ${formatCarbonEstimate(directEmissions)}`);
-    const indirectIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.cloud.cloudLocation);
-    const indirectEmissions = estimateIndirectEmissions(formValue.cloud, indirectIntensity);
+
+    const indirectEmissions = this.indirectEmissionsEstimator.estimateIndirectEmissions(formValue);
     this.loggingService.log(`Estimated Indirect Emissions: ${formatCarbonEstimate(indirectEmissions)}`);
+
     const downstreamIntensity = this.carbonIntensityService.getCarbonIntensity(formValue.downstream.customerLocation);
     // const downstreamEmissions = estimateDownstreamEmissions(formValue.downstream, downstreamIntensity, this.co2Calc);
     const downstreamEmissions = this.downstreamEmissionsEstimator.estimate(formValue.downstream, downstreamIntensity);

@@ -12,6 +12,8 @@ export class EstimationsSection {
   public readonly downloadPdfButton: Locator;
   public readonly monthlyViewButton: Locator;
   public readonly annualViewButton: Locator;
+  public readonly modalCloseButton: Locator;
+  public readonly exportModal: Locator;
 
   constructor(public readonly page: Page) {
     this.diagramViewButton = page.getByRole('tab', { name: 'Diagram' });
@@ -23,7 +25,10 @@ export class EstimationsSection {
     this.exportJsonButton = page.getByRole('link', { name: 'Export JSON', exact: true });
     this.exportJsonInputsButton = page.getByRole('link', { name: 'Export JSON with Inputs', exact: true });
     this.exportPdfButton = page.getByRole('button', { name: 'Export PDF' });
+    this.modalCloseButton = page.getByRole('button', { name: 'X', exact: true });
+    this.exportModal = page.getByText('Report Name: XCarbon');
   }
+
   async assertResultsElementVisibility() {
     await expect(this.diagramViewButton).toBeVisible();
     await expect(this.tableViewButton).toBeVisible();
@@ -52,5 +57,10 @@ export class EstimationsSection {
     const json = JSON.parse(fileContent);
 
     return json;
+  }
+
+  async openPdfExportModal() {
+    await this.exportButton.click();
+    await this.exportPdfButton.click();
   }
 }
