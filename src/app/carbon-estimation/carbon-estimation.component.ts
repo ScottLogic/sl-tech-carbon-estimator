@@ -8,6 +8,7 @@ import {
   input,
   OnDestroy,
   OnInit,
+  output,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -22,7 +23,6 @@ import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { CommonModule } from '@angular/common';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'carbon-estimation',
@@ -62,7 +62,7 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
 
   private changeDetectorRef = inject(ChangeDetectorRef);
 
-  @Output() public pdfExportClicked = new EventEmitter<{
+  public pdfExportClicked = output<{
     estimation: CarbonEstimation;
     inputValues: EstimatorValues | undefined;
   }>();
