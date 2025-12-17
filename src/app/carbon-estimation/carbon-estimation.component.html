@@ -133,7 +133,4 @@
       <carbon-estimation-table [carbonEstimation]="estimate()" [shouldShowSvgs]="true"></carbon-estimation-table
     ></tab-item>
   </tabs>
-  @if (isModalVisible) {
-    <export-modal (closePreview)="hideModal()" [carbonEstimation]="estimate()" [inputValues]="inputValues()" />
-  }
 </div>
