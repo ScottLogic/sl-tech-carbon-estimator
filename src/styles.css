@@ -127,7 +127,7 @@ input.ng-invalid.ng-touched {
 }
 
 .tce-export-modal-input-display-container {
-  @apply tce:grid tce:grid-cols-2 tce:grid-rows-2 tce:gap-4 tce:grid-flow-col;
+  @apply tce:grid tce:grid-cols-2 tce:grid-rows-2 tce:gap-4 tce:grid-flow-row;
 }
 
 .tce-select,
