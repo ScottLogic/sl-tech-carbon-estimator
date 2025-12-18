@@ -37,7 +37,7 @@ export class InputGroupDisplay {
 
       entries.push(['No Cloud Services', (this.inputGroup() as Cloud).noCloudServices]);
     } else if (this.group() === 'Saas') {
-      entries.push(['Use Microsoft365', (this.inputGroup() as Saas).microsoft365.useMicrosoft365]);
+      entries.push(['Use Microsoft 365', (this.inputGroup() as Saas).microsoft365.useMicrosoft365]);
       entries.push(['Users', (this.inputGroup() as Saas).microsoft365.organisationUserCount]);
     } else {
       entries = Object.entries(this.inputGroup() ?? {});
