@@ -8,20 +8,17 @@ import {
   OnInit,
   Output,
   ViewChild,
-  input,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EstimatorFormValues, EstimatorValues, WorldLocation, locationArray } from '../types/carbon-estimator';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EstimatorFormValues, EstimatorValues, locationArray } from '../types/carbon-estimator';
 import {
-  costRanges,
   defaultValues,
   formContext,
   questionPanelConfig,
   locationDescriptions,
   ValidationError,
   errorConfig,
-  ControlState,
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
@@ -31,9 +28,9 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
-import { compareCostRanges } from '../utils/cost-range';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
+import { FormService } from '../services/form.service';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -54,12 +51,10 @@ import { SaasFormSectionComponent } from '../features/saas/components/saas-form-
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
-  private formBuilder = inject(FormBuilder);
+  private formService = inject(FormService);
   private changeDetector = inject(ChangeDetectorRef);
   private estimationService = inject(CarbonEstimationService);
   private formStateService = inject(FormStateService);
-
-  public formValue = input<EstimatorValues>();
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
   @Output() public formReset: EventEmitter<void> = new EventEmitter();
@@ -76,7 +71,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
   public formContext = formContext;
-  public costRanges = costRanges;
 
   public desktopPercentage = defaultValues.upstream.desktopPercentage;
   public laptopPercentage: number = 100 - this.desktopPercentage;
@@ -101,45 +95,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     showErrorSummary: false,
     validationErrors: [],
   };
-  public submitted = false;
-
-  public compareCostRanges = compareCostRanges;
+  private submitted = false;
 
   public ngOnInit() {
-    this.estimatorForm = this.formBuilder.nonNullable.group({
-      upstream: this.formBuilder.nonNullable.group({
-        headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
-        desktopPercentage: [defaultValues.upstream.desktopPercentage],
-        employeeLocation: [defaultValues.upstream.employeeLocation],
-      }),
-      onPremise: this.formBuilder.nonNullable.group({
-        estimateServerCount: [defaultValues.onPremise.estimateServerCount],
-        serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
-        numberOfServers: [defaultValues.onPremise.numberOfServers, [Validators.required, Validators.min(0)]],
-      }),
-      cloud: this.formBuilder.nonNullable.group({
-        noCloudServices: [false],
-        cloudLocation: [defaultValues.cloud.cloudLocation as WorldLocation | 'unknown'],
-        cloudPercentage: [defaultValues.cloud.cloudPercentage],
-        monthlyCloudBill: [defaultValues.cloud.monthlyCloudBill],
-      }),
-      downstream: this.formBuilder.nonNullable.group({
-        noDownstream: [false],
-        customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, [Validators.required, Validators.min(1)]],
-        mobilePercentage: [defaultValues.downstream.mobilePercentage],
-        purposeOfSite: [defaultValues.downstream.purposeOfSite],
-      }),
-      saas: this.formBuilder.nonNullable.group({
-        microsoft365: this.formBuilder.nonNullable.group({
-          useMicrosoft365: [defaultValues.saas.microsoft365.useMicrosoft365],
-          organisationUserCount: [
-            defaultValues.saas.microsoft365.organisationUserCount,
-            [Validators.required, Validators.min(1)],
-          ],
-        }),
-      }),
-    });
+    this.estimatorForm = this.formService.estimatorForm;
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
@@ -184,20 +143,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.computerPercentage = 100 - this.mobilePercentage;
     });
 
-    const formValue = this.formValue();
-    if (formValue !== undefined) {
-      this.estimatorForm.setValue(formValue);
-    }
-
-    const storedFormState = this.getStoredFormState();
-
-    if (storedFormState) {
-      this.estimatorForm.setValue(storedFormState.formValue);
-      this.setControlStates(storedFormState.controlStates);
-      if (storedFormState.submitted) {
-        this.handleSubmit();
-      }
-    }
+    this.loadStoredFormState();
   }
 
   ngOnDestroy(): void {
@@ -230,7 +176,7 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   }
 
   public resetForm() {
-    this.estimatorForm.reset();
+    this.formService.reset();
     this.submitted = false;
     this.resetValidationErrors();
     this.clearStoredFormState();
@@ -279,16 +225,20 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  private setControlStates(controlStates: Record<string, ControlState>) {
-    this.formStateService.setControlStates(this.estimatorForm, controlStates);
-  }
-
   private storeFormState() {
     this.formStateService.storeFormState(this.estimatorForm, this.submitted);
   }
 
-  private getStoredFormState() {
-    return this.formStateService.getStoredFormState();
+  private loadStoredFormState() {
+    const storedState = this.formStateService.getStoredFormState();
+    if (storedState) {
+      this.formService.load(storedState.formValue);
+      this.formStateService.setControlStates(this.estimatorForm, storedState.controlStates);
+
+      if (storedState.submitted) {
+        this.handleSubmit();
+      }
+    }
   }
 
   private clearStoredFormState() {
