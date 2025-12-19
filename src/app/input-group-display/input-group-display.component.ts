@@ -1,5 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimator';
+import { Saas } from '../features/saas/components/saas.constants';
 
 @Component({
   selector: 'input-group-display',
@@ -7,7 +8,7 @@ import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimato
   templateUrl: './input-group-display.component.html',
 })
 export class InputGroupDisplay {
-  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | Record<string, never>>();
+  public inputGroup = input<Upstream | OnPremise | Cloud | Downstream | Saas | Record<string, never>>();
   public group = input<string>();
 
   public displayEntries = computed(() => {
@@ -35,6 +36,9 @@ export class InputGroupDisplay {
       entries.push(['Cloud Location', (this.inputGroup() as Cloud).cloudLocation]);
 
       entries.push(['No Cloud Services', (this.inputGroup() as Cloud).noCloudServices]);
+    } else if (this.group() === 'Saas') {
+      entries.push(['Use Microsoft 365', (this.inputGroup() as Saas).microsoft365.useMicrosoft365]);
+      entries.push(['Users', (this.inputGroup() as Saas).microsoft365.organisationUserCount]);
     } else {
       entries = Object.entries(this.inputGroup() ?? {});
       entries.forEach(entry => {
