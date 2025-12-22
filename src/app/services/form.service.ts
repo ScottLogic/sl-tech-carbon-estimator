@@ -4,6 +4,7 @@ import { defaultSaasValues, SaasFormService } from '../features/saas/services/sa
 import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
 import { EstimatorFormRawValue } from '../carbon-estimator-form/carbon-estimator-form.constants';
 import { CloudFormService, defaultCloudValues } from '../features/cloud/services/cloud-form.service';
+import { OrganisationFormService } from '../features/organisation/services/organisation-form.service';
 
 export const defaultValues: Required<EstimatorValues> = {
   upstream: {
@@ -32,6 +33,7 @@ export const defaultValues: Required<EstimatorValues> = {
 })
 export class FormService {
   private formBuilder = inject(FormBuilder);
+  private organisationFormService = inject(OrganisationFormService);
   private saasFormService = inject(SaasFormService);
   private cloudFormService = inject(CloudFormService);
 
@@ -39,11 +41,7 @@ export class FormService {
 
   initialise() {
     return this.formBuilder.nonNullable.group({
-      upstream: this.formBuilder.nonNullable.group({
-        headCount: [defaultValues.upstream.headCount, [Validators.required, Validators.min(1)]],
-        desktopPercentage: [defaultValues.upstream.desktopPercentage],
-        employeeLocation: [defaultValues.upstream.employeeLocation],
-      }),
+      upstream: this.organisationFormService.form,
       onPremise: this.formBuilder.nonNullable.group({
         estimateServerCount: [defaultValues.onPremise.estimateServerCount],
         serverLocation: [defaultValues.onPremise.serverLocation as WorldLocation | 'unknown'],
