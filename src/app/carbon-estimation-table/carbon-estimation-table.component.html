@@ -59,7 +59,7 @@
             [attr.aria-level]="tableItem.level"
             [attr.aria-setsize]="tableItem.setSize"
             [attr.aria-posinset]="tableItem.positionInSet"
-            [style.background-color]="tableItem.colour.background"
+            [style.background-color]="tableItem.colour.background + rowOpacity($index)"
             (keydown.arrowright)="arrowKeyBoardEvent($event, 'right')"
             (keydown.arrowleft)="arrowKeyBoardEvent($event, 'left')"
             [class.tce:hidden]="!tableItem.display"
