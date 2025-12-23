@@ -330,4 +330,8 @@ export class CarbonEstimationTableComponent {
       level: 2,
     };
   }
+
+  rowOpacity(index: number): string {
+    return index % 2 === 0 ? 'E4' : 'FF';
+  }
 }
