@@ -62,6 +62,12 @@ describe('ExportModal', () => {
       cloudLocation: 'UK',
       noCloudServices: false,
     },
+    saas: {
+      microsoft365: {
+        useMicrosoft365: true,
+        organisationUserCount: 9,
+      },
+    },
   };
 
   beforeEach(async () => {

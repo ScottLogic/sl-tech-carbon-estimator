@@ -32,6 +32,7 @@ export class ExportModal {
   public onPremise = computed(() => this.inputValues()?.onPremise ?? {});
   public downstream = computed(() => this.inputValues()?.downstream ?? {});
   public cloud = computed(() => this.inputValues()?.cloud ?? {});
+  public saas = computed(() => this.inputValues()?.saas ?? {});
 
   private dateMills = Date.now();
   private date = new Date(this.dateMills);
