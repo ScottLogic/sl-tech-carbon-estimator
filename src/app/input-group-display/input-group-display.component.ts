@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
-import { Cloud, Downstream, OnPremise, Upstream } from '../types/carbon-estimator';
+import { Downstream, OnPremise, Upstream } from '../types/carbon-estimator';
 import { Saas } from '../features/saas/components/saas.constants';
+import { Cloud } from '../features/cloud/services/cloud-form.service';
 
 @Component({
   selector: 'input-group-display',

@@ -13,7 +13,6 @@ import {
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, locationArray } from '../types/carbon-estimator';
 import {
-  defaultValues,
   formContext,
   questionPanelConfig,
   locationDescriptions,
@@ -30,7 +29,7 @@ import { ErrorSummaryComponent } from '../error-summary/error-summary.component'
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
-import { FormService } from '../services/form.service';
+import { defaultValues, FormService } from '../services/form.service';
 
 @Component({
   selector: 'carbon-estimator-form',

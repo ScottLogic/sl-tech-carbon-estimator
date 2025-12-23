@@ -1,31 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 
-import { FormService } from './form.service';
-import { SaasFormService } from '../features/saas/services/saas-form.service';
-import { defaultValues } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { defaultValues, FormService } from './form.service';
 import { EstimatorValues } from '../types/carbon-estimator';
 
 describe('FormService', () => {
   let service: FormService;
-  const formBuilder = new FormBuilder();
-
   let alternateValues: EstimatorValues;
 
-  let mockSaasFormService: Partial<SaasFormService>;
-
   beforeEach(() => {
-    mockSaasFormService = {
-      form: formBuilder.nonNullable.group({
-        microsoft365: formBuilder.nonNullable.group({
-          useMicrosoft365: defaultValues.saas.microsoft365.useMicrosoft365,
-          organisationUserCount: defaultValues.saas.microsoft365.organisationUserCount,
-        }),
-      }),
-    };
-
     TestBed.configureTestingModule({
-      providers: [FormBuilder, { provide: SaasFormService, useValue: mockSaasFormService }],
+      providers: [FormBuilder],
     });
 
     service = TestBed.inject(FormService);

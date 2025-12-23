@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
-import { CostRange, EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
-import { defaultSaasValues } from '../features/saas/components/saas.constants';
+import { CostRange, EstimatorFormValues, WorldLocation } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [
   { min: 0, max: 1000 },
@@ -18,45 +17,20 @@ export const costRanges: CostRange[] = [
   { min: 2000000, max: 5000000 },
 ];
 
-export const defaultValues: Required<EstimatorValues> = {
-  upstream: {
-    headCount: 100,
-    desktopPercentage: 50,
-    employeeLocation: 'WORLD',
-  },
-  onPremise: {
-    estimateServerCount: false,
-    serverLocation: 'WORLD',
-    numberOfServers: 10,
-  },
-  cloud: {
-    noCloudServices: false,
-    cloudLocation: 'WORLD',
-    cloudPercentage: 50,
-    monthlyCloudBill: costRanges[0],
-  },
-  downstream: {
-    noDownstream: false,
-    customerLocation: 'WORLD',
-    monthlyActiveUsers: 100,
-    mobilePercentage: 50,
-    purposeOfSite: 'average',
-  },
-  saas: defaultSaasValues,
-};
-
 export type FormContextKey = 'upstream' | 'onPremise' | 'cloud' | 'downstream';
+
+export type Location = {
+  label: string;
+  helperText: string;
+  formControlName: string;
+  hasUnknown: boolean;
+};
 
 export type FormContextSection = {
   heading: string;
   details: string;
   formGroupName: string;
-  location?: {
-    label: string;
-    helperText: string;
-    formControlName: string;
-    hasUnknown: boolean;
-  };
+  location?: Location;
 };
 
 export type FormContext = Record<FormContextKey, FormContextSection>;

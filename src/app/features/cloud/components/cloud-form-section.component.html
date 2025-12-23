@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <location-input formContextKey="cloud" [locationForm]="estimatorForm()"></location-input>
+        <location-input [locationContext]="formContext.cloud.location!" formControlName="cloudLocation" />
 
         <div>
           <p>
