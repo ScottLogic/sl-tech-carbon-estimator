@@ -86,6 +86,7 @@ test.describe('Download and read files', () => {
     await estimationsSection.monthlyViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    // If PDF design changes, replace the expected baseline PDF and then update snapshot
     await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-monthly.pdf');
   });
 
@@ -93,6 +94,7 @@ test.describe('Download and read files', () => {
     await estimationsSection.annualViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    // If PDF design changes, replace the expected baseline PDF and then update snapshots
     await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-annual.pdf');
   });
 
