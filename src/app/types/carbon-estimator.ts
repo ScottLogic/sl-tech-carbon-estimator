@@ -2,6 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e } from './units';
 import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
+import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -68,12 +69,7 @@ export type EstimatorFormValues = {
     serverLocation: FormControl<WorldLocation | 'unknown'>;
     numberOfServers: FormControl<number>;
   }>;
-  cloud: FormGroup<{
-    noCloudServices: FormControl<boolean>;
-    cloudLocation: FormControl<WorldLocation | 'unknown'>;
-    cloudPercentage: FormControl<number>;
-    monthlyCloudBill: FormControl<CostRange>;
-  }>;
+  cloud: CloudFormGroup;
   downstream: FormGroup<{
     noDownstream: FormControl<boolean>;
     customerLocation: FormControl<WorldLocation>;
@@ -94,12 +90,7 @@ export type Upstream = {
   desktopPercentage: number;
   employeeLocation: WorldLocation;
 };
-export type Cloud = {
-  noCloudServices: boolean;
-  cloudLocation: WorldLocation;
-  cloudPercentage: number;
-  monthlyCloudBill: CostRange;
-};
+
 export type Downstream = {
   noDownstream: boolean;
   customerLocation: WorldLocation;
