@@ -22,6 +22,7 @@ export default defineConfig({
   },
   expect: {
     toHaveScreenshot: { maxDiffPixels: 50 },
+    toMatchSnapshot: { maxDiffPixels: 50 },
   },
 
   /* Configure projects for major browsers */

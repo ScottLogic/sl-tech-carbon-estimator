@@ -78,6 +78,7 @@
     "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
     "ng-mocks": "^14.13.0",
+    "pdf-to-png-converter": "^3.11.0",
     "postcss": "^8.5.6",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",

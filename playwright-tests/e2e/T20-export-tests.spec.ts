@@ -3,6 +3,7 @@ import {
   createDefaultPercentagesJsonExport,
   createDefaultInputJsonExport,
   createDefaultValuesJsonExport,
+  pdfComparison,
 } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
@@ -85,12 +86,14 @@ test.describe('Download and read files', () => {
     await estimationsSection.monthlyViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-monthly.pdf');
   });
 
   test('T20 Verify that download is executed for PDF file (Annual)', async ({ page, estimationsSection }) => {
     await estimationsSection.annualViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-annual.pdf');
   });
 
   test('T20 Close Export Modal', async ({ estimationsSection }) => {

@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { EmissionInputsSchema, EmissionPercentagesSchema, EmissionValuesSchema } from './types';
+import { pdfToPng } from 'pdf-to-png-converter';
 
 export const expectNoA11yViolations = async (page: Page) => {
   const results = await new AxeBuilder({ page }).analyze();
@@ -114,4 +115,17 @@ export function createDefaultInputJsonExport(overrides: Partial<EmissionInputsSc
     },
   };
   return { ...defaultInputJson, ...overrides };
+}
+
+export async function pdfComparison(actual_pdf_path: string, expected_pdf_path: string) {
+  const convertedPdf = await pdfToPng(actual_pdf_path);
+  const expectedPdf = await pdfToPng(expected_pdf_path);
+  const pages = convertedPdf.length;
+  for (let i = 0; i < pages; i++) {
+    expect.soft(convertedPdf[i].content).toMatchSnapshot(expectedPdf[i]);
+  }
+}
+
+export async function customWait(seconds: number) {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
