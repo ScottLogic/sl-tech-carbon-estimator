@@ -1,13 +1,13 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, forwardRef, input } from '@angular/core';
 import {
   formContext,
-  FormContextKey,
+  Location,
   locationDescriptions,
   questionPanelConfig,
 } from '../../carbon-estimator-form/carbon-estimator-form.constants';
 import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.component';
-import { locationArray } from '../../types/carbon-estimator';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { locationArray, WorldLocation } from '../../types/carbon-estimator';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NoteComponent } from '../../note/note.component';
 
@@ -16,32 +16,64 @@ import { NoteComponent } from '../../note/note.component';
   templateUrl: './location-input.component.html',
   standalone: true,
   imports: [ExpansionPanelComponent, ReactiveFormsModule, NoteComponent, CommonModule],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => LocationInputComponent), multi: true }],
 })
-export class LocationInputComponent {
-  locationForm = input.required<FormGroup>();
-  formContextKey = input.required<FormContextKey>();
+export class LocationInputComponent implements ControlValueAccessor {
+  locationContext = input.required<Location>();
+
+  public location = new FormControl<WorldLocation | 'unknown'>('unknown');
+
+  private onChange: (value: string | null) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  constructor() {
+    this.location.valueChanges.subscribe(value => {
+      this.onChange(value);
+      this.onTouched();
+    });
+  }
 
   public questionPanelConfig = questionPanelConfig;
   public formContext = formContext;
 
   public formControlName = computed(() => {
-    return this.formContext[this.formContextKey()].location?.formControlName;
+    return this.locationContext().formControlName;
   });
 
   public label = computed(() => {
-    return this.formContext[this.formContextKey()].location?.label;
+    return this.locationContext().label;
   });
 
   public helperText = computed(() => {
-    return this.formContext[this.formContextKey()].location?.helperText;
+    return this.locationContext().helperText;
   });
 
   public hasUnknown = computed(() => {
-    return this.formContext[this.formContextKey()].location?.hasUnknown;
+    return this.locationContext().hasUnknown;
   });
 
   public locationDescriptions = locationArray.map(location => ({
     value: location,
     description: locationDescriptions[location],
   }));
+
+  writeValue(value: WorldLocation | null): void {
+    this.location.setValue(value, { emitEvent: false });
+  }
+
+  registerOnChange(fn: (value: string | null) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.location.disable();
+    } else {
+      this.location.enable();
+    }
+  }
 }
