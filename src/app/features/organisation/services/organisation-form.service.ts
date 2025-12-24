@@ -28,7 +28,7 @@ export class OrganisationFormService {
 
   form: OrganisationFormGroup = this.createOrganisationForm();
 
-  createOrganisationForm(): OrganisationFormGroup {
+  private createOrganisationForm(): OrganisationFormGroup {
     return this.formBuilder.nonNullable.group({
       headCount: [defaultValues.headCount, [Validators.required, Validators.min(1)]],
       desktopPercentage: [defaultValues.desktopPercentage],
