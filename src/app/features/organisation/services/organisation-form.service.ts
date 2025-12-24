@@ -14,25 +14,25 @@ export type OrganisationFormGroup = FormGroup<{
   employeeLocation: FormControl<WorldLocation>;
 }>;
 
+export const defaultValues: Organisation = {
+  headCount: 100,
+  desktopPercentage: 50,
+  employeeLocation: 'WORLD',
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationFormService {
   private formBuilder = inject(FormBuilder);
 
-  private defaultValues: Organisation = {
-    headCount: 100,
-    desktopPercentage: 50,
-    employeeLocation: 'WORLD',
-  };
+  form: OrganisationFormGroup = this.createOrganisationForm();
 
-  form: OrganisationFormGroup = this.createSaasForm();
-
-  createSaasForm(): OrganisationFormGroup {
+  createOrganisationForm(): OrganisationFormGroup {
     return this.formBuilder.nonNullable.group({
-      headCount: [this.defaultValues.headCount, [Validators.required, Validators.min(1)]],
-      desktopPercentage: [this.defaultValues.desktopPercentage],
-      employeeLocation: [this.defaultValues.employeeLocation],
+      headCount: [defaultValues.headCount, [Validators.required, Validators.min(1)]],
+      desktopPercentage: [defaultValues.desktopPercentage],
+      employeeLocation: [defaultValues.employeeLocation],
     });
   }
 }
