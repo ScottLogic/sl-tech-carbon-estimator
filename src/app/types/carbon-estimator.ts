@@ -3,6 +3,7 @@ import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, Ape
 import { KgCo2e } from './units';
 import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
 import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.service';
+import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -59,11 +60,7 @@ export type EstimatorValues = {
 };
 
 export type EstimatorFormValues = {
-  upstream: FormGroup<{
-    headCount: FormControl<number>;
-    desktopPercentage: FormControl<number>;
-    employeeLocation: FormControl<WorldLocation>;
-  }>;
+  upstream: OrganisationFormGroup;
   onPremise: FormGroup<{
     estimateServerCount: FormControl<boolean>;
     serverLocation: FormControl<WorldLocation | 'unknown'>;
@@ -85,11 +82,8 @@ export type OnPremise = {
   serverLocation: WorldLocation;
   numberOfServers: number;
 };
-export type Upstream = {
-  headCount: number;
-  desktopPercentage: number;
-  employeeLocation: WorldLocation;
-};
+
+export type Upstream = Organisation;
 
 export type Downstream = {
   noDownstream: boolean;

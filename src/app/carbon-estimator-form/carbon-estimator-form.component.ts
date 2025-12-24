@@ -30,6 +30,7 @@ import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
 import { defaultValues, FormService } from '../services/form.service';
+import { OrganisationFormSectionComponent } from '../features/organisation/components/organisation-form-section.component';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -47,6 +48,7 @@ import { defaultValues, FormService } from '../services/form.service';
     ExternalLinkDirective,
     CloudFormSectionComponent,
     SaasFormSectionComponent,
+    OrganisationFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
@@ -101,11 +103,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
     this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
       this.refreshPreviewServerCount();
-    });
-
-    this.estimatorForm.get('upstream.desktopPercentage')?.valueChanges.subscribe(desktopPercentage => {
-      this.desktopPercentage = desktopPercentage;
-      this.laptopPercentage = 100 - this.desktopPercentage;
     });
 
     this.estimatorForm.get('onPremise.estimateServerCount')?.valueChanges.subscribe(estimateServerCount => {

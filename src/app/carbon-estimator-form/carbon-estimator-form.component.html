@@ -1,52 +1,9 @@
 <form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce:w-full tce:flex tce:flex-col tce:gap-6">
-  <div formGroupName="upstream">
-    @if (errorSummaryState.showErrorSummary) {
-      <error-summary [validationErrors]="errorSummaryState.validationErrors"></error-summary>
-    }
+  @if (errorSummaryState.showErrorSummary) {
+    <error-summary [validationErrors]="errorSummaryState.validationErrors"></error-summary>
+  }
 
-    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.upstream"></ng-container>
-
-    <div class="tce:flex tce:flex-col tce:gap-4">
-      <div class="tce:flex tce:flex-col tce:gap-2">
-        <label class="tce:text-sm" for="headCount">How many employees are in the organisation? </label>
-        <input
-          id="headCount"
-          class="tce-input"
-          formControlName="headCount"
-          name="headCount"
-          type="number"
-          required
-          [attr.aria-describedby]="(headCount | invalidated) ? 'headCountError' : null" />
-        @if (headCount | invalidated) {
-          <div class="tce-error-box tce:flex tce:items-center tce:gap-1" aria-live="polite" id="headCountError">
-            <span class="material-icons-outlined">error</span>
-            <p>{{ errorConfig.headCount.errorMessage }}</p>
-          </div>
-        }
-      </div>
-
-      <div class="tce:flex tce:flex-col tce:gap-2">
-        <label for="desktopPercentage" class="tce:text-sm">
-          What percentage of those employee devices are desktops or laptops?
-        </label>
-        <input
-          id="desktopPercentage"
-          class="tce:cursor-pointer"
-          formControlName="desktopPercentage"
-          name="desktopPercentage"
-          type="range"
-          min="0"
-          max="100"
-          step="5"
-          [attr.aria-valuetext]="'Desktops ' + desktopPercentage + '%, Laptops ' + laptopPercentage + '%'" />
-        <div class="tce:flex tce:justify-between tce:text-sm">
-          <span>Desktops {{ desktopPercentage }}%</span><span>Laptops {{ laptopPercentage }}%</span>
-        </div>
-      </div>
-
-      <ng-container *ngTemplateOutlet="locationInput; context: formContext.upstream"></ng-container>
-    </div>
-  </div>
+  <organisation-form-section />
 
   <div formGroupName="onPremise">
     <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
