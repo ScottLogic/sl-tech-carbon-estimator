@@ -4,6 +4,7 @@ import { KgCo2e } from './units';
 import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
 import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.service';
 import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
+import { OnPremise, OnPremiseFormGroup } from '../features/on-premise/services/on-premise-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -61,11 +62,7 @@ export type EstimatorValues = {
 
 export type EstimatorFormValues = {
   upstream: OrganisationFormGroup;
-  onPremise: FormGroup<{
-    estimateServerCount: FormControl<boolean>;
-    serverLocation: FormControl<WorldLocation | 'unknown'>;
-    numberOfServers: FormControl<number>;
-  }>;
+  onPremise: OnPremiseFormGroup;
   cloud: CloudFormGroup;
   downstream: FormGroup<{
     noDownstream: FormControl<boolean>;
@@ -75,12 +72,6 @@ export type EstimatorFormValues = {
     purposeOfSite: FormControl<PurposeOfSite>;
   }>;
   saas: SaasFormGroup;
-};
-
-export type OnPremise = {
-  estimateServerCount: boolean;
-  serverLocation: WorldLocation;
-  numberOfServers: number;
 };
 
 export type Upstream = Organisation;
