@@ -5,53 +5,7 @@
 
   <organisation-form-section />
 
-  <div formGroupName="onPremise">
-    <ng-container *ngTemplateOutlet="sectionHeader; context: formContext.onPremise"></ng-container>
-
-    <div class="tce:flex tce:flex-col tce:gap-4">
-      <p id="on-prem-servers-question">How many on-premise servers do you use?</p>
-      <div class="tce:flex tce:gap-2 tce:items-center">
-        <input
-          id="estimateServerCount"
-          type="checkbox"
-          class="tce:rounded-sm tce:cursor-pointer"
-          formControlName="estimateServerCount"
-          aria-describedby="on-prem-servers-question" />
-        <label for="estimateServerCount" class="tce:cursor-pointer tce:select-none">I don't know</label>
-      </div>
-
-      @if (estimateServerCount) {
-        <note>
-          <p>
-            We'll make an assumption about the number of servers based on your number of employees and cloud usage (~{{
-              previewServerCount
-            }}
-            on-prem servers).
-          </p>
-        </note>
-      }
-
-      <div class="tce:flex tce:flex-col tce:gap-2">
-        <label class="tce:text-sm" for="numberOfServers">Number of Servers:</label>
-        <input
-          id="numberOfServers"
-          class="tce-input tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
-          formControlName="numberOfServers"
-          name="numberOfServers"
-          type="number"
-          required
-          [attr.aria-describedby]="(numberOfServers | invalidated) ? 'numberOfServersError' : null" />
-        @if (numberOfServers | invalidated) {
-          <div class="tce-error-box tce:flex tce:items-center tce:gap-1" aria-live="polite" id="numberOfServersError">
-            <span class="material-icons-outlined">error</span>
-            <p>{{ errorConfig.numberOfServers.errorMessage }}</p>
-          </div>
-        }
-      </div>
-
-      <ng-container *ngTemplateOutlet="locationInput; context: formContext.onPremise"></ng-container>
-    </div>
-  </div>
+  <on-premise-form-section></on-premise-form-section>
 
   <app-cloud-form-section [estimatorForm]="estimatorForm" />
 

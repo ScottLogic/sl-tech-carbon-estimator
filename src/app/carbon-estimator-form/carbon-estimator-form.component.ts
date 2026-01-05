@@ -22,7 +22,6 @@ import {
 } from './carbon-estimator-form.constants';
 import { NoteComponent } from '../note/note.component';
 import { CloudFormSectionComponent } from '../features/cloud/components/cloud-form-section.component';
-import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
@@ -31,6 +30,7 @@ import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
 import { defaultValues, FormService } from '../services/form.service';
 import { OrganisationFormSectionComponent } from '../features/organisation/components/organisation-form-section.component';
+import { OnPremiseFormSectionComponent } from '../features/on-premise/components/on-premise-form-section.component';
 
 @Component({
   selector: 'carbon-estimator-form',
@@ -49,12 +49,12 @@ import { OrganisationFormSectionComponent } from '../features/organisation/compo
     CloudFormSectionComponent,
     SaasFormSectionComponent,
     OrganisationFormSectionComponent,
+    OnPremiseFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   private formService = inject(FormService);
   private changeDetector = inject(ChangeDetectorRef);
-  private estimationService = inject(CarbonEstimationService);
   private formStateService = inject(FormStateService);
 
   @Output() public formSubmit: EventEmitter<EstimatorValues> = new EventEmitter<EstimatorValues>();
@@ -73,14 +73,8 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public formContext = formContext;
 
-  public desktopPercentage = defaultValues.upstream.desktopPercentage;
-  public laptopPercentage: number = 100 - this.desktopPercentage;
-
   public mobilePercentage = defaultValues.downstream.mobilePercentage;
   public computerPercentage: number = 100 - this.mobilePercentage;
-
-  public estimateServerCount = false;
-  public previewServerCount = 0;
 
   public noDownstream: boolean = defaultValues.downstream.noDownstream;
 
@@ -101,26 +95,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.estimatorForm = this.formService.estimatorForm;
 
-    this.estimatorForm.get('upstream.headCount')?.valueChanges.subscribe(() => {
-      this.refreshPreviewServerCount();
-    });
-
-    this.estimatorForm.get('onPremise.estimateServerCount')?.valueChanges.subscribe(estimateServerCount => {
-      this.estimateServerCount = estimateServerCount;
-      this.refreshPreviewServerCount();
-      const noServers = this.estimatorForm.get('onPremise.numberOfServers');
-      if (this.estimateServerCount) {
-        noServers?.disable();
-      } else {
-        noServers?.enable();
-      }
-    });
-
-    this.estimatorForm.get('cloud.noCloudServices')?.valueChanges.subscribe(() => {
-      this.refreshPreviewServerCount();
-      this.changeDetector.detectChanges();
-    });
-
     this.estimatorForm.get('downstream.noDownstream')?.valueChanges.subscribe(noDownstream => {
       const monthlyActiveUsers = this.estimatorForm.get('downstream.monthlyActiveUsers');
       if (noDownstream) {
@@ -131,8 +105,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
       this.noDownstream = noDownstream;
       this.changeDetector.detectChanges();
     });
-
-    this.estimatorForm.get('cloud.cloudPercentage')?.valueChanges.subscribe(() => this.refreshPreviewServerCount());
 
     this.estimatorForm.get('downstream.mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
       this.mobilePercentage = mobilePercentage;
@@ -189,14 +161,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public get monthlyActiveUsers() {
     return this.estimatorForm.get('downstream.monthlyActiveUsers');
-  }
-
-  private refreshPreviewServerCount() {
-    if (this.estimateServerCount) {
-      this.previewServerCount = this.estimationService.estimateServerCount(
-        this.estimatorForm.getRawValue() as EstimatorValues
-      );
-    }
   }
 
   private getValidationErrors() {
