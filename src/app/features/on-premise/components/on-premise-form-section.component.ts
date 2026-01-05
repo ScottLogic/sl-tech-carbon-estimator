@@ -65,7 +65,7 @@ export class OnPremiseFormSectionComponent implements OnInit {
   formContext: FormContextSection = formContext.onPremise;
 
   get numberOfServers() {
-    return this.form.get('numberOfServers');
+    return this.form.get('onPremise.numberOfServers');
   }
 
   errorConfig = {
