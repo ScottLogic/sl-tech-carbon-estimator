@@ -8,6 +8,6 @@ import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.c
   imports: [ExpansionPanelComponent],
 })
 export class SectionHeaderComponent {
-  heading = input();
-  sectionDetails = input();
+  heading = input.required<string>();
+  sectionDetails = input.required<string>();
 }
