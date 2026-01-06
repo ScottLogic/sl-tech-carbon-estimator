@@ -16,7 +16,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation, EstimatorValues, jsonExport } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues, JsonExport } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
@@ -136,13 +136,12 @@ export class CarbonEstimationComponent implements OnInit, OnDestroy {
     return this.getJSONExportUrl(exportObject);
   }
 
-  private getJSONExportUrl(exportObject: jsonExport): string {
+  private getJSONExportUrl(exportObject: JsonExport): string {
     const mappedJson = this.carbonSchemaMapper.mapEstimationToSchema(exportObject);
 
     const estimateJson = JSON.stringify(mappedJson, null, 2);
     const blob = new Blob([estimateJson], { type: 'application/json' });
-    const carbonEstimationJSONUrl = URL.createObjectURL(blob);
-    return carbonEstimationJSONUrl;
+    return URL.createObjectURL(blob);
   }
 
   public showModal() {

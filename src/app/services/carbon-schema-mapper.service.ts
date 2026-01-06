@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { jsonExport } from '../types/carbon-estimator';
+import { JsonExport } from '../types/carbon-estimator';
 import { CarbonSchemaExtended } from '../types/tech-carbon-standard.schema';
 
 @Injectable({ providedIn: 'root' })
 export class CarbonSchemaMapperService {
   private readonly SCHEMA_VERSION = '0.1.0';
 
-  mapEstimationToSchema(jsonExport: jsonExport): CarbonSchemaExtended {
-    const estimation = jsonExport.estimate;
-    const input = jsonExport.input;
+  mapEstimationToSchema(jsonExport: JsonExport): CarbonSchemaExtended {
+    const { estimate, input } = jsonExport;
 
-    if (!estimation) {
+    if (!estimate) {
       throw new Error('Carbon estimation object is undefined');
     }
 
-    const values = estimation.values;
-    const percentages = estimation.percentages;
+    const { values, percentages } = estimate;
 
     return {
       schema_version: this.SCHEMA_VERSION,

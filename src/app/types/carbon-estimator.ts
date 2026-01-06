@@ -127,7 +127,7 @@ export type ChartOptions = {
   dataLabels: ApexDataLabels;
 };
 
-export type jsonExport = {
+export type JsonExport = {
   estimate: CarbonEstimation | undefined;
   input: EstimatorValues | undefined;
 };
