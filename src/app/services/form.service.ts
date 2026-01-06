@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { defaultSaasValues, SaasFormService } from '../features/saas/services/saas-form.service';
 import { EstimatorFormValues, EstimatorValues } from '../types/carbon-estimator';
 import { EstimatorFormRawValue } from '../carbon-estimator-form/carbon-estimator-form.constants';
 import { CloudFormService, defaultCloudValues } from '../features/cloud/services/cloud-form.service';
 import { OrganisationFormService } from '../features/organisation/services/organisation-form.service';
-import { OnPremiseFormService } from '../features/on-premise/services/on-premise-form.service';
+import { defaultOnPremValues, OnPremiseFormService } from '../features/on-premise/services/on-premise-form.service';
+import { CustomerFormService, defaultCustomerValues } from '../features/customers/services/customer-form.service';
 
 export const defaultValues: Required<EstimatorValues> = {
   upstream: {
@@ -13,19 +14,9 @@ export const defaultValues: Required<EstimatorValues> = {
     desktopPercentage: 50,
     employeeLocation: 'WORLD',
   },
-  onPremise: {
-    estimateServerCount: false,
-    serverLocation: 'WORLD',
-    numberOfServers: 10,
-  },
+  onPremise: defaultOnPremValues,
   cloud: defaultCloudValues,
-  downstream: {
-    noDownstream: false,
-    customerLocation: 'WORLD',
-    monthlyActiveUsers: 100,
-    mobilePercentage: 50,
-    purposeOfSite: 'average',
-  },
+  downstream: defaultCustomerValues,
   saas: defaultSaasValues,
 };
 
@@ -38,6 +29,7 @@ export class FormService {
   private saasFormService = inject(SaasFormService);
   private cloudFormService = inject(CloudFormService);
   private onPremFormService = inject(OnPremiseFormService);
+  private customerFormService = inject(CustomerFormService);
 
   estimatorForm: FormGroup<EstimatorFormValues> = this.initialise();
 
@@ -46,13 +38,7 @@ export class FormService {
       upstream: this.organisationFormService.form,
       onPremise: this.onPremFormService.form,
       cloud: this.cloudFormService.form,
-      downstream: this.formBuilder.nonNullable.group({
-        noDownstream: [false],
-        customerLocation: [defaultValues.downstream.customerLocation],
-        monthlyActiveUsers: [defaultValues.downstream.monthlyActiveUsers, [Validators.required, Validators.min(1)]],
-        mobilePercentage: [defaultValues.downstream.mobilePercentage],
-        purposeOfSite: [defaultValues.downstream.purposeOfSite],
-      }),
+      downstream: this.customerFormService.form,
       saas: this.saasFormService.form,
     });
   }
