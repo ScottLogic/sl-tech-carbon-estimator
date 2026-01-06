@@ -148,7 +148,3 @@ export async function pdfComparison(actual_pdf_path: string, expected_pdf_path: 
     expect.soft(convertedPdf[i].content).toMatchSnapshot(expectedPdf[i]);
   }
 }
-
-export async function customWait(seconds: number) {
-  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-}
