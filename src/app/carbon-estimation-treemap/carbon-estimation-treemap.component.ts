@@ -33,6 +33,7 @@ export class CarbonEstimationTreemapComponent {
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = input.required<number>();
   public shouldShowUnitsSwitch = input.required<boolean>();
+  public enableAnimations = input<boolean>(true);
 
   public chartData = computed(() => this.getChartData(this.carbonEstimation()));
   public emissionAriaLabel = computed(() => this.getAriaLabel(this.chartData(), !this.carbonEstimation()));
@@ -59,12 +60,13 @@ export class CarbonEstimationTreemapComponent {
 
   public toggleMassPercentages = () => {
     this.isMass.update(value => !value);
-    // this.getChartData(this.carbonEstimation());
   };
 
   private getChartOptions(isPlaceholder: boolean) {
     const chartOptions = getBaseChartOptions(isPlaceholder, this.isMass());
     chartOptions.chart.height = this.chartHeight();
+    chartOptions.chart.animations ??= {};
+    chartOptions.chart.animations.enabled = this.enableAnimations();
     return chartOptions;
   }
 
