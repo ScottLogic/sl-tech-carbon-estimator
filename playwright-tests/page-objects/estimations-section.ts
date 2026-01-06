@@ -1,7 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
-import { customWait } from '../utilities/test-helpers';
 
 export class EstimationsSection {
   public readonly diagramViewButton: Locator;
@@ -49,7 +48,6 @@ export class EstimationsSection {
     await exportListOption.click();
 
     if (exportType === 'Export PDF') {
-      await customWait(3); // Wait for apex charts to render before clicking download
       await this.pdfTitle.fill('Test PDF Export');
       await this.downloadPdfButton.click();
     }
