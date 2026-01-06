@@ -13,25 +13,19 @@ import {
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, locationArray } from '../types/carbon-estimator';
 import {
-  formContext,
-  questionPanelConfig,
   locationDescriptions,
   ValidationError,
   errorConfig,
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
-import { NoteComponent } from '../note/note.component';
 import { CloudFormSectionComponent } from '../features/cloud/components/cloud-form-section.component';
-import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
-import { InvalidatedPipe } from '../pipes/invalidated.pipe';
 import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
-import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { FormStateService } from '../services/form-state.service';
 import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
-import { defaultValues, FormService } from '../services/form.service';
+import { FormService } from '../services/form.service';
 import { OrganisationFormSectionComponent } from '../features/organisation/components/organisation-form-section.component';
 import { OnPremiseFormSectionComponent } from '../features/on-premise/components/on-premise-form-section.component';
-
+import { CustomerFormSectionComponent } from '../features/customers/components/customer-form-section.component';
 @Component({
   selector: 'carbon-estimator-form',
   standalone: true,
@@ -41,15 +35,12 @@ import { OnPremiseFormSectionComponent } from '../features/on-premise/components
     FormsModule,
     FormsModule,
     CommonModule,
-    NoteComponent,
-    ExpansionPanelComponent,
-    InvalidatedPipe,
     ErrorSummaryComponent,
-    ExternalLinkDirective,
     CloudFormSectionComponent,
     SaasFormSectionComponent,
     OrganisationFormSectionComponent,
     OnPremiseFormSectionComponent,
+    CustomerFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
@@ -71,19 +62,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public estimatorForm!: FormGroup<EstimatorFormValues>;
 
-  public formContext = formContext;
-
-  public mobilePercentage = defaultValues.downstream.mobilePercentage;
-  public computerPercentage: number = 100 - this.mobilePercentage;
-
-  public noDownstream: boolean = defaultValues.downstream.noDownstream;
-
   public locationDescriptions = locationArray.map(location => ({
     value: location,
     description: locationDescriptions[location],
   }));
-
-  public questionPanelConfig = questionPanelConfig;
 
   public errorConfig = errorConfig;
   public errorSummaryState: ErrorSummaryState = {
@@ -94,22 +76,6 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.estimatorForm = this.formService.estimatorForm;
-
-    this.estimatorForm.get('downstream.noDownstream')?.valueChanges.subscribe(noDownstream => {
-      const monthlyActiveUsers = this.estimatorForm.get('downstream.monthlyActiveUsers');
-      if (noDownstream) {
-        monthlyActiveUsers?.disable();
-      } else {
-        monthlyActiveUsers?.enable();
-      }
-      this.noDownstream = noDownstream;
-      this.changeDetector.detectChanges();
-    });
-
-    this.estimatorForm.get('downstream.mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
-      this.mobilePercentage = mobilePercentage;
-      this.computerPercentage = 100 - this.mobilePercentage;
-    });
 
     this.loadStoredFormState();
   }

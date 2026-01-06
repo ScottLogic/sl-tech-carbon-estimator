@@ -1,10 +1,10 @@
-import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e } from './units';
 import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
 import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.service';
 import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
 import { OnPremise, OnPremiseFormGroup } from '../features/on-premise/services/on-premise-form.service';
+import { Customer, CustomerFormGroup } from '../features/customers/services/customer-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -64,25 +64,13 @@ export type EstimatorFormValues = {
   upstream: OrganisationFormGroup;
   onPremise: OnPremiseFormGroup;
   cloud: CloudFormGroup;
-  downstream: FormGroup<{
-    noDownstream: FormControl<boolean>;
-    customerLocation: FormControl<WorldLocation>;
-    monthlyActiveUsers: FormControl<number>;
-    mobilePercentage: FormControl<number>;
-    purposeOfSite: FormControl<PurposeOfSite>;
-  }>;
+  downstream: CustomerFormGroup;
   saas: SaasFormGroup;
 };
 
 export type Upstream = Organisation;
 
-export type Downstream = {
-  noDownstream: boolean;
-  customerLocation: WorldLocation;
-  monthlyActiveUsers: number;
-  mobilePercentage: number;
-  purposeOfSite: PurposeOfSite;
-};
+export type Downstream = Customer;
 
 export type DeviceCategory = 'employee' | 'server' | 'network';
 
