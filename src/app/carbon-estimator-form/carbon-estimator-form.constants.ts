@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { ExpansionPanelConfig } from '../expansion-panel/expansion-panel.constants';
+import { ExpansionPanelConfig } from '../components/expansion-panel/expansion-panel.constants';
 import { CostRange, EstimatorFormValues, WorldLocation } from '../types/carbon-estimator';
 
 export const costRanges: CostRange[] = [

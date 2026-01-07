@@ -9,7 +9,7 @@ import { InvalidatedPipe } from '../../../pipes/invalidated.pipe';
 import { LocationInputComponent } from '../../../components/location-input/location-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ExpansionPanelComponent } from '../../../expansion-panel/expansion-panel.component';
+import { ExpansionPanelComponent } from '../../../components/expansion-panel/expansion-panel.component';
 import { CustomerFormGroup, CustomerFormService, defaultCustomerValues } from '../services/customer-form.service';
 
 @Component({

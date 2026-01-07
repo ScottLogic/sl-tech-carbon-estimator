@@ -5,7 +5,7 @@ import {
   locationDescriptions,
   questionPanelConfig,
 } from '../../carbon-estimator-form/carbon-estimator-form.constants';
-import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.component';
+import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { locationArray, WorldLocation } from '../../types/carbon-estimator';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

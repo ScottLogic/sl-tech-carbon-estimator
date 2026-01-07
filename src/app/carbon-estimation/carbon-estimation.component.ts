@@ -12,7 +12,7 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
+import { ExpansionPanelComponent } from '../components/expansion-panel/expansion-panel.component';
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
