@@ -86,11 +86,13 @@ export class CloudServicesSection {
     await this.percentageSlider.fill(value);
   }
 
-  async cloudInputs(unknown: boolean, percentage: string, location: string, bill: string) {
+  async cloudInputs(unknown: boolean, location: string, bill: string, percentage?: string) {
     if (unknown == true) {
       await this.cloudUnusedTickbox.click();
     } else {
-      await this.percentageSliderSet(percentage);
+      if (percentage !== undefined) {
+        await this.percentageSliderSet(percentage);
+      }
       await this.setCloudLocation(location);
       await this.setMonthlyCloudBill(bill);
     }

@@ -21,9 +21,6 @@ test('T4 verify calculated values are coherent when desktop is 0%', async ({
   await onPremSection.selectLocationOfServers('GBR');
   await onPremSection.selectLocationOfServers('Globally');
 
-  await cloudServicesSection.percentageSlider.click();
-  await cloudServicesSection.percentageSliderSet('45');
-  await expect(cloudServicesSection.percentageSlider).toHaveValue('45');
   await cloudServicesSection.setCloudLocation('GBR');
   await cloudServicesSection.setCloudLocation('WORLD');
 

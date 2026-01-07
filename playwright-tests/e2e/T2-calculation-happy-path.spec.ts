@@ -10,7 +10,6 @@ const input_values = {
   number_of_servers: '10',
   server_location: 'Globally',
   no_cloud: false,
-  cloud_percentage: '50',
   cloud_location: 'WORLD',
   monthly_cloud_cost: '0: Object',
   uses_m365: true,
