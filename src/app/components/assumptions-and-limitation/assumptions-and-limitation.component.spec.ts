@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssumptionsAndLimitationComponent } from './assumptions-and-limitation.component';
-import { CarbonIntensityService } from '../services/carbon-intensity.service';
-import { WorldLocation } from '../types/carbon-estimator';
-import { gCo2ePerKwh } from '../types/units';
-
-import { provideFakeCO2CalculatorMock } from '../test-utils/fake-co2-calculator.testing';
+import { WorldLocation } from '../../types/carbon-estimator';
+import { gCo2ePerKwh } from '../../types/units';
+import { CarbonIntensityService } from '../../services/carbon-intensity.service';
+import { provideFakeCO2CalculatorMock } from '../../test-utils/fake-co2-calculator.testing';
 
 const testIntensities: Record<WorldLocation, gCo2ePerKwh> = {
   WORLD: 100,
