@@ -9,7 +9,7 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { locationArray, WorldLocation } from '../../types/carbon-estimator';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NoteComponent } from '../../note/note.component';
+import { NoteComponent } from '../note/note.component';
 
 @Component({
   selector: 'location-input',

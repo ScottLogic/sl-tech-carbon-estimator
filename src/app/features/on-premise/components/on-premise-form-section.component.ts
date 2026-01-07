@@ -6,7 +6,7 @@ import { LocationInputComponent } from '../../../components/location-input/locat
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OnPremiseFormGroup } from '../services/on-premise-form.service';
-import { NoteComponent } from '../../../note/note.component';
+import { NoteComponent } from '../../../components/note/note.component';
 import { EstimatorFormValues, EstimatorValues } from '../../../types/carbon-estimator';
 import { CarbonEstimationService } from '../../../services/carbon-estimation.service';
 import { FormService } from '../../../services/form.service';
