@@ -50,18 +50,26 @@ export class CloudServicesSection {
       .getByLabel('Hide details');
   }
 
-  async assertDefaultCloudElementVisibility() {
+  async assertDefaultCloudElementVisibility(isEstimatingOnPremServers: boolean = false) {
     await expect(this.cloudServicesHeading).toBeVisible();
     await expect(this.cloudServicesSummary).toBeVisible();
-    await expect(this.defaultCloudPercentage).toBeVisible();
-    await expect(this.defaultOnPremisePercentage).toBeVisible();
     await expect(this.serverLocation).toHaveValue('WORLD');
     await expect(this.monthlyCloudBill).toHaveValue('0: Object');
     await expect(this.CloudServicesNotUsedText).toBeVisible();
     await expect(this.cloudUnusedTickbox).not.toBeChecked();
-    await expect(this.percentageSlider).toBeVisible();
-    await expect(this.percentageSplitQuestion).toBeVisible();
     await expect(this.derivedRoughEstimateText).toBeVisible();
+
+    if (isEstimatingOnPremServers) {
+      await expect(this.defaultCloudPercentage).toBeVisible();
+      await expect(this.defaultOnPremisePercentage).toBeVisible();
+      await expect(this.percentageSlider).toBeVisible();
+      await expect(this.percentageSplitQuestion).toBeVisible();
+    } else {
+      await expect(this.defaultCloudPercentage).toBeHidden();
+      await expect(this.defaultOnPremisePercentage).toBeHidden();
+      await expect(this.percentageSlider).toBeHidden();
+      await expect(this.percentageSplitQuestion).toBeHidden();
+    }
   }
 
   async setCloudLocation(text: string) {
