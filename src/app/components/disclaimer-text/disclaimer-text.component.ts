@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { ExternalLinkDirective } from '../../directives/external-link.directive';
 
 @Component({
   selector: 'disclaimer-text',
