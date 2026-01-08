@@ -16,29 +16,29 @@
 }
 
 ::ng-deep .web-logo {
-  background-image: url('../../assets/web.svg');
+  background-image: url('../../../assets/web.svg');
 }
 
 ::ng-deep .devices-logo {
-  background-image: url('../../assets/devices.svg');
+  background-image: url('../../../assets/devices.svg');
 }
 
 ::ng-deep .router-logo {
-  background-image: url('../../assets/router.svg');
+  background-image: url('../../../assets/router.svg');
 }
 
 ::ng-deep .storage-logo {
-  background-image: url('../../assets/storage.svg');
+  background-image: url('../../../assets/storage.svg');
 }
 
 ::ng-deep .cloud-logo {
-  background-image: url('../../assets/cloud.svg');
+  background-image: url('../../../assets/cloud.svg');
 }
 
 ::ng-deep .cell-tower-logo {
-  background-image: url('../../assets/cell-tower.svg');
+  background-image: url('../../../assets/cell-tower.svg');
 }
 
 ::ng-deep .question-mark-logo {
-  background-image: url('../../assets/question-mark.svg');
+  background-image: url('../../../assets/question-mark.svg');
 }

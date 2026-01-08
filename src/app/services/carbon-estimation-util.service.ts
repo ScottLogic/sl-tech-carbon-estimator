@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { startCase } from 'lodash-es';
-import { percentageTooltipFormatter, SVG, tooltipFormatter } from '../carbon-estimation/carbon-estimation.constants';
+import {
+  percentageTooltipFormatter,
+  SVG,
+  tooltipFormatter,
+} from '../components/carbon-estimation/carbon-estimation.constants';
 
 @Injectable({
   providedIn: 'root',

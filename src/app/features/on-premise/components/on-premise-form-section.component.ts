@@ -1,12 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';
-import { formContext, FormContextSection } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import {
+  formContext,
+  FormContextSection,
+} from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 import { InvalidatedPipe } from '../../../pipes/invalidated.pipe';
 import { LocationInputComponent } from '../../../components/location-input/location-input.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OnPremiseFormGroup } from '../services/on-premise-form.service';
-import { NoteComponent } from '../../../note/note.component';
+import { NoteComponent } from '../../../components/note/note.component';
 import { EstimatorFormValues, EstimatorValues } from '../../../types/carbon-estimator';
 import { CarbonEstimationService } from '../../../services/carbon-estimation.service';
 import { FormService } from '../../../services/form.service';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorSummaryComponent } from './error-summary.component';
-import { ValidationError } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { ValidationError } from '../../components/carbon-estimator-form/carbon-estimator-form.constants';
 
 describe('ErrorSummaryComponent', () => {
   let component: ErrorSummaryComponent;

@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
-import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
-import { PurposeOfSite, WorldLocation, locationArray, purposeOfSiteArray } from '../types/carbon-estimator';
 import { DecimalPipe } from '@angular/common';
-import { CarbonIntensityService } from '../services/carbon-intensity.service';
-import { desktop, laptop, mobile, monitor, network, server, tablet } from '../estimation/device-type';
-import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { ExternalLinkDirective } from '../../directives/external-link.directive';
+import { locationArray, PurposeOfSite, purposeOfSiteArray, WorldLocation } from '../../types/carbon-estimator';
+import { CarbonIntensityService } from '../../services/carbon-intensity.service';
+import { DownstreamEmissionsEstimator } from '../../estimation/estimate-downstream-emissions';
+import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../../estimation/constants';
+import { desktop, laptop, mobile, monitor, network, server, tablet } from '../../estimation/device-type';
 
 const purposeDescriptions: Record<PurposeOfSite, string> = {
   information: 'Information',

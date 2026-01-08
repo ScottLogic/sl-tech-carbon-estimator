@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CostRange, WorldLocation } from '../../../types/carbon-estimator';
-import { costRanges } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import { costRanges } from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 
 export type Cloud = {
   noCloudServices: boolean;

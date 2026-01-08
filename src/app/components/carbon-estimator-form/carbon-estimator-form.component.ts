@@ -11,21 +11,21 @@ import {
   inject,
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EstimatorFormValues, EstimatorValues, locationArray } from '../types/carbon-estimator';
+import { EstimatorFormValues, EstimatorValues, locationArray } from '../../types/carbon-estimator';
 import {
   locationDescriptions,
   ValidationError,
   errorConfig,
   ErrorSummaryState,
 } from './carbon-estimator-form.constants';
-import { CloudFormSectionComponent } from '../features/cloud/components/cloud-form-section.component';
-import { ErrorSummaryComponent } from '../error-summary/error-summary.component';
-import { FormStateService } from '../services/form-state.service';
-import { SaasFormSectionComponent } from '../features/saas/components/saas-form-section.component';
-import { FormService } from '../services/form.service';
-import { OrganisationFormSectionComponent } from '../features/organisation/components/organisation-form-section.component';
-import { OnPremiseFormSectionComponent } from '../features/on-premise/components/on-premise-form-section.component';
-import { CustomerFormSectionComponent } from '../features/customers/components/customer-form-section.component';
+import { CloudFormSectionComponent } from '../../features/cloud/components/cloud-form-section.component';
+import { FormStateService } from '../../services/form-state.service';
+import { SaasFormSectionComponent } from '../../features/saas/components/saas-form-section.component';
+import { FormService } from '../../services/form.service';
+import { OrganisationFormSectionComponent } from '../../features/organisation/components/organisation-form-section.component';
+import { OnPremiseFormSectionComponent } from '../../features/on-premise/components/on-premise-form-section.component';
+import { CustomerFormSectionComponent } from '../../features/customers/components/customer-form-section.component';
+import { ErrorSummaryComponent } from '../../components/error-summary/error-summary.component';
 @Component({
   selector: 'carbon-estimator-form',
   standalone: true,

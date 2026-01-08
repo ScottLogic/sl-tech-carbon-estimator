@@ -1,4 +1,4 @@
-import { ChartOptions } from '../types/carbon-estimator';
+import { ChartOptions } from '../../types/carbon-estimator';
 
 export enum EmissionsColours {
   Upstream = '#40798C',

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationComponent } from './carbon-estimation.component';
-import { CarbonEstimation } from '../types/carbon-estimator';
-import { sumValues } from '../utils/number-object';
+import { CarbonEstimation } from '../../types/carbon-estimator';
+import { sumValues } from '../../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 
 describe('CarbonEstimationComponent', () => {

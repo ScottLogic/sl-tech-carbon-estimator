@@ -1,11 +1,11 @@
 import { Component, computed, ElementRef, EventEmitter, input, Output, ViewChild } from '@angular/core';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
-import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
+import { CarbonEstimation, EstimatorValues } from '../../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
-import { DisclaimerTextComponent } from '../disclaimer-text/disclaimer-text.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { DisclaimerTextComponent } from '../../components/disclaimer-text/disclaimer-text.component';
 
 @Component({
   selector: 'export-modal',

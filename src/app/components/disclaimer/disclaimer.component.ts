@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
-import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { ExternalLinkDirective } from '../../directives/external-link.directive';
 
 @Component({
   selector: 'disclaimer',

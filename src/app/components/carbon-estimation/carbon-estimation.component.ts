@@ -16,14 +16,14 @@ import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.comp
 import { TabsComponent } from '../tab/tabs/tabs.component';
 import { TabItemComponent } from '../tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimation, EstimatorValues, JsonExport } from '../types/carbon-estimator';
-import { sumValues } from '../utils/number-object';
+import { CarbonEstimation, EstimatorValues, JsonExport } from '../../types/carbon-estimator';
+import { sumValues } from '../../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
-import { ExternalLinkDirective } from '../directives/external-link.directive';
+import { ExternalLinkDirective } from '../../directives/external-link.directive';
 import { CommonModule } from '@angular/common';
-import { CarbonSchemaMapperService } from '../services/carbon-schema-mapper.service';
+import { CarbonSchemaMapperService } from '../../services/carbon-schema-mapper.service';
 
 @Component({
   selector: 'carbon-estimation',

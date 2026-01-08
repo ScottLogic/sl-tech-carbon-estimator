@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CarbonEstimatorFormComponent } from './carbon-estimator-form.component';
-import { StorageService } from '../services/storage.service';
-import { provideFakeCO2CalculatorMock } from '../test-utils/fake-co2-calculator.testing';
+import { StorageService } from '../../services/storage.service';
+import { provideFakeCO2CalculatorMock } from '../../test-utils/fake-co2-calculator.testing';
 
 class MockStorageService {
   storage = new Map<string, string>();

@@ -4,12 +4,12 @@ import {
   Location,
   locationDescriptions,
   questionPanelConfig,
-} from '../../carbon-estimator-form/carbon-estimator-form.constants';
-import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.component';
+} from '../../components/carbon-estimator-form/carbon-estimator-form.constants';
+import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { locationArray, WorldLocation } from '../../types/carbon-estimator';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NoteComponent } from '../../note/note.component';
+import { NoteComponent } from '../note/note.component';
 
 @Component({
   selector: 'location-input',
