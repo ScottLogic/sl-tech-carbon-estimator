@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationTreemapComponent } from './carbon-estimation-treemap.component';
-import { CarbonEstimation } from '../types/carbon-estimator';
+import { CarbonEstimation } from '../../types/carbon-estimator';
 
 describe('CarbonEstimationTreemapComponent', () => {
   let component: CarbonEstimationTreemapComponent;

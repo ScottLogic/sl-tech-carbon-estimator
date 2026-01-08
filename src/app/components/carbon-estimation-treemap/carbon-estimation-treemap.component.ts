@@ -1,6 +1,6 @@
 import { Component, ViewChild, computed, effect, input, signal, inject } from '@angular/core';
 import { ApexAxisChartSeries, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../types/carbon-estimator';
+import { CarbonEstimation, CarbonEstimationPercentages, CarbonEstimationValues } from '../../types/carbon-estimator';
 import {
   tooltipFormatter,
   percentageTooltipFormatter,
@@ -8,9 +8,9 @@ import {
   EmissionsLabels,
   getBaseChartOptions,
   placeholderData,
-} from '../carbon-estimation/carbon-estimation.constants';
-import { NumberObject } from '../utils/number-object';
-import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
+} from '../../carbon-estimation/carbon-estimation.constants';
+import { NumberObject } from '../../utils/number-object';
+import { CarbonEstimationUtilService } from '../../services/carbon-estimation-util.service';
 import { CommonModule } from '@angular/common';
 
 type ApexChartDataItem = { x: string; y: number; meta: { svg: string; parent: string } };

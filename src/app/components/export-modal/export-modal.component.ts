@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, EventEmitter, input, Output, ViewChild } from '@angular/core';
-import { CarbonEstimationTreemapComponent } from '../../carbon-estimation-treemap/carbon-estimation-treemap.component';
+import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimationTableComponent } from '../../carbon-estimation-table/carbon-estimation-table.component';
 import { CarbonEstimation, EstimatorValues } from '../../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
