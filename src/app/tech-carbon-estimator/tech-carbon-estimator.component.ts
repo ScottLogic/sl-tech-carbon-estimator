@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
+import { CarbonEstimatorFormComponent } from '../components/carbon-estimator-form/carbon-estimator-form.component';
 import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';

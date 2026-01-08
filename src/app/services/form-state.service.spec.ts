@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormStateService } from './form-state.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
-import { costRanges } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { costRanges } from '../components/carbon-estimator-form/carbon-estimator-form.constants';
 
 const formValues: EstimatorValues = {
   upstream: {

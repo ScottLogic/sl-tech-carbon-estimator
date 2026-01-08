@@ -1,7 +1,7 @@
 import { Component, computed, input, Signal, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { costRanges, formContext } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import { costRanges, formContext } from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 import { FormatCostRangePipe } from '../../../pipes/format-cost-range.pipe';
 import { compareCostRanges } from '../../../utils/cost-range';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';

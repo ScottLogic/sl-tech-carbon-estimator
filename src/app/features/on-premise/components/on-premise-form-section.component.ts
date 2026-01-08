@@ -1,6 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';
-import { formContext, FormContextSection } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import {
+  formContext,
+  FormContextSection,
+} from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 import { InvalidatedPipe } from '../../../pipes/invalidated.pipe';
 import { LocationInputComponent } from '../../../components/location-input/location-input.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
