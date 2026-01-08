@@ -16,8 +16,8 @@ import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DisclaimerComponent } from '../components/disclaimer/disclaimer.component';
-import { TabsComponent } from '../tab/tabs/tabs.component';
-import { TabItemComponent } from '../tab/tab-item/tab-item.component';
+import { TabsComponent } from '../components/tab/tabs/tabs.component';
+import { TabItemComponent } from '../components/tab/tab-item/tab-item.component';
 import { ExportModal } from '../export-modal/export-modal.component';
 import { AssumptionsAndLimitationComponent } from '../components/assumptions-and-limitation/assumptions-and-limitation.component';
 

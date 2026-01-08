@@ -13,8 +13,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ExpansionPanelComponent } from '../components/expansion-panel/expansion-panel.component';
-import { TabsComponent } from '../tab/tabs/tabs.component';
-import { TabItemComponent } from '../tab/tab-item/tab-item.component';
+import { TabsComponent } from '../components/tab/tabs/tabs.component';
+import { TabItemComponent } from '../components/tab/tab-item/tab-item.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
 import { CarbonEstimation, EstimatorValues, JsonExport } from '../types/carbon-estimator';
 import { sumValues } from '../utils/number-object';
