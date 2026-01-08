@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { DisclaimerComponent } from '../components/disclaimer/disclaimer.component';
 import { TabsComponent } from '../components/tab/tabs/tabs.component';
 import { TabItemComponent } from '../components/tab/tab-item/tab-item.component';
-import { ExportModal } from '../export-modal/export-modal.component';
+import { ExportModal } from '../components/export-modal/export-modal.component';
 import { AssumptionsAndLimitationComponent } from '../components/assumptions-and-limitation/assumptions-and-limitation.component';
 
 @Component({
