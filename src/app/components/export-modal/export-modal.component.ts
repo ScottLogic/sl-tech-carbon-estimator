@@ -3,7 +3,7 @@ import { CarbonEstimationTreemapComponent } from '../../carbon-estimation-treema
 import { CarbonEstimationTableComponent } from '../../carbon-estimation-table/carbon-estimation-table.component';
 import { CarbonEstimation, EstimatorValues } from '../../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
-import { InputGroupDisplay } from '../../input-group-display/input-group-display.component';
+import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DisclaimerTextComponent } from '../../components/disclaimer-text/disclaimer-text.component';
 
