@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarbonEstimationTableComponent, TableItem } from './carbon-estimation-table.component';
-import { CarbonEstimationUtilService } from '../services/carbon-estimation-util.service';
-import { CarbonEstimation } from '../types/carbon-estimator';
-import { EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
+import { CarbonEstimationUtilService } from '../../services/carbon-estimation-util.service';
+import { CarbonEstimation } from '../../types/carbon-estimator';
+import { EmissionsLabels } from '../../carbon-estimation/carbon-estimation.constants';
 
 describe('CarbonEstimationTableComponent', () => {
   let component: CarbonEstimationTableComponent;

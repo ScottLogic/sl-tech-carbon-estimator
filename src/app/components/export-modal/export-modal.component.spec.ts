@@ -4,9 +4,9 @@ import { CarbonEstimation } from '../../types/carbon-estimator';
 import { FormsModule } from '@angular/forms';
 import { InputGroupDisplay } from '../input-group-display/input-group-display.component';
 import { CarbonEstimationTreemapComponent } from '../carbon-estimation-treemap/carbon-estimation-treemap.component';
-import { CarbonEstimationTableComponent } from '../../carbon-estimation-table/carbon-estimation-table.component';
 import { inputBinding } from '@angular/core';
 import { DisclaimerTextComponent } from '../../components/disclaimer-text/disclaimer-text.component';
+import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
 
 describe('ExportModal', () => {
   let component: ExportModal;

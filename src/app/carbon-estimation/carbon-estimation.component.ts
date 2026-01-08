@@ -20,7 +20,7 @@ import { CarbonEstimation, EstimatorValues, JsonExport } from '../types/carbon-e
 import { sumValues } from '../utils/number-object';
 import { estimatorHeights } from './carbon-estimation.constants';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';
-import { CarbonEstimationTableComponent } from '../carbon-estimation-table/carbon-estimation-table.component';
+import { CarbonEstimationTableComponent } from '../components/carbon-estimation-table/carbon-estimation-table.component';
 import { ExternalLinkDirective } from '../directives/external-link.directive';
 import { CommonModule } from '@angular/common';
 import { CarbonSchemaMapperService } from '../services/carbon-schema-mapper.service';
