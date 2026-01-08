@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, computed, input, inject } from '@angular/core';
 import { CarbonEstimation } from '../../types/carbon-estimator';
-import { EmissionsColours, EmissionsLabels } from '../../carbon-estimation/carbon-estimation.constants';
+import { EmissionsColours, EmissionsLabels } from '../carbon-estimation/carbon-estimation.constants';
 import { CarbonEstimationUtilService } from '../../services/carbon-estimation-util.service';
 import { NumberObject } from '../../utils/number-object';
 import { CommonModule } from '@angular/common';

@@ -8,7 +8,7 @@ import {
   EmissionsLabels,
   getBaseChartOptions,
   placeholderData,
-} from '../../carbon-estimation/carbon-estimation.constants';
+} from '../carbon-estimation/carbon-estimation.constants';
 import { NumberObject } from '../../utils/number-object';
 import { CarbonEstimationUtilService } from '../../services/carbon-estimation-util.service';
 import { CommonModule } from '@angular/common';
