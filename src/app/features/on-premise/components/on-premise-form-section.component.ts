@@ -44,15 +44,15 @@ export class OnPremiseFormSectionComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formService.estimatorForm;
 
-    this.form.get('onPremise.estimateServerCount')?.valueChanges.subscribe(estimateServerCount => {
-      this.estimateServerCount = estimateServerCount;
+    const estimateControl = this.form.get('onPremise.estimateServerCount');
+
+    this.estimateServerCount = !!estimateControl?.value;
+    this.toggleServerInput(this.estimateServerCount);
+
+    estimateControl?.valueChanges.subscribe(isChecked => {
+      this.estimateServerCount = isChecked;
       this.refreshPreviewServerCount();
-      const noServers = this.form.get('onPremise.numberOfServers');
-      if (this.estimateServerCount) {
-        noServers?.disable();
-      } else {
-        noServers?.enable();
-      }
+      this.toggleServerInput(isChecked);
     });
 
     this.form.get('cloud.cloudPercentage')?.valueChanges.subscribe(() => this.refreshPreviewServerCount());
@@ -81,6 +81,15 @@ export class OnPremiseFormSectionComponent implements OnInit {
   private refreshPreviewServerCount() {
     if (this.estimateServerCount) {
       this.previewServerCount = this.estimationService.estimateServerCount(this.form.getRawValue() as EstimatorValues);
+    }
+  }
+
+  private toggleServerInput(isEstimating: boolean) {
+    const noServers = this.form.get('onPremise.numberOfServers');
+    if (isEstimating) {
+      noServers?.disable();
+    } else {
+      noServers?.enable();
     }
   }
 }

@@ -26,6 +26,7 @@ export class CloudFormSectionComponent implements OnInit {
 
   public noCloudServices = signal(defaultValues.cloud.noCloudServices);
   public cloudPercentage = signal(defaultValues.cloud.cloudPercentage);
+  public isEstimatingServers = signal(false);
   public onPremisePercentage: Signal<number> = computed(() => 100 - this.cloudPercentage());
 
   public compareCostRanges = compareCostRanges;
@@ -45,5 +46,14 @@ export class CloudFormSectionComponent implements OnInit {
       ?.valueChanges.subscribe(noCloudServices => {
         this.noCloudServices.set(noCloudServices);
       });
+
+    this.estimatorForm()
+      .get('onPremise.estimateServerCount')
+      ?.valueChanges.subscribe(val => {
+        this.isEstimatingServers.set(val);
+      });
+
+    const isEstimatingServersInitial = this.estimatorForm().get('onPremise.estimateServerCount')?.value;
+    this.isEstimatingServers.set(!!isEstimatingServersInitial);
   }
 }

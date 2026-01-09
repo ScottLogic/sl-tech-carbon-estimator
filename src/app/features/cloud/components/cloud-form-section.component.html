@@ -13,25 +13,27 @@
       </div>
 
       @if (!noCloudServices()) {
-        <div class="tce:flex tce:flex-col tce:gap-2">
-          <label for="cloudPercentage" class="tce:text-sm"
-            >What percentage of your servers are cloud services vs on-premise?</label
-          >
-          <input
-            id="cloudPercentage"
-            class="tce:cursor-pointer tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
-            formControlName="cloudPercentage"
-            name="cloudPercentage"
-            type="range"
-            min="0"
-            max="100"
-            step="5"
-            [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
-          <div class="tce:flex tce:justify-between tce:text-sm">
-            <span>Cloud {{ cloudPercentage() }}%</span>
-            <span>On-premise {{ onPremisePercentage() }}%</span>
+        @if (isEstimatingServers()) {
+          <div class="tce:flex tce:flex-col tce:gap-2">
+            <label for="cloudPercentage" class="tce:text-sm"
+              >What percentage of your servers are cloud services vs on-premise?</label
+            >
+            <input
+              id="cloudPercentage"
+              class="tce:cursor-pointer tce:disabled:bg-gray-200 tce:disabled:text-slate-400 tce:disabled:cursor-not-allowed"
+              formControlName="cloudPercentage"
+              name="cloudPercentage"
+              type="range"
+              min="0"
+              max="100"
+              step="5"
+              [attr.aria-valuetext]="'Cloud ' + cloudPercentage + '%, On-premise' + onPremisePercentage + '%'" />
+            <div class="tce:flex tce:justify-between tce:text-sm">
+              <span>Cloud {{ cloudPercentage() }}%</span>
+              <span>On-premise {{ onPremisePercentage() }}%</span>
+            </div>
           </div>
-        </div>
+        }
 
         <location-input [locationContext]="formContext.cloud.location!" formControlName="cloudLocation" />
 

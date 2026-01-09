@@ -21,7 +21,6 @@ test('T17 calculations show 80% cloud usage', async ({
   await onPremSection.selectNumberOfServers('10');
   await onPremSection.selectLocationOfServers('WORLD');
 
-  await page.getByText('On-premise 50%').click();
   await cloudServicesSection.setCloudLocation('in the UK');
   await cloudServicesSection.setMonthlyCloudBill('10: Object');
 
