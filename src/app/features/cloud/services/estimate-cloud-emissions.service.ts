@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { CostRange } from '../../../types/carbon-estimator';
 import { gCo2ePerKwh, KgCo2e, KilowattHour } from '../../../types/units';
-import { CLOUD_AVERAGE_PUE } from '../../../estimation/constants';
-import { estimateEnergyEmissions } from '../../../estimation/estimate-energy-emissions';
+import { CLOUD_AVERAGE_PUE } from '../../../services/estimation/constants';
+import { estimateEnergyEmissions } from '../../../services/estimation/estimate-energy-emissions';
 import { CarbonIntensityService } from '../../../services/carbon-intensity.service';
 import { Cloud } from './cloud-form.service';
 

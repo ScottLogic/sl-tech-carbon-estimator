@@ -1,4 +1,4 @@
-import { Hour, KgCo2e, KilowattHour, Watt, Year } from '../types/units';
+import { Hour, KgCo2e, KilowattHour, Watt, Year } from '../../types/units';
 
 export class DeviceType {
   constructor(

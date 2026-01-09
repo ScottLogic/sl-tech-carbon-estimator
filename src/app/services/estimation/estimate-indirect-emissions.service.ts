@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { EstimatorValues, IndirectEstimation } from '../types/carbon-estimator';
-import { EstimateCloudEmissionsService } from '../features/cloud/services/estimate-cloud-emissions.service';
-import { EstimateSaasEmissionsService } from '../features/saas/services/estimate-saas-emissions.service';
+import { EstimatorValues, IndirectEstimation } from '../../types/carbon-estimator';
+import { EstimateCloudEmissionsService } from '../../features/cloud/services/estimate-cloud-emissions.service';
+import { EstimateSaasEmissionsService } from '../../features/saas/services/estimate-saas-emissions.service';
 
 @Injectable({
   providedIn: 'root',

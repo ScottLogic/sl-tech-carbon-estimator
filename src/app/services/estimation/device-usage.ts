@@ -1,5 +1,5 @@
-import { DeviceCategory } from '../types/carbon-estimator';
-import { KgCo2e, gCo2ePerKwh } from '../types/units';
+import { DeviceCategory } from '../../types/carbon-estimator';
+import { KgCo2e, gCo2ePerKwh } from '../../types/units';
 import { DeviceType } from './device-type';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
 

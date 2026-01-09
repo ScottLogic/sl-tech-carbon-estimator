@@ -5,17 +5,17 @@ import {
   CarbonEstimationValues,
   EstimatorValues,
 } from '../types/carbon-estimator';
-import { estimateDirectEmissions } from '../estimation/estimate-direct-emissions';
-import { DownstreamEmissionsEstimator } from '../estimation/estimate-downstream-emissions';
-import { estimateUpstreamEmissions } from '../estimation/estimate-upstream-emissions';
+import { estimateDirectEmissions } from './estimation/estimate-direct-emissions';
+import { DownstreamEmissionsEstimator } from './estimation/estimate-downstream-emissions';
+import { estimateUpstreamEmissions } from './estimation/estimate-upstream-emissions';
 import { LoggingService } from './logging.service';
 import { NumberObject, sumValues, multiplyValues } from '../utils/number-object';
 import { version } from '../../../package.json';
-import { desktop, laptop, monitor, network, server } from '../estimation/device-type';
-import { ON_PREMISE_AVERAGE_PUE } from '../estimation/constants';
-import { DeviceUsage, createDeviceUsage } from '../estimation/device-usage';
+import { desktop, laptop, monitor, network, server } from './estimation/device-type';
+import { ON_PREMISE_AVERAGE_PUE } from './estimation/constants';
+import { DeviceUsage, createDeviceUsage } from './estimation/device-usage';
 import { CarbonIntensityService } from './carbon-intensity.service';
-import { EstimateIndirectEmissionsService } from '../estimation/estimate-indirect-emissions.service';
+import { EstimateIndirectEmissionsService } from './estimation/estimate-indirect-emissions.service';
 
 @Injectable({
   providedIn: 'root',

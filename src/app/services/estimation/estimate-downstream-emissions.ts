@@ -4,12 +4,12 @@ import {
   DownstreamEstimation,
   BasePurposeOfSite,
   basePurposeArray,
-} from '../types/carbon-estimator';
+} from '../../types/carbon-estimator';
 import { estimateEnergyEmissions } from './estimate-energy-emissions';
-import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../types/units';
+import { Gb, Hour, KilowattHour, gCo2ePerKwh } from '../../types/units';
 import { AverageDeviceType, averagePersonalComputer, mobile } from './device-type';
-import { ICO2Calculator } from '../facades/ICO2Calculator';
-import { CO2_CALCULATOR } from '../facades/CO2InjectionToken';
+import { ICO2Calculator } from '../../facades/ICO2Calculator';
+import { CO2_CALCULATOR } from '../../facades/CO2InjectionToken';
 import { Injectable, inject } from '@angular/core';
 
 interface SiteInformation {
