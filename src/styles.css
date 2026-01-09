@@ -222,7 +222,7 @@ input.ng-invalid.ng-touched {
 }
 
 apx-chart .apexcharts-legend-series {
-  @apply tce:cursor-default tce:min-w-62 tce:ml-0;
+  @apply tce:cursor-default tce:min-w-62 tce:!ml-0;
 }
 
 apx-chart .apexcharts-legend {
