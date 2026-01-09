@@ -1,4 +1,4 @@
-import { DeviceCategory, DirectEstimation } from '../types/carbon-estimator';
+import { DeviceCategory, DirectEstimation } from '../../types/carbon-estimator';
 import { DeviceUsage } from './device-usage';
 
 export function estimateDirectEmissions(deviceUsage: DeviceUsage[]): DirectEstimation {

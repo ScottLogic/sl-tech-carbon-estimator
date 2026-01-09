@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { EstimatorValues } from '../types/carbon-estimator';
+import { EstimatorValues } from '../../types/carbon-estimator';
 import { EstimateIndirectEmissionsService } from './estimate-indirect-emissions.service';
-import { EstimateCloudEmissionsService } from '../features/cloud/services/estimate-cloud-emissions.service';
-import { EstimateSaasEmissionsService } from '../features/saas/services/estimate-saas-emissions.service';
+import { EstimateCloudEmissionsService } from '../../features/cloud/services/estimate-cloud-emissions.service';
+import { EstimateSaasEmissionsService } from '../../features/saas/services/estimate-saas-emissions.service';
 
 let estimator: EstimateIndirectEmissionsService;
 let mockCloudEmissions: jasmine.SpyObj<EstimateCloudEmissionsService>;

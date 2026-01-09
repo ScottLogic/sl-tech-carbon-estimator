@@ -1,4 +1,4 @@
-import { DeviceCategory, UpstreamEstimation } from '../types/carbon-estimator';
+import { DeviceCategory, UpstreamEstimation } from '../../types/carbon-estimator';
 import { DeviceUsage } from './device-usage';
 
 export function estimateUpstreamEmissions(deviceUsage: DeviceUsage[]): UpstreamEstimation {
