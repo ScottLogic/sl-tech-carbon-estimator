@@ -7,6 +7,7 @@ import { CloudFormService, defaultCloudValues } from '../features/cloud/services
 import { OrganisationFormService } from '../features/organisation/services/organisation-form.service';
 import { defaultOnPremValues, OnPremiseFormService } from '../features/on-premise/services/on-premise-form.service';
 import { CustomerFormService, defaultCustomerValues } from '../features/customers/services/customer-form.service';
+import { AiFormService, defaultAiValues } from '../features/ai/services/ai-form.service';
 
 export const defaultValues: Required<EstimatorValues> = {
   upstream: {
@@ -18,6 +19,7 @@ export const defaultValues: Required<EstimatorValues> = {
   cloud: defaultCloudValues,
   downstream: defaultCustomerValues,
   saas: defaultSaasValues,
+  aiInference: defaultAiValues,
 };
 
 @Injectable({
@@ -30,6 +32,7 @@ export class FormService {
   private cloudFormService = inject(CloudFormService);
   private onPremFormService = inject(OnPremiseFormService);
   private customerFormService = inject(CustomerFormService);
+  private aiFormService = inject(AiFormService);
 
   estimatorForm: FormGroup<EstimatorFormValues> = this.initialise();
 
@@ -40,6 +43,7 @@ export class FormService {
       cloud: this.cloudFormService.form,
       downstream: this.customerFormService.form,
       saas: this.saasFormService.form,
+      aiInference: this.aiFormService.form,
     });
   }
 

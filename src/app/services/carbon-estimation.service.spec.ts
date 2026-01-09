@@ -43,6 +43,13 @@ const emptyEstimatorValues: EstimatorValues = {
       organisationUserCount: 0,
     },
   },
+  aiInference: {
+    noAiInference: true,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 0,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 function checkTotalPercentage(estimation: CarbonEstimation) {
@@ -188,6 +195,13 @@ describe('CarbonEstimationService', () => {
             useMicrosoft365: false,
             organisationUserCount: 0,
           },
+        },
+        aiInference: {
+          noAiInference: true,
+          primaryTaskType: 'text-generation',
+          monthlyInferences: 0,
+          aiServiceProvider: 'openai',
+          aiServiceLocation: 'WORLD',
         },
       };
       service.calculateCarbonEstimation(input);

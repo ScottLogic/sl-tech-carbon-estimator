@@ -4,7 +4,7 @@ import { WorldLocation } from '../../../types/carbon-estimator';
 import { AiInference, AiProvider } from '../types/ai-types';
 import { AiTaskType } from '../types/ai-energy-data';
 
-export type AiFormGroup = FormGroup<{
+export type AiInferenceFormGroup = FormGroup<{
   noAiInference: FormControl<boolean>;
   primaryTaskType: FormControl<AiTaskType>;
   monthlyInferences: FormControl<number>;
@@ -26,9 +26,9 @@ export const defaultAiValues: AiInference = {
 export class AiFormService {
   private formBuilder = inject(FormBuilder);
 
-  form: AiFormGroup = this.createForm();
+  form: AiInferenceFormGroup = this.createForm();
 
-  createForm(): AiFormGroup {
+  createForm(): AiInferenceFormGroup {
     return this.formBuilder.nonNullable.group({
       noAiInference: [defaultAiValues.noAiInference],
       primaryTaskType: [defaultAiValues.primaryTaskType],

@@ -35,6 +35,13 @@ const formValues: EstimatorValues = {
       organisationUserCount: 0,
     },
   },
+  aiInference: {
+    noAiInference: false,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 1000,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 const formBuilder = new FormBuilder();
@@ -75,6 +82,13 @@ describe('FormStateService', () => {
           useMicrosoft365: [false],
           organisationUserCount: [0],
         }),
+      }),
+      aiInference: formBuilder.nonNullable.group({
+        noAiInference: [formValues.aiInference.noAiInference],
+        primaryTaskType: [formValues.aiInference.primaryTaskType],
+        monthlyInferences: [formValues.aiInference.monthlyInferences],
+        aiServiceProvider: [formValues.aiInference.aiServiceProvider],
+        aiServiceLocation: [formValues.aiInference.aiServiceLocation as WorldLocation | 'unknown'],
       }),
     });
   });

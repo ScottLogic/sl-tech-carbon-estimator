@@ -5,6 +5,8 @@ import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.ser
 import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
 import { OnPremise, OnPremiseFormGroup } from '../features/on-premise/services/on-premise-form.service';
 import { Customer, CustomerFormGroup } from '../features/customers/services/customer-form.service';
+import { AiInference } from '../features/ai/types/ai-types';
+import { AiInferenceFormGroup } from '../features/ai/services/ai-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -58,6 +60,7 @@ export type EstimatorValues = {
   cloud: Cloud;
   downstream: Downstream;
   saas: Saas;
+  aiInference: AiInference;
 };
 
 export type EstimatorFormValues = {
@@ -66,6 +69,7 @@ export type EstimatorFormValues = {
   cloud: CloudFormGroup;
   downstream: CustomerFormGroup;
   saas: SaasFormGroup;
+  aiInference: AiInferenceFormGroup;
 };
 
 export type Upstream = Organisation;
