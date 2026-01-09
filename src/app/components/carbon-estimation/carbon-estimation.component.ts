@@ -38,7 +38,6 @@ import { CarbonSchemaMapperService } from '../../services/carbon-schema-mapper.s
     ExternalLinkDirective,
   ],
   templateUrl: './carbon-estimation.component.html',
-  styleUrls: ['./carbon-estimation.component.css'],
 })
 export class CarbonEstimationComponent implements OnInit, OnDestroy {
   public carbonEstimation = input<CarbonEstimation>();

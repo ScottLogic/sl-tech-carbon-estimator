@@ -221,8 +221,48 @@ input.ng-invalid.ng-touched {
   @apply tce:bg-slate-200 tce:dark:bg-sky-900 tce:z-50 tce:absolute tce:rounded tce:px-2 tce:pb-1;
 }
 
+apx-chart .apexcharts-legend-series {
+  @apply tce:cursor-default tce:min-w-62 tce:ml-0;
+}
+
+apx-chart .apexcharts-legend {
+  @apply tce:p-0;
+}
+
 apx-chart .apexcharts-legend .apexcharts-legend-series:hover {
-  @apply tce:dark:bg-cyan-700;
+  @apply tce:dark:bg-cyan-700 tce:bg-slate-200;
+}
+
+apx-chart .apexcharts-tooltip.apexcharts-theme-light {
+  @apply tce:border-none;
+}
+
+apx-chart .web-logo {
+  background-image: url('assets/web.svg');
+}
+
+apx-chart .devices-logo {
+  background-image: url('assets/devices.svg');
+}
+
+apx-chart .router-logo {
+  background-image: url('assets/router.svg');
+}
+
+apx-chart .storage-logo {
+  background-image: url('assets/storage.svg');
+}
+
+apx-chart .cloud-logo {
+  background-image: url('assets/cloud.svg');
+}
+
+apx-chart .cell-tower-logo {
+  background-image: url('assets/cell-tower.svg');
+}
+
+apx-chart .question-mark-logo {
+  background-image: url('assets/question-mark.svg');
 }
 
 @media (prefers-color-scheme: dark) {
