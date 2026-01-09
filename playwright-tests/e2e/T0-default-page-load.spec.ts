@@ -1,5 +1,4 @@
 import { test } from '../utilities/fixtures';
-// import { test } from './fixtures';
 
 test('Default page screenshot assertion,elements are visible and apex chart displays expected values', async ({
   organisationSection,

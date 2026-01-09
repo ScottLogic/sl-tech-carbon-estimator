@@ -1133,3 +1133,54 @@ export const t21ExpectedEmissionPercentages = [
   '<1%',
   '100%',
 ];
+
+export const t22ExpectedEmissionKilogramsAnnual = [
+  '16096 kg',
+  '13708 kg',
+  '1088 kg',
+  '1300 kg',
+  '17435 kg',
+  '6485 kg',
+  '7857 kg',
+  '3093 kg',
+  '621 kg',
+  '621 kg',
+  '387 kg',
+  '148 kg',
+  '239 kg',
+  '34538 kg',
+];
+
+export const t22ExpectedEmissionKilogramsMonthly = [
+  '1341 kg',
+  '1142 kg',
+  '91 kg',
+  '108 kg',
+  '1453 kg',
+  '540 kg',
+  '655 kg',
+  '258 kg',
+  '52 kg',
+  '52 kg',
+  '32 kg',
+  '12 kg',
+  '20 kg',
+  '2878 kg',
+];
+
+export const t22ExpectedEmissionPercentages = [
+  '47%',
+  '40%',
+  '3%',
+  '4%',
+  '50%',
+  '19%',
+  '23%',
+  '9%',
+  '2%',
+  '2%',
+  '1%',
+  '<1%',
+  '<1%',
+  '100%',
+];

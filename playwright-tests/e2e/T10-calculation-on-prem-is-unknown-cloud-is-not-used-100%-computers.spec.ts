@@ -28,7 +28,6 @@ test('T10 verify calculated values are coherent when on-prem is unknown, cloud i
 
   await customersSection.setCustomersLocation('in the UK');
   await customersSection.setMonthlyActiveUsers('1000');
-  //await customersSection.percentageSlider.click();
   await customersSection.percentageSliderSet('0');
   await customersSection.setPrimaryPurpose('average');
 
