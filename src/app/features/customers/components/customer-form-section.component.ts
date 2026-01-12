@@ -53,9 +53,15 @@ export class CustomerFormSectionComponent implements OnInit {
       this.noDownstream = noDownstream;
     });
 
+    const noDownstreamInitial = this.form.get('noDownstream')?.value;
+    this.noDownstream = noDownstreamInitial ?? defaultCustomerValues.noDownstream;
+
     this.form.get('mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
       this.mobilePercentage.set(mobilePercentage);
     });
+
+    const mobilePercentageInitial = this.form.get('mobilePercentage')?.value;
+    this.mobilePercentage.set(mobilePercentageInitial ?? defaultCustomerValues.mobilePercentage);
   }
 
   formContext: FormContextSection = formContext.downstream;

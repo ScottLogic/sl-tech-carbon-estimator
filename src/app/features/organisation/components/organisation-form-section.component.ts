@@ -33,6 +33,9 @@ export class OrganisationFormSectionComponent implements OnInit {
     this.form.get('desktopPercentage')?.valueChanges.subscribe(desktopPercentage => {
       this.desktopPercentage.set(desktopPercentage);
     });
+
+    const desktopPercentageInitial = this.form.get('desktopPercentage')?.value;
+    this.desktopPercentage.set(desktopPercentageInitial ?? defaultValues.desktopPercentage);
   }
 
   formContext: FormContextSection = formContext.upstream;
