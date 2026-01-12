@@ -26,6 +26,7 @@ import { OrganisationFormSectionComponent } from '../../features/organisation/co
 import { OnPremiseFormSectionComponent } from '../../features/on-premise/components/on-premise-form-section.component';
 import { CustomerFormSectionComponent } from '../../features/customers/components/customer-form-section.component';
 import { ErrorSummaryComponent } from '../../components/error-summary/error-summary.component';
+import { AiFormSectionComponent } from '../../features/ai/components/ai-form-section.component';
 @Component({
   selector: 'carbon-estimator-form',
   standalone: true,
@@ -41,6 +42,7 @@ import { ErrorSummaryComponent } from '../../components/error-summary/error-summ
     OrganisationFormSectionComponent,
     OnPremiseFormSectionComponent,
     CustomerFormSectionComponent,
+    AiFormSectionComponent,
   ],
 })
 export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
@@ -129,6 +131,10 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     return this.estimatorForm.get('downstream.monthlyActiveUsers');
   }
 
+  public get monthlyInferences() {
+    return this.estimatorForm.get('aiInference.monthlyInferences');
+  }
+
   private getValidationErrors() {
     const validationErrors: ValidationError[] = [];
     if (this.headCount?.invalid) {
@@ -139,6 +145,9 @@ export class CarbonEstimatorFormComponent implements OnInit, OnDestroy {
     }
     if (this.monthlyActiveUsers?.invalid) {
       validationErrors.push(this.errorConfig.monthlyActiveUsers);
+    }
+    if (this.monthlyInferences?.invalid) {
+      validationErrors.push(this.errorConfig.monthlyInferences);
     }
 
     return validationErrors;
