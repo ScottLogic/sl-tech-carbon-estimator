@@ -30,7 +30,10 @@ export class OrganisationFormSectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formService.form;
-    this.form.get('desktopPercentage')?.valueChanges.subscribe(desktopPercentage => {
+
+    const desktopPercentageControl = this.form.get('desktopPercentage');
+    this.desktopPercentage.set(desktopPercentageControl?.value ?? this.desktopPercentage());
+    desktopPercentageControl?.valueChanges.subscribe(desktopPercentage => {
       this.desktopPercentage.set(desktopPercentage);
     });
   }

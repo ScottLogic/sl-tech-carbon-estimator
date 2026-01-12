@@ -26,7 +26,7 @@ export class CloudFormSectionComponent implements OnInit {
 
   public noCloudServices = signal(defaultValues.cloud.noCloudServices);
   public cloudPercentage = signal(defaultValues.cloud.cloudPercentage);
-  public isEstimatingServers = signal(false);
+  public isEstimatingServerCount = signal(defaultValues.onPremise.estimateServerCount);
   public onPremisePercentage: Signal<number> = computed(() => 100 - this.cloudPercentage());
 
   public compareCostRanges = compareCostRanges;
@@ -35,25 +35,22 @@ export class CloudFormSectionComponent implements OnInit {
   public formContext = formContext;
 
   public ngOnInit() {
-    this.estimatorForm()
-      .get('cloud.cloudPercentage')
-      ?.valueChanges.subscribe(cloudPercentage => {
-        this.cloudPercentage.set(cloudPercentage);
-      });
+    const cloudPercentageControl = this.estimatorForm().get('cloud.cloudPercentage');
+    this.cloudPercentage.set(cloudPercentageControl?.value ?? this.cloudPercentage());
+    cloudPercentageControl?.valueChanges.subscribe(cloudPercentage => {
+      this.cloudPercentage.set(cloudPercentage);
+    });
 
-    this.estimatorForm()
-      .get('cloud.noCloudServices')
-      ?.valueChanges.subscribe(noCloudServices => {
-        this.noCloudServices.set(noCloudServices);
-      });
+    const noCloudServicesControl = this.estimatorForm().get('cloud.noCloudServices');
+    this.noCloudServices.set(noCloudServicesControl?.value ?? this.noCloudServices());
+    noCloudServicesControl?.valueChanges.subscribe(noCloudServices => {
+      this.noCloudServices.set(noCloudServices);
+    });
 
-    this.estimatorForm()
-      .get('onPremise.estimateServerCount')
-      ?.valueChanges.subscribe(val => {
-        this.isEstimatingServers.set(val);
-      });
-
-    const isEstimatingServersInitial = this.estimatorForm().get('onPremise.estimateServerCount')?.value;
-    this.isEstimatingServers.set(!!isEstimatingServersInitial);
+    const estimateServerCountControl = this.estimatorForm().get('onPremise.estimateServerCount');
+    this.isEstimatingServerCount.set(estimateServerCountControl?.value ?? this.isEstimatingServerCount());
+    estimateServerCountControl?.valueChanges.subscribe(val => {
+      this.isEstimatingServerCount.set(val);
+    });
   }
 }

@@ -43,7 +43,9 @@ export class CustomerFormSectionComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formService.form;
 
-    this.form.get('noDownstream')?.valueChanges.subscribe(noDownstream => {
+    const noDownstreamControl = this.form.get('noDownstream');
+    this.noDownstream = noDownstreamControl?.value ?? this.noDownstream;
+    noDownstreamControl?.valueChanges.subscribe(noDownstream => {
       const monthlyActiveUsers = this.form.get('monthlyActiveUsers');
       if (noDownstream) {
         monthlyActiveUsers?.disable();
@@ -53,7 +55,9 @@ export class CustomerFormSectionComponent implements OnInit {
       this.noDownstream = noDownstream;
     });
 
-    this.form.get('mobilePercentage')?.valueChanges.subscribe(mobilePercentage => {
+    const mobilePercentageControl = this.form.get('mobilePercentage');
+    this.mobilePercentage.set(mobilePercentageControl?.value ?? this.mobilePercentage());
+    mobilePercentageControl?.valueChanges.subscribe(mobilePercentage => {
       this.mobilePercentage.set(mobilePercentage);
     });
   }
