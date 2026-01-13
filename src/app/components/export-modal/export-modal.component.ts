@@ -33,6 +33,7 @@ export class ExportModal {
   public downstream = computed(() => this.inputValues()?.downstream ?? {});
   public cloud = computed(() => this.inputValues()?.cloud ?? {});
   public saas = computed(() => this.inputValues()?.saas ?? {});
+  public aiInference = computed(() => this.inputValues()?.aiInference ?? {});
 
   private dateMills = Date.now();
   private date = new Date(this.dateMills);

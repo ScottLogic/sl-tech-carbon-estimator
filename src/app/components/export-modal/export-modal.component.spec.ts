@@ -74,6 +74,10 @@ describe('ExportModal', () => {
         organisationUserCount: 9,
       },
     },
+    aiInference: {
+      useAiInference: false,
+      inferences: 1000,
+    },
   };
 
   beforeEach(async () => {
@@ -123,6 +127,14 @@ describe('ExportModal', () => {
     expect(component.onPremise()).toEqual(mockInputValues.onPremise);
     expect(component.downstream()).toEqual(mockInputValues.downstream);
     expect(component.cloud()).toEqual(mockInputValues.cloud);
+  });
+
+  it('should compute saas input groups  ', () => {
+    expect(component.saas()).toEqual(mockInputValues.saas);
+  });
+
+  it('should compute ai input groups  ', () => {
+    expect(component.aiInference()).toEqual(mockInputValues.aiInference);
   });
 
   it('should render treemap and table components with correct inputs', () => {
