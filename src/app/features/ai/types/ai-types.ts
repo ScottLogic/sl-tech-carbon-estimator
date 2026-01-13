@@ -1,5 +1,4 @@
 import { WorldLocation } from '../../../types/carbon-estimator';
-import { KgCo2e } from '../../../types/units';
 import { AiTaskType as AiTaskType, allAiTaskArray } from './ai-energy-data';
 
 export const aiTaskArray = allAiTaskArray;
@@ -32,36 +31,4 @@ export type AiInference = {
 
 export type AiInferenceEstimation = {
   aiInference: number;
-};
-
-export type AiTaskUsage = {
-  taskType: AiTaskType;
-  monthlyInferences: number;
-};
-
-export type AiInferenceBreakdown = {
-  noAIInference: boolean;
-  taskUsages: AiTaskUsage[];
-  aiServiceProvider: AiProvider;
-  aiServiceLocation: WorldLocation;
-};
-
-export type AiTaskEmissions = {
-  taskType: AiTaskType;
-  monthlyInferences: number;
-  annualEnergyKwh: number;
-  co2eKg: number;
-};
-
-export type AiCo2eEstimate = {
-  low: KgCo2e;
-  mean: KgCo2e;
-  high: KgCo2e;
-};
-
-export type AiTaskEmissionsRange = {
-  taskType: AiTaskType;
-  monthlyInferences: number;
-  annualEnergyKwh: number;
-  co2e: AiCo2eEstimate;
 };
