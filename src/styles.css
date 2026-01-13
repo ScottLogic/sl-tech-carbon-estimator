@@ -265,6 +265,10 @@ apx-chart .question-mark-logo {
   background-image: url('assets/question-mark.svg');
 }
 
+apx-chart .ai-logo {
+  background-image: url('assets/question-mark.svg');
+}
+
 @media (prefers-color-scheme: dark) {
   .apexcharts-legend-text {
     @apply tce:!text-slate-50;

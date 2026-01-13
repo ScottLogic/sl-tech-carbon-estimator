@@ -6,6 +6,8 @@ export enum EmissionsColours {
   Direct = '#CB3775',
   Indirect = '#91234C',
   OperationLight = '#f2afd1',
+  AIInference = '#9B59B6',
+  AIInferenceLight = '#e4c7f2',
   Downstream = '#4B7E56',
   DownstreamLight = '#c1d9c3',
   Total = '#646464',
