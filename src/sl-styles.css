@@ -1,7 +1,8 @@
-@import "tailwindcss" prefix(tce);
+@import 'tailwindcss' prefix(tce);
 
 @layer theme {
-  :root, :host {
+  :root,
+  :host {
     --primary-charcoal: #252525;
     --primary-turquoise: #2bb3bb;
     --primary-pink: #c41565;
@@ -27,7 +28,15 @@ input {
   accent-color: var(--primary-turquoise);
 }
 
-.tce-button-calculate, .tce-button-reset, .tce-button-assumptions, .tce-button-close {
+input,
+select {
+  @apply tce:text-inherit;
+}
+
+.tce-button-calculate,
+.tce-button-reset,
+.tce-button-assumptions,
+.tce-button-close {
   border-color: var(--primary-turquoise);
   @apply tce:rounded-sm;
 }
@@ -36,12 +45,16 @@ input {
   @apply tce:text-white;
 }
 
-.tce-button-calculate:hover, .tce-button-reset:hover, .tce-button-assumptions:hover, .tce-button-close:hover {
+.tce-button-calculate:hover,
+.tce-button-reset:hover,
+.tce-button-assumptions:hover,
+.tce-button-close:hover {
   background-color: var(--primary-turquoise);
   @apply tce:text-white;
 }
 
-.tce-active-tab, .tce-active-tab:hover {
+.tce-active-tab,
+.tce-active-tab:hover {
   border-color: var(--primary-turquoise);
   @apply tce:cursor-default;
 }
