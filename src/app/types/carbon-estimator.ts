@@ -5,7 +5,7 @@ import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.ser
 import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
 import { OnPremise, OnPremiseFormGroup } from '../features/on-premise/services/on-premise-form.service';
 import { Customer, CustomerFormGroup } from '../features/customers/services/customer-form.service';
-import { AiInference } from '../features/ai/types/ai-types';
+import { AiInference, AiInferenceEstimation } from '../features/ai/types/ai-types';
 import { AiInferenceFormGroup } from '../features/ai/services/ai-form.service';
 
 export type CarbonEstimation = {
@@ -18,6 +18,7 @@ export type CarbonEstimationPercentages = {
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
+  aiInferenceEmissions: AiInferenceEstimation;
   downstreamEmissions: DownstreamEstimation;
 };
 
@@ -27,6 +28,7 @@ export type CarbonEstimationValues = {
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
   downstreamEmissions: DownstreamEstimation;
+  aiInferenceEmissions: AiInferenceEstimation;
   totalEmissions: KgCo2e;
 };
 

@@ -33,6 +33,9 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       networkTransfer: 10,
       downstreamInfrastructure: 0,
     },
+    aiInferenceEmissions: {
+      aiInference: 0,
+    },
     totalEmissions: 70,
   },
   values: {
@@ -59,6 +62,9 @@ const getMockCarbonEstimation: () => CarbonEstimation = () => ({
       customer: 1300,
       networkTransfer: 1200,
       downstreamInfrastructure: 0,
+    },
+    aiInferenceEmissions: {
+      aiInference: 0,
     },
     totalEmissions: 7000,
   },

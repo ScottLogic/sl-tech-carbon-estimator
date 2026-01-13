@@ -30,6 +30,9 @@ describe('ExportModal', () => {
         networkTransfer: 1200,
         downstreamInfrastructure: 0,
       },
+      aiInferenceEmissions: {
+        aiInference: 0,
+      },
       totalEmissions: 12345,
     },
     percentages: {
@@ -48,6 +51,9 @@ describe('ExportModal', () => {
         customer: 110,
         networkTransfer: 120,
         downstreamInfrastructure: 0,
+      },
+      aiInferenceEmissions: {
+        aiInference: 0,
       },
     },
   };
