@@ -57,57 +57,6 @@ export class EstimateAiEmissionsService {
     return (co2ePer1000Inferences * annualInferences) / 1000;
   }
 
-  // public estimateAIInferenceCO2eRange(
-  //   taskType: AiTaskType,
-  //   monthlyInferences: number,
-  //   provider: AiProvider,
-  //   carbonIntensity: gCo2ePerKwh
-  // ): AiCo2eEstimate {
-  //   const energyData = this.getTaskEnergyConsumption(taskType);
-  //   const pue = this.getAIProviderPUE(provider);
-  //   const annualInferences = monthlyInferences * 12;
-
-  //   const lowCo2ePer1000: KgCo2e = energyData.lowBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-  //   const meanCo2ePer1000: KgCo2e = energyData.meanKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-  //   const highCo2ePer1000: KgCo2e = energyData.highBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-
-  //   return {
-  //     low: (lowCo2ePer1000 * annualInferences) / 1000,
-  //     mean: (meanCo2ePer1000 * annualInferences) / 1000,
-  //     high: (highCo2ePer1000 * annualInferences) / 1000,
-  //   };
-  // }
-
-  // public estimateMultipleAITasksCO2e(
-  //   taskUsages: AiTaskUsage[],
-  //   provider: AiProvider,
-  //   carbonIntensity: gCo2ePerKwh
-  // ): { taskEmissions: AiTaskEmissions[]; totalCO2e: KgCo2e } {
-  //   const pue = this.getAIProviderPUE(provider);
-  //   const taskEmissions: AiTaskEmissions[] = [];
-  //   let totalCO2e: KgCo2e = 0;
-
-  //   for (const taskUsage of taskUsages) {
-  //     const energyData = this.getTaskEnergyConsumption(taskUsage.taskType);
-  //     const co2ePer1000Inferences: KgCo2e = energyData.meanKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-  //     const annualInferences = taskUsage.monthlyInferences * 12;
-  //     const co2eKg: KgCo2e = (co2ePer1000Inferences * annualInferences) / 1000;
-
-  //     const annualEnergyKwh: KilowattHour = (energyData.meanKwhPer1000Inferences * annualInferences * pue) / 1000;
-
-  //     taskEmissions.push({
-  //       taskType: taskUsage.taskType,
-  //       monthlyInferences: taskUsage.monthlyInferences,
-  //       annualEnergyKwh: annualEnergyKwh,
-  //       co2eKg: co2eKg,
-  //     });
-
-  //     totalCO2e += co2eKg;
-  //   }
-
-  //   return { taskEmissions, totalCO2e };
-  // }
-
   private calculateMixedUsageValues(): { mean: number; stdev: number } {
     if (this.mixedUsageCache !== null) {
       return this.mixedUsageCache;
@@ -124,11 +73,6 @@ export class EstimateAiEmissionsService {
 
     return this.mixedUsageCache;
   }
-
-  // Function to clear the mixed-usage cache (primarily for testing)
-  // public clearMixedUsageCache(): void {
-  //   this.mixedUsageCache = null;
-  // }
 
   private getTaskEnergyConsumption(taskType: AiTaskType): TaskEnergyConsumption {
     let data: { mean: number; stdev: number } | undefined;
@@ -154,55 +98,4 @@ export class EstimateAiEmissionsService {
       highBandKwhPer1000Inferences: highBand,
     };
   }
-
-  // public estimateMultipleAITasksCO2eRange(
-  //   taskUsages: AiTaskUsage[],
-  //   provider: AiProvider,
-  //   carbonIntensity: gCo2ePerKwh
-  // ): { taskEmissions: AiTaskEmissionsRange[]; totalCO2e: AiCo2eEstimate } {
-  //   const pue = this.getAIProviderPUE(provider);
-  //   const taskEmissions: AiTaskEmissionsRange[] = [];
-  //   let totalLowCO2e: KgCo2e = 0;
-  //   let totalMeanCO2e: KgCo2e = 0;
-  //   let totalHighCO2e: KgCo2e = 0;
-
-  //   for (const taskUsage of taskUsages) {
-  //     const energyData = this.getTaskEnergyConsumption(taskUsage.taskType);
-  //     const annualInferences = taskUsage.monthlyInferences * 12;
-
-  //     const lowCo2ePer1000: KgCo2e = energyData.lowBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-  //     const meanCo2ePer1000: KgCo2e = energyData.meanKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-  //     const highCo2ePer1000: KgCo2e = energyData.highBandKwhPer1000Inferences * pue * (carbonIntensity / 1000);
-
-  //     const lowCO2e: KgCo2e = (lowCo2ePer1000 * annualInferences) / 1000;
-  //     const meanCO2e: KgCo2e = (meanCo2ePer1000 * annualInferences) / 1000;
-  //     const highCO2e: KgCo2e = (highCo2ePer1000 * annualInferences) / 1000;
-
-  //     const annualEnergyKwh: KilowattHour = (energyData.meanKwhPer1000Inferences * annualInferences * pue) / 1000;
-
-  //     taskEmissions.push({
-  //       taskType: taskUsage.taskType,
-  //       monthlyInferences: taskUsage.monthlyInferences,
-  //       annualEnergyKwh: annualEnergyKwh,
-  //       co2e: {
-  //         low: lowCO2e,
-  //         mean: meanCO2e,
-  //         high: highCO2e,
-  //       },
-  //     });
-
-  //     totalLowCO2e += lowCO2e;
-  //     totalMeanCO2e += meanCO2e;
-  //     totalHighCO2e += highCO2e;
-  //   }
-
-  //   return {
-  //     taskEmissions,
-  //     totalCO2e: {
-  //       low: totalLowCO2e,
-  //       mean: totalMeanCO2e,
-  //       high: totalHighCO2e,
-  //     },
-  //   };
-  // }
 }
