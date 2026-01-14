@@ -145,7 +145,7 @@ describe('ExportModal', () => {
   });
 
   it('should render disclaimer-text at the bottom of tceExportPageTwo', () => {
-    const disclaimer = fixture.nativeElement.querySelector('#tceExportPageTwo disclaimer-text');
+    const disclaimer = fixture.nativeElement.querySelector('#tceExportPageThree disclaimer-text');
     expect(disclaimer).toBeTruthy();
   });
 
@@ -172,6 +172,7 @@ describe('ExportModal', () => {
     spyOn(document, 'getElementById').and.returnValue(mockCanvas as HTMLCanvasElement);
     const jsPDFMock = jasmine.createSpyObj('jsPDF', ['addImage', 'addPage', 'save']);
     spyOn(component, 'exportToPDF').and.callFake(async () => {
+      jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);
       jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);
       jsPDFMock.addPage();
       jsPDFMock.save('mock.pdf');

@@ -20,6 +20,11 @@
           [shouldShowUnitsSwitch]="false"
           [enableAnimations]="false"
           class="tce:!pointer-events-none"></carbon-estimation-treemap>
+      </div>
+    </div>
+    <div class="tce:min-h-4"></div>
+    <div class="tce-export-modal-export-area-colour-provider">
+      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageTwo" #pageTwo>
         <carbon-estimation-table
           [carbonEstimation]="carbonEstimation()"
           [shouldShowSvgs]="false"></carbon-estimation-table>
@@ -27,7 +32,7 @@
     </div>
     <div class="tce:min-h-4"></div>
     <div class="tce-export-modal-export-area-colour-provider">
-      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageTwo" #pageTwo>
+      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageThree" #pageThree>
         <h2 class="tce:mb-6">Estimate Input Data</h2>
         <div class="tce-export-modal-input-display-container">
           <input-group-display [inputGroup]="upstream()" [group]="'Upstream'"></input-group-display>
