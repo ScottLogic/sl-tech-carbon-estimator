@@ -266,7 +266,7 @@ apx-chart .question-mark-logo {
 }
 
 apx-chart .ai-logo {
-  background-image: url('assets/question-mark.svg');
+  background-image: url('assets/robot.svg');
 }
 
 @media (prefers-color-scheme: dark) {
