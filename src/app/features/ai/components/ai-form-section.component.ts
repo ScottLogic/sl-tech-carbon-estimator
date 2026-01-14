@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AiFormService, AiInferenceFormGroup } from '../services/ai-form.service';
+import { AiFormService, AiInferenceFormGroup, defaultAiValues } from '../services/ai-form.service';
 import {
   errorConfig,
   formContext,
@@ -39,11 +39,23 @@ export class AiFormSectionComponent implements OnInit {
     return this.aiInferenceForm.get('monthlyInferences');
   }
 
-  get noAiInference() {
-    return this.aiInferenceForm.get('noAiInference')?.value ?? false;
-  }
+  noAiInference = defaultAiValues.noAiInference;
 
   public ngOnInit() {
     this.aiInferenceForm = this.formService.form;
+
+    const aiInferenceFormControl = this.aiInferenceForm.get('noAiInference');
+
+    this.noAiInference = aiInferenceFormControl?.value ?? defaultAiValues.noAiInference;
+
+    aiInferenceFormControl?.valueChanges.subscribe(value => {
+      const monthly = this.aiInferenceForm.get('monthlyInferences');
+      if (value) {
+        monthly?.disable();
+      } else {
+        monthly?.enable();
+      }
+      this.noAiInference = value;
+    });
   }
 }

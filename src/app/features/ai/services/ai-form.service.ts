@@ -9,7 +9,7 @@ export type AiInferenceFormGroup = FormGroup<{
   primaryTaskType: FormControl<AiTaskType>;
   monthlyInferences: FormControl<number>;
   aiServiceProvider: FormControl<AiProvider>;
-  aiServiceLocation: FormControl<WorldLocation | 'unknown'>;
+  aiServiceLocation: FormControl<WorldLocation>;
 }>;
 
 export const defaultAiValues: AiInference = {
@@ -34,7 +34,7 @@ export class AiFormService {
       primaryTaskType: [defaultAiValues.primaryTaskType],
       monthlyInferences: [defaultAiValues.monthlyInferences, [Validators.required, Validators.min(1)]],
       aiServiceProvider: [defaultAiValues.aiServiceProvider],
-      aiServiceLocation: [defaultAiValues.aiServiceLocation as WorldLocation | 'unknown'],
+      aiServiceLocation: [defaultAiValues.aiServiceLocation as WorldLocation],
     });
   }
 }

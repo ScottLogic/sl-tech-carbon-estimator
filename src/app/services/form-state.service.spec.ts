@@ -88,7 +88,7 @@ describe('FormStateService', () => {
         primaryTaskType: [formValues.aiInference.primaryTaskType],
         monthlyInferences: [formValues.aiInference.monthlyInferences],
         aiServiceProvider: [formValues.aiInference.aiServiceProvider],
-        aiServiceLocation: [formValues.aiInference.aiServiceLocation as WorldLocation | 'unknown'],
+        aiServiceLocation: [formValues.aiInference.aiServiceLocation as WorldLocation],
       }),
     });
   });
