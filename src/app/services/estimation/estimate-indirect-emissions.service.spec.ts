@@ -38,6 +38,13 @@ const defaultValues: EstimatorValues = {
       organisationUserCount: 0,
     },
   },
+  aiInference: {
+    noAiInference: true,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 0,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
+  },
 };
 
 describe('estimateIndirectEmissions()', () => {

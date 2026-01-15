@@ -30,6 +30,9 @@ describe('ExportModal', () => {
         networkTransfer: 1200,
         downstreamInfrastructure: 0,
       },
+      aiInferenceEmissions: {
+        aiInference: 0,
+      },
       totalEmissions: 12345,
     },
     percentages: {
@@ -49,6 +52,9 @@ describe('ExportModal', () => {
         networkTransfer: 120,
         downstreamInfrastructure: 0,
       },
+      aiInferenceEmissions: {
+        aiInference: 0,
+      },
     },
   };
 
@@ -67,6 +73,10 @@ describe('ExportModal', () => {
         useMicrosoft365: true,
         organisationUserCount: 9,
       },
+    },
+    aiInference: {
+      useAiInference: false,
+      inferences: 1000,
     },
   };
 
@@ -119,6 +129,14 @@ describe('ExportModal', () => {
     expect(component.cloud()).toEqual(mockInputValues.cloud);
   });
 
+  it('should compute saas input groups  ', () => {
+    expect(component.saas()).toEqual(mockInputValues.saas);
+  });
+
+  it('should compute ai input groups  ', () => {
+    expect(component.aiInference()).toEqual(mockInputValues.aiInference);
+  });
+
   it('should render treemap and table components with correct inputs', () => {
     const treemap = fixture.nativeElement.querySelector('carbon-estimation-treemap');
     const table = fixture.nativeElement.querySelector('carbon-estimation-table');
@@ -127,7 +145,7 @@ describe('ExportModal', () => {
   });
 
   it('should render disclaimer-text at the bottom of tceExportPageTwo', () => {
-    const disclaimer = fixture.nativeElement.querySelector('#tceExportPageTwo disclaimer-text');
+    const disclaimer = fixture.nativeElement.querySelector('#tceExportPageThree disclaimer-text');
     expect(disclaimer).toBeTruthy();
   });
 
@@ -154,6 +172,7 @@ describe('ExportModal', () => {
     spyOn(document, 'getElementById').and.returnValue(mockCanvas as HTMLCanvasElement);
     const jsPDFMock = jasmine.createSpyObj('jsPDF', ['addImage', 'addPage', 'save']);
     spyOn(component, 'exportToPDF').and.callFake(async () => {
+      jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);
       jsPDFMock.addImage('data:image/png;base64,mock', 'PNG', 0, 0, 208, 416);
       jsPDFMock.addPage();
       jsPDFMock.save('mock.pdf');

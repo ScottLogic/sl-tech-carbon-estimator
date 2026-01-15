@@ -20,6 +20,11 @@
           [shouldShowUnitsSwitch]="false"
           [enableAnimations]="false"
           class="tce:!pointer-events-none"></carbon-estimation-treemap>
+      </div>
+    </div>
+    <div class="tce:min-h-4"></div>
+    <div class="tce-export-modal-export-area-colour-provider">
+      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageTwo" #pageTwo>
         <carbon-estimation-table
           [carbonEstimation]="carbonEstimation()"
           [shouldShowSvgs]="false"></carbon-estimation-table>
@@ -27,7 +32,7 @@
     </div>
     <div class="tce:min-h-4"></div>
     <div class="tce-export-modal-export-area-colour-provider">
-      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageTwo" #pageTwo>
+      <div class="tce-export-modal-export-area tce:relative" id="tceExportPageThree" #pageThree>
         <h2 class="tce:mb-6">Estimate Input Data</h2>
         <div class="tce-export-modal-input-display-container">
           <input-group-display [inputGroup]="upstream()" [group]="'Upstream'"></input-group-display>
@@ -35,6 +40,7 @@
           <input-group-display [inputGroup]="onPremise()" [group]="'On Premise'"></input-group-display>
           <input-group-display [inputGroup]="cloud()" [group]="'Cloud'"></input-group-display>
           <input-group-display [inputGroup]="saas()" [group]="'Saas'"></input-group-display>
+          <input-group-display [inputGroup]="aiInference()" [group]="'Ai'"></input-group-display>
         </div>
         <div class="tce:absolute tce:left-0 tce:bottom-0 tce:w-full tce:mb-5">
           <h2 class="tce:mb-1">Disclaimer</h2>

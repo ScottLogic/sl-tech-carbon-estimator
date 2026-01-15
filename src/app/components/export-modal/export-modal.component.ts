@@ -23,6 +23,7 @@ export class ExportModal {
   @Output() closePreview = new EventEmitter<void>();
   @ViewChild('pageOne', { static: false }) pageOne!: ElementRef;
   @ViewChild('pageTwo', { static: false }) pageTwo!: ElementRef;
+  @ViewChild('pageThree', { static: false }) pageThree!: ElementRef;
 
   public carbonEstimation = input<CarbonEstimation>();
   public chartHeight = 734;
@@ -33,6 +34,7 @@ export class ExportModal {
   public downstream = computed(() => this.inputValues()?.downstream ?? {});
   public cloud = computed(() => this.inputValues()?.cloud ?? {});
   public saas = computed(() => this.inputValues()?.saas ?? {});
+  public aiInference = computed(() => this.inputValues()?.aiInference ?? {});
 
   private dateMills = Date.now();
   private date = new Date(this.dateMills);
@@ -51,6 +53,7 @@ export class ExportModal {
 
     const page1 = this.pageOne?.nativeElement;
     const page2 = this.pageTwo?.nativeElement;
+    const page3 = this.pageThree?.nativeElement;
 
     if (!page1) {
       console.error('Page 1 element not found');
@@ -59,6 +62,11 @@ export class ExportModal {
 
     if (!page2) {
       console.error('Page 2 element not found');
+      return;
+    }
+
+    if (!page3) {
+      console.error('Page 3 element not found');
       return;
     }
 
@@ -76,6 +84,12 @@ export class ExportModal {
     const page2URL = page2Canvas.toDataURL('image/png');
 
     pdf.addImage(page2URL, 'PNG', 0, 0, imgWidth, imgHeight2);
+    pdf.addPage();
+    const page3Canvas = await html2canvas(page3!);
+    const imgHeight3 = (page3Canvas.height * imgWidth) / page3Canvas.width;
+    const page3URL = page3Canvas.toDataURL('image/png');
+
+    pdf.addImage(page3URL, 'PNG', 0, 0, imgWidth, imgHeight3);
     pdf.save(`${this.reportName}.pdf`);
   }
 }

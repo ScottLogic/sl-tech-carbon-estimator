@@ -41,6 +41,9 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 12,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: {
+          aiInference: 0,
+        },
       },
       values: {
         version: '1.0',
@@ -67,6 +70,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 1200,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: { aiInference: 0 },
         totalEmissions: 7000,
       },
     };
@@ -211,6 +215,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 12,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: { aiInference: 0 },
       },
       values: {
         version: '1.0',
@@ -236,6 +241,9 @@ describe('CarbonEstimationTreemapComponent', () => {
           customer: 1300,
           networkTransfer: 1200,
           downstreamInfrastructure: 0,
+        },
+        aiInferenceEmissions: {
+          aiInference: 0,
         },
         totalEmissions: 7000,
       },
@@ -276,6 +284,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0.012,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: { aiInference: 0 },
       },
       values: {
         version: '1.0',
@@ -302,6 +311,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 1.2,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: { aiInference: 0 },
         totalEmissions: 7,
       },
     };
@@ -339,6 +349,7 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: { aiInference: 0 },
       },
       values: {
         version: '1.0',
@@ -364,6 +375,9 @@ describe('CarbonEstimationTreemapComponent', () => {
           customer: 25,
           networkTransfer: 0,
           downstreamInfrastructure: 0,
+        },
+        aiInferenceEmissions: {
+          aiInference: 0,
         },
         totalEmissions: 70,
       },
@@ -449,6 +463,9 @@ describe('CarbonEstimationTreemapComponent', () => {
           networkTransfer: 0,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: {
+          aiInference: 0,
+        },
       },
       values: {
         version: '1.0',
@@ -474,6 +491,9 @@ describe('CarbonEstimationTreemapComponent', () => {
           customer: 0,
           networkTransfer: 0,
           downstreamInfrastructure: 0,
+        },
+        aiInferenceEmissions: {
+          aiInference: 0,
         },
         totalEmissions: 70,
       },

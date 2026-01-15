@@ -43,6 +43,9 @@ describe('CarbonEstimationComponent', () => {
           networkTransfer: 12,
           downstreamInfrastructure: 0,
         },
+        aiInferenceEmissions: {
+          aiInference: 0,
+        },
       },
       values: {
         version: '1.0',
@@ -68,6 +71,9 @@ describe('CarbonEstimationComponent', () => {
           customer: 1300,
           networkTransfer: 1200,
           downstreamInfrastructure: 0,
+        },
+        aiInferenceEmissions: {
+          aiInference: 0,
         },
         totalEmissions: 7000,
       },

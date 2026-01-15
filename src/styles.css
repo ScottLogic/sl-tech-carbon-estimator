@@ -265,6 +265,10 @@ apx-chart .apexcharts-tooltip.apexcharts-theme-light {
   background-image: url('assets/question-mark.svg');
 }
 
+.ai-logo {
+  background-image: url('assets/robot.svg');
+}
+
 @media (prefers-color-scheme: dark) {
   .apexcharts-legend-text {
     @apply tce:!text-slate-50;

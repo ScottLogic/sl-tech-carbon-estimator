@@ -45,6 +45,13 @@ describe('FormService', () => {
           organisationUserCount: 500,
         },
       },
+      aiInference: {
+        noAiInference: true,
+        primaryTaskType: 'image-generation',
+        monthlyInferences: 5000,
+        aiServiceProvider: 'google',
+        aiServiceLocation: 'EUROPE',
+      },
     };
   });
 

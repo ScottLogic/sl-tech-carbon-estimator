@@ -238,6 +238,16 @@ export class CarbonEstimationTableComponent {
             4,
             this.expandedState[EmissionsLabels.Downstream]
           ),
+          ...this.getParentTableItems(
+            EmissionsLabels.AIInference,
+            carbonEstimation.values.aiInferenceEmissions,
+            carbonEstimation.percentages.aiInferenceEmissions,
+            EmissionsColours.AIInference,
+            EmissionsColours.AIInferenceLight,
+            5,
+            4,
+            this.expandedState[EmissionsLabels.AIInference]
+          ),
           {
             level: 1,
             expanded: false,
