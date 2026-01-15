@@ -18,8 +18,11 @@ import { CommonModule } from '@angular/common';
 import { DisclaimerComponent } from '../components/disclaimer/disclaimer.component';
 import { TabsComponent } from '../components/tab/tabs/tabs.component';
 import { TabItemComponent } from '../components/tab/tab-item/tab-item.component';
-import { ExportModal } from '../components/export-modal/export-modal.component';
 import { AssumptionsAndLimitationComponent } from '../components/assumptions-and-limitation/assumptions-and-limitation.component';
+import { CarbonEstimationTreemapComponent } from '../components/carbon-estimation-treemap/carbon-estimation-treemap.component';
+import { CarbonEstimationTableComponent } from '../components/carbon-estimation-table/carbon-estimation-table.component';
+import { InputGroupDisplay } from '../components/input-group-display/input-group-display.component';
+import { DisclaimerTextComponent } from '../components/disclaimer-text/disclaimer-text.component';
 
 @Component({
   selector: 'tech-carbon-estimator',
@@ -33,11 +36,12 @@ import { AssumptionsAndLimitationComponent } from '../components/assumptions-and
     DisclaimerComponent,
     TabsComponent,
     TabItemComponent,
-    ExportModal,
+    CarbonEstimationTreemapComponent,
+    CarbonEstimationTableComponent,
+    InputGroupDisplay,
+    DisclaimerTextComponent,
   ],
   templateUrl: './tech-carbon-estimator.component.html',
-
-  // Protect against style interference by the hosting page
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class TechCarbonEstimatorComponent implements OnInit {
@@ -55,18 +59,89 @@ export class TechCarbonEstimatorComponent implements OnInit {
 
   @ViewChild('estimations') estimations!: ElementRef;
 
-  public isExportModalVisible = false;
-  public modalCarbonEstimation: CarbonEstimation | null = null;
-  public modalInputValues: EstimatorValues | undefined;
+  @ViewChild('printPageOne') printPageOne!: ElementRef;
+  @ViewChild('printPageTwo') printPageTwo!: ElementRef;
 
-  public openExportModal(estimation: CarbonEstimation, inputValues: EstimatorValues | undefined) {
-    this.modalCarbonEstimation = estimation;
-    this.modalInputValues = inputValues;
-    this.isExportModalVisible = true;
+  public reportName = 'Carbon Estimation Report';
+
+  public handlePdfExport(_event: { estimation: CarbonEstimation; inputValues: EstimatorValues | undefined }) {
+    const date = new Date();
+    this.reportName = `Carbon Estimation Report - ${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+
+    this.changeDetector.detectChanges();
+
+    setTimeout(() => {
+      this.executePrint();
+    }, 100);
   }
 
-  public closeExportModal() {
-    this.isExportModalVisible = false;
+  private executePrint() {
+    if (!this.printPageOne || !this.printPageTwo) return;
+
+    const page1Html = this.printPageOne.nativeElement.innerHTML;
+    const page2Html = this.printPageTwo.nativeElement.innerHTML;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (!doc) return;
+
+    let stylesHtml = '';
+    const shadowRoot = this.ref.nativeElement.shadowRoot;
+
+    shadowRoot.querySelectorAll('style, link[rel="stylesheet"]').forEach((node: { outerHTML: string }) => {
+      stylesHtml += node.outerHTML;
+    });
+
+    stylesHtml += `
+      <style>
+        @media print {
+          @page { size: A4; margin: 10mm; }
+          body { 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+            font-family: ui-sans-serif, system-ui, sans-serif;
+          }
+          .page-break { page-break-before: always; }
+          svg, canvas { max-width: 100% !important; height: auto !important; }
+        }
+      </style>
+    `;
+
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${this.reportName}</title>
+          ${stylesHtml}
+        </head>
+        <body>
+          <div class="tce-print-page">
+            ${page1Html}
+          </div>
+          <div class="page-break"></div>
+          <div class="tce-print-page">
+            ${page2Html}
+          </div>
+        </body>
+      </html>
+    `);
+    doc.close();
+
+    iframe.contentWindow?.focus();
+    setTimeout(() => {
+      iframe.contentWindow?.print();
+
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 2000);
+    }, 500);
   }
 
   ngOnInit() {
@@ -74,10 +149,6 @@ export class TechCarbonEstimatorComponent implements OnInit {
   }
 
   private insertShadowStylesLink() {
-    // Reasons for this approach:
-    // 1. Angular global injection would insert the tag in the page root, so we disabled it.
-    // 2. Component `styleUrl` wouldn't allow us to vary stylesheets based on build configurations.
-
     const stylesLink = this.createShadowStylesLink('styles.css');
     const googleFontsLink = this.createShadowStylesLink(
       'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined'
@@ -90,9 +161,7 @@ export class TechCarbonEstimatorComponent implements OnInit {
   private createShadowStylesLink(styleHref: string) {
     const isAbsoluteUrl = styleHref.startsWith('http://') || styleHref.startsWith('https://');
     const basePath = this.assetsBasePath && !isAbsoluteUrl ? this.assetsBasePath.replace(/\/?$/, '/') : '';
-
     const stylesPath = `${basePath}${styleHref}`;
-
     const stylesLink = document.createElement('link');
     stylesLink.rel = 'stylesheet';
     stylesLink.type = 'text/css';

@@ -1,7 +1,6 @@
 <div
   id="techCarbonEstimator"
-  class="tce:relative tce:p-4 tce:flex tce:flex-col tce:h-full tce:dark:bg-slate-800 tce:dark:text-slate-50"
-  [class.tce-no-scroll]="isExportModalVisible">
+  class="tce:relative tce:p-4 tce:flex tce:flex-col tce:h-full tce:dark:bg-slate-800 tce:dark:text-slate-50">
   <h1 class="tce:text-3xl tce:mb-6">Technology Carbon Estimator</h1>
   <div class="tce:flex tce:w-full tce:grow tce:flex-wrap tce:lg:flex-nowrap">
     <div class="tce:w-full tce:lg:w-1/2 tce:pb-4 tce:lg:pb-0 tce:lg:pr-4">
@@ -24,14 +23,51 @@
         [carbonEstimation]="carbonEstimation ? carbonEstimation : undefined"
         [extraHeight]="extraHeight"
         [inputValues]="formValue"
-        (pdfExportClicked)="openExportModal($event.estimation, $event.inputValues)">
+        (pdfExportClicked)="handlePdfExport($event)">
       </carbon-estimation>
     </div>
   </div>
-  @if (isExportModalVisible) {
-    <export-modal
-      (closePreview)="closeExportModal()"
-      [carbonEstimation]="modalCarbonEstimation === null ? undefined : modalCarbonEstimation"
-      [inputValues]="modalInputValues" />
-  }
+</div>
+
+<div
+  class="tce-print-template-container"
+  style="position: fixed; left: -9999px; top: 0; width: 210mm; background: white; color: black">
+  <div #printPageOne>
+    <div class="tce:w-full tce:h-full tce:p-4">
+      <div class="tce:flex tce:justify-center tce:mb-4">
+        <h2 class="tce:text-xl tce:font-bold">{{ reportName }}</h2>
+      </div>
+
+      @if (carbonEstimation) {
+        <carbon-estimation-treemap
+          [carbonEstimation]="carbonEstimation"
+          [chartHeight]="734"
+          [shouldShowUnitsSwitch]="false"
+          [enableAnimations]="false"
+          class="tce:pointer-events-none!">
+        </carbon-estimation-treemap>
+        <carbon-estimation-table [carbonEstimation]="carbonEstimation" [shouldShowSvgs]="false">
+        </carbon-estimation-table>
+      }
+    </div>
+  </div>
+
+  <div #printPageTwo>
+    <div class="tce:w-full tce:h-full tce:p-4 tce:relative">
+      <h2 class="tce:text-xl tce:mb-6 tce:font-bold">Estimate Input Data</h2>
+
+      <div class="tce:grid tce:grid-cols-2 tce:gap-4">
+        <input-group-display [inputGroup]="formValue?.upstream ?? {}" [group]="'Upstream'"></input-group-display>
+        <input-group-display [inputGroup]="formValue?.downstream ?? {}" [group]="'Downstream'"></input-group-display>
+        <input-group-display [inputGroup]="formValue?.onPremise ?? {}" [group]="'On Premise'"></input-group-display>
+        <input-group-display [inputGroup]="formValue?.cloud ?? {}" [group]="'Cloud'"></input-group-display>
+        <input-group-display [inputGroup]="formValue?.saas ?? {}" [group]="'Saas'"></input-group-display>
+      </div>
+
+      <div class="tce:mt-10">
+        <h2 class="tce:font-bold tce:mb-2">Disclaimer</h2>
+        <disclaimer-text></disclaimer-text>
+      </div>
+    </div>
+  </div>
 </div>

@@ -295,3 +295,17 @@ apx-chart .apexcharts-tooltip.apexcharts-theme-light {
     @apply tce:text-white;
   }
 }
+
+.tce-print-template-container {
+  @apply tce:absolute tce:-left-2499.75 tce:top-0 tce:w-[210mm] tce:bg-white tce:text-black;
+}
+
+.tce-report-page {
+  @apply tce:p-5 tce:w-full;
+}
+
+@media print {
+  #techCarbonEstimator {
+    @apply tce:hidden;
+  }
+}
