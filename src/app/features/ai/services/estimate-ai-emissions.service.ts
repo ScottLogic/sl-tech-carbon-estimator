@@ -1,16 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { gCo2ePerKwh, KgCo2e } from '../../../types/units';
 import { AI_PROVIDER_PUE_DATA, AI_TASK_ENERGY_DATA, AiTaskType } from '../types/ai-energy-data';
-import {
-  // AiCo2eEstimate,
-  AiInference,
-  AiInferenceEstimation,
-  AiProvider,
-  // AiTaskEmissions,
-  // AiTaskEmissionsRange,
-  // AiTaskUsage,
-  TaskEnergyConsumption,
-} from '../types/ai-types';
+import { AiInference, AiInferenceEstimation, AiProvider, TaskEnergyConsumption } from '../types/ai-types';
 import { CarbonIntensityService } from '../../../services/carbon-intensity.service';
 
 @Injectable({ providedIn: 'root' })
