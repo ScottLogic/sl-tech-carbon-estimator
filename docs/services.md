@@ -73,12 +73,18 @@ classDiagram
       +Record~PurposeOfSite, SiteInformation~ siteTypeInfo
       +estimateDownstreamEmissions(Downstream downstream, intensity: gCo2ePerKwh) DownstreamEstimation
     }
+
+    class estimate-ai-emissions{
+      <<module>>
+      +estimate(input: AiInference) AiInferenceEstimation
+    }
   }
 
   CarbonEstimationService ..> estimate-upstream-emissions
   CarbonEstimationService ..> estimate-direct-emissions
   CarbonEstimationService ..> estimate-indirect-emissions
   CarbonEstimationService ..> estimate-downstream-emissions
+  CarbonEstimationService ..> estimate-ai-emissions
 ```
 
 ##### Parameters
@@ -136,3 +142,110 @@ Checks whether `isDevMode()` returns true before calling `console.log()`. The me
 ##### Returns
 
 `void`
+
+## EstimateAiEmissionsService
+
+Responsible for calculating carbon emissions from AI model inference workloads.
+
+### Public Methods
+
+#### `estimate()`
+
+Estimates the carbon emissions from AI inference based on task type, provider, location, and monthly inference volume.
+Uses [CarbonIntensityService](#carbonintensityservice) to get the carbon intensity of the service location.
+Accounts for provider-specific Power Usage Effectiveness (PUE) metrics for data center efficiency.
+
+##### Parameters
+
+`formValue:`[`AiInference`](types.md#aiinference) - The AI inference inputs including task type, provider, location, and monthly inference count.
+
+##### Returns
+
+[`AiInferenceEstimation`](types.md#aiinferenceestimation) - Contains the estimated carbon emissions from AI inference in Kg CO2e.
+
+## FormService
+
+Creates and manages the root form group that combines all six form sections.
+
+### Responsibilities
+
+- Composes all six section form services (Organisation, On-Premise, Cloud, SaaS, Customers, AI Inference) into a single root form group
+- Loads previously saved form values from session storage
+- Resets the form to initial state with default values
+- Provides type-safe form group that enforces the structure of EstimatorValues
+
+### Form Sections Composed
+
+Each section has its own form service that creates the section's form group:
+
+- **Organisation Form Service**: Employee headcount, device split, location
+- **On-Premise Form Service**: Server count (manual or auto-estimated), server location
+- **Cloud Form Service**: Cloud usage percentage, monthly bill, cloud location
+- **SaaS Form Service**: Microsoft 365 toggle and user count
+- **Customer Form Service**: End-user count, device split, service purpose, customer location
+- **AI Inference Form Service**: AI task type, monthly inferences, AI provider, service location
+
+Each section is independent and can be maintained separately.
+
+For detailed information on the form architecture and how to add new sections, see [Form Architecture](form-architecture.md).
+
+## FormStateService
+
+Tracks and persists the state of form controls (dirty/touched flags) and whether the form has been submitted.
+
+### Responsibilities
+
+- Tracks which controls have been modified (dirty flag) or interacted with (touched flag) by the user
+- Serializes the complete form state (values + control states) to JSON for persistence
+- Retrieves and deserializes form state from storage
+- Applies saved control states when form is reloaded so validation errors only show on previously modified fields
+- Determines when to show validation error messages (only on dirty/touched fields)
+
+### Data Tracked
+
+- **Form Values**: The current input values in all form controls
+- **Control States**: For each control path, tracks dirty and touched flags
+- **Submitted Flag**: Whether the form has been submitted (triggers error display)
+
+This service works in conjunction with [StorageService](#storageservice) to provide seamless form recovery when users navigate away or switch browser tabs.
+
+## StorageService
+
+Provides an abstraction over browser session storage for persisting form state.
+
+### Responsibilities
+
+- Wraps the browser's sessionStorage API with a clean, injectable interface
+- Stores and retrieves form state as JSON
+- Automatically clears when the browser session ends (distinguished from localStorage)
+- Provides a testable design that allows injection of mock storage implementations
+
+### When Storage Happens
+
+Form state is automatically saved on:
+- Browser visibility changes (user switches tabs or windows)
+- Page unload or navigation away
+- Component destruction
+
+Form state is retrieved on:
+- Component initialization if previous state exists in storage
+- Automatic restoration of both values and control states
+
+## CarbonSchemaMapperService
+
+Converts form input values into the Technology Carbon Standard (TCS) compliant JSON schema for export and reporting.
+
+### Responsibilities
+
+- Maps internal form structure (`EstimatorValues`) to standardized TCS JSON format
+- Generates complete JSON exports including all input values and calculated emissions
+- Supports schema versioning (enables future schema evolution)
+- Handles conditional serialization of optional inputs (only includes data for enabled sections)
+- Ensures exported data is standards-compliant for interoperability
+
+### Use Cases
+
+- Exporting form inputs and results as structured JSON data
+- Generating PDF reports with embedded TCS-compliant data
+- Archiving estimation data for compliance and audit purposes
+- Creating machine-readable exports for integration with third-party systems

@@ -326,3 +326,43 @@ Estimate emissions from energy used in a location.
 ##### Returns
 
 [`KgCo2e`](types.md#units) - Kg of CO2e emitted via energy use.
+
+## estimate-ai-emissions
+
+### Exported services
+
+#### `EstimateAiEmissionsService`
+
+The service responsible for estimating carbon emissions from AI model inference workloads.
+
+##### Public Methods
+
+##### `estimate()`
+
+Estimate emissions from AI inference based on task type, monthly inferences, provider, and service location.
+
+###### Parameters
+
+`input:`[`AiInference`](types.md#aiinference) - The AI inference inputs including whether AI is being used, the primary task type, monthly inference count, service provider, and service location.
+
+###### Returns
+
+[`AiInferenceEstimation`](types.md#aiinferenceestimation) - Estimation of AI inference emissions in Kg CO2e.
+
+### Calculation Approach
+
+The AI emissions estimation uses the following approach:
+
+1. **Task Type Energy Data**: Each AI task type (LLM, Image Generation, Image Classification, Embedding Model, Computer Vision, Mixed Usage) has associated energy consumption data measured in kWh per 1000 inferences. This data includes mean values and standard deviation ranges.
+
+2. **Provider Efficiency**: Different AI service providers have different data center efficiency metrics (Power Usage Effectiveness or PUE). The service accounts for provider-specific efficiency when calculating total energy consumption.
+
+3. **Carbon Intensity**: The geographic region of the service (specified by the user) determines the carbon intensity of the electricity grid powering that service.
+
+4. **Annual Calculation**: Monthly inference count is annualized (multiplied by 12) to get yearly inference volume for the carbon calculation.
+
+5. **Final Emissions**: The emissions are calculated as: (energy per 1000 inferences) × (provider PUE) × (carbon intensity) × (annual inferences)
+
+### Why AI Inference Matters
+
+AI model inference has emerged as a significant and growing source of organizational carbon emissions. A single large language model inference can consume 10-100x more energy than a traditional web request. As organizations increasingly integrate AI into their operations—from chatbots to image generation to content recommendation systems—accounting for these emissions is critical for accurate carbon footprints.
