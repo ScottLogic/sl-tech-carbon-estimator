@@ -1,0 +1,24 @@
+<form (ngSubmit)="handleSubmit()" [formGroup]="estimatorForm" class="tce:w-full tce:flex tce:flex-col tce:gap-6">
+  @if (errorSummaryState.showErrorSummary) {
+    <error-summary [validationErrors]="errorSummaryState.validationErrors"></error-summary>
+  }
+
+  <organisation-form-section />
+
+  <on-premise-form-section></on-premise-form-section>
+
+  <app-cloud-form-section [estimatorForm]="estimatorForm" />
+
+  <saas-form-section></saas-form-section>
+
+  <customer-form-section></customer-form-section>
+
+  <ai-form-section />
+
+  <div>
+    <div class="tce:flex tce:gap-4 tce:justify-end">
+      <button class="tce-button-reset tce:px-3 tce:py-2" type="button" (click)="resetForm()">Reset</button>
+      <button class="tce-button-calculate tce:px-3 tce:py-2" type="submit">Calculate</button>
+    </div>
+  </div>
+</form>

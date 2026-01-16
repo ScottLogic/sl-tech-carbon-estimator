@@ -1,0 +1,100 @@
+<form [formGroup]="form">
+  <section-header [heading]="formContext.heading" [sectionDetails]="formContext.details" />
+  <div class="tce:flex tce:flex-col tce:gap-4">
+    <div class="tce:flex tce:gap-2 tce:items-center">
+      <input
+        id="noDownstream"
+        type="checkbox"
+        formControlName="noDownstream"
+        class="tce:rounded-sm tce:cursor-pointer" />
+      <label for="noDownstream" class="tce:cursor-pointer select-none"
+        >We don't have any external users of our digital services</label
+      >
+    </div>
+
+    @if (!noDownstream) {
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <expansion-panel [configOverride]="questionPanelConfig">
+          <div header>
+            <div class="tce:flex">
+              <label for="purposeOfSite" class="tce:text-sm"
+                >What's the primary purpose of your digital services?</label
+              >
+            </div>
+          </div>
+          <div content>
+            <p class="tce:text-sm">
+              The purpose of your digital services is used to determine the typical amount of time a user might spend on
+              them and the amount of data that may be transferred. This can affect the amount of energy used by end user
+              devices and how much energy from network traffic is attributable to your organisation
+            </p>
+          </div>
+        </expansion-panel>
+        <select class="tce-select" formControlName="purposeOfSite" name="purposeOfSite" id="purposeOfSite">
+          <option value="average" selected>Unspecified (uses average)</option>
+          <option value="information">Information</option>
+          <option value="eCommerce">E-Commerce</option>
+          <option value="socialMedia">Social Media</option>
+          <option value="streaming">Streaming</option>
+        </select>
+      </div>
+      <location-input formControlName="customerLocation" [locationContext]="formContext.location!"></location-input>
+
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <label for="monthlyActiveUsers" class="tce:text-sm">
+          How many monthly active users do your digital services have?
+        </label>
+        <input
+          class="tce-input"
+          formControlName="monthlyActiveUsers"
+          name="monthlyActiveUsers"
+          type="number"
+          id="monthlyActiveUsers"
+          required
+          [attr.aria-describedby]="(monthlyActiveUsers | invalidated) ? 'monthlyActiveUsersError' : null" />
+        @if (monthlyActiveUsers | invalidated) {
+          <div
+            class="tce-error-box tce:flex tce:items-center tce:gap-1"
+            aria-live="polite"
+            id="monthlyActiveUsersError">
+            <span class="material-icons-outlined">error</span>
+            <p>{{ errorConfig.monthlyActiveUsers.errorMessage }}</p>
+          </div>
+        }
+      </div>
+
+      <div class="tce:flex tce:flex-col tce:gap-2">
+        <expansion-panel [configOverride]="questionPanelConfig">
+          <div header>
+            <div class="tce:flex">
+              <label for="mobilePercentage" class="tce:text-sm">
+                What percentage of your customers are mobile or personal computer users?
+              </label>
+            </div>
+          </div>
+          <div content>
+            <p class="tce:text-sm">
+              The percentage of mobile users will affect the energy used by customer devices and network infrastructure.
+              While the power demand of mobile devices is often much lower, the use of mobile networks can increase the
+              power used when transferring data.
+            </p>
+          </div>
+        </expansion-panel>
+        <input
+          id="mobilePercentage"
+          class="tce:cursor-pointer"
+          formControlName="mobilePercentage"
+          name="mobilePercentage"
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          [attr.aria-valuetext]="'Mobile ' + mobilePercentage + '%, Computer' + computerPercentage + '%'" />
+        <div class="tce:flex tce:justify-between tce:text-sm">
+          <span>Mobile {{ mobilePercentage() }}%</span>
+          <span>Computer {{ computerPercentage() }}%</span>
+        </div>
+      </div>
+    }
+  </div>
+</form>

@@ -23,11 +23,6 @@ test('T15 verify calculated values are coherent with selected employees, servers
   await onPremSection.selectNumberOfServers('479');
   await onPremSection.selectLocationOfServers('Globally');
 
-  await cloudServicesSection.percentageSlider.click();
-  await cloudServicesSection.percentageSliderSet('45');
-  await cloudServicesSection.percentageSliderSet('50');
-  await cloudServicesSection.percentageSliderSet('80');
-  await expect(cloudServicesSection.percentageSlider).toHaveValue('80');
   await expect(cloudServicesSection.serverLocation).toHaveValue('WORLD');
   await cloudServicesSection.setMonthlyCloudBill('7: Object');
 

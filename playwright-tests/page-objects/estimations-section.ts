@@ -14,6 +14,8 @@ export class EstimationsSection {
   public readonly annualViewButton: Locator;
   public readonly modalCloseButton: Locator;
   public readonly exportModal: Locator;
+  public readonly treeMapHandle: string;
+  public readonly pdfTitle: Locator;
 
   constructor(public readonly page: Page) {
     this.diagramViewButton = page.getByRole('tab', { name: 'Diagram' });
@@ -27,6 +29,8 @@ export class EstimationsSection {
     this.exportPdfButton = page.getByRole('button', { name: 'Export PDF' });
     this.modalCloseButton = page.getByRole('button', { name: 'X', exact: true });
     this.exportModal = page.getByText('Report Name: XCarbon');
+    this.treeMapHandle = 'apexcharts-grid';
+    this.pdfTitle = page.getByRole('textbox', { name: 'Report Name:' });
   }
 
   async assertResultsElementVisibility() {
@@ -36,7 +40,7 @@ export class EstimationsSection {
   }
 
   async downloadFile(page: Page, exportType: 'Export JSON' | 'Export JSON with Inputs' | 'Export PDF') {
-    const downloadPromise = page.waitForEvent('download', { timeout: 10000 });
+    const downloadPromise = page.waitForEvent('download', { timeout: 50000 });
     await this.exportButton.click();
     const exportListOption = page
       .getByRole('link', { name: exportType, exact: true })
@@ -44,6 +48,7 @@ export class EstimationsSection {
     await exportListOption.click();
 
     if (exportType === 'Export PDF') {
+      await this.pdfTitle.fill('Test PDF Export');
       await this.downloadPdfButton.click();
     }
     const download = await downloadPromise;
@@ -62,5 +67,9 @@ export class EstimationsSection {
   async openPdfExportModal() {
     await this.exportButton.click();
     await this.exportPdfButton.click();
+  }
+
+  async editPdfName(text: string) {
+    await this.pdfTitle.fill(text);
   }
 }

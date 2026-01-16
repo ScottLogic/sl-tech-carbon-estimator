@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormStateService } from './form-state.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EstimatorFormValues, EstimatorValues, WorldLocation } from '../types/carbon-estimator';
-import { costRanges } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { costRanges } from '../components/carbon-estimator-form/carbon-estimator-form.constants';
 
 const formValues: EstimatorValues = {
   upstream: {
@@ -34,6 +34,13 @@ const formValues: EstimatorValues = {
       useMicrosoft365: false,
       organisationUserCount: 0,
     },
+  },
+  aiInference: {
+    noAiInference: false,
+    primaryTaskType: 'text-generation',
+    monthlyInferences: 1000,
+    aiServiceProvider: 'openai',
+    aiServiceLocation: 'WORLD',
   },
 };
 
@@ -75,6 +82,13 @@ describe('FormStateService', () => {
           useMicrosoft365: [false],
           organisationUserCount: [0],
         }),
+      }),
+      aiInference: formBuilder.nonNullable.group({
+        noAiInference: [formValues.aiInference.noAiInference],
+        primaryTaskType: [formValues.aiInference.primaryTaskType],
+        monthlyInferences: [formValues.aiInference.monthlyInferences],
+        aiServiceProvider: [formValues.aiInference.aiServiceProvider],
+        aiServiceLocation: [formValues.aiInference.aiServiceLocation as WorldLocation],
       }),
     });
   });

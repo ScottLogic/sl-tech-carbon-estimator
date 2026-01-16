@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';
 import { Microsoft365FormSectionComponent } from './microsoft365-form/microsoft365-form-section.component';
 import { saasContext } from './saas.constants';
+import { SaasFormService } from '../services/saas-form.service';
 
 @Component({
   selector: 'saas-form-section',
@@ -12,10 +13,10 @@ import { saasContext } from './saas.constants';
   imports: [ReactiveFormsModule, FormsModule, CommonModule, SectionHeaderComponent, Microsoft365FormSectionComponent],
 })
 export class SaasFormSectionComponent {
-  estimatorForm = input.required<FormGroup>();
+  private saasFormService = inject(SaasFormService);
 
   get microsoft365Form() {
-    return this.estimatorForm().get('saas.microsoft365') as FormGroup;
+    return this.saasFormService.form.get('microsoft365') as FormGroup;
   }
 
   public formContext = saasContext;

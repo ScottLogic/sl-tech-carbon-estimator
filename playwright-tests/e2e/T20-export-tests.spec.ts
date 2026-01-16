@@ -1,9 +1,5 @@
 import { test, expect } from '../utilities/fixtures';
-import {
-  createDefaultPercentagesJsonExport,
-  createDefaultInputJsonExport,
-  createDefaultValuesJsonExport,
-} from '../utilities/test-helpers';
+import { createDefaultJsonExport, createDefaultInputJsonExport, pdfComparison } from '../utilities/test-helpers';
 import * as TestData from '../utilities/test-data';
 
 test.describe('Download and read files', () => {
@@ -36,11 +32,9 @@ test.describe('Download and read files', () => {
     const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedAnnualValuesJsonContent = createDefaultValuesJsonExport({});
-    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
+    const expectedAnnualJsonContent = createDefaultJsonExport();
 
-    expect(jsonParse.values).toEqual(expectedAnnualValuesJsonContent.values);
-    expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+    expect(jsonParse).toEqual(expectedAnnualJsonContent);
   });
 
   test('T20 Export and read JSON (Monthly)', async ({ page, estimationsSection }) => {
@@ -48,23 +42,17 @@ test.describe('Download and read files', () => {
     const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
-
-    expect(jsonParse.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
-    expect(jsonParse.percentages).toEqual(expectedPercentagesJsonContent.percentages);
+    expect(jsonParse).toEqual(TestData.t20ExpectedMonthlyJson);
   });
 
   test('T20 Export and read JSON with inputs (Annual)', async ({ page, estimationsSection }) => {
     const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedValuesJsonContent = createDefaultValuesJsonExport({});
-    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
-    const expectedInputsJsonContent = createDefaultInputJsonExport({});
+    const expectedJsonContent = createDefaultJsonExport();
+    const expectedInputsJsonContent = createDefaultInputJsonExport(expectedJsonContent);
 
-    expect(jsonParse.estimate.values).toEqual(expectedValuesJsonContent.values);
-    expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
-    expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
+    expect(jsonParse).toEqual(expectedInputsJsonContent);
   });
 
   test('T20 Export and read JSON with inputs (Monthly)', async ({ page, estimationsSection }) => {
@@ -72,12 +60,9 @@ test.describe('Download and read files', () => {
     const downloadPath = await estimationsSection.downloadFile(page, 'Export JSON with Inputs');
     const jsonParse = await estimationsSection.readJsonFileContent(downloadPath);
 
-    const expectedPercentagesJsonContent = createDefaultPercentagesJsonExport({});
-    const expectedInputsJsonContent = createDefaultInputJsonExport({});
+    const expectedInputsJsonContent = createDefaultInputJsonExport(TestData.t20ExpectedMonthlyJson);
 
-    expect(jsonParse.estimate.values).toEqual(TestData.t20ExpectedMonthlyValuesJson.values);
-    expect(jsonParse.estimate.percentages).toEqual(expectedPercentagesJsonContent.percentages);
-    expect(jsonParse.input).toEqual(expectedInputsJsonContent.input);
+    expect(jsonParse).toEqual(expectedInputsJsonContent);
     console.log(downloadPath);
   });
 
@@ -85,12 +70,16 @@ test.describe('Download and read files', () => {
     await estimationsSection.monthlyViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    // If PDF design changes, replace the expected baseline PDF and then update snapshot
+    await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-monthly.pdf');
   });
 
   test('T20 Verify that download is executed for PDF file (Annual)', async ({ page, estimationsSection }) => {
     await estimationsSection.annualViewButton.click();
     const path = await estimationsSection.downloadFile(page, 'Export PDF');
     expect(path).toBeTruthy();
+    // If PDF design changes, replace the expected baseline PDF and then update snapshots
+    await pdfComparison(path, './playwright-tests/snapshot-directory/pdf-export-annual.pdf');
   });
 
   test('T20 Close Export Modal', async ({ estimationsSection }) => {

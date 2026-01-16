@@ -23,16 +23,11 @@
             "assets": ["src/favicon.ico"],
             "styles": [
               {
-                "input": "src/tce-global-styles.css",
-                "bundleName": "tce-global-styles",
-                "inject": true
-              },
-              {
                 "input": "src/styles.css",
                 "bundleName": "styles",
                 "inject": false
               },
-               {
+              {
                 "input": "src/sl-styles.css",
                 "bundleName": "styles",
                 "inject": false
@@ -60,17 +55,7 @@
               "assets": [],
               "styles": [
               {
-                "input": "src/tce-global-styles.css",
-                "bundleName": "tce-global-styles",
-                "inject": true
-              },
-              {
                 "input": "src/styles.css",
-                "bundleName": "styles",
-                "inject": false
-              },
-              {
-                "input": "src/package-styles.css",
                 "bundleName": "styles",
                 "inject": false
               }

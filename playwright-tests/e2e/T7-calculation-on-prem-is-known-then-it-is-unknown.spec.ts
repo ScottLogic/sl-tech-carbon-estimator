@@ -47,7 +47,7 @@ test('T7 verify calculated values are coherent when on-prem is known then recalu
   await onPremSection.selectLocationOfServers('in the UK');
   await onPremSection.selectLocationOfServers('Globally');
 
-  await cloudServicesSection.assertDefaultCloudElementVisibility();
+  await cloudServicesSection.assertDefaultCloudElementVisibility(true);
 
   await customersSection.assertCustomersSectionVisible();
   await customersSection.setPrimaryPurpose('information');

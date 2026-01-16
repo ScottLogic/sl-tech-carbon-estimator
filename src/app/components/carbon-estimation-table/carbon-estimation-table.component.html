@@ -1,0 +1,93 @@
+<table role="treegrid" aria-label="Estimation of emissions" class="tce:table-fixed tce:w-full">
+  <thead>
+    <tr class="tce:border-b-2">
+      <th class="tce:text-left">Emissions Category</th>
+      <th class="tce:w-40 tce:text-left">Estimated CO<sub>2</sub> E</th>
+      <th class="tce:w-40 tce:text-left">% of Total Estimate</th>
+    </tr>
+  </thead>
+  @if (tableData().length > 0) {
+    <tbody
+      tabindex="0"
+      (keydown.home)="homeEndKeyBoardEvent($event)"
+      (keydown.end)="homeEndKeyBoardEvent($event)"
+      (keydown.control.home)="homeEndKeyBoardEvent($event)"
+      (keydown.control.end)="homeEndKeyBoardEvent($event)"
+      (keydown.arrowup)="arrowKeyBoardEvent($event, 'up')"
+      (keydown.arrowdown)="arrowKeyBoardEvent($event, 'down')">
+      @for (tableItem of tableData(); track $index) {
+        @if (tableItem.level === 1) {
+          <tr
+            role="row"
+            [tabindex]="$index === 0 ? 0 : -1"
+            [attr.aria-level]="tableItem.level"
+            [attr.aria-setsize]="tableItem.setSize"
+            [attr.aria-posinset]="tableItem.positionInSet"
+            [attr.aria-expanded]="tableItem.expanded"
+            (keydown.arrowright)="parentRowArrowKeyBoardEvent($event, 'right', tableItem.category, tableItem.expanded)"
+            (keydown.arrowleft)="parentRowArrowKeyBoardEvent($event, 'left', tableItem.category, tableItem.expanded)"
+            [style.background-color]="tableItem.colour.background">
+            <td
+              role="gridcell"
+              tabindex="-1"
+              class="tce:flex tce:text-white tce:items-center"
+              (keydown.enter)="toggle(tableItem.category)">
+              @if (tableItem.expandable && shouldShowSvgs()) {
+                <div
+                  tabindex="-1"
+                  aria-hidden="true"
+                  (click)="toggle(tableItem.category)"
+                  class="material-icons-outlined tce:hover:opacity-50 tce:m-1 tce:cursor-pointer">
+                  {{ tableItem.expanded ? 'expand_less' : 'expand_more' }}
+                </div>
+              } @else {
+                <div class="tce-no-ex-table-header"></div>
+              }
+              {{ tableItem.category }}
+            </td>
+            <td role="gridcell" tabindex="-1" class="tce:text-white">
+              {{ tableItem.emissionsValue }}
+            </td>
+            <td role="gridcell" tabindex="-1" class="tce:text-white">
+              {{ tableItem.emissionsPercentage }}
+            </td>
+          </tr>
+        } @else {
+          <tr
+            role="row"
+            tabindex="-1"
+            [attr.aria-level]="tableItem.level"
+            [attr.aria-setsize]="tableItem.setSize"
+            [attr.aria-posinset]="tableItem.positionInSet"
+            [style.background-color]="tableItem.colour.background + rowOpacity($index)"
+            (keydown.arrowright)="arrowKeyBoardEvent($event, 'right')"
+            (keydown.arrowleft)="arrowKeyBoardEvent($event, 'left')"
+            [class.tce:hidden]="!tableItem.display"
+            class="tce:dark:text-slate-800">
+            <td role="gridcell" tabindex="-1" class="tce:flex tce:ml-8">
+              <div
+                *ngIf="shouldShowSvgs()"
+                class="tce:p-1 tce:flex tce:my-auto tce:rounded-sm tce:mr-2"
+                [style.background-color]="tableItem.colour.svg ?? tableItem.colour.background">
+                <div class="tce:m-auto tce:size-4 {{ tableItem.svg }}"></div>
+              </div>
+              {{ tableItem.category }}
+            </td>
+            <td role="gridcell" tabindex="-1">
+              {{ tableItem.emissionsValue }}
+            </td>
+            <td role="gridcell" tabindex="-1">
+              {{ tableItem.emissionsPercentage }}
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  } @else {
+    <tbody>
+      <tr tabindex="0">
+        <td role="gridcell" class="tce:text-center tce:h-20" colspan="2">No estimation available</td>
+      </tr>
+    </tbody>
+  }
+</table>

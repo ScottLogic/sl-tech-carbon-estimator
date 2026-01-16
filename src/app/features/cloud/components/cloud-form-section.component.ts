@@ -1,11 +1,12 @@
 import { Component, computed, input, Signal, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { costRanges, defaultValues, formContext } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import { costRanges, formContext } from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 import { FormatCostRangePipe } from '../../../pipes/format-cost-range.pipe';
 import { compareCostRanges } from '../../../utils/cost-range';
 import { SectionHeaderComponent } from '../../../components/section-header/section-header.component';
 import { LocationInputComponent } from '../../../components/location-input/location-input.component';
+import { defaultValues } from '../../../services/form.service';
 
 @Component({
   selector: 'app-cloud-form-section',
@@ -25,6 +26,7 @@ export class CloudFormSectionComponent implements OnInit {
 
   public noCloudServices = signal(defaultValues.cloud.noCloudServices);
   public cloudPercentage = signal(defaultValues.cloud.cloudPercentage);
+  public isEstimatingServerCount = signal(defaultValues.onPremise.estimateServerCount);
   public onPremisePercentage: Signal<number> = computed(() => 100 - this.cloudPercentage());
 
   public compareCostRanges = compareCostRanges;
@@ -33,16 +35,22 @@ export class CloudFormSectionComponent implements OnInit {
   public formContext = formContext;
 
   public ngOnInit() {
-    this.estimatorForm()
-      .get('cloud.cloudPercentage')
-      ?.valueChanges.subscribe(cloudPercentage => {
-        this.cloudPercentage.set(cloudPercentage);
-      });
+    const cloudPercentageControl = this.estimatorForm().get('cloud.cloudPercentage');
+    this.cloudPercentage.set(cloudPercentageControl?.value ?? this.cloudPercentage());
+    cloudPercentageControl?.valueChanges.subscribe(cloudPercentage => {
+      this.cloudPercentage.set(cloudPercentage);
+    });
 
-    this.estimatorForm()
-      .get('cloud.noCloudServices')
-      ?.valueChanges.subscribe(noCloudServices => {
-        this.noCloudServices.set(noCloudServices);
-      });
+    const noCloudServicesControl = this.estimatorForm().get('cloud.noCloudServices');
+    this.noCloudServices.set(noCloudServicesControl?.value ?? this.noCloudServices());
+    noCloudServicesControl?.valueChanges.subscribe(noCloudServices => {
+      this.noCloudServices.set(noCloudServices);
+    });
+
+    const estimateServerCountControl = this.estimatorForm().get('onPremise.estimateServerCount');
+    this.isEstimatingServerCount.set(estimateServerCountControl?.value ?? this.isEstimatingServerCount());
+    estimateServerCountControl?.valueChanges.subscribe(val => {
+      this.isEstimatingServerCount.set(val);
+    });
   }
 }

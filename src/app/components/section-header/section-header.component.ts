@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.component';
+import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 
 @Component({
   selector: 'section-header',
@@ -8,6 +8,6 @@ import { ExpansionPanelComponent } from '../../expansion-panel/expansion-panel.c
   imports: [ExpansionPanelComponent],
 })
 export class SectionHeaderComponent {
-  heading = input();
-  sectionDetails = input();
+  heading = input.required<string>();
+  sectionDetails = input.required<string>();
 }

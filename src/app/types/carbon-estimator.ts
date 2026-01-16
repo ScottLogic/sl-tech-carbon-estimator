@@ -1,7 +1,12 @@
-import { FormControl, FormGroup } from '@angular/forms';
 import { ApexChart, ApexDataLabels, ApexLegend, ApexPlotOptions, ApexStates, ApexTooltip } from 'ng-apexcharts';
 import { KgCo2e } from './units';
 import { Saas, SaasFormGroup } from '../features/saas/components/saas.constants';
+import { Cloud, CloudFormGroup } from '../features/cloud/services/cloud-form.service';
+import { Organisation, OrganisationFormGroup } from '../features/organisation/services/organisation-form.service';
+import { OnPremise, OnPremiseFormGroup } from '../features/on-premise/services/on-premise-form.service';
+import { Customer, CustomerFormGroup } from '../features/customers/services/customer-form.service';
+import { AiInference, AiInferenceEstimation } from '../features/ai/types/ai-types';
+import { AiInferenceFormGroup } from '../features/ai/services/ai-form.service';
 
 export type CarbonEstimation = {
   values: CarbonEstimationValues;
@@ -13,6 +18,7 @@ export type CarbonEstimationPercentages = {
   upstreamEmissions: UpstreamEstimation;
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
+  aiInferenceEmissions: AiInferenceEstimation;
   downstreamEmissions: DownstreamEstimation;
 };
 
@@ -22,6 +28,7 @@ export type CarbonEstimationValues = {
   indirectEmissions: IndirectEstimation;
   directEmissions: DirectEstimation;
   downstreamEmissions: DownstreamEstimation;
+  aiInferenceEmissions: AiInferenceEstimation;
   totalEmissions: KgCo2e;
 };
 
@@ -55,58 +62,21 @@ export type EstimatorValues = {
   cloud: Cloud;
   downstream: Downstream;
   saas: Saas;
+  aiInference: AiInference;
 };
 
 export type EstimatorFormValues = {
-  upstream: FormGroup<{
-    headCount: FormControl<number>;
-    desktopPercentage: FormControl<number>;
-    employeeLocation: FormControl<WorldLocation>;
-  }>;
-  onPremise: FormGroup<{
-    estimateServerCount: FormControl<boolean>;
-    serverLocation: FormControl<WorldLocation | 'unknown'>;
-    numberOfServers: FormControl<number>;
-  }>;
-  cloud: FormGroup<{
-    noCloudServices: FormControl<boolean>;
-    cloudLocation: FormControl<WorldLocation | 'unknown'>;
-    cloudPercentage: FormControl<number>;
-    monthlyCloudBill: FormControl<CostRange>;
-  }>;
-  downstream: FormGroup<{
-    noDownstream: FormControl<boolean>;
-    customerLocation: FormControl<WorldLocation>;
-    monthlyActiveUsers: FormControl<number>;
-    mobilePercentage: FormControl<number>;
-    purposeOfSite: FormControl<PurposeOfSite>;
-  }>;
+  upstream: OrganisationFormGroup;
+  onPremise: OnPremiseFormGroup;
+  cloud: CloudFormGroup;
+  downstream: CustomerFormGroup;
   saas: SaasFormGroup;
+  aiInference: AiInferenceFormGroup;
 };
 
-export type OnPremise = {
-  estimateServerCount: boolean;
-  serverLocation: WorldLocation;
-  numberOfServers: number;
-};
-export type Upstream = {
-  headCount: number;
-  desktopPercentage: number;
-  employeeLocation: WorldLocation;
-};
-export type Cloud = {
-  noCloudServices: boolean;
-  cloudLocation: WorldLocation;
-  cloudPercentage: number;
-  monthlyCloudBill: CostRange;
-};
-export type Downstream = {
-  noDownstream: boolean;
-  customerLocation: WorldLocation;
-  monthlyActiveUsers: number;
-  mobilePercentage: number;
-  purposeOfSite: PurposeOfSite;
-};
+export type Upstream = Organisation;
+
+export type Downstream = Customer;
 
 export type DeviceCategory = 'employee' | 'server' | 'network';
 
@@ -142,7 +112,7 @@ export type ChartOptions = {
   dataLabels: ApexDataLabels;
 };
 
-export type jsonExport = {
+export type JsonExport = {
   estimate: CarbonEstimation | undefined;
   input: EstimatorValues | undefined;
 };

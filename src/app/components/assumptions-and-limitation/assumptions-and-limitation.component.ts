@@ -1,0 +1,86 @@
+import { Component, inject } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { ExternalLinkDirective } from '../../directives/external-link.directive';
+import { locationArray, PurposeOfSite, purposeOfSiteArray, WorldLocation } from '../../types/carbon-estimator';
+import { CarbonIntensityService } from '../../services/carbon-intensity.service';
+import { DownstreamEmissionsEstimator } from '../../services/estimation/estimate-downstream-emissions';
+import { CLOUD_AVERAGE_PUE, ON_PREMISE_AVERAGE_PUE } from '../../services/estimation/constants';
+import { desktop, laptop, mobile, monitor, network, server, tablet } from '../../services/estimation/device-type';
+
+const purposeDescriptions: Record<PurposeOfSite, string> = {
+  information: 'Information',
+  eCommerce: 'E-Commerce',
+  socialMedia: 'Social Media',
+  streaming: 'Streaming',
+  average: 'Average',
+};
+
+const locationDescriptions: Record<WorldLocation, string> = {
+  WORLD: 'Global',
+  'NORTH AMERICA': 'North America',
+  EUROPE: 'Europe',
+  GBR: 'United Kingdom',
+  ASIA: 'Asia',
+  AFRICA: 'Africa',
+  OCEANIA: 'Oceania',
+  'LATIN AMERICA AND CARIBBEAN': 'Latin America and Caribbean',
+};
+
+@Component({
+  selector: 'assumptions-and-limitation',
+  standalone: true,
+  templateUrl: './assumptions-and-limitation.component.html',
+  imports: [DecimalPipe, ExternalLinkDirective],
+})
+export class AssumptionsAndLimitationComponent {
+  private intensityService = inject(CarbonIntensityService);
+  private downstreamEstimator = inject(DownstreamEmissionsEstimator);
+
+  readonly ON_PREMISE_AVERAGE_PUE = ON_PREMISE_AVERAGE_PUE;
+  readonly CLOUD_AVERAGE_PUE = CLOUD_AVERAGE_PUE;
+  readonly siteTypeInfo;
+  readonly locationCarbonInfo;
+  readonly deviceInfo = [
+    {
+      name: 'Laptop',
+      info: laptop,
+    },
+    {
+      name: 'Desktop',
+      info: desktop,
+    },
+    {
+      name: 'Server',
+      info: server,
+    },
+    {
+      name: 'Network',
+      info: network,
+    },
+    {
+      name: 'Mobile',
+      info: mobile,
+    },
+    {
+      name: 'Tablet',
+      info: tablet,
+    },
+    {
+      name: 'Monitor',
+      info: monitor,
+    },
+  ];
+
+  constructor() {
+    this.siteTypeInfo = purposeOfSiteArray.map(purpose => ({
+      type: purposeDescriptions[purpose],
+      time: this.downstreamEstimator.siteTypeInfo[purpose].averageMonthlyUserTime,
+      data: this.downstreamEstimator.siteTypeInfo[purpose].averageMonthlyUserData,
+    }));
+
+    this.locationCarbonInfo = locationArray.map(location => ({
+      location: locationDescriptions[location],
+      carbonIntensity: this.intensityService.getCarbonIntensity(location),
+    }));
+  }
+}

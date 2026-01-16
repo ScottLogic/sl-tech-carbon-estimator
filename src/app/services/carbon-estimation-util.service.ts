@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NumberObject, sumValues } from '../utils/number-object';
 import { startCase } from 'lodash-es';
-import { percentageTooltipFormatter, SVG, tooltipFormatter } from '../carbon-estimation/carbon-estimation.constants';
+import {
+  percentageTooltipFormatter,
+  SVG,
+  tooltipFormatter,
+} from '../components/carbon-estimation/carbon-estimation.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +46,8 @@ export class CarbonEstimationUtilService {
         return { label: 'Cloud Services', svg: SVG.CLOUD };
       case 'networkTransfer':
         return { label: 'Network Data Transfer', svg: SVG.CELL_TOWER };
+      case 'aiInference':
+        return { label: 'AI Inference', svg: SVG.AI };
       default:
         return { label: startCase(key), svg: '' };
     }

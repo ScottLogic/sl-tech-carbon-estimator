@@ -9,17 +9,17 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { CarbonEstimatorFormComponent } from '../carbon-estimator-form/carbon-estimator-form.component';
-import { CarbonEstimationComponent } from '../carbon-estimation/carbon-estimation.component';
+import { CarbonEstimatorFormComponent } from '../components/carbon-estimator-form/carbon-estimator-form.component';
+import { CarbonEstimationComponent } from '../components/carbon-estimation/carbon-estimation.component';
 import { CarbonEstimation, EstimatorValues } from '../types/carbon-estimator';
 import { CarbonEstimationService } from '../services/carbon-estimation.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AssumptionsAndLimitationComponent } from '../assumptions-and-limitation/assumptions-and-limitation.component';
-import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
-import { TabsComponent } from '../tab/tabs/tabs.component';
-import { TabItemComponent } from '../tab/tab-item/tab-item.component';
-import { ExportModal } from '../export-modal/export-modal.component';
+import { DisclaimerComponent } from '../components/disclaimer/disclaimer.component';
+import { TabsComponent } from '../components/tab/tabs/tabs.component';
+import { TabItemComponent } from '../components/tab/tab-item/tab-item.component';
+import { ExportModal } from '../components/export-modal/export-modal.component';
+import { AssumptionsAndLimitationComponent } from '../components/assumptions-and-limitation/assumptions-and-limitation.component';
 
 @Component({
   selector: 'tech-carbon-estimator',

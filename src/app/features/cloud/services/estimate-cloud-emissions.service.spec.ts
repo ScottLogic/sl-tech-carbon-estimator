@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { Cloud } from '../../../types/carbon-estimator';
 import { CarbonIntensityService } from '../../../services/carbon-intensity.service';
 import { EstimateCloudEmissionsService } from './estimate-cloud-emissions.service';
+import { Cloud } from './cloud-form.service';
 
 let estimator: EstimateCloudEmissionsService;
 let mockCarbonIntensities: jasmine.SpyObj<CarbonIntensityService>;

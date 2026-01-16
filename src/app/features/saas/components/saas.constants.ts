@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { FormContextSection } from '../../../carbon-estimator-form/carbon-estimator-form.constants';
+import { FormContextSection } from '../../../components/carbon-estimator-form/carbon-estimator-form.constants';
 import {
   defaultMicrosoft365Values,
   Microsoft365,

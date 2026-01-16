@@ -101,7 +101,7 @@ export interface InputValues {
   number_of_servers: string;
   server_location: string;
   no_cloud: boolean;
-  cloud_percentage: string;
+  cloud_percentage?: string;
   cloud_location: string;
   monthly_cloud_cost: string;
   uses_m365: boolean;

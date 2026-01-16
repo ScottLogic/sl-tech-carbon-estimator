@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { StorageService } from './storage.service';
 import { FormGroup } from '@angular/forms';
-import { ControlState, FormState } from '../carbon-estimator-form/carbon-estimator-form.constants';
+import { ControlState, FormState } from '../components/carbon-estimator-form/carbon-estimator-form.constants';
 import { EstimatorFormValues } from '../types/carbon-estimator';
 
 @Injectable({

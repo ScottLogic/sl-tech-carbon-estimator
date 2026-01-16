@@ -1,3 +1,5 @@
+import { CarbonSchemaExtended } from '../../src/app/types/tech-carbon-standard.schema';
+
 export const t2ExpectedEmissionPercentages = [
   '34%',
   '25%',
@@ -991,33 +993,90 @@ export const t18ExpectedMonthlyEmissionKilogramsNoExternalUsersArray = [
   ' 4585 kg ',
 ];
 
-export const t20ExpectedMonthlyValuesJson = {
-  values: {
-    version: '0.0.0-semantically-released',
-    upstreamEmissions: {
-      employee: 1142.361111111111,
-      server: 302.0833333333333,
-      network: 108.33333333333333,
-      software: 0,
-      foundationModels: 0,
-      contentAndData: 0,
+export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
+  schema_version: '0.1.0',
+  upstream_emissions: {
+    software: {
+      emissions: 0,
+      percentage: 0,
     },
-    directEmissions: {
-      employee: 540.3807833333334,
-      server: 2182.46348,
-      network: 257.77241919,
+    employee_hardware: {
+      emissions: 1142.361111111111,
+      percentage: 24.740601273220566,
     },
-    indirectEmissions: {
-      cloud: 51.739522,
-      saas: 0,
-      managed: 0,
+    network_hardware: {
+      emissions: 108.33333333333333,
+      percentage: 2.346221154177756,
     },
-    downstreamEmissions: {
-      customer: 12.300793980596879,
-      networkTransfer: 19.91909679336675,
-      downstreamInfrastructure: 0,
+    server_hardware: {
+      emissions: 302.0833333333333,
+      percentage: 6.542347449149511,
     },
-    totalEmissions: 4617.353873075075,
+    foundation_models: {
+      emissions: 0,
+      percentage: 0,
+      notes: 'Calculation not currently implemented',
+    },
+    content_and_data: {
+      emissions: 0,
+      percentage: 0,
+      notes: 'Calculation not currently implemented',
+    },
+  },
+  direct_emissions: {
+    onsite_employee_hardware: {
+      emissions: 540.3807833333334,
+      percentage: 11.70325684770289,
+    },
+    networking: {
+      emissions: 257.77241919,
+      percentage: 5.582687103389114,
+    },
+    servers: {
+      emissions: 2182.46348,
+      percentage: 47.26654139996678,
+    },
+    generators: {
+      emissions: 0,
+      percentage: 0,
+      notes: 'Calculation not currently implemented',
+    },
+  },
+  indirect_emissions: {
+    offsite_employee_hardware: {
+      emissions: 0,
+      percentage: 0,
+      notes: 'Calculation not currently implemented',
+    },
+    cloud_services: {
+      emissions: 51.739522,
+      percentage: 1.1205448709856498,
+    },
+    saas: {
+      emissions: 0,
+      percentage: 0,
+    },
+    managed_services: {
+      emissions: 0,
+      percentage: 0,
+    },
+  },
+  downstream_emissions: {
+    customer_devices: {
+      emissions: 12.300793980596879,
+      percentage: 0.2664035358503889,
+    },
+    network_data_transfer: {
+      emissions: 19.91909679336675,
+      percentage: 0.4313963655573357,
+    },
+    downstream_infrastructure: {
+      emissions: 0,
+      percentage: 0,
+    },
+  },
+  total_emissions: {
+    value: 4617.353873075075,
   },
 };
 
@@ -1070,6 +1129,57 @@ export const t21ExpectedEmissionPercentages = [
   '1%',
   '3%',
   '<1%',
+  '<1%',
+  '<1%',
+  '100%',
+];
+
+export const t22ExpectedEmissionKilogramsAnnual = [
+  '16096 kg',
+  '13708 kg',
+  '1088 kg',
+  '1300 kg',
+  '17435 kg',
+  '6485 kg',
+  '7857 kg',
+  '3093 kg',
+  '621 kg',
+  '621 kg',
+  '387 kg',
+  '148 kg',
+  '239 kg',
+  '34538 kg',
+];
+
+export const t22ExpectedEmissionKilogramsMonthly = [
+  '1341 kg',
+  '1142 kg',
+  '91 kg',
+  '108 kg',
+  '1453 kg',
+  '540 kg',
+  '655 kg',
+  '258 kg',
+  '52 kg',
+  '52 kg',
+  '32 kg',
+  '12 kg',
+  '20 kg',
+  '2878 kg',
+];
+
+export const t22ExpectedEmissionPercentages = [
+  '47%',
+  '40%',
+  '3%',
+  '4%',
+  '50%',
+  '19%',
+  '23%',
+  '9%',
+  '2%',
+  '2%',
+  '1%',
   '<1%',
   '<1%',
   '100%',

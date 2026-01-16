@@ -5,7 +5,7 @@ const input_values = {
   employees: '100',
   hardware_percentage: '75',
   employees_location: 'in the UK',
-  unknown_servers: false,
+  unknown_servers: true,
   number_of_servers: '10',
   server_location: 'in the UK',
   no_cloud: false,
