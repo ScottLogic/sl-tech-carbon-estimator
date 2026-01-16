@@ -15,6 +15,8 @@ export const t2ExpectedEmissionPercentages = [
   '<1%',
   '<1%',
   '<1%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 
@@ -33,6 +35,8 @@ export const t2ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '55602 kg',
 ];
 
@@ -51,7 +55,9 @@ export const t2ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
-  '4633 kg',
+  '<1 kg',
+  '<1 kg',
+  '4634 kg',
 ];
 
 export const t3ExpectedEmissionPercentages = [
@@ -119,6 +125,8 @@ export const t4ExpectedEmissionPercentages = [
   '<1%',
   '<1%',
   '<1%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 
@@ -136,6 +144,8 @@ export const t4ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '50890 kg',
 ];
 
@@ -153,6 +163,8 @@ export const t4ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4241 kg',
 ];
 
@@ -167,6 +179,8 @@ export const t5ExpectedEmissionPercentages = [
   '5%',
   '1%',
   '1%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -187,6 +201,8 @@ export const t5ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '59927 kg',
 ];
 
@@ -204,6 +220,8 @@ export const t5ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4994 kg',
 ];
 
@@ -218,6 +236,8 @@ export const t6ExpectedEmissionPercentages = [
   '8%',
   '2%',
   '2%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -237,6 +257,8 @@ export const t6ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '40501 kg',
 ];
 
@@ -254,6 +276,8 @@ export const t6ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '3375 kg',
 ];
 
@@ -266,6 +290,8 @@ export const t7ExpectedEmissionPercentages = [
   '<1%',
   '85%',
   '1%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -288,6 +314,8 @@ export const t7ExpectedEmissionKilograms = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '1705194 kg',
 ];
 
@@ -305,6 +333,8 @@ export const t7ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '142100 kg',
 ];
 
@@ -319,6 +349,8 @@ export const t7ExpectedEmissionPercentages1 = [
   '8%',
   '2%',
   '2%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -339,6 +371,8 @@ export const t7ExpectedEmissionKilograms1annual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '40501 kg',
 ];
 
@@ -356,6 +390,8 @@ export const t7ExpectedEmissionKilograms1Monthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '3375 kg',
 ];
 
@@ -368,6 +404,8 @@ export const t8ExpectedEmissionPercentages = [
   '12%',
   '48%',
   '6%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -388,7 +426,9 @@ export const t8ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
-  '54787 kg',
+  '<1 kg',
+  '<1 kg',
+  '54788 kg',
 ];
 
 export const t8ExpectedEmissionKilogramsMonthly = [
@@ -404,6 +444,8 @@ export const t8ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4566 kg',
 ];
 
@@ -416,6 +458,8 @@ export const t9ExpectedEmissionPercentages = [
   '12%',
   '48%',
   '6%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -435,7 +479,9 @@ export const t9ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
-  '54787 kg',
+  '<1 kg',
+  '<1 kg',
+  '54788 kg',
 ];
 
 export const t9ExpectedEmissionKilogramsMonthly = [
@@ -451,6 +497,8 @@ export const t9ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4566 kg',
 ];
 
@@ -467,6 +515,8 @@ export const t10ExpectedEmissionPercentages = [
   '4%',
   '2%',
   '2%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 
@@ -483,6 +533,8 @@ export const t10ExpectedEmissionKilogramsAnnual = [
   '2357 kg',
   '1292 kg',
   '1066 kg',
+  '<1 kg',
+  '<1 kg',
   '56758 kg',
 ];
 
@@ -499,6 +551,8 @@ export const t10ExpectedEmissionKilogramsMonthly = [
   '196 kg',
   '108 kg',
   '89 kg',
+  '<1 kg',
+  '<1 kg',
   '4730 kg',
 ];
 
@@ -515,6 +569,8 @@ export const t11ExpectedEmissionPercentages = [
   '<1%',
   '2%',
   '1%',
+  '<1%',
+  '<1%',
   '<1%',
   '100%',
 ];
@@ -533,7 +589,9 @@ export const t11ExpectedEmissionKilogramsAnnual = [
   '5631418 kg',
   '3342687 kg',
   '2288731 kg',
-  '285757476 kg',
+  '<1 kg',
+  '<1 kg',
+  '285757477 kg',
 ];
 
 export const t11ExpectedEmissionKilogramsMonthly = [
@@ -550,6 +608,8 @@ export const t11ExpectedEmissionKilogramsMonthly = [
   '469285 kg',
   '278557 kg',
   '190728 kg',
+  '<1 kg',
+  '<1 kg',
   '23813123 kg',
 ];
 
@@ -562,6 +622,8 @@ export const t12ExpectedEmissionPercentages = [
   '4%',
   '57%',
   '6%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -582,6 +644,8 @@ export const t12ExpectedEmissionKilogramsAnnual = [
   '45 kg',
   '21 kg',
   '24 kg',
+  '<1 kg',
+  '<1 kg',
   '10202 kg',
 ];
 
@@ -598,6 +662,8 @@ export const t12ExpectedEmissionKilogramsMonthly = [
   '4 kg',
   '2 kg',
   '2 kg',
+  '<1 kg',
+  '<1 kg',
   '850 kg',
 ];
 
@@ -610,6 +676,8 @@ export const t13ExpectedEmissionPercentages = [
   '7%',
   '64%',
   '4%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -630,6 +698,8 @@ export const t13ExpectedEmissionKilogramsAnnual = [
   '1 kg',
   '<1 kg',
   '<1 kg',
+  '<1 kg',
+  '<1 kg',
   '411936 kg',
 ];
 
@@ -646,6 +716,8 @@ export const t13ExpectedEmissionKilogramsMonthly = [
   '<1 kg',
   '<1 kg',
   '<1 kg',
+  '<1 kg',
+  '<1 kg',
   '34328 kg',
 ];
 
@@ -658,6 +730,8 @@ export const t13ExpectedEmissionPercentages1 = [
   '7%',
   '63%',
   '4%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -680,6 +754,8 @@ export const t13ExpectedEmissionKilograms1Annual = [
   '1 kg',
   '<1 kg',
   '<1 kg',
+  '<1 kg',
+  '<1 kg',
   '412557 kg',
 ];
 
@@ -694,6 +770,8 @@ export const t13ExpectedEmissionKilograms1Monthly = [
   '1294 kg',
   '52 kg',
   '52 kg',
+  '<1 kg',
+  '<1 kg',
   '<1 kg',
   '<1 kg',
   '<1 kg',
@@ -714,6 +792,8 @@ export const t14ExpectedEmissionPercentages = [
   '88%',
   '16%',
   '73%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 
@@ -731,7 +811,9 @@ export const t14ExpectedEmissionKilogramsAnnual = [
   '61357707 kg',
   '10817286 kg',
   '50540421 kg',
-  '69415986 kg',
+  '<1 kg',
+  '<1 kg',
+  '69415987 kg',
 ];
 
 export const t14ExpectedEmissionKilogramsMonthly = [
@@ -748,6 +830,8 @@ export const t14ExpectedEmissionKilogramsMonthly = [
   '5113142 kg',
   '901441 kg',
   '4211702 kg',
+  '<1 kg',
+  '<1 kg',
   '5784666 kg',
 ];
 
@@ -762,6 +846,8 @@ export const t15ExpectedEmissionPercentages = [
   '5%',
   '6%',
   '6%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -781,7 +867,9 @@ export const t15ExpectedEmissionKilogramsAnnual = [
   '10717 kg',
   '6555 kg',
   '4162 kg',
-  '3217438 kg',
+  '<1 kg',
+  '<1 kg',
+  '3217439 kg',
 ];
 export const t15ExpectedEmissionKilogramsMonthly = [
   '94871 kg',
@@ -797,6 +885,8 @@ export const t15ExpectedEmissionKilogramsMonthly = [
   '893 kg',
   '546 kg',
   '347 kg',
+  '<1 kg',
+  '<1 kg',
   '268120 kg',
 ];
 
@@ -814,8 +904,11 @@ export const t18NoCheckBoxesExpectedEmissionPercentages = [
   '<1%',
   '<1%',
   '<1%',
+  '<1%',
+  '<1%',
   '100%',
 ];
+
 export const t18NoCheckBoxesExpectedEmissionKilogramsAnnual = [
   '18633 kg',
   '13708 kg',
@@ -830,7 +923,9 @@ export const t18NoCheckBoxesExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
-  '55408 kg',
+  '<1 kg',
+  '<1 kg',
+  '55409 kg',
 ];
 
 export const t18NoCheckBoxesExpectedEmissionKilogramsMonthly = [
@@ -847,6 +942,8 @@ export const t18NoCheckBoxesExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4617 kg',
 ];
 
@@ -861,6 +958,8 @@ export const t18ExpectedEmissionsOnPremiseUnknownPercentagesArray = [
   '8%',
   '2%',
   '2%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -881,6 +980,8 @@ export const t18ExpectedEmissionKilogramsAnnualOnPremiseUnknownArray = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '40501 kg',
 ];
 
@@ -898,6 +999,8 @@ export const t18ExpectedEmissionKilogramsMonthlyOnPremiseUnknownArray = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '3375 kg',
 ];
 
@@ -914,38 +1017,44 @@ export const t18ExpectedEmissionsCloudNotUsedPercentagesArray = [
   '<1%',
   '<1%',
   '<1%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 export const t18ExpectedAnnualEmissionKilogramsCloudNotUsedArray = [
-  ' 18633 kg ',
-  ' 13708 kg ',
-  ' 3625 kg ',
-  ' 1300 kg ',
-  ' 35767 kg ',
-  ' 6485 kg ',
-  ' 26190 kg ',
-  ' 3093 kg ',
-  ' <1 kg ',
-  ' 387 kg ',
-  ' 148 kg ',
-  ' 239 kg ',
-  ' 54787 kg ',
+  '18633 kg',
+  '13708 kg',
+  '3625 kg',
+  '1300 kg',
+  '35767 kg',
+  '6485 kg',
+  '26190 kg',
+  '3093 kg',
+  '<1 kg',
+  '387 kg',
+  '148 kg',
+  '239 kg',
+  '<1 kg',
+  '<1 kg',
+  '54788 kg',
 ];
 
 export const t18ExpectedMonthlyEmissionKilogramsCloudNotUsedArray = [
-  ' 1553 kg ',
-  ' 1142 kg ',
-  ' 302 kg ',
-  ' 108 kg ',
-  ' 2981 kg ',
-  ' 540 kg ',
-  ' 2182 kg ',
-  ' 258 kg ',
-  ' <1 kg ',
-  ' 32 kg ',
-  ' 12 kg ',
-  ' 20 kg ',
-  ' 4566 kg ',
+  '1553 kg',
+  '1142 kg',
+  '302 kg',
+  '108 kg',
+  '2981 kg',
+  '540 kg',
+  '2182 kg',
+  '258 kg',
+  '<1 kg',
+  '32 kg',
+  '12 kg',
+  '20 kg',
+  '<1 kg',
+  '<1 kg',
+  '4566 kg',
 ];
 
 export const t18ExpectedEmissionPercentagesNoExternalUsersArray = [
@@ -960,37 +1069,43 @@ export const t18ExpectedEmissionPercentagesNoExternalUsersArray = [
   '1%',
   '1%',
   '<1%',
+  '<1%',
+  '<1%',
   '100%',
 ];
 
 export const t18ExpectedAnnualEmissionKilogramsNoExternalUsersArray = [
-  ' 18633 kg ',
-  ' 13708 kg ',
-  ' 3625 kg ',
-  ' 1300 kg ',
-  ' 35767 kg ',
-  ' 6485 kg ',
-  ' 26190 kg ',
-  ' 3093 kg ',
-  ' 621 kg ',
-  ' 621 kg ',
-  ' <1 kg ',
-  ' 55022 kg ',
+  '18633 kg',
+  '13708 kg',
+  '3625 kg',
+  '1300 kg',
+  '35767 kg',
+  '6485 kg',
+  '26190 kg',
+  '3093 kg',
+  '621 kg',
+  '621 kg',
+  '<1 kg',
+  '<1 kg',
+  '<1 kg',
+  '55022 kg',
 ];
 
 export const t18ExpectedMonthlyEmissionKilogramsNoExternalUsersArray = [
-  ' 1553 kg ',
-  ' 1142 kg ',
-  ' 302 kg ',
-  ' 108 kg ',
-  ' 2981 kg ',
-  ' 540 kg ',
-  ' 2182 kg ',
-  ' 258 kg ',
-  ' 52 kg ',
-  ' 52 kg ',
-  ' <1 kg ',
-  ' 4585 kg ',
+  '1553 kg',
+  '1142 kg',
+  '302 kg',
+  '108 kg',
+  '2981 kg',
+  '540 kg',
+  '2182 kg',
+  '258 kg',
+  '52 kg',
+  '52 kg',
+  '<1 kg',
+  '<1 kg',
+  '<1 kg',
+  '4585 kg',
 ];
 
 export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
@@ -1002,15 +1117,15 @@ export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
     },
     employee_hardware: {
       emissions: 1142.361111111111,
-      percentage: 24.740601273220566,
+      percentage: 24.740467848078058,
     },
     network_hardware: {
       emissions: 108.33333333333333,
-      percentage: 2.346221154177756,
+      percentage: 2.3462085010943325,
     },
     server_hardware: {
       emissions: 302.0833333333333,
-      percentage: 6.542347449149511,
+      percentage: 6.542312166513042,
     },
     foundation_models: {
       emissions: 0,
@@ -1026,15 +1141,15 @@ export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
   direct_emissions: {
     onsite_employee_hardware: {
       emissions: 540.3807833333334,
-      percentage: 11.70325684770289,
+      percentage: 11.70319373247398,
     },
     networking: {
       emissions: 257.77241919,
-      percentage: 5.582687103389114,
+      percentage: 5.582656996165198,
     },
     servers: {
       emissions: 2182.46348,
-      percentage: 47.26654139996678,
+      percentage: 47.26628649326696,
     },
     generators: {
       emissions: 0,
@@ -1050,7 +1165,7 @@ export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
     },
     cloud_services: {
       emissions: 51.739522,
-      percentage: 1.1205448709856498,
+      percentage: 1.1205388279288362,
     },
     saas: {
       emissions: 0,
@@ -1064,11 +1179,11 @@ export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
   downstream_emissions: {
     customer_devices: {
       emissions: 12.300793980596879,
-      percentage: 0.2664035358503889,
+      percentage: 0.26640209914602825,
     },
     network_data_transfer: {
       emissions: 19.91909679336675,
-      percentage: 0.4313963655573357,
+      percentage: 0.4313940390527809,
     },
     downstream_infrastructure: {
       emissions: 0,
@@ -1076,7 +1191,7 @@ export const t20ExpectedMonthlyJson: CarbonSchemaExtended = {
     },
   },
   total_emissions: {
-    value: 4617.353873075075,
+    value: 4617.378774427075,
   },
 };
 
@@ -1095,7 +1210,9 @@ export const t21ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
-  '57343 kg',
+  '<1 kg',
+  '<1 kg',
+  '57344 kg',
 ];
 
 export const t21ExpectedEmissionKilogramsMonthly = [
@@ -1113,6 +1230,8 @@ export const t21ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '4779 kg',
 ];
 
@@ -1128,6 +1247,8 @@ export const t21ExpectedEmissionPercentages = [
   '4%',
   '1%',
   '3%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '<1%',
@@ -1148,6 +1269,8 @@ export const t22ExpectedEmissionKilogramsAnnual = [
   '387 kg',
   '148 kg',
   '239 kg',
+  '<1 kg',
+  '<1 kg',
   '34538 kg',
 ];
 
@@ -1165,6 +1288,8 @@ export const t22ExpectedEmissionKilogramsMonthly = [
   '32 kg',
   '12 kg',
   '20 kg',
+  '<1 kg',
+  '<1 kg',
   '2878 kg',
 ];
 
@@ -1180,6 +1305,8 @@ export const t22ExpectedEmissionPercentages = [
   '2%',
   '2%',
   '1%',
+  '<1%',
+  '<1%',
   '<1%',
   '<1%',
   '100%',
