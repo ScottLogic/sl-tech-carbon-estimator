@@ -15,6 +15,7 @@ classDiagram
     cloud: Cloud
     saas: SaaS
     downstream: Downstream
+    ai: AiInference
   }
   
   EstimatorValues --> "upstream" Upstream
@@ -22,6 +23,7 @@ classDiagram
   EstimatorValues --> "cloud" Cloud
   EstimatorValues --> "downstream" Downstream
   EstimatorValues --> "SaaS" Saas
+  EstimatorValues --> "ai" AiInference
 
   class OnPremise {
     estimateServerCount: boolean
@@ -52,6 +54,17 @@ classDiagram
   }
   Downstream --> "customerLocation" WorldLocation
   Downstream --> "purposeOfSite" PurposeOfSite
+
+  class AiInference {
+    noAiInference: boolean
+    primaryTaskType: AiTaskType
+    monthlyInferences: number
+    aiServiceProvider: AiProvider
+    aiServiceLocation: WorldLocation
+  }
+  AiInference --> "aiServiceLocation" WorldLocation
+  AiInference --> "aiServiceProvider" AiProvider
+  AiInference --> "primaryTaskType" AiTaskType
 
   class WorldLocation{
     <<union>>
@@ -95,6 +108,31 @@ classDiagram
   class Microsoft365 {
     useMicrosoft365: boolean
     organisationUserCount: number
+  }
+
+  class AiTaskType {
+    <<union>>
+    'text-generation'
+    'image-generation'
+    'text-classification'
+    'question-answering'
+    'token-classification'
+    'text-summarisation'
+    'image-classification'
+    'object-detection'
+    'image-captioning'
+    'mixed-usage'
+  }
+
+  class AiProvider {
+    <<union>>
+    'openai'
+    'anthropic'
+    'google'
+    'microsoft azure AI'
+    'amazon bedrock'
+    'meta AI'
+    'other'
   }
 ```
 

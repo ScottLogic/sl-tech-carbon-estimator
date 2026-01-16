@@ -1,6 +1,6 @@
 # Tech Carbon Standard Estimator
 
-The tech carbon estimator is a web component that allow you to estimate, at high level, your carbon emissions
+The tech carbon estimator is a web component that allows you to estimate, at high level, your carbon emissions across your entire technology organization, including AI inference workloads
 
 ## Cloning the project
 

@@ -50,4 +50,54 @@ E-Commerce sites tend to be more involved, with users spending much more time na
 
 Social Media services will usually involve much more content, images and short videos, along with fairly extended user engagement times.
 
-Streaming services (audio and video) are generally thought of as providing longer form digital content of a high quality (lossless audio, 4k video).#
+Streaming services (audio and video) are generally thought of as providing longer form digital content of a high quality (lossless audio, 4k video).
+
+## AI Inference
+
+Artificial Intelligence (AI) model inference has become an increasingly significant contributor to organizational carbon emissions. Use this section when estimating AI-related emissions:
+
+#### Task Type
+
+Select the primary task type that best represents your AI workload:
+
+- **Text Generation** - Large language models, chatbots, content creation
+- **Image Generation** - Text-to-image models, image manipulation tasks
+- **Text Classification** - Sentiment analysis, content moderation, categorization
+- **Question Answering** - Extractive QA, information retrieval
+- **Token Classification** - Named entity recognition, part-of-speech tagging
+- **Text Summarisation** - Document summarization, abstract generation
+- **Image Classification** - Image categorization, tagging
+- **Object Detection** - Locating and identifying objects in images
+- **Image Captioning** - Generating descriptions for images
+- **Mixed Usage (Average)** - Multiple types of AI tasks with balanced distribution
+
+#### Monthly Inference Count
+
+Estimate the number of inference requests your organization makes monthly. This is the number of times your AI models process inputs:
+
+- Review your API logs or usage analytics from AI service providers
+- Count inference requests across all AI workloads (chatbots, image generation, embeddings, etc.)
+- If using multiple providers, sum the total monthly inferences
+- For batch processing, count the number of batch jobs multiplied by items per batch
+- Include both production and development/testing inferences for a full picture
+
+#### AI Service Provider
+
+Select the primary AI service provider you use. The provider affects energy efficiency calculations through Power Usage Effectiveness (PUE) - their data center efficiency metrics:
+
+- **OpenAI** - GPT models, DALL-E, embeddings
+- **Anthropic** - Claude models
+- **Google** - Vertex AI, PaLM, Gemini
+- **Microsoft** - Azure AI services, Copilot services
+- **Amazon Bedrock** - SageMaker, Bedrock
+- **Meta** - Open-source models (Llama)
+- **Other** - Custom or unlisted providers
+
+#### AI Service Location
+
+Select the geographic region where the AI service provider's data centers are primarily located. This affects the carbon intensity of the energy powering the inference:
+
+- Choose the region where your AI requests are routed
+- Different providers may have data centers in multiple regions
+- If using multiple regions, select the one processing the majority of your requests
+- Carbon intensity varies significantly by region due to different energy grids
