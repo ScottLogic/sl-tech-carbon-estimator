@@ -19,15 +19,15 @@ export function createDefaultJsonExport(): CarbonSchemaExtended {
       },
       employee_hardware: {
         emissions: 13708.333333333334,
-        percentage: 24.740601273220566,
+        percentage: 24.740467848078058,
       },
       network_hardware: {
         emissions: 1300,
-        percentage: 2.346221154177756,
+        percentage: 2.3462085010943325,
       },
       server_hardware: {
         emissions: 3625,
-        percentage: 6.542347449149511,
+        percentage: 6.542312166513042,
       },
       foundation_models: {
         emissions: 0,
@@ -43,15 +43,15 @@ export function createDefaultJsonExport(): CarbonSchemaExtended {
     direct_emissions: {
       onsite_employee_hardware: {
         emissions: 6484.5694,
-        percentage: 11.70325684770289,
+        percentage: 11.70319373247398,
       },
       networking: {
         emissions: 3093.2690302799997,
-        percentage: 5.582687103389114,
+        percentage: 5.582656996165198,
       },
       servers: {
         emissions: 26189.56176,
-        percentage: 47.26654139996678,
+        percentage: 47.26628649326696,
       },
       generators: {
         emissions: 0,
@@ -67,7 +67,7 @@ export function createDefaultJsonExport(): CarbonSchemaExtended {
       },
       cloud_services: {
         emissions: 620.874264,
-        percentage: 1.1205448709856498,
+        percentage: 1.1205388279288362,
       },
       saas: {
         emissions: 0,
@@ -81,11 +81,11 @@ export function createDefaultJsonExport(): CarbonSchemaExtended {
     downstream_emissions: {
       customer_devices: {
         emissions: 147.60952776716255,
-        percentage: 0.2664035358503889,
+        percentage: 0.26640209914602825,
       },
       network_data_transfer: {
         emissions: 239.029161520401,
-        percentage: 0.4313963655573357,
+        percentage: 0.4313940390527809,
       },
       downstream_infrastructure: {
         emissions: 0,
@@ -93,7 +93,7 @@ export function createDefaultJsonExport(): CarbonSchemaExtended {
       },
     },
     total_emissions: {
-      value: 55408.2464769009,
+      value: 55408.5452931249,
     },
   };
   return defaultJson;

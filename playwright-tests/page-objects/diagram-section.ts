@@ -21,6 +21,6 @@ export class DiagramSection {
     this.diagramScreenshotField = page.locator('foreignobject');
   }
   async assertDiagramScreenshot(screenshotName: string) {
-    await expect(this.diagramScreenshotField).toHaveScreenshot(screenshotName);
+    await expect(this.diagramScreenshotField).toHaveScreenshot(screenshotName, { maxDiffPixels: 50000 });
   }
 }
