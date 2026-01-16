@@ -87,7 +87,7 @@ Select the primary AI service provider you use. The provider affects energy effi
 
 - **OpenAI** - GPT models, DALL-E, embeddings
 - **Anthropic** - Claude models
-- **Google** - Vertex AI, PaLM, Bard
+- **Google** - Vertex AI, PaLM, Gemini
 - **Microsoft** - Azure AI services, Copilot services
 - **Amazon Bedrock** - SageMaker, Bedrock
 - **Meta** - Open-source models (Llama)
