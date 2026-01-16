@@ -112,13 +112,16 @@ classDiagram
 
   class AiTaskType {
     <<union>>
-    'llm'
+    'text-generation'
     'image-generation'
+    'text-classification'
+    'question-answering'
+    'token-classification'
+    'text-summarisation'
     'image-classification'
-    'embedding-model'
-    'computer-vision'
+    'object-detection'
+    'image-captioning'
     'mixed-usage'
-    'other'
   }
 
   class AiProvider {
@@ -126,10 +129,9 @@ classDiagram
     'openai'
     'anthropic'
     'google'
-    'microsoft'
-    'aws'
-    'meta'
-    'huggingface'
+    'microsoft azure AI'
+    'amazon bedrock'
+    'meta AI'
     'other'
   }
 ```

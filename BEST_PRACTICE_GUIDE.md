@@ -60,13 +60,16 @@ Artificial Intelligence (AI) model inference has become an increasingly signific
 
 Select the primary task type that best represents your AI workload:
 
-- **Large Language Models (LLMs)** - Text generation, question answering, summarization, translation
+- **Text Generation** - Large language models, chatbots, content creation
 - **Image Generation** - Text-to-image models, image manipulation tasks
-- **Image Classification** - Computer vision, object detection, image analysis
-- **Embedding Model** - Text or image embedding generation
-- **Computer Vision** - Specialized visual processing and analysis
-- **Mixed Usage** - Multiple types of AI tasks with balanced distribution
-- **Other** - AI workloads not covered by above categories
+- **Text Classification** - Sentiment analysis, content moderation, categorization
+- **Question Answering** - Extractive QA, information retrieval
+- **Token Classification** - Named entity recognition, part-of-speech tagging
+- **Text Summarisation** - Document summarization, abstract generation
+- **Image Classification** - Image categorization, tagging
+- **Object Detection** - Locating and identifying objects in images
+- **Image Captioning** - Generating descriptions for images
+- **Mixed Usage (Average)** - Multiple types of AI tasks with balanced distribution
 
 #### Monthly Inference Count
 
@@ -86,9 +89,8 @@ Select the primary AI service provider you use. The provider affects energy effi
 - **Anthropic** - Claude models
 - **Google** - Vertex AI, PaLM, Bard
 - **Microsoft** - Azure AI services, Copilot services
-- **AWS** - SageMaker, Bedrock
+- **Amazon Bedrock** - SageMaker, Bedrock
 - **Meta** - Open-source models (Llama)
-- **Hugging Face** - Open-source model hosting
 - **Other** - Custom or unlisted providers
 
 #### AI Service Location
